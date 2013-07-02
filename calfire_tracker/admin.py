@@ -18,6 +18,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 'fields': [
                     'fire_name',
                     'county',
+                    'twitter_hashtag',
                     'date_time_started',
                     'location',
                     'location_latitude',
