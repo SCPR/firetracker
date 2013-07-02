@@ -1,5 +1,12 @@
 # Django settings for firetracker project.
 
+# -*- coding: utf-8 -*-
+from local_settings import *
+import os
+import dj_database_url
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -24,7 +31,7 @@ DATABASES = {
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Los_Angeles'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -60,13 +67,16 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = 'http://projects.scpr.org/static/static-files/heroku/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+
+    os.path.join(PROJECT_PATH, 'static'),
+    '/Users/KellerUser/Programming/2kpcc/django-projects/kpccinfostore/kpccinfostore/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -77,6 +87,8 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+ADMIN_MEDIA_PREFIX = '/media/'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'pg4j+xce0qm2dmcz%fv_#7u&amp;_qu^fyng7nnbg-ccus6r!b&amp;q#%'
 
@@ -85,6 +97,17 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,9 +126,7 @@ ROOT_URLCONF = 'firetracker.urls'
 WSGI_APPLICATION = 'firetracker.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    PROJECT_PATH + '/templates/',
 )
 
 INSTALLED_APPS = (
@@ -115,10 +136,25 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.flatpages',
+    'django.contrib.redirects',
+    'django.contrib.humanize',
+
+    # apps
+    'wildfires',
+
+    # api & tools
+    'south',
+    #'django_admin_bootstrapped',
+	#'massadmin',
+	#'tastypie',
+	#'csvimporter',
+	#'data_exports',
+
+    # admin
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+
 )
 
 # A sample logging configuration. The only tangible logging

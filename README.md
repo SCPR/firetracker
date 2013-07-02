@@ -18,6 +18,16 @@
 
         django-admin.py startproject firetracker .
 
+* Add a .gitignore file
+
+        .DS_Store
+        venv
+        *.pyc
+        *.sqlite
+        *.csv
+        project_scratchpad.md
+        local_settings.py
+
 * Enable the admin in firetracker/urls.py
 
         # This also imports the include function
@@ -40,9 +50,13 @@
             url(r'^admin/', include(admin.site.urls)),
         )
 
+* Create a local_settings.py file for local development and add the following
 
+        DATABASES = {
+            'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
+        }
+        
+        # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+        SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
-
-
-* Add south to INSTALLED_APPS in settings.py
+* Adjust settings.py params, enable admin and add south to INSTALLED_APPS
