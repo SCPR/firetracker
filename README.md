@@ -2,7 +2,9 @@
 
 ### Initial Setup
 
-* Create virtualenv firetracker
+* Create a new virtualenv firetracker
+
+        mkvirtualenv firetracker
 
 * Install dependencies from requirements.txt
 
