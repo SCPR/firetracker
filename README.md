@@ -44,6 +44,7 @@
             'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
         }
 
+<<<<<<< HEAD
 * Enable the admin in firetracker/urls.py
 
 * Sync the database and create the superuser account
@@ -117,12 +118,14 @@
             'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
         }
 
+=======
+>>>>>>> master
 * Enable the admin in firetracker/urls.py
 
 * Sync the database and create the superuser account
 
         python manage.py syncdb
-        
+
 * Enable django_admin_bootstrapped in INSTALLED_APPS
 
 * Enable massadmin, csvimporter and data_exports in INSTALLED_APPS
@@ -131,13 +134,14 @@
 
         # batch edit
         (r'^admin/', include('massadmin.urls')),
-        
+
         # csv importer
         (r'^import/', include('csvimporter.urls')),
-        
+
         # data_exports
         url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
+<<<<<<< HEAD
 ### Creating the CalFire application
 
 * Create the application
@@ -155,3 +159,6 @@
 * Migrate the schema for app models
 
         python manage.py migrate calfire_tracker
+=======
+### Creating the CalFire application
+>>>>>>> master

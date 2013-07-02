@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<!-- begin doc -->
+<html lang="en">
+
+    <!-- begin header -->
+    <head>
+
+        <!-- begin meta -->
+        <meta name="robots" content="noindex, nofollow, noarchive">
+        {% include "project-meta.html" %}
+        <link rel="shortcut icon" href="http://media.scpr.org/favicon.ico">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- end meta -->
+
+        <!-- begin css -->
+        <link href="http://projects.scpr.org/static/static-files/css/reset/reset-styles.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="http://projects.scpr.org/static/static-files/bootstrap-v222/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="http://projects.scpr.org/static/static-files/css/interactive-project-shell/foundation-styles-v2.css" rel="stylesheet" type="text/css" media="all" />
+
+        {% include "project-css.html" %}
+        <link href="http://projects.scpr.org/static/static-files/bootstrap-v222/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" media="all" />
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+            <!--[if lt IE 9]>
+            <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <!-- end css -->
+
+        <!-- begin base scripts -->
+        <!--
+        <script src="http://use.typekit.com/mhc7oxs.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+        -->
+        <script async="" src="http://www.google-analytics.com/ga.js"></script>
+        <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://projects.scpr.org/static/static-files/scripts/modernizr-2.5.3.min.js"></script>
+        <!-- end base scripts -->
+
+    </head>
+    <!-- end header -->
+
+    <!-- begin body -->
+    <body class="minimal">
+        <div id="kpcc-header">
+            <header>
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <h3 id="site-title" ><a href="http://www.scpr.org/">KPCC 89.3</a></h3>
+                        </div>
+                        <div class="span4"></div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div id="data-container" class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="data-details">
+                        {% block data-details %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="data-visuals">
+                        {% block data-visuals %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="data-footer">
+                        {% block data-footer %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- begin scripts -->
+        {% include "project-scripts.html" %}
+        <!-- end scripts -->
+
+        <!-- begin analytics -->
+        {% include "project-analytics.html" %}
+        <!-- end analytics -->
+
+    </body>
+    <!-- end body -->
+
+</html>
+<!-- end document -->
