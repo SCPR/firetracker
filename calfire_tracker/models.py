@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import smart_str
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 import pytz
 import time, datetime
 
@@ -45,6 +46,8 @@ class CalWildfire(models.Model):
         return self.fire_name
 
     def save(self, *args, **kwargs):
+        #if not self.id:
+            #self.fire_slug = slugify(self.fire_name)
         if not self.created_fire_id:
         	self.created_fire_id = self.created_fire_id
         super(CalWildfire, self).save()

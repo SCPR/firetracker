@@ -239,8 +239,7 @@ def save_data_from_dict_to_model(data_dict):
     created_fire_id = fire_name + '-' + county
 
     # create fireslug if one doesn't exist #
-    fire_slug = slugifyFireName(fire_name)
-
+    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
 
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
