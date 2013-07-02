@@ -17,7 +17,7 @@ def index(request):
     return render_to_response('index.html', {'calwildfire_listing': calwildfire_listing})
 
 #details request
-def detail(request, slug):
-    fire_detail = get_object_or_404(CalWildfire, slug=fire_slug)
+def detail(request, fire_slug):
+    fire_detail = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     return render_to_response('detail.html', {'calwildfire': fire_detail},
         context_instance=RequestContext(request))

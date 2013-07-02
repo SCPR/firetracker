@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = r'^(?P<calwildfire_id>\d+)/$',
+        regex   = r'^(?P<fire_slug>[-\w]+)/$',
         view    = detail,
         kwargs  = {},
         name    = 'detail',

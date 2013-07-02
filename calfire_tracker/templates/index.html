@@ -36,7 +36,7 @@
                             <tbody>
                                 {% for wildfire in calwildfire_listing %}
                                     <tr>
-                                    	<td><a href="/wildfires/{{  wildfire.fire_slug  }}/">{{  wildfire.fire_name  }}</a></td>
+                                    	<td><a href="{{  wildfire.get_absolute_url  }}">{{  wildfire.fire_name  }}</a></td>
 
                                     	{% if wildfire.acres_burned = None %}
                                         	<td></td>

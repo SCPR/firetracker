@@ -45,6 +45,10 @@ class CalWildfire(models.Model):
     def __unicode__(self):
         return self.fire_name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('detail', [self.fire_slug,])
+
     def save(self, *args, **kwargs):
         #if not self.id:
             #self.fire_slug = slugify(self.fire_name)
