@@ -238,10 +238,15 @@ def save_data_from_dict_to_model(data_dict):
     # constructed unique id to check to see if record exists in database #
     created_fire_id = fire_name + '-' + county
 
+    # create fireslug if one doesn't exist #
+    fire_slug = slugifyFireName(fire_name)
+
+
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
         defaults={
             'fire_name': fire_name,
+            'fire_slug': fire_slug,
             'county': county,
             'location': location,
             'administrative_unit': administrative_unit,
@@ -272,6 +277,7 @@ def save_data_from_dict_to_model(data_dict):
     )
 
     if not created:
+        obj.fire_slug = fire_slug
         obj.location = location
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
@@ -303,6 +309,11 @@ def save_data_from_dict_to_model(data_dict):
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
     formatted_data = string.lower().replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
+    return formatted_data
+
+def slugifyFireName(string):
+    ''' lowercase_and_replace_space_with_dash '''
+    formatted_data = string.lower().replace(':', '-').replace(' ', '-').replace('_', '-').replace('_-_', '-').replace('/', '-')
     return formatted_data
 
 def convert_time_to_nicey_format(date_to_parse):

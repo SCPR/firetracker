@@ -13,10 +13,13 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
         save_on_top = True
 
+        prepopulated_fields = {'fire_slug': ('fire_name',)}
+
         fieldsets = [
             ('Fire Details', {
                 'fields': [
                     'fire_name',
+                    'fire_slug',
                     'county',
                     'twitter_hashtag',
                     'date_time_started',
