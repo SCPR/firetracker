@@ -11,3 +11,5 @@
 * Create firetracker project
 
         django-admin.py startproject firetracker
+
+* Add south to INSTALLED_APPS in settings.py
