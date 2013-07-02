@@ -1,0 +1,29 @@
+{% extends "data_exports/base.html" %}
+{% load i18n getter_tags %}
+
+{% block body %}
+<h1>{{ export }}</h1>
+
+{% if export.column_set.exists %}
+<table>
+    <thead>
+        <tr>
+        {% for column in export.column_set.all %}
+            <th>{% if column.label %}{{ column.label }}{% else %}{{ column }}{% endif %}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for obj in data %}
+        <tr>
+        {% for column in export.column_set.all %}
+            <td>{{ obj|getattribute:column.column|nice_display }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+{% trans "No columns where defined for this export, so there's no data to display" %}
+{% endif %}
+{% endblock body %}
