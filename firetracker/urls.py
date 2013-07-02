@@ -38,6 +38,6 @@ urlpatterns = patterns('',
     url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
 	# app urls
-    #(r'^wildfires/', include('wildfires.urls')),
+    (r'^wildfires/', include('calfire_tracker.urls')),
 
 )
