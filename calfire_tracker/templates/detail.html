@@ -3,7 +3,7 @@
 
 {% block data-details %}
     <div id="content-article">
-        <h4 class="kicker"><a href="/">Home</a> --> <a href="/wildfires/">Wildfires</a>  --> <a href="/wildfires/{{ wildfire.fire_name }}">{{ wildfire.fire_name }}</a></h4>
+        <h4 class="kicker"><a href="/">Home</a> --> <a href="/wildfires/">Wildfires</a>  --> <a href="/wildfires/{{ calwildfire.fire_name }}">{{ calwildfire.fire_name }}</a></h4>
         <h1>Quick post generator for California Wildfires</h1>
         <div id="content-article-metadata">
             <p><span class="pubdate">May 30, 2013</span></p>
@@ -16,21 +16,21 @@
     <div class="row-fluid">
         <div class="span12">
             <div id ="{{ name }}">
-                <h3>{{ wildfire.fire_name }} - {{ wildfire.acres_burned|intcomma }} acres burned; {{ wildfire.containment_percent|intcomma }} containment</h3>
-                <p>A {% if wildfire.more_info == None %} wildfire {% else %} <a href="{{ wildfire.more_info }}" target="_blank">wildfire</a> {% endif %} in {{ wildfire.county }} {% if wildfire.acres_burned == None %} is burning {% else %} has burned {{ wildfire.acres_burned|intcomma }} acres {% endif %} as of {{ wildfire.last_update }}, according to the <a href="http://www.calfire.ca.gov/">California State Department of Forestry and Fire Prevention</a>.</p>
-                <p>The {{ wildfire.fire_name }} {% if wildfire.containment_percent == None %} is being managed by the {{ wildfire.administrative_unit }}.</p> {% else %} is at about {{ wildfire.containment_percent|intcomma }} containment, and is being managed by the {{ wildfire.administrative_unit }}.</p>{% endif %}
-                <p>The fire started on {{ wildfire.date_time_started }} in the location of {{ wildfire.fire_location }}.</p>
+                <h3>{{ calwildfire.fire_name }} - {{ calwildfire.acres_burned|intcomma }} acres burned; {{ calwildfire.containment_percent|intcomma }} containment</h3>
+                <p>A {% if calwildfire.more_info == None %} wildfire {% else %} <a href="{{ calwildfire.more_info }}" target="_blank">wildfire</a> {% endif %} in {{ calwildfire.county }} {% if calwildfire.acres_burned == None %} is burning {% else %} has burned {{ calwildfire.acres_burned|intcomma }} acres {% endif %} as of {{ calwildfire.last_update }}, according to the <a href="http://www.calfire.ca.gov/">California State Department of Forestry and Fire Prevention</a>.</p>
+                <p>The {{ calwildfire.fire_name }} {% if calwildfire.containment_percent == None %} is being managed by the {{ calwildfire.administrative_unit }}.</p> {% else %} is at about {{ calwildfire.containment_percent|intcomma }} containment, and is being managed by the {{ calwildfire.administrative_unit }}.</p>{% endif %}
+                <p>The fire started on {{ calwildfire.date_time_started }} in the location of {{ calwildfire.fire_location }}.</p>
             </div>
             <a href="#fire-html-modal" role="button" class="btn btn-success" data-toggle="modal">Get the HTML</a>
             <div id="fire-html-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="fire-html-modal-label" aria-hidden="true">
                 <div class="modal-header">
-                    <h3>HTML embed for {{ wildfire.fire_name }}</h3>
+                    <h3>HTML embed for {{ calwildfire.fire_name }}</h3>
                 </div>
                 <div id="modal-body" class="modal-body">
                     <textarea class="span12" rows="20">
-<p>A {% if wildfire.more_info == None %} wildfire {% else %} <a href="{{ wildfire.more_info }}" target="_blank">wildfire</a> {% endif %} in {{ wildfire.county }} {% if wildfire.acres_burned == None %} is burning {% else %} has burned {{ wildfire.acres_burned|intcomma }} acres {% endif %} as of {{ wildfire.last_update }}, according to the <a href="http://www.calfire.ca.gov/">California State Department of Forestry and Fire Prevention</a>.</p>
-<p>The {{ wildfire.fire_name }} {% if wildfire.containment_percent == None %} is being managed by the {{ wildfire.administrative_unit }}.</p> {% else %} is at about {{ wildfire.containment_percent|intcomma }} containment, and is being managed by the {{ wildfire.administrative_unit }}.</p>{% endif %}
-<p>The fire started on {{ wildfire.date_time_started }} in the location of {{ wildfire.fire_location }}.</p>
+<p>A {% if calwildfire.more_info == None %} wildfire {% else %} <a href="{{ calwildfire.more_info }}" target="_blank">wildfire</a> {% endif %} in {{ calwildfire.county }} {% if calwildfire.acres_burned == None %} is burning {% else %} has burned {{ calwildfire.acres_burned|intcomma }} acres {% endif %} as of {{ calwildfire.last_update }}, according to the <a href="http://www.calfire.ca.gov/">California State Department of Forestry and Fire Prevention</a>.</p>
+<p>The {{ calwildfire.fire_name }} {% if calwildfire.containment_percent == None %} is being managed by the {{ calwildfire.administrative_unit }}.</p> {% else %} is at about {{ calwildfire.containment_percent|intcomma }} containment, and is being managed by the {{ calwildfire.administrative_unit }}.</p>{% endif %}
+<p>The fire started on {{ calwildfire.date_time_started }} in the location of {{ calwildfire.fire_location }}.</p>
                     </textarea>
                 </div>
                 <div class="modal-footer">
@@ -42,7 +42,7 @@
             <table class="table table-striped table-bordered">
                 <tbody>
                     <tr>
-                    	<td><a href="/api/v1/wildfire/set/{{  wildfire.id  }}/?format=json" target="_blank">JSON for this fire</a></td>
+                    	<td><a href="/api/v1/wildfire/set/{{  calwildfire.id  }}/?format=json" target="_blank">JSON for this fire</a></td>
                     	<td><a href="/api/v1/wildfire/?format=json" target="_blank">JSON for all fires</a></td>
                     	<td><a href="/api/v1/wildfire/schema/?format=json" target="_blank">JSON schema</a></td>
                     </tr>
