@@ -1,12 +1,10 @@
 # Django settings for firetracker project.
 
 # -*- coding: utf-8 -*-
-from local_settings import *
 import os
 import dj_database_url
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -16,6 +14,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -25,6 +24,11 @@ DATABASES = {
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
+}
+'''
+
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -141,7 +145,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     # apps
-    'wildfires',
+    #'wildfires',
 
     # api & tools
     'south',
@@ -185,3 +189,6 @@ LOGGING = {
         },
     }
 }
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
