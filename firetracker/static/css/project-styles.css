@@ -1,0 +1,4 @@
+#data-legend-items li.darkblue {height: 25px; background-color:#000077; margin-right:10px; color: #ffffff;}
+#data-legend-items li.lightblue {height: 25px; background-color:#0055ff; margin-right:10px; color: #ffffff;}
+#data-legend-items li.city-makeover {height: 25px; background-image: url(../images/green.png); background-repeat: no-repeat; background-position: 0 0;}
+#data-legend-items li.user-contrib {height: 25px; background-image: url(../images/red.png); background-repeat: no-repeat; background-position: 0 0;}
