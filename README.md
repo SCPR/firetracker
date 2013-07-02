@@ -49,7 +49,7 @@
 * Sync the database and create the superuser account
 
         python manage.py syncdb
-        
+
 * Enable django_admin_bootstrapped in INSTALLED_APPS
 
 * Enable massadmin, csvimporter and data_exports in INSTALLED_APPS
@@ -58,14 +58,11 @@
 
         # batch edit
         (r'^admin/', include('massadmin.urls')),
-        
+
         # csv importer
         (r'^import/', include('csvimporter.urls')),
-        
+
         # data_exports
         url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
 ### Creating the CalFire application
-
-
-
