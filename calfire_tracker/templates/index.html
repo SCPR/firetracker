@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load tz %}
+
+{% block data-details %}
+    <div id="content-article">
+        <h4 class="kicker"><a href="/">Home</a> --> <a href="/wildfires/">Wildfires</a></h4>
+        <h1>Quick post generator for California Wildfires</h1>
+
+        <div id="content-article-metadata">
+            <p><span class="pubdate">May 30, 2013</span></p>
+        </div>
+
+        <div id="content-article-text">
+            <p>Select a fire below to see details and generate the HTML embed for the start of an article, or use the <a href="/api/v1/wildfire/?format=json">API</a>.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block data-visuals %}
+    <div id="content-visuals">
+        <div id="content-table">
+            <div class="row-fluid">
+                <div class="span12">
+                    {% if wildfire_listing %}
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Fire</th>
+                                    <th>Acres Burned</th>
+                                    <th>Containment</th>
+                                    <th>County</th>
+                                    <th>Last Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for wildfire in wildfire_listing %}
+                                    <tr>
+                                    	<td><a href="/wildfires/{{  wildfire.id  }}/">{{  wildfire.fire_name  }}</a></td>
+
+                                    	{% if wildfire.acres_burned = None %}
+                                        	<td></td>
+                                    	{% else %}
+                                        	<td>{{  wildfire.acres_burned|intcomma  }}</td>
+                                        {% endif %}
+
+                                    	{% if wildfire.containment_percent = None %}
+                                        	<td></td>
+                                    	{% else %}
+                                        	<td>{{  wildfire.containment_percent|intcomma  }}</td>
+                                        {% endif %}
+
+                                    	<td>{{  wildfire.county  }}</td>
+                                    	<td>{{  wildfire.last_updated|localtime }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    	<p>Nothing available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block data-footer %}
+    <div id="content-footer"></div>
+{% endblock %}
