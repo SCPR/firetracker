@@ -12,8 +12,8 @@ def sync():
 def run():
     local('python manage.py runserver')
 
-def schema(params='--initial'):
-    local('python manage.py schemamigration calfire_tracker ' + params)
+def schema(params='initial'):
+    local('python manage.py schemamigration calfire_tracker --' + params)
     local('python manage.py migrate calfire_tracker')
 
 def scrape():

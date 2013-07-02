@@ -2,12 +2,14 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import smart_str
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 import pytz
 import time, datetime
 
 # Create your models here.
 class CalWildfire(models.Model):
     created_fire_id = models.CharField('Fire Unique ID', max_length=500, null=True, blank=True)
+    fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
     county = models.CharField('County', max_length=1024, null=True, blank=True)
@@ -43,7 +45,13 @@ class CalWildfire(models.Model):
     def __unicode__(self):
         return self.fire_name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('detail', [self.fire_slug,])
+
     def save(self, *args, **kwargs):
+        #if not self.id:
+            #self.fire_slug = slugify(self.fire_name)
         if not self.created_fire_id:
         	self.created_fire_id = self.created_fire_id
         super(CalWildfire, self).save()

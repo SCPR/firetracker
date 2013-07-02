@@ -120,6 +120,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -151,6 +152,7 @@ INSTALLED_APPS = (
     'south',
     'django_admin_bootstrapped',
 	'massadmin',
+    'debug_toolbar',
 	#'tastypie',
 	'csvimporter',
 	'data_exports',
@@ -189,6 +191,14 @@ LOGGING = {
         },
     }
 }
+
+AUTH_PROFILE_MODULE = 'create_user.UserProfile'
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    'SHOW_TOOLBAR_CONFIG': (lambda: DEBUG)
+}
+
+INTERNAL_IPS = ('127.0.0.1', )
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
