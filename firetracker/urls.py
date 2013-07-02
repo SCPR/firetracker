@@ -6,16 +6,16 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import RedirectView
 
 # tastypie API includes
-#from tastypie.api import Api
-#from firetracker.api import WildfireResource
+from tastypie.api import Api
+from firetracker.api import CalWildfireResource
 
 # enable the admin
 from django.contrib import admin
 admin.autodiscover()
 
 # invoke the api
-#v1_api = Api(api_name='v1')
-#v1_api.register(WildfireResource())
+v1_api = Api(api_name='v1')
+v1_api.register(CalWildfireResource())
 
 urlpatterns = patterns('',
 
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 	(r'^admin/', include('massadmin.urls')),
 
 	# tastypie API
-	#url(r'^api/', include(v1_api.urls)),
+	url(r'^api/', include(v1_api.urls)),
 
 	# csv importer
     (r'^import/', include('csvimporter.urls')),
