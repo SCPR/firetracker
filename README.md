@@ -144,4 +144,14 @@
 
         python manage.py startapp calfire_tracker
 
-* Create models and view and urls
+* Create models, view, urls & admin
+
+* Add calfire_tracker to INSTALLED_APPS
+
+* Creates migration file for future changes to app models
+
+        python manage.py schemamigration calfire_tracker --initial
+
+* Migrate the schema for app models
+
+        python manage.py migrate calfire_tracker

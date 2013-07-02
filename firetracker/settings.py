@@ -145,7 +145,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     # apps
-    #'wildfires',
+    'calfire_tracker',
 
     # api & tools
     'south',
