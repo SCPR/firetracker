@@ -16,7 +16,7 @@
 
 * Create firetracker project
 
-        django-admin.py startproject firetracker
+        django-admin.py startproject firetracker .
 
 * Enable the admin in firetracker/urls.py
 
