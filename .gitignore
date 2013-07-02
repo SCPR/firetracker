@@ -4,3 +4,4 @@ venv
 *.sqlite
 *.csv
 project_scratchpad.md
+local_settings.py
