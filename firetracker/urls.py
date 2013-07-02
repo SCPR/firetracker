@@ -26,16 +26,16 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
 	# batch edit
-	#(r'^admin/', include('massadmin.urls')),
+	(r'^admin/', include('massadmin.urls')),
 
 	# tastypie API
 	#url(r'^api/', include(v1_api.urls)),
 
 	# csv importer
-    #(r'^import/', include('csvimporter.urls')),
+    (r'^import/', include('csvimporter.urls')),
 
     # data_exports
-    #url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
+    url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
 	# app urls
     #(r'^wildfires/', include('wildfires.urls')),
