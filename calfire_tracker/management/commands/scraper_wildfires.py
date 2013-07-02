@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
-from wildfires.models import Wildfire
+from calfire_tracker.models import CalWildfire
 import csv, time, datetime, logging, re, types
 import pytz
 from dateutil import parser
@@ -238,7 +238,7 @@ def save_data_from_dict_to_model(data_dict):
     # constructed unique id to check to see if record exists in database #
     created_fire_id = fire_name + '-' + county
 
-    obj, created = Wildfire.objects.get_or_create(
+    obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
         defaults={
             'fire_name': fire_name,
