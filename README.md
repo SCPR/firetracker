@@ -29,7 +29,7 @@
 
 * Adjust settings.py params, enable admin and add south to INSTALLED_APPS
 
-* Add settings to top of file
+* Add settings to top of settings.py
 
         # -*- coding: utf-8 -*-
         # Django settings for firetracker project.
@@ -37,6 +37,12 @@
         import dj_database_url
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
+* Add db informaton to your settings.py to deal with heroku deployment
+
+        DATABASES = {
+            'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
+        }
 
 * Enable the admin in firetracker/urls.py
 
@@ -58,4 +64,8 @@
         
         # data_exports
         url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
+
+### Creating the CalFire application
+
+
 
