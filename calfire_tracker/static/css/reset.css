@@ -23,10 +23,10 @@ a img { border:none } /* Gets rid of IE's blue borders */
 
 /* Clearfix. Credit: http://www.positioniseverything.net/easyclearing.html */
 .clearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
     visibility: hidden;
 }
 .clearfix {display: inline-block;}

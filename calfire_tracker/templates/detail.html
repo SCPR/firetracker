@@ -2,270 +2,306 @@
 {% load humanize %}
 {% load tz %}
 
-    {% block fire_title_display %}
-        <div class="brief clearfix">
-            <h1>{{ calwildfire.fire_name }}</h1>
-            <h2>
-                <mark>{{ calwildfire.county }}</mark>
-                <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
-            </h2>
-        </div>
-    {% endblock %}
+{% block fire_detail_header %}
+    <!-- begin header -->
+    <header class="masthead">
+        <div class="masthead-inner bound">
+            <div class="brief clearfix">
+                <h1>{{ calwildfire.fire_name }}</h1>
+                <h2>
+                    <mark>{{ calwildfire.county }}</mark>
+                    <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
+                </h2>
+            </div>
+            <aside class="brand">
+                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
+                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
+            </aside>
+            <aside class="share">
+                <ul class="clearfix">
+                    <li class="em"><a href="#">Email a link to this fire page</a></li>
+                    <li class="tu"><a href="#">Share this fire page on Tumblr</a></li>
+                    <li class="tw"><a href="#">Share this fire page on Twitter</a></li>
+                    <li class="fa"><a href="#">Share this fire page on Facebook</a></li>
+                </ul>
+            </aside>
+        </div><!--/ .masthead-inner -->
+    </header><!--/ .masthead -->
+    <!-- end header -->
+{% endblock %}
 
-    {% block fire_details %}
-        <div class="page-cols clearfix bound">
-            <div class="primary">
-                <div class="fire-dashboard clearfix">
-                    <section class="summary">
-                        <div class="stats">
-                            <figure>
-                                <span>{{ calwildfire.containment_percent }}%</span>
-                                <figcaption>Contained</figcaption>
-                            </figure>
-                            <figure>
-                                <span>{{ calwildfire.acres_burned|intcomma }}</span>
-                                <figcaption>Acres burned</figcaption>
-                            </figure>
-                            <figure>
-                                <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
-                                <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
-                            </figure>
-                            <!--
-                            <figure>
-                                <span>425</span>
-                                <figcaption>Air Quality Index (500: most hazardous)</figcaption>
-                            </figure>
-                            -->
-                        </div><!--/ .stats -->
-                        <div class="photo">
-                            <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" />
-                        </div>
-                        <aside class="credit">
-                            <p>Photo credit: Maya Sugarman / KPCC</p>
-                        </aside><!--/ .credit -->
-                    </section><!--/ .summary -->
-                    <div class="context">
-                        <figure class="location">
-                            <div class="map"><img src="{{ STATIC_URL }}/media/kittens-602x212.jpg" alt="Map" /></div>
-                            <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
-                        </figure><!--/ .location -->
-                        <section class="damages">
-                            <dl class="threatened">
-                                <dt>Structures Threatened</dt>
-                                <dd>{{ calwildfire.structures_threatened }}</dd>
-                            </dl>
-                            <dl class="destroyed">
-                                <dt>Structures Destroyed</dt>
-                                <dd>{{ calwildfire.structures_destroyed }}</dd>
-                            </dl>
-                            <dl class="evacuations">
-                                <dt>Evacuations</dt>
-                                <dd>{{ calwildfire.evacuations }}</dd>
-                            </dl>
-                            <dl class="injuries">
-                                <dt>Injuries</dt>
-                                <dd>{{ calwildfire.injuries|intcomma }}</dd>
-                            </dl>
-                        </section>
-                    </div><!--/ .context -->
-                </div><!--/ .fire-dashboard -->
+{% block fire_details_content %}
+    <div class="page-cols clearfix bound">
+        <div class="primary">
+            <div class="fire-dashboard clearfix">
+                <section class="summary">
+                    <div class="stats">
+                        <figure>
+                            <span>{{ calwildfire.containment_percent }}%</span>
+                            <figcaption>Contained</figcaption>
+                        </figure>
+                        <figure>
+                            <span>{{ calwildfire.acres_burned|intcomma }}</span>
+                            <figcaption>Acres burned</figcaption>
+                        </figure>
+                        <figure>
+                            <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
+                            <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
+                        </figure>
+                        <!--
+                        <figure>
+                            <span>425</span>
+                            <figcaption>Air Quality Index (500: most hazardous)</figcaption>
+                        </figure>
+                        -->
+                    </div><!--/ .stats -->
+                    <div class="photo">
+                        <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" />
+                    </div>
+                    <aside class="credit">
+                        <p>Photo credit: Maya Sugarman / KPCC</p>
+                    </aside><!--/ .credit -->
+                </section><!--/ .summary -->
+                <div class="context">
+                    <figure class="location">
+                        <div class="map"><img src="{{ STATIC_URL }}/media/kittens-602x212.jpg" alt="Map" /></div>
+                        <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                    </figure><!--/ .location -->
+                    <section class="damages">
+                        <dl class="threatened">
+                            <dt>Structures Threatened</dt>
+                            <dd>{{ calwildfire.structures_threatened }}</dd>
+                        </dl>
+                        <dl class="destroyed">
+                            <dt>Structures Destroyed</dt>
+                            <dd>{{ calwildfire.structures_destroyed }}</dd>
+                        </dl>
+                        <dl class="evacuations">
+                            <dt>Evacuations</dt>
+                            <dd>{{ calwildfire.evacuations }}</dd>
+                        </dl>
+                        <dl class="injuries">
+                            <dt>Injuries</dt>
+                            <dd>{{ calwildfire.injuries|intcomma }}</dd>
+                        </dl>
+                    </section>
+                </div><!--/ .context -->
+            </div><!--/ .fire-dashboard -->
 
-                <div class="fire-supplemental clearfix">
-                    <div class="primary">
+            <div class="fire-supplemental clearfix">
+                <div class="primary">
+                    <section class="coverage">
                         {% block kpcc_coverage %}
                             {% include 'kpcc_coverage.html' %}
                         {% endblock %}
-                        <section class="deployed">
-                            <h2>Resources Deployed</h2>
-                            <div class="row clearfix">
-                                <dl class="personnel">
-                                    <dt>Fire Personnel</dt>
-                                    <dd>{{ calwildfire.total_fire_personnel|intcomma }}</dd>
+                    </section>
+                    <section class="deployed">
+                        <h2>Resources Deployed</h2>
+                        <div class="row clearfix">
+                            <dl class="personnel">
+                                <dt>Fire Personnel</dt>
+                                <dd>{{ calwildfire.total_fire_personnel|intcomma }}</dd>
+                            </dl>
+                            <dl class="engines">
+                                <dt>Fire Engines</dt>
+                                <dd>{{ calwildfire.total_fire_engines|intcomma }}</dd>
+                            </dl>
+                            <dl class="crews">
+                                <dt>Fire Crews</dt>
+                                <dd>{{ calwildfire.total_fire_crews|intcomma }}</dd>
+                            </dl>
+                            <dl class="tankers">
+                                <dt>Air Tankers</dt>
+                                <dd>{{ calwildfire.total_airtankers|intcomma }}</dd>
+                            </dl>
+                        </div>
+                        <div class="row clearfix">
+
+                            {% if calwildfire.total_helicopters == None %}
+                                <dl class="helicopters">
+                                    <dt>Helicopters</dt>
+                                    <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
                                 </dl>
-                                <dl class="engines">
-                                    <dt>Fire Engines</dt>
-                                    <dd>{{ calwildfire.total_fire_engines|intcomma }}</dd>
+                            {% else %}
+                                <dl class="helicopters">
+                                    <dt>Helicopters</dt>
+                                    <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
                                 </dl>
-                                <dl class="crews">
-                                    <dt>Fire Crews</dt>
-                                    <dd>{{ calwildfire.total_fire_crews|intcomma }}</dd>
-                                </dl>
-                                <dl class="tankers">
-                                    <dt>Air Tankers</dt>
-                                    <dd>{{ calwildfire.total_airtankers|intcomma }}</dd>
-                                </dl>
-                            </div>
-                            <div class="row clearfix">
+                            {% endif %}
 
-                                {% if calwildfire.total_helicopters == None %}
-                                    <dl class="helicopters">
-                                        <dt>Helicopters</dt>
-                                        <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
-                                    </dl>
-                                {% else %}
-                                    <dl class="helicopters">
-                                        <dt>Helicopters</dt>
-                                        <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
-                                    </dl>
-                                {% endif %}
+                            <dl class="dozers">
+                                <dt>Dozers</dt>
+                                <dd>{{ calwildfire.total_dozers|intcomma }}</dd>
+                            </dl>
+                            <dl class="tenders">
+                                <dt>Water Tenders</dt>
+                                <dd>{{ calwildfire.total_water_tenders|intcomma }}</dd>
+                            </dl>
+                        </div>
+                    </section><!--/ .deployed -->
+                    <div class="tertiaries clearfix">
+                        <section class="updates">
+                            <h2>Updates Tracker</h2>
+                            <article>
+                                <h1>June 6, 2013 11:06 AM</h1>
+                                <p>U.S. Forest Service spokesman Matt Corelli: "It's imperative that we use caution around them and that we don't drive over them and don't operate near them, so some areas are inaccessible after a fire to evaluate."</p>
+                                <footer><a href="#">Source</a></footer>
+                            </article>
+                            <article>
+                                <h1>June 6, 2013 8:17 AM</h1>
+                                <p>The estimated cost of fighting the fire has risen to $11.4 million. The fire has burned more than 30,000 acres in the Angeles National Forest.</p>
+                                <footer><a href="#">Source</a></footer>
+                            </article>
+                            <article>
+                                <h1>June 5, 2013 2:30 PM</h1>
+                                <p>10 more homes found destroyed. The total is up from six to 16 homes destroyed.</p>
+                                <footer><a href="#">Source</a></footer>
+                            </article>
+                            <article>
+                                <h1>June 4, 2013 4:52 PM</h1>
+                                <p>All evacuations for communities affected by the flames have been lifted. The fire has destroyed six homes.</p>
+                                <footer><a href="#">Source</a></footer>
+                            </article>
+                        </section><!--/ .updates -->
+                        <section class="details">
+                            <h2>More Details</h2>
+                            <dl>
+                                <dt>Administrative Unit</dt>
+                                <dd>{{ calwildfire.administrative_unit }}</dd>
 
-                                <dl class="dozers">
-                                    <dt>Dozers</dt>
-                                    <dd>{{ calwildfire.total_dozers|intcomma }}</dd>
-                                </dl>
-                                <dl class="tenders">
-                                    <dt>Water Tenders</dt>
-                                    <dd>{{ calwildfire.total_water_tenders|intcomma }}</dd>
-                                </dl>
-                            </div>
-                        </section><!--/ .deployed -->
-                        <div class="tertiaries clearfix">
-                            <section class="updates">
-                                <h2>Updates Tracker</h2>
-                                <article>
-                                    <h1>June 6, 2013 11:06 AM</h1>
-                                    <p>U.S. Forest Service spokesman Matt Corelli: "It's imperative that we use caution around them and that we don't drive over them and don't operate near them, so some areas are inaccessible after a fire to evaluate."</p>
-                                    <footer><a href="#">Source</a></footer>
-                                </article>
-                                <article>
-                                    <h1>June 6, 2013 8:17 AM</h1>
-                                    <p>The estimated cost of fighting the fire has risen to $11.4 million. The fire has burned more than 30,000 acres in the Angeles National Forest.</p>
-                                    <footer><a href="#">Source</a></footer>
-                                </article>
-                                <article>
-                                    <h1>June 5, 2013 2:30 PM</h1>
-                                    <p>10 more homes found destroyed. The total is up from six to 16 homes destroyed.</p>
-                                    <footer><a href="#">Source</a></footer>
-                                </article>
-                                <article>
-                                    <h1>June 4, 2013 4:52 PM</h1>
-                                    <p>All evacuations for communities affected by the flames have been lifted. The fire has destroyed six homes.</p>
-                                    <footer><a href="#">Source</a></footer>
-                                </article>
-                            </section><!--/ .updates -->
-                            <section class="details">
-                                <h2>More Details</h2>
-                                <dl>
-                                    <dt>Administrative Unit</dt>
-                                    <dd>{{ calwildfire.administrative_unit }}</dd>
+                                <dt>Road Closures</dt>
+                                <dd>{{ calwildfire.road_closures }}</dd>
 
-                                    <dt>Road Closures</dt>
-                                    <dd>{{ calwildfire.road_closures }}</dd>
+                                <dt>Cause</dt>
+                                <dd>{{ calwildfire.cause }}</dd>
 
-                                    <dt>Cause</dt>
-                                    <dd>{{ calwildfire.cause }}</dd>
+                                <dt>School Closures</dt>
+                                <dd>None reported yet.</dd>
 
-                                    <dt>School Closures</dt>
-                                    <dd>None reported yet.</dd>
+                                <dt>Cooperating Agencies</dt>
+                                <dd>{{ calwildfire.cooperating_agencies }}</dd>
 
-                                    <dt>Cooperating Agencies</dt>
-                                    <dd>{{ calwildfire.cooperating_agencies }}</dd>
+                                <dt>Conditions</dt>
+                                <dd>{{ calwildfire.conditions }}</dd>
 
-                                    <dt>Conditions</dt>
-                                    <dd>{{ calwildfire.conditions }}</dd>
+                                <dt>Phone Numbers</dt>
+                                <dd>{{ calwildfire.phone_numbers }}</dd>
 
-                                    <dt>Phone Numbers</dt>
-                                    <dd>{{ calwildfire.phone_numbers }}</dd>
+                                <dt>CalFire Page</dt>
+                                <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
 
-                                    <dt>CalFire Page</dt>
-                                    <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
+                                <!--
+                                <dt>Current Situation</dt>
+                                <dd>Significant progress was made on the fire yesterday and last night. Crews continue to make good progress towards meeting control objectives. Due to aggressive fire suppression efforts, fire activity has diminished, allowing demobilization of excess resources. There are still closures in some areas allowing firefighters to complete firefighting and mop up efforts. Mop up and patrol of the fire line is required 200 feet from the perimeter, so motorists are asked to stay on the lookout for crews.</dd>
 
-                                    <!--
-                                    <dt>Current Situation</dt>
-                                    <dd>Significant progress was made on the fire yesterday and last night. Crews continue to make good progress towards meeting control objectives. Due to aggressive fire suppression efforts, fire activity has diminished, allowing demobilization of excess resources. There are still closures in some areas allowing firefighters to complete firefighting and mop up efforts. Mop up and patrol of the fire line is required 200 feet from the perimeter, so motorists are asked to stay on the lookout for crews.</dd>
+                                <dt>Damage Assessment</dt>
+                                <dd>Assessments have begun to determine the damage caused by fire suppression operations and the necessary fire line repair. Areas requiring suppression repair are being identified and repair efforts will begin with specialized teams. The cooperating agencies have been active in restoring power lines, utilities, and roads affected by the fire. In addition, the damage inspection teams will continue to locate damaged structures.</dd>
 
-                                    <dt>Damage Assessment</dt>
-                                    <dd>Assessments have begun to determine the damage caused by fire suppression operations and the necessary fire line repair. Areas requiring suppression repair are being identified and repair efforts will begin with specialized teams. The cooperating agencies have been active in restoring power lines, utilities, and roads affected by the fire. In addition, the damage inspection teams will continue to locate damaged structures.</dd>
-
-                                    <dt>Training</dt>
-                                    <dd>Wildland firefighting requires special skills and the most highly qualified firefighters spend a substantial amount of time mentoring and training new hires and talented firefighters. Many certifications require firefighters to attend classes on their own time and obtain training record sign off from experienced training officers and firefighting specialists. On this fire, a number of trainees have been assigned and are currently being evaluated.</dd>
-                                    -->
-                                </dl>
-                            </section><!--/ .details -->
-                        </div><!--/ .tertiaries -->
-                    </div><!--/ .primary -->
-                    <div class="secondary">
-                        <section class="dispatches">
+                                <dt>Training</dt>
+                                <dd>Wildland firefighting requires special skills and the most highly qualified firefighters spend a substantial amount of time mentoring and training new hires and talented firefighters. Many certifications require firefighters to attend classes on their own time and obtain training record sign off from experienced training officers and firefighting specialists. On this fire, a number of trainees have been assigned and are currently being evaluated.</dd>
+                                -->
+                            </dl>
+                        </section><!--/ .details -->
+                    </div><!--/ .tertiaries -->
+                </div><!--/ .primary -->
+                <div class="secondary">
+                    <section class="dispatches">
+                        <header>
+                            <h1>Dispatches From You</h1>
+                            <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>#PowerhouseFire</span>, and they’ll be displayed here.</p>
+                        </header>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
                             <header>
-                                <h1>Dispatches From You</h1>
-                                <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>#PowerhouseFire</span>, and they’ll be displayed here.</p>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">4h</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
                             </header>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">4h</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                                </header>
-                                <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">16 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                                </header>
-                                <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">15 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                                </header>
-                                <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">12 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                                </header>
-                                <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">10 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                                </header>
-                                <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">9 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                                </header>
-                                <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">7 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                                </header>
-                                <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                            </article>
-                            <article>
-                                <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                                <header>
-                                    <h1><a href="!!!!!!!-permalink-to-tweet">2 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                                </header>
-                                <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                            </article>
-                        </section><!--/ .dispatches -->
-                    </div><!--/ .secondary -->
-                </div><!--/ .fire-details -->
-            </div><!--/ .primary -->
-            <div class="secondary single-evergreen">
-                <aside class="resources">
-                    <h2>California Fire Resources</h2>
-                    <ul>
-                        <li><a href="#">Readying your home for fire safety</a></li>
-                        <li><a href="#">What to know about fire insurance</a></li>
-                        <li><a href="#">How to care for and protect pets during a fire</a></li>
-                        <li><a href="#">California Fire and Resource Assessment Program (FRAP)</a></li>
-                        <li><a href="#">Northern California Geographic Area Coordination Center (ONCC)</a></li>
-                    </ul>
+                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">16 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
+                            </header>
+                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">15 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
+                            </header>
+                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">12 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
+                            </header>
+                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">10 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
+                            </header>
+                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">9 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
+                            </header>
+                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">7 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
+                            </header>
+                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
+                        </article>
+                        <article>
+                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
+                            <header>
+                                <h1><a href="!!!!!!!-permalink-to-tweet">2 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
+                            </header>
+                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
+                        </article>
+                    </section><!--/ .dispatches -->
+                </div><!--/ .secondary -->
+            </div><!--/ .fire-details -->
+        </div><!--/ .primary -->
+        <div class="secondary single-evergreen">
+            <aside class="resources">
+                <h2>California Fire Resources</h2>
+                <ul>
+                    <li><a href="#">Readying your home for fire safety</a></li>
+                    <li><a href="#">What to know about fire insurance</a></li>
+                    <li><a href="#">How to care for and protect pets during a fire</a></li>
+                    <li><a href="#">California Fire and Resource Assessment Program (FRAP)</a></li>
+                    <li><a href="#">Northern California Geographic Area Coordination Center (ONCC)</a></li>
+                </ul>
+            </aside>
+
+            {% if calwildfire_listing %}
+                <aside class="recent">
+                    <h2>Recent SoCal Fires</h2>
+                        <nav>
+                            <ul>
+                                {% for wildfire in calwildfire_listing %}
+                                <li>
+                                    <a href="{{  wildfire.get_absolute_url  }}"><h1>{{ wildfire.fire_name }}</h1><h2>{{ wildfire.date_time_started|date:"M d" }}</h2>
+                                    <div class="area"><mark>{{ wildfire.acres_burned }}</mark> <b>Acres</b></div></a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                    {% else %}
+                        <nav>
+                            <ul></ul>
+                        </nav>
                 </aside>
+            {% endif %}
 
-                {% block recent_fires_aside %}
-                    {% include 'recent_fires_aside.html' %}
-                {% endblock %}
-
-            </div><!--/ .secondary -->
-        </div><!--/ .page-cols -->
-    {% endblock %}
+        </div><!--/ .secondary -->
+    </div><!--/ .page-cols -->
+{% endblock %}
