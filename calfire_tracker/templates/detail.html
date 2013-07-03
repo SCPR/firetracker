@@ -2,7 +2,6 @@
 {% load humanize %}
 {% load tz %}
 
-
     {% block fire_title_display %}
         <div class="brief clearfix">
             <h1>{{ calwildfire.fire_name }}</h1>
@@ -28,7 +27,7 @@
                                 <figcaption>Acres burned</figcaption>
                             </figure>
                             <figure>
-                                <span>{{ calwildfire.date_time_started|date:"M d" }}</span>
+                                <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
                                 <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                             </figure>
                             <!--
@@ -53,19 +52,19 @@
                         <section class="damages">
                             <dl class="threatened">
                                 <dt>Structures Threatened</dt>
-                                <dd>275 residences, 3 commercial, 75 outbuildings</dd>
+                                <dd>{{ calwildfire.structures_threatened }}</dd>
                             </dl>
                             <dl class="destroyed">
                                 <dt>Structures Destroyed</dt>
-                                <dd>16 residences and 24 outbuildings destroyed &amp; 3 residences and 1 outbuilding damaged</dd>
+                                <dd>{{ calwildfire.structures_destroyed }}</dd>
                             </dl>
                             <dl class="evacuations">
                                 <dt>Evacuations</dt>
-                                <dd>Evacuation orders have been lifted for residents of the Fairmont area of Antelope Acres.</dd>
+                                <dd>{{ calwildfire.evacuations }}</dd>
                             </dl>
                             <dl class="injuries">
                                 <dt>Injuries</dt>
-                                <dd>4</dd>
+                                <dd>{{ calwildfire.injuries|intcomma }}</dd>
                             </dl>
                         </section>
                     </div><!--/ .context -->
@@ -73,49 +72,27 @@
 
                 <div class="fire-supplemental clearfix">
                     <div class="primary">
-                        <section class="coverage">
-                            <h2>KPCC Coverage</h2>
-                            <ul>
-                                <li><a href="#">
-                                    <b class="img"><img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" /></b>
-                                    <span>June 6, 2013</span>
-                                    <mark>Powerhouse Fire: 53 structures, 24 homes burned as officials revise estimates upward (map)</mark></a>
-                                </li>
-                                <li><a href="#">
-                                    <b class="img"><img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" /></b>
-                                    <span>June 2, 2013</span>
-                                    <mark>Powerhouse fire update: Fire reaches 25,000 acres (Photos)</mark></a>
-                                </li>
-                                <li><a href="#">
-                                    <b class="img"><img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" /></b>
-                                    <span>June 1, 2013</span>
-                                    <mark>Powerhouse Fire burns 19,500 acres, 5 structures</mark></a>
-                                </li>
-                                <li><a href="#">
-                                    <b class="img"><img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" /></b>
-                                    <span>May 31, 2013</span>
-                                    <mark>UPDATED: Powerhouse Fire has burned 1,800 acres; evacuations ordered (Photos)</mark></a>
-                                </li>
-                            </ul>
-                        </section><!--/ .coverage -->
+                        {% block kpcc_coverage %}
+                            {% include 'kpcc_coverage.html' %}
+                        {% endblock %}
                         <section class="deployed">
                             <h2>Resources Deployed</h2>
                             <div class="row clearfix">
                                 <dl class="personnel">
                                     <dt>Fire Personnel</dt>
-                                    <dd>{{ calwildfire.total_fire_personnel }}</dd>
+                                    <dd>{{ calwildfire.total_fire_personnel|intcomma }}</dd>
                                 </dl>
                                 <dl class="engines">
                                     <dt>Fire Engines</dt>
-                                    <dd>{{ calwildfire.total_fire_engines }}</dd>
+                                    <dd>{{ calwildfire.total_fire_engines|intcomma }}</dd>
                                 </dl>
                                 <dl class="crews">
                                     <dt>Fire Crews</dt>
-                                    <dd>{{ calwildfire.total_fire_crews }}</dd>
+                                    <dd>{{ calwildfire.total_fire_crews|intcomma }}</dd>
                                 </dl>
                                 <dl class="tankers">
                                     <dt>Air Tankers</dt>
-                                    <dd>{{ calwildfire.total_airtankers }}</dd>
+                                    <dd>{{ calwildfire.total_airtankers|intcomma }}</dd>
                                 </dl>
                             </div>
                             <div class="row clearfix">
@@ -123,23 +100,22 @@
                                 {% if calwildfire.total_helicopters == None %}
                                     <dl class="helicopters">
                                         <dt>Helicopters</dt>
-                                        <dd>{{ calwildfire.total_helicopters }}</dd>
+                                        <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
                                     </dl>
-
                                 {% else %}
                                     <dl class="helicopters">
                                         <dt>Helicopters</dt>
-                                        <dd>{{ calwildfire.total_helicopters }}</dd>
+                                        <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
                                     </dl>
                                 {% endif %}
 
                                 <dl class="dozers">
                                     <dt>Dozers</dt>
-                                    <dd>{{ calwildfire.total_dozers }}</dd>
+                                    <dd>{{ calwildfire.total_dozers|intcomma }}</dd>
                                 </dl>
                                 <dl class="tenders">
                                     <dt>Water Tenders</dt>
-                                    <dd>{{ calwildfire.total_water_tenders }}</dd>
+                                    <dd>{{ calwildfire.total_water_tenders|intcomma }}</dd>
                                 </dl>
                             </div>
                         </section><!--/ .deployed -->
@@ -170,21 +146,31 @@
                             <section class="details">
                                 <h2>More Details</h2>
                                 <dl>
+                                    <dt>Administrative Unit</dt>
+                                    <dd>{{ calwildfire.administrative_unit }}</dd>
+
                                     <dt>Road Closures</dt>
-                                    <dd>Please refer to news release section for current road closure information.</dd>
+                                    <dd>{{ calwildfire.road_closures }}</dd>
 
                                     <dt>Cause</dt>
-                                    <dd>Under investigation</dd>
+                                    <dd>{{ calwildfire.cause }}</dd>
 
                                     <dt>School Closures</dt>
                                     <dd>None reported yet.</dd>
 
                                     <dt>Cooperating Agencies</dt>
-                                    <dd>CAL FIRE, USFS/Angeles National Forest, Los Angeles Co. Fire, LA Co. Sheriff's Dept. CHP, LA Co. Dept. of Public Works, LA Co. Dept. of Public Health, Red Cross, Caltrans, Southern California Edison, LA City Dept. of Water and Power</dd>
+                                    <dd>{{ calwildfire.cooperating_agencies }}</dd>
 
                                     <dt>Conditions</dt>
-                                    <dd>Significant progress was made on the fire yesterday and last night. Due to aggressive fire suppression efforts, fire activity has diminished. Motorists are asked to be on the lookout for crews working in the area.</dd>
+                                    <dd>{{ calwildfire.conditions }}</dd>
 
+                                    <dt>Phone Numbers</dt>
+                                    <dd>{{ calwildfire.phone_numbers }}</dd>
+
+                                    <dt>CalFire Page</dt>
+                                    <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
+
+                                    <!--
                                     <dt>Current Situation</dt>
                                     <dd>Significant progress was made on the fire yesterday and last night. Crews continue to make good progress towards meeting control objectives. Due to aggressive fire suppression efforts, fire activity has diminished, allowing demobilization of excess resources. There are still closures in some areas allowing firefighters to complete firefighting and mop up efforts. Mop up and patrol of the fire line is required 200 feet from the perimeter, so motorists are asked to stay on the lookout for crews.</dd>
 
@@ -193,6 +179,7 @@
 
                                     <dt>Training</dt>
                                     <dd>Wildland firefighting requires special skills and the most highly qualified firefighters spend a substantial amount of time mentoring and training new hires and talented firefighters. Many certifications require firefighters to attend classes on their own time and obtain training record sign off from experienced training officers and firefighting specialists. On this fire, a number of trainees have been assigned and are currently being evaluated.</dd>
+                                    -->
                                 </dl>
                             </section><!--/ .details -->
                         </div><!--/ .tertiaries -->
@@ -275,8 +262,8 @@
                     </ul>
                 </aside>
 
-                {% block recent_aside %}
-
+                {% block recent_fires_aside %}
+                    {% include 'recent_fires_aside.html' %}
                 {% endblock %}
 
             </div><!--/ .secondary -->
