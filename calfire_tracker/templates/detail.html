@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load tz %}
+{% load tracker_tags %}
 
 {% block fire_detail_header %}
     <!-- begin header -->
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief clearfix">
-                <h1>{{ calwildfire.fire_name }}</h1>
+                <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
                 <h2>
                     <mark>{{ calwildfire.county }}</mark>
                     <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
                 </h2>
             </div>
             <aside class="brand">
-                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
+                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
                 <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
             </aside>
             <aside class="share">
@@ -37,11 +38,11 @@
                 <section class="summary">
                     <div class="stats">
                         <figure>
-                            <span>{{ calwildfire.containment_percent }}%</span>
+                            <span>{{ calwildfire.containment_percent|percentify }}</span>
                             <figcaption>Contained</figcaption>
                         </figure>
                         <figure>
-                            <span>{{ calwildfire.acres_burned|intcomma }}</span>
+                            <span>{{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }}</span>
                             <figcaption>Acres burned</figcaption>
                         </figure>
                         <figure>
@@ -64,25 +65,26 @@
                 </section><!--/ .summary -->
                 <div class="context">
                     <figure class="location">
-                        <div class="map"><img src="{{ STATIC_URL }}/media/kittens-602x212.jpg" alt="Map" /></div>
+                        <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=602x212&amp;maptype=roadmap
+                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Map" /></div>
                         <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
                     </figure><!--/ .location -->
                     <section class="damages">
                         <dl class="threatened">
                             <dt>Structures Threatened</dt>
-                            <dd>{{ calwildfire.structures_threatened }}</dd>
+                            <dd>{{ calwildfire.structures_threatened|default_if_none:"n/a"|intcomma }}</dd>
                         </dl>
                         <dl class="destroyed">
                             <dt>Structures Destroyed</dt>
-                            <dd>{{ calwildfire.structures_destroyed }}</dd>
+                            <dd>{{ calwildfire.structures_destroyed|default_if_none:"n/a"|intcomma }}</dd>
                         </dl>
                         <dl class="evacuations">
                             <dt>Evacuations</dt>
-                            <dd>{{ calwildfire.evacuations }}</dd>
+                            <dd>{{ calwildfire.evacuations|default_if_none:"n/a"|intcomma }}</dd>
                         </dl>
                         <dl class="injuries">
                             <dt>Injuries</dt>
-                            <dd>{{ calwildfire.injuries|intcomma }}</dd>
+                            <dd>{{ calwildfire.injuries|default_if_none:"n/a"|intcomma }}</dd>
                         </dl>
                     </section>
                 </div><!--/ .context -->
@@ -100,19 +102,19 @@
                         <div class="row clearfix">
                             <dl class="personnel">
                                 <dt>Fire Personnel</dt>
-                                <dd>{{ calwildfire.total_fire_personnel|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_fire_personnel|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                             <dl class="engines">
                                 <dt>Fire Engines</dt>
-                                <dd>{{ calwildfire.total_fire_engines|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_fire_engines|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                             <dl class="crews">
                                 <dt>Fire Crews</dt>
-                                <dd>{{ calwildfire.total_fire_crews|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_fire_crews|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                             <dl class="tankers">
                                 <dt>Air Tankers</dt>
-                                <dd>{{ calwildfire.total_airtankers|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_airtankers|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                         </div>
                         <div class="row clearfix">
@@ -120,22 +122,22 @@
                             {% if calwildfire.total_helicopters == None %}
                                 <dl class="helicopters">
                                     <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
+                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
                             {% else %}
                                 <dl class="helicopters">
                                     <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|intcomma }}</dd>
+                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
                             {% endif %}
 
                             <dl class="dozers">
                                 <dt>Dozers</dt>
-                                <dd>{{ calwildfire.total_dozers|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_dozers|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                             <dl class="tenders">
                                 <dt>Water Tenders</dt>
-                                <dd>{{ calwildfire.total_water_tenders|intcomma }}</dd>
+                                <dd>{{ calwildfire.total_water_tenders|default_if_none:"n/a"|intcomma }}</dd>
                             </dl>
                         </div>
                     </section><!--/ .deployed -->
@@ -167,30 +169,34 @@
                             <h2>More Details</h2>
                             <dl>
                                 <dt>Administrative Unit</dt>
-                                <dd>{{ calwildfire.administrative_unit }}</dd>
+                                <dd>{{ calwildfire.administrative_unit|default_if_none:"n/a" }}</dd>
 
                                 <dt>Road Closures</dt>
-                                <dd>{{ calwildfire.road_closures }}</dd>
+                                <dd>{{ calwildfire.road_closures|default_if_none:"n/a" }}</dd>
 
                                 <dt>Cause</dt>
-                                <dd>{{ calwildfire.cause }}</dd>
+                                <dd>{{ calwildfire.cause|default_if_none:"n/a" }}</dd>
 
                                 <dt>School Closures</dt>
                                 <dd>None reported yet.</dd>
 
                                 <dt>Cooperating Agencies</dt>
-                                <dd>{{ calwildfire.cooperating_agencies }}</dd>
+                                <dd>{{ calwildfire.cooperating_agencies|default_if_none:"n/a" }}</dd>
 
                                 <dt>Conditions</dt>
-                                <dd>{{ calwildfire.conditions }}</dd>
+                                <dd>{{ calwildfire.conditions|default_if_none:"n/a" }}</dd>
 
                                 <dt>Phone Numbers</dt>
-                                <dd>{{ calwildfire.phone_numbers }}</dd>
+                                <dd>{{ calwildfire.phone_numbers|default_if_none:"n/a" }}</dd>
 
-                                <dt>CalFire Page</dt>
-                                <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
+                                {% if calwildfire.more_info %}
+                                    <dt>CalFire Page</dt>
+                                    <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
+                                {% else %}
+                                    <dt>CalFire Page</dt>
+                                    <dd>n/a</dd>
+                                {% endif %}
 
-                                <!--
                                 <dt>Current Situation</dt>
                                 <dd>Significant progress was made on the fire yesterday and last night. Crews continue to make good progress towards meeting control objectives. Due to aggressive fire suppression efforts, fire activity has diminished, allowing demobilization of excess resources. There are still closures in some areas allowing firefighters to complete firefighting and mop up efforts. Mop up and patrol of the fire line is required 200 feet from the perimeter, so motorists are asked to stay on the lookout for crews.</dd>
 
@@ -199,7 +205,6 @@
 
                                 <dt>Training</dt>
                                 <dd>Wildland firefighting requires special skills and the most highly qualified firefighters spend a substantial amount of time mentoring and training new hires and talented firefighters. Many certifications require firefighters to attend classes on their own time and obtain training record sign off from experienced training officers and firefighting specialists. On this fire, a number of trainees have been assigned and are currently being evaluated.</dd>
-                                -->
                             </dl>
                         </section><!--/ .details -->
                     </div><!--/ .tertiaries -->
@@ -281,27 +286,9 @@
                     <li><a href="#">Northern California Geographic Area Coordination Center (ONCC)</a></li>
                 </ul>
             </aside>
-
-            {% if calwildfire_listing %}
-                <aside class="recent">
-                    <h2>Recent SoCal Fires</h2>
-                        <nav>
-                            <ul>
-                                {% for wildfire in calwildfire_listing %}
-                                <li>
-                                    <a href="{{  wildfire.get_absolute_url  }}"><h1>{{ wildfire.fire_name }}</h1><h2>{{ wildfire.date_time_started|date:"M d" }}</h2>
-                                    <div class="area"><mark>{{ wildfire.acres_burned }}</mark> <b>Acres</b></div></a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </nav>
-                    {% else %}
-                        <nav>
-                            <ul></ul>
-                        </nav>
-                </aside>
-            {% endif %}
-
+            <aside class="recent">
+                {% include 'all_fires_list.html' %}
+            </aside>
         </div><!--/ .secondary -->
     </div><!--/ .page-cols -->
 {% endblock %}

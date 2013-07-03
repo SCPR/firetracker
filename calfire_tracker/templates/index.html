@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load tz %}
+{% load tracker_tags %}
 
 {% block fire_index_header %}
     <header class="facade">
         <div class="titling">
             <div class="titling-inner bound">
-                <h1>Fire Tracker</h1>
+                <h1><a href="/wildfires/">Fire Tracker</a></h1>
                 <h2><a href="http://kpcc.org">89.3 KPCC</a></h2>
                 <aside class="pledge"><a href="#">Pledge now.</a></aside>
             </div>
@@ -30,11 +31,10 @@
 {% block fire_index_content %}
     <div class="lobby">
         <div class="lobby-inner bound clearfix">
-
             <figure class="foreword">
                 <div class="photo"><img src="{{ STATIC_URL }}/media/green-valley-scene.jpg" alt="" /></div>
                 <figcaption>
-                    <mark>So far during 2013, <em>47 fires</em> have consumed a total of <em>14,388 acres</em> throughout Southern California.</mark>
+                    <mark>So far during {% now "Y" %}, at least <em>{{ so_cal_fires }} wildfires</em> have consumed more than <em>{{ so_cal_acreage.total_acres|intcomma }} acres</em> throughout Southern California.*</mark>
                     <span>Southern California’s wildfire season officially begins in October.</span>
                 </figcaption>
             </figure><!--/ .foreward -->
@@ -49,166 +49,85 @@
                         <tr>
                             <th>Attribute</th>
                             <th><span>2012</span></th>
-                            <th><span>2013</span></th>
+                            <th><span>{% now "Y" %}</span></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>Fires</th>
-                            <td>62</td>
-                            <td>47</td>
+                            <td>{{ total_2012_fires }}</td>
+                            <td>{{ total_2013_fires }}</td>
                         </tr>
                         <tr>
                             <th>Acres</th>
-                            <td>20,095</td>
-                            <td>14,388</td>
+                            <td>{{ total_2012_acreage.total_acres|intcomma }}</td>
+                            <td>{{ total_2013_acreage.total_acres|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Injuries</th>
-                            <td>37</td>
-                            <td>12</td>
+                            <td>{{ total_2012_injuries.total_injuries|intcomma }}</td>
+                            <td>{{ total_2013_injuries.total_injuries|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Cost</th>
-                            <td>$10<span>m</span></td>
-                            <td>$7.2<span>m</span></td>
+                            <td>$??<span>m</span></td>
+                            <td>$??<span>m</span></td>
                         </tr>
                     </tbody>
                 </table>
             </aside>
-
         </div><!--/ .lobby-inner -->
     </div><!--/ .lobby -->
-
-
     <div class="landing-row welcome">
         <div class="landing-row-inner bound clearfix">
-
             <section class="following">
-
                 <h1>Fires We're Following</h1>
-
-                <article>
-                    <header class="clearfix">
-                        <h1><a href="#">Powerhouse Fire</a></h1>
-                        <div class="meta">
-                            <h2>Los Angeles County</h2>
-                            <h3>Last Update: Thursday, June 13, 2013</h3>
-                        </div>
-                        <h4 class="jump"><a href="#">Full Details</a><h4>
-                    </header>
-                    <div class="scenes clearfix">
-                        <div class="imagery clearfix">
-                            <figure class="location">
-                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
-                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
-                            </figure>
-                            <figure class="photo">
-                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
-                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
-                            </figure>
-                        </div>
-                        <aside class="vitals clearfix">
-                            <dl class="contained">
-                                <dt>Contained</dt>
-                                <dd>37%</dd>
-                            </dl>
-                            <dl class="acres">
-                                <dt>Acres burned</dt>
-                                <dd>128</dd>
-                            </dl>
-                            <dl class="started">
-                                <dt>Started (2013)</dt>
-                                <dd>Jun 3</dd>
-                            </dl>
-                            <dl class="air">
-                                <dt>Air Quality Index (Worst: 500)</dt>
-                                <dd>425</dd>
-                            </dl>
-                        </aside>
-                    </div>
-                </article><!--/ (individual fire) -->
-
-                <article>
-                    <header class="clearfix">
-                        <h1><a href="#">Lake Fire</a></h1>
-                        <div class="meta">
-                            <h2>Lake County</h2>
-                            <h3>Last Update: Thursday, June 13, 2013</h3>
-                        </div>
-                        <h4 class="jump"><a href="#">Full Details</a><h4>
-                    </header>
-                    <div class="scenes clearfix">
-                        <div class="imagery clearfix">
-                            <figure class="location">
-                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
-                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
-                            </figure>
-                            <figure class="photo">
-                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
-                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
-                            </figure>
-                        </div>
-                        <aside class="vitals clearfix">
-                            <dl class="contained">
-                                <dt>Contained</dt>
-                                <dd>85%</dd>
-                            </dl>
-                            <dl class="acres">
-                                <dt>Acres burned</dt>
-                                <dd>595</dd>
-                            </dl>
-                            <dl class="started">
-                                <dt>Started (2013)</dt>
-                                <dd>Jun 2</dd>
-                            </dl>
-                            <dl class="air">
-                                <dt>Air Quality Index (Worst: 500)</dt>
-                                <dd>300</dd>
-                            </dl>
-                        </aside>
-                    </div>
-                </article><!--/ (individual fire) -->
-                <article>
-                    <header class="clearfix">
-                        <h1><a href="#">152 Fire</a></h1>
-                        <div class="meta">
-                            <h2>Merced County</h2>
-                            <h3>Last Update: Thursday, June 13, 2013</h3>
-                        </div>
-                        <h4 class="jump"><a href="#">Full Details</a><h4>
-                    </header>
-                    <div class="scenes clearfix">
-                        <div class="imagery clearfix">
-                            <figure class="location">
-                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
-                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
-                            </figure>
-                            <figure class="photo">
-                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
-                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
-                            </figure>
-                        </div>
-                        <aside class="vitals clearfix">
-                            <dl class="contained">
-                                <dt>Contained</dt>
-                                <dd>100%</dd>
-                            </dl>
-                            <dl class="acres">
-                                <dt>Acres burned</dt>
-                                <dd>1,072</dd>
-                            </dl>
-                            <dl class="started">
-                                <dt>Started (2013)</dt>
-                                <dd>Jun 1</dd>
-                            </dl>
-                            <dl class="air">
-                                <dt>Air Quality Index (Worst: 500)</dt>
-                                <dd>50</dd>
-                            </dl>
-                        </aside>
-                    </div>
-                </article><!--/ (individual fire) -->
+                {% for wildfire in calwildfires %}
+                    {% if wildfire.promoted_fire %}
+                        <article>
+                            <header class="clearfix">
+                                <h1><a href="{{ wildfire.get_absolute_url }}">{{ wildfire.fire_name }}</a></h1>
+                                <div class="meta">
+                                    <h2>{{ wildfire.county }}</h2>
+                                    <h3>Last Update: {{ wildfire.last_updated|date:"D, M d, Y g:i a" }}</h3>
+                                </div>
+                                <h4 class="jump"><a href="{{ wildfire.get_absolute_url }}">Full Details</a><h4>
+                            </header>
+                            <div class="scenes clearfix">
+                                <div class="imagery clearfix">
+                                    <figure class="location">
+                                        <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=222x146&amp;maptype=roadmap
+                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
+                                        <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                                    </figure>
+                                    <figure class="photo">
+                                        <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="{{ wildfire.fire_name }}" /></b>
+                                        <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                                    </figure>
+                                </div>
+                                <aside class="vitals clearfix">
+                                    <dl class="contained">
+                                        <dt>Contained</dt>
+                                        <dd>{{ wildfire.containment_percent|percentify }}%</dd>
+                                    </dl>
+                                    <dl class="acres">
+                                        <dt>Acres burned</dt>
+                                        <dd>{{ wildfire.acres_burned|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="started">
+                                        <dt>Started ({{ wildfire.date_time_started|date:"Y" }})</dt>
+                                        <dd>{{ wildfire.date_time_started|date:"M j" }}</dd>
+                                    </dl>
+                                    <dl class="air">
+                                        <dt>Air Quality Index (Worst: 500)</dt>
+                                        <dd>425</dd>
+                                    </dl>
+                                </aside>
+                            </div>
+                        </article>
+                    {% else %}
+                    {% endif %}
+                {% endfor %}
             </section><!--/ .following -->
             <div class="evergreen">
                 <aside class="resources">
@@ -234,11 +153,22 @@
         <div class="landing-row-inner bound clearfix">
             <section class="all-fires">
                 <h1>All Fires</h1>
-                <ul>
-                    {% for wildfire in calwildfire_listing %}
-                        <li><a href="{{  wildfire.get_absolute_url  }}">{{ wildfire.fire_name }}</a></li>
+                {% for wildfire in calwildfires|rows:3 %}
+                    {% for item in wildfire %}
+                        <article>
+                            <div>
+                                <h1><a href="{{ item.get_absolute_url }}">{{ item|truncatewords:2 }}</a></h1>
+                                <ul>
+                                    <li class="date">{{ item.date_time_started|date:"M j, Y" }}</li>
+                                    <li class="location">{{ item.county }}</li>
+                                    <li class="acreage">{{ item.acres_burned|default_if_none:"n/a"|intcomma }} acres</li>
+                                    <li class="contained">{{ item.containment_percent|percentify }} contained</li>
+                                </ul>
+                            </div>
+                            <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></a></b>
+                        </article>
                     {% endfor %}
-                </ul>
+                {% endfor %}
             </section><!--/ .all-fires -->
         </div><!--/ .landing-row-inner -->
     </div><!--/ .landing-row -->

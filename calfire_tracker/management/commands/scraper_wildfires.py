@@ -19,6 +19,10 @@ def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
     url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
+
+    # archive url
+    #url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2010&pc=500'
+
     #write_list_to_text_file(container_of_data_dicts)
     extract_details_link_if_present(url_query)
 

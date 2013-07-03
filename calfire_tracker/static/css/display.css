@@ -451,7 +451,14 @@ body {
 										position: relative;
 										text-transform: uppercase;
 										overflow: hidden;
+										background: url(i/vitals-icons.png) no-repeat;
+										background-size: 48px 600px;
 									}
+											.landing-row .following .scenes .vitals dl.contained	{ background-position: center 9px;	}
+											.landing-row .following .scenes .vitals dl.acres		{ background-position: center -181px;	}
+											.landing-row .following .scenes .vitals dl.started		{ background-position: center -373px;	}
+											.landing-row .following .scenes .vitals dl.air			{ background-position: center -561px;	}
+
 											.landing-row .following .scenes .vitals dl:first-child {
 												margin-left: 1.6%;
 												box-shadow: none;
@@ -536,25 +543,101 @@ body {
 
 
 
+
+
+
 									/*	=================================================================================== */
+
+									    @media screen and (max-width: 1230px) {
+
+											.landing-row .following .scenes .vitals dl {
+												padding-top: 90px; /* had been 100 */
+											}
+											.landing-row .following .scenes .vitals dd {
+												font-size: 2em;
+											}
+
+									    }
+
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 860px) {
+
+											.landing-row .following .scenes .vitals dd {
+												font-size: 1.7em;
+												top: 49px;
+											}
+											.landing-row .following .scenes .vitals dt {
+											    font-size: 0.5em;
+												width: 80%;
+												margin-left: 10%;
+											    font-weight: 600;
+											}
+
+									    }
+
+
+									/*	=================================================================================== */
+
 
 									    @media screen and (max-width: 1100px) {
 
 											.landing-row.welcome {
+												margin-bottom: 30px;
 											}
 													.landing-row .following {
 														width: 100%;
 														float: none;
-														margin-bottom: 60px;
+														margin-bottom: 90px;
 													}
 													.landing-row .evergreen {
 														width: 100%;
 														float: none;
+														padding-top: 0;
 													}
 
 									    }
 
 									/*	=================================================================================== */
+
+								    	@media screen and (max-width: 1100px) and (min-width: 600px) {
+
+											.landing-row .evergreen {
+											}
+
+											/* --------------------------------- */
+											/* Arbitrarily slapping on clearfix: */
+											.landing-row .evergreen:after {
+											    content: "."; 
+											    display: block; 
+											    height: 0; 
+											    clear: both; 
+											    visibility: hidden;
+											}
+											.landing-row .evergreen {
+												display: inline-block;
+											}
+											/* --------------------------------- */
+											
+											.evergreen .resources {
+												width: 45%;
+												float: left;
+												text-align: left;
+											}
+													.landing-row .evergreen .resources ul {
+														margin-left: 0;
+													}
+
+											.evergreen .coverage {
+												width: 46%;
+												float: right;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
 
 									    @media screen and (max-width: 650px) {
 
@@ -608,17 +691,151 @@ body {
 
 /*	#################################################################
 	#################################################################
-	LANDING-ROW: "REVERSE CHRON"
+	LANDING-ROW: "ALL FIRES"
 	#################################################################
 	################################################################# */
 
 	.landing-row.reverse-chron {
-		padding-bottom: 150px;
+		padding-bottom: 90px;
 	}
+			.all-fires {
+				width: 74.384615384615%; /* 967 / 1300 */
+			}
+					.all-fires article {
+						width: 31.127197518097%; /* 301 / 967 */
+						border-top: 1px solid #ec7c2d;
+						padding-top: 10px;
+						float: left;
+						position: relative;
+						margin-bottom: 45px;
+					}
+					.all-fires article:nth-child(3n+2) { /* every first block, when 3-across */
+						margin-right: 3.309203722854%; /* 32 / 967 */
+					}
+					.all-fires article:nth-child(3n+3) {
+						margin-right: 3.309203722854%; /* 32 / 967 */
+					}
+							.all-fires article div {
+								margin-left: 29.235880398671%; /* 88 / 301 */
+							}
+									.all-fires article h1 {
+										color: white;
+										text-transform: uppercase;
+										font-family: "proxima-nova-condensed", Arial, sans-serif;
+										font-size: 1.25em; /* 20 / 16 */
+										line-height: 0.9;
+									}
+									.all-fires article h1 a {
+										display: block;
+										border-bottom: 1px solid #2a3952;
+										padding: 1px 0 8px;
+									}
+									.all-fires article h1 a:hover {
+										border-bottom: 1px solid white;
+									}
+									.all-fires article ul {
+										font-size: 0.8125em; /* 13 / 16 */
+										line-height: 1;
+										color: #80a2dd;
+										box-shadow:
+											inset 23px 0 0 #0f1620,
+											inset 24px 0 0 #2a3952;
+										padding-top: 7px;
+									}
+											.all-fires article li {
+												background: url(i/fire-icons.png) no-repeat -400px -100px;
+												background-size: 700px 700px;
+												padding: 2px 0 3px 32px;
+												margin-bottom: 3px;
+											}
+													.all-fires article li.date		{ background-position: -399px -100px;	}
+													.all-fires article li.location	{ background-position: -399px -295px;	}
+													.all-fires article li.acreage	{ background-position: -400px -490px;	}
+													.all-fires article li.contained	{ background-position: -400px -685px;	}
+
+							.all-fires article .img {
+								display: block;
+								position: absolute;
+								top: 10px;
+								left: 0;
+								width: 26.24584717608%; /* 79 / 301 */
+							}
+									.all-fires article .img a {
+										display: block;
+									}
+									.all-fires article .img a:hover {
+										outline: 1px solid white;
+										overflow: hidden;
+									}
+									.all-fires article .img img {
+										width: 100%;
+										height: auto;
+									}
 
 
+									/*	=================================================================================== */
 
+									    @media screen and (max-width: 1100px) {
 
+											.all-fires {
+												width: 100%;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 700px) {
+
+											.all-fires {
+												font-size: 0.8125em;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 610px) {
+
+											.all-fires article {
+												width: 48%;
+												margin-bottom: 20px;
+											}
+											.all-fires article:nth-child(3n+2),
+											.all-fires article:nth-child(3n+3) {
+												background: none;
+												margin-right: 0;
+											}
+											.all-fires article:nth-child(odd) {
+												margin-left: 4%;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 480px) {
+
+											.all-fires article {
+												width: 46%;
+												margin-bottom: 35px;
+												border-top: 3px solid #ec7c2d;
+											}
+													.all-fires article:nth-child(odd) {
+														margin-left: 7%;
+													}
+													.all-fires article .img {
+														position: static;
+														margin-top: 20px;
+														width: 100%;
+													}
+													.all-fires article div {
+														margin-left: 0;
+													}
+
+									    }
+
+									/*	=================================================================================== */
 
 
 

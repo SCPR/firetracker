@@ -42,6 +42,7 @@ var kpccApiDisplay = {
 
         // begin loop
         for (var i = 0; i < data.length; i++) {
+            var asset = data[i].assets[0].small.url;
             var short_title = data[i].short_title;
             var permalink = data[i].permalink;
             var thumbnail = data[i].thumbnail;
@@ -50,8 +51,8 @@ var kpccApiDisplay = {
 
             // write data to div
             jqueryNoConflict(kpccApiConfig.contentContainer).append(
-                '<li><a href=\"' + permalink + '\">' +
-                    '<b class="img">' + thumbnail + '</b>' +
+                '<li><a href=\"' + permalink + '\" target="_blank">' +
+                    '<b class="img"><img src="' + asset + '" /></b>' +
                     '<span>' + kpccApiDisplay.takeTime(published_at) + '</span>' +
                     '<mark>' + short_title + '</mark></a>' +
                 '</li>');
