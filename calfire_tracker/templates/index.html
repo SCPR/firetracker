@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load tz %}
+{% load listutil %}
 
 {% block fire_index_header %}
     <header class="facade">
@@ -154,11 +155,15 @@
         <div class="landing-row-inner bound clearfix">
             <section class="all-fires">
                 <h1>All Fires</h1>
-                <ul>
-                    {% for wildfire in calwildfire_listing %}
-                        <li><a href="{{ wildfire.get_absolute_url }}">{{ wildfire.fire_name }}</a></li>
+                <table>
+                    {% for wildfire in calwildfire_listing|columns:3 %}
+                        <tr>
+                            {% for item in wildfire %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </ul>
+                </table>
             </section><!--/ .all-fires -->
         </div><!--/ .landing-row-inner -->
     </div><!--/ .landing-row -->
