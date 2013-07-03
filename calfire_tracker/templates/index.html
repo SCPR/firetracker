@@ -83,7 +83,7 @@
         <div class="landing-row-inner bound clearfix">
             <section class="following">
                 <h1>Fires We're Following</h1>
-                {% for wildfire in calwildfire_listing %}
+                {% for wildfire in calwildfires %}
                     {% if wildfire.promoted_fire %}
                         <article>
                             <header class="clearfix">
@@ -156,7 +156,7 @@
             <section class="all-fires">
                 <h1>All Fires</h1>
                 <table>
-                    {% for wildfire in calwildfire_listing|columns:3 %}
+                    {% for wildfire in calwildfires|columns:3 %}
                         <tr>
                             {% for item in wildfire %}
                                 <td>{{ item }}</td>
