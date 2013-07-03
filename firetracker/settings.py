@@ -3,10 +3,10 @@
 # -*- coding: utf-8 -*-
 import os
 import dj_database_url
-SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -54,6 +54,8 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+ADMIN_MEDIA_PREFIX = '/media/'
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = ''
@@ -71,16 +73,11 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'http://projects.scpr.org/static/static-files/heroku/static/'
+STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 
-    os.path.join(PROJECT_PATH, 'static'),
-    '/Users/KellerUser/Programming/2kpcc/django-projects/kpccinfostore/kpccinfostore/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -88,13 +85,13 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'pg4j+xce0qm2dmcz%fv_#7u&amp;_qu^fyng7nnbg-ccus6r!b&amp;q#%'
+
+TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -129,10 +126,6 @@ ROOT_URLCONF = 'firetracker.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'firetracker.wsgi.application'
-
-TEMPLATE_DIRS = (
-    PROJECT_PATH + '/templates/',
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

@@ -14,7 +14,8 @@ def index(request):
 
     #takes template name as first argument
     #returns an HttpResponse object of the given template
-    return render_to_response('index.html', {'calwildfire_listing': calwildfire_listing})
+    return render_to_response('index.html', {'calwildfire_listing': calwildfire_listing},
+        context_instance=RequestContext(request))
 
 #details request
 def detail(request, fire_slug):
