@@ -1,0 +1,1137 @@
+body {
+	background: #0f1620;
+	color: #768fb3;
+    -webkit-text-size-adjust: none;
+	z-index: 1;
+	font-weight: 400; /* "Regular" */
+	font-size: 100%;
+	line-height: 1.2;
+	font-family: "proxima-nova", Arial, sans-serif;
+}
+
+
+
+/*	#################################################################
+	#################################################################
+	MASTHEAD
+	#################################################################
+	################################################################# */
+	
+	.masthead {
+		margin-bottom: 34px;
+		overflow: hidden;
+		box-shadow:
+			inset 0 -42px 0 #0f1620,
+			inset 0 -43px 0 #97abc9;
+	}
+			.masthead-inner {
+				position: relative;
+				z-index: 1;
+				padding: 114px 0 68px;
+			}
+					.masthead .brief {
+						overflow: hidden;
+					}
+							.masthead .brief h1 {
+								color: white;
+								text-transform: uppercase;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-weight: 200; /* "Thin" */
+								font-size: 4em; /* 64 / 16 */
+								margin-left: -4px;
+								line-height: 0.83;
+								width: 63%;
+								float: left;
+							}
+							.masthead .brief h2 {
+								text-align: right;
+								float: right;
+								width: 33%;
+								font-size: 0.75em;
+								text-transform: uppercase;
+								color: #a1572a;
+								line-height: 1.1;
+								padding-top: 14px;
+							}
+									.masthead .brief h2 mark {
+										display: block;
+										font-weight: 600;
+										color: #f07a30;
+										background: none;
+										margin-bottom: 0.6em;
+									}
+									.masthead .brief h2 span {
+										display: block;
+									}
+					
+					.masthead .brand {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+					}
+							.masthead .brand h3 {
+								position: absolute;
+								top: 21px;
+								left: 0;
+								width: 246px;
+								height: 20px;
+								overflow: hidden;
+							}
+									.masthead .brand h3 span,
+									.masthead .brand h3 a {
+										display: block;
+									}
+									.masthead .brand h3 span {
+										position: absolute;
+										height: 100%;
+									}
+											.masthead .brand .parent {
+												top: 0;
+												left: 0;
+												width: 137px;
+												overflow: hidden;
+												white-space: nowrap;
+												text-indent: 100%;
+												background: url(i/fire-icons.png) no-repeat -100px -50px;
+												background-size: 700px 700px;
+											}
+											.masthead .brand .title {
+												right: 0;
+												bottom: -4px;
+												text-align: right;
+												text-transform: uppercase;
+												font-family: "proxima-nova-condensed", Arial, sans-serif;
+												font-size: 1.1875em; /* 19 / 16 */
+												font-weight: 300;
+												color: #7b8ea8;
+												line-height: 1;
+											}
+													.masthead .brand .title a:hover {
+														color: #a5c7f8;
+													}
+
+							.masthead .brand h4 {
+								text-align: right;
+								font-size: 0.8125em; /* 13 / 16 */
+								position: relative;
+								line-height: 1.08;
+								margin: 0 -13px 0 280px;
+								float: right;
+							}
+									.masthead .brand h4 span {
+										display: block;
+										margin-right: 135px;
+										padding-top: 26px;
+										color: #7b8ea8;
+									}
+									.masthead .brand h4 a {
+										display: block;
+										color: #dce7f6;
+										background: #455366 url(i/fire-icons.png) no-repeat 96px 26px;
+										background-size: 700px 700px;
+										padding: 26px 41px 10px 12px;
+										position: absolute;
+										white-space: nowrap;
+										top: 0;
+										right: 0;
+									}
+											.masthead .brand h4 a:hover {
+												color: white;
+												text-decoration: underline;
+											}
+
+					.masthead .share {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+					}
+							.masthead .share ul {
+							}
+									.masthead .share li {
+										display: inline;
+									}
+											.masthead .share li a {
+												display: block;
+												float: left;
+												height: 20px;
+												width: 22px;
+												background: url(i/fire-icons.png) no-repeat -100px 0;
+												background-size: 700px 700px;
+												white-space: nowrap;
+												text-indent: 100%;
+												overflow: hidden;
+												margin-left: 17px;
+											}
+													.masthead .share li:first-child a	{ margin-left: 0; }
+													.masthead .share .em a				{ background-position: -100px 0; }
+													.masthead .share .em a:hover		{ background-position: -100px -25px; }
+													.masthead .share .tu a				{ background-position: -140px 0; }
+													.masthead .share .tu a:hover		{ background-position: -140px -25px; }
+													.masthead .share .tw a				{ background-position: -179px 0; }
+													.masthead .share .tw a:hover		{ background-position: -179px -25px; }
+													.masthead .share .fa a				{ background-position: -217px 0; }
+													.masthead .share .fa a:hover		{ background-position: -217px -25px; }
+
+
+
+													/*	=================================================================================== */
+
+													    @media screen and (max-width: 900px) {
+
+															.masthead .brief {
+																font-size: 0.85em;
+															}
+															.masthead .brand h4 {
+																margin-left: 330px; /* formerly 280px */	
+															}
+															.masthead .brand h4 span {
+																font-size: 0.75em; /* formerly 0.8125 */	
+															}
+
+													    }
+
+													/*	=================================================================================== */
+
+													    @media screen and (max-width: 740px) {
+
+															.masthead-inner {
+																padding-top: 40px;
+															}
+															.masthead .brief {
+																font-size: 0.75em;
+																margin-bottom: 30px;
+															}
+															.masthead .brief h1 {
+																margin-left: 0px;
+															}
+															.masthead .brand {
+																position: relative;
+																border-top: 1px solid #f07a30;
+																border-top: 1px solid #536175;
+																padding-top: 20px;
+																margin-left: -5%;
+																padding: 30px 5% 0;
+															}
+																	.masthead .brand h3 {
+																		position: relative;
+																		margin: 0 auto 15px;
+																		top: 0;
+																	}
+																			.masthead .brand h3 .title {
+																				color: #f07a30;
+																			}
+																			.masthead .brand h3 .title a:hover {
+																				color: white;
+																			}
+
+																	.masthead .brand h4 {
+																		margin: 0 0 0 0;
+																		float: none;
+																		font-size: 0.8125em;
+																		text-align: center;
+																	}
+																			.masthead .brand h4 span {
+																			    margin-right: 0;
+																			    padding-top: 0;
+																				font-size: 0.8125em;
+																				display: inline;
+																			}
+																			.masthead .brand h4 a {
+																				font-size: 0.8125em;
+																			    background: none;
+																			    display: inline;
+																				padding: 0 0 0 0;
+																			    position: static;
+																			}
+
+													    }
+
+													/*	=================================================================================== */
+
+													    @media screen and (max-width: 600px) {
+
+															.masthead {
+																border-bottom: 1px solid #97ABC9;
+																box-shadow: none;
+															}
+															.masthead .share {
+																left: 50%;
+																bottom: 20px;
+																margin-left: -70px;
+															}
+															.masthead .brief h1 {
+																float: none;
+																width: 100%;
+																margin-bottom: 15px;
+																font-size: 3.6em;
+															}
+															.masthead .brief h2 {
+																text-align: left;
+																color: #7b8ea8;
+																float: none;
+																width: 100%;
+																padding-top: 0;
+															}
+															.masthead .brief h2 mark {
+																color: #b8cce9;
+															}
+
+													    }
+
+													/*	=================================================================================== */
+
+
+
+
+/*	#################################################################
+	#################################################################
+	SINGLE FIRE: BASIC SKELETAL ELEMENTS
+	#################################################################
+	################################################################# */
+
+	.page-cols > .primary {
+		float: left;
+		width: 74.384615384615%; /* 967 / 1300 */
+	}
+	.page-cols > .secondary {
+		float: right;
+		width: 23.153846153846%; /* 301 / 1300 */
+	}
+
+	/*	=================================================================================== */
+
+	    @media screen and (max-width: 1023px) {
+
+			.page-cols > .primary,
+			.page-cols > .secondary {
+				float: none;
+				width: 100%;
+			}
+	    }
+
+	/*	=================================================================================== */
+
+
+
+
+/*	#################################################################
+	#################################################################
+	FIRE DASHBOARD
+	#################################################################
+	################################################################# */
+
+	.fire-dashboard {
+		margin-bottom: 50px;
+		overflow: hidden;
+	}
+			.fire-dashboard .summary,
+			.fire-dashboard .context {
+				height: 423px; /* We'll come back to this */
+			}
+			.fire-dashboard .summary {
+				width: 65.563598759049%; /* 634 / 967 */
+				float: left;
+				overflow: hidden;
+			}
+			.fire-dashboard .context {
+				width: 31.127197518097%; /* 301 / 967 */
+				float: right;
+			}
+	
+	.fire-dashboard .context {
+		background: #1e2c39;
+	}
+			.fire-dashboard .location {
+				background: #0f1620;
+				border-bottom: 20px solid #0f1620; /* Yep, it's a hack */
+			}
+					.fire-dashboard .location .map {
+						height: 106px;
+						position: relative;
+						overflow: hidden;
+						margin-bottom: 7px;
+					}
+							.fire-dashboard .location .map img {
+								height: 100%;
+								width: auto;
+							}
+
+					.fire-dashboard .location figcaption {
+						color: white;
+						font-size: 0.625em;
+						line-height: 1.05;
+						background: url(i/fire-icons.png) no-repeat 0 -25px;
+						background-size: 700px 700px;
+						padding-left: 18px;
+					}
+							.fire-dashboard .location figcaption span {
+								display: block;
+								background: #0f1620; /* Necessary hack to block out the unwanted other-sprite-icons */
+								padding: 3px 0 2px;
+							}
+
+			.fire-dashboard .damages {
+				border-top: 3px solid #ec7c2d;
+				padding: 14px 4.983388704319% 0; /* L & R: 15 / 301 */
+			}
+					.fire-dashboard .damages dl {
+						padding-left: 46px;
+						margin-top: 10px;
+						background: url(i/fire-icons.png) no-repeat -669px -100px;
+						background-size: 700px 700px;
+						line-height: 1.13;
+						min-height: 33px; /* Ensures visibility of icon art */
+					}
+							.fire-dashboard .damages dl:nth-child(1)		{ margin-top: 0;						}
+							.fire-dashboard .damages dl:nth-child(2)		{ background-position: -669px -250px;	}
+							.fire-dashboard .damages dl:nth-child(3)		{ background-position: -669px -400px;	}
+							.fire-dashboard .damages dl:nth-child(4)		{ background-position: -669px -550px;	}
+							
+							.fire-dashboard .damages dt {
+								color: white;
+								font-family: "superclarendon", Georgia, serif;
+								font-weight: 300; /* "Light" (400 = "Regular") */
+								font-size: 0.75em;
+								margin-bottom: 0.2em;
+							}
+							.fire-dashboard .damages dd {
+								color: #7ca5cc;
+								font-size: 0.625em;
+							}
+
+							/*	=================================================================================== */
+
+							    @media screen and (min-width: 1160px) {
+
+									.fire-dashboard .damages {
+										font-size: 1.15em;
+									}
+							    }
+						
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 830px) {
+
+									.fire-dashboard .damages dt {
+										font-size: 0.6875em;
+									}
+							    }
+
+							/*	=================================================================================== */
+
+
+	
+	.fire-dashboard .summary {
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+	}
+			.fire-dashboard .photo {
+				position: relative;
+				z-index: 2;
+			}
+					.fire-dashboard .photo img {
+						height: 423px;
+						width: auto;
+					}
+
+			.fire-dashboard .credit,
+			.fire-dashboard .stats {
+				position: absolute;
+				z-index: 3;
+				color: white;
+			}
+					.fire-dashboard .credit {
+						background: rgba(0,0,0,0.4);
+						width: 100%;
+						left: 0;
+						bottom: 0;
+						font-size: 0.625em;
+						line-height: 1.1;
+						padding: 9px 30px 10px 23px;
+					}
+					.fire-dashboard .stats {
+						top: 26px;
+						left: 20px;
+					}
+							.fire-dashboard .stats figure {
+								margin: 27px 0 0;
+							}
+									.fire-dashboard .stats figure:first-child {
+										margin-top: 0;
+									}
+									.fire-dashboard .stats span {
+										display: block;
+										text-transform: uppercase;
+										font-family: "proxima-nova-condensed", Arial, sans-serif;
+										font-weight: 200;
+										font-size: 3.4375em; /* 55 / 16 */
+										line-height: 0.75;
+										margin-bottom: 1px;
+										text-shadow: 0 0 10px black;
+									}
+									.fire-dashboard .stats figcaption {
+										background: rgba(0,0,0,0.6);
+										font-size: 0.5625em;
+										color: #ec7c2d;
+										text-transform: uppercase;
+										font-weight: 600; /* "Semibold" */
+										padding: 4px 7px 3px;
+										display: inline-block;
+										margin-left: -5px;
+									}
+
+									/*	=================================================================================== */
+
+								    	@media screen and (max-width: 760px) {
+
+											.fire-dashboard .summary {
+												width: 59.563598759049%;
+											}
+											.fire-dashboard .context {
+												width: 37.127197518097%;
+											}
+
+										}
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 620px) {
+
+											.fire-dashboard {
+											}
+													.fire-dashboard .summary,
+													.fire-dashboard .context {
+														height: auto;
+													}
+													.fire-dashboard .summary {
+														width: 100%;
+														float: none;
+														margin-bottom: 20px;
+													}
+													.fire-dashboard .context {
+														width: 100%;
+														float: none;
+													}
+															.fire-dashboard .location {
+															}
+																	.fire-dashboard .location .map {
+																		width: 100%;
+																		height: auto;
+																	}
+																			.fire-dashboard .location .map img {
+																				height: auto;
+																				width: 100%;
+																			}
+															
+															.fire-dashboard .damages {
+																padding-bottom: 20px;
+															}
+									    }
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 500px) {
+
+											.fire-dashboard .summary {
+												overflow: visible;
+											}
+													.fire-dashboard .stats {
+														position: static;
+														text-align: center;
+														margin-bottom: 25px;
+													}
+													.fire-dashboard .stats span {
+													}
+													
+													.fire-dashboard .summary .photo {
+														width: 100%;
+													}
+															.fire-dashboard .summary .photo img {
+																width: 100%;
+																height: auto;
+															}
+
+									    }
+
+									/*	=================================================================================== */
+
+
+
+
+
+/*	#################################################################
+	#################################################################
+	SIDEBAR ("SINGLE EVERGREEN")
+	#################################################################
+	################################################################# */
+	
+	.single-evergreen {
+		text-align: right;
+	}
+			.single-evergreen aside > h2 {
+				color: #d5e1f3;
+				font-family: "superclarendon", Georgia, serif;
+				font-weight: 300; /* "Light" (400 = "Regular") */
+				border-bottom: 1px solid #2d466b;
+				font-size: 0.9375em;
+				margin-right: -4.651162790698%; /* 14 / 301 */
+				margin-bottom: 13px;
+				padding-right: 4.651162790698%; /* 14 / 301 */
+				padding-bottom: 14px;
+			}
+			.single-evergreen aside {
+				margin-bottom: 50px;
+			}
+			.single-evergreen .resources {
+			}
+					.single-evergreen .resources ul {
+						font-size: 0.75em;
+						margin-left: 15%;
+					}
+							.single-evergreen .resources li {
+								margin-bottom: 1.1875em;
+							}
+							.single-evergreen .resources a:hover {
+								text-decoration: underline;
+								color: #cce1ff;
+							}
+			
+			.single-evergreen .recent {
+			}
+					.single-evergreen .recent > h2 {
+						margin-bottom: 0;
+					}
+					.single-evergreen .recent nav {
+						width: 104.651162790698%; /* 315 / 301 */
+					}
+					.single-evergreen .recent li {
+						border-bottom: 1px solid #1a283d;
+						box-shadow: inset -55px 0 0 #070b10;
+						padding-right: 4.651162790698%; /* 14 / 301 */						
+					}
+							.single-evergreen .recent a {
+								display: block;
+								box-shadow: inset -55px 0 0 #070b10;
+								position: relative;
+								padding: 12px 0 10px;
+							}
+									.single-evergreen .recent a:hover {
+										color: white;
+										background: #1a283d;
+									}
+									.single-evergreen h1,
+									.single-evergreen h2 {
+										margin-right: 67px;
+									}
+											.single-evergreen h1 {
+												font-size: 1.3125em; /* 21 / 16 */
+												line-height: 1.0;
+												font-weight: 300; /* "Light" */
+												margin-bottom: 3px;
+											}
+											.single-evergreen h2 {
+												font-family: "superclarendon", Georgia, serif;
+												font-size: 0.6875em;
+												font-weight: 400; /* "Regular" */
+												color: #3e5981;
+											}
+											.single-evergreen .recent a:hover h2 {
+												color: #92bbf8;
+											}
+
+									.single-evergreen .recent .area {
+										position: absolute;
+										width: 70px;
+										top: 0;
+										overflow: hidden;
+										right: 0;
+										padding: 15px 0 0;
+									}
+											.single-evergreen .recent .area mark {
+												display: block;
+												background: none;
+												font: normal 200 1.125em/1.1 "proxima-nova-condensed", Arial, sans-serif; /* 18 / 16 */
+												color: #798699;
+												margin-bottom: 3px;
+											}
+											.single-evergreen .recent a:hover .area mark {
+												color: white;
+											}
+											.single-evergreen .recent .area b {
+												display: block;
+												font-weight: 600;
+												font-size: 0.625em; /* 10 / 16 */
+												text-transform: uppercase;
+											}
+
+
+											/*	=================================================================================== */
+
+											    @media screen and (max-width: 1023px) and (min-width: 470px) {
+
+													/* By this point, SIDEBAR has been jettisoned from the right side and is sitting, block-level, below everything.
+													/* It's comprsied of 2 sections, which should now — for a time — live side-by-side with each other. */
+													
+													/* --------------------------------- */
+													/* Arbitrarily slapping on clearfix: */
+													.single-evergreen:after {
+													    content: "."; 
+													    display: block; 
+													    height: 0; 
+													    clear: both; 
+													    visibility: hidden;
+													}
+													.single-evergreen {
+														display: inline-block;
+													}
+													/* --------------------------------- */
+													
+													.single-evergreen .resources {
+														width: 46%;
+														float: left;
+													}
+													.single-evergreen .recent {
+														width: 46%;
+														float: right;
+													}
+													
+													
+											    }
+
+											/*	=================================================================================== */
+
+
+
+
+/*	#################################################################
+	#################################################################
+	FIRE SUPPLEMENTAL PAGE STUFF
+	#################################################################
+	################################################################# */
+
+	.fire-supplemental {
+		padding-bottom: 50px;
+	}
+			.fire-supplemental > .primary {
+				width: 42.605997931748%; /* 412 / 967 */
+				float: left;
+			}
+			.fire-supplemental > .secondary {
+				width: 54.084798345398%; /* 523 / 967 */
+				float: right;
+			}
+	
+	.fire-supplemental .primary h2 {
+		color: white;
+		font-family: "superclarendon", Georgia, serif;
+		font-weight: 300;
+		font-size: 0.9375em; /* 15 / 16 */
+	}
+	.fire-supplemental .tertiaries h2 {
+		margin-bottom: 25px;
+	}
+	.fire-supplemental .coverage,
+	.fire-supplemental .deployed {
+		margin-bottom: 50px;
+	}
+			.fire-supplemental .coverage h2,
+			.fire-supplemental .deployed h2 {
+				border-top: 3px solid #ec7c2d;
+				margin-bottom: 21px;
+				padding-top: 6px;
+			}
+			.fire-supplemental .coverage {
+			}
+					.fire-supplemental .coverage li {
+						margin-bottom: 18px;
+						min-height: 48px;
+					}
+							.fire-supplemental .coverage a {
+								display: block;
+								width: 100%;
+								position: relative;
+							}
+							.fire-supplemental .coverage .img {
+								width: 16.747572815534%; /* 69 / 412 */
+								position: absolute;
+								max-width: 70px;
+							}
+							.fire-supplemental .coverage img {
+								width: 100%;
+								height: auto;
+							}
+							.fire-supplemental .coverage span,
+							.fire-supplemental .coverage mark {
+								display: block;
+								margin-left: 19.174757281553%; /* 79 / 412 */
+							}
+							.fire-supplemental .coverage span {
+								font-size: 0.625em; /* 10 / 16 */
+								color: #4d6e9d;
+								margin-bottom: 3px;
+								font-family: "superclarendon", Georgia, serif;
+								font-weight: 300;
+							}
+							.fire-supplemental .coverage mark {
+								background: none;
+								color: #8ba5ca;
+								font-size: 0.8125em; /* 13 / 16 */
+							}
+							.fire-supplemental .coverage a:hover span {
+								color: #8ba5ca;
+							}
+							.fire-supplemental .coverage a:hover mark {
+								color: white;
+								text-decoration: underline;
+							}
+							.fire-supplemental .coverage a:hover img {
+							}
+
+			.fire-supplemental .deployed {
+			}
+					.fire-supplemental .deployed .row {
+						margin-bottom: 15px;
+						border-top: 1px solid #1f2d41;
+						padding-top: 10px;
+					}
+					.fire-supplemental .deployed dl {
+						float: left;
+						background: url(i/fire-deployables.png) no-repeat center top;
+						background-size: 77px 1350px; /* half of source's 154 x 2700 */
+						width: 20.873786407767%; /* 86 / 412 */
+						padding: 45px 0 10px;
+						text-align: center;
+					}
+							.fire-supplemental .deployed dl:nth-child(1),
+							.fire-supplemental .deployed dl:nth-child(2) {
+								margin-right: 5.582524271845%; /* 23 / 412 */
+							}
+							.fire-supplemental .deployed dl:nth-child(4) {
+								float: right;
+								margin-right: 0;
+							}
+							.fire-supplemental .deployed dt {
+								font-size: 0.6875em; /* 11 / 16 */
+								line-height: 1;
+								min-height: 2em;
+								margin-bottom: 5px;
+								padding: 0 10%;
+							}
+							.fire-supplemental .deployed dd {
+								color: white;
+								font-size: 1.5625em; /* 25 / 16 */
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-weight: 200;
+							}
+							.fire-supplemental .deployed .personnel		{ background-position: center 0;		}
+							.fire-supplemental .deployed .engines		{ background-position: center -210px;	}
+							.fire-supplemental .deployed .crews			{ background-position: center -421px;	}
+							.fire-supplemental .deployed .tankers		{ background-position: center -638px;	}
+							.fire-supplemental .deployed .helicopters	{ background-position: center -847px;	}
+							.fire-supplemental .deployed .dozers		{ background-position: center -1058px;	}
+							.fire-supplemental .deployed .tenders		{ background-position: center -1270px;	}
+
+	.fire-supplemental .tertiaries {
+		border-top: 3px solid #ec7c2d;
+		padding-top: 5px;
+	}
+			.fire-supplemental .tertiaries > section		{ width: 46.116504854369%; /* 190 / 412 */	}
+			.fire-supplemental .updates						{ float: left;								}
+			.fire-supplemental .details						{ float: right;								}
+			
+			.fire-supplemental .updates {
+			}
+					.fire-supplemental .updates article {
+						margin-bottom: 20px;
+					}
+					.fire-supplemental .updates article h1,
+					.fire-supplemental .details dt {
+						text-transform: uppercase;
+						color: #ec7c2d;
+						font-size: 0.625em; /* 10 / 16 */
+						margin-bottom: 3px;
+						font-weight: 600;
+					}
+					.fire-supplemental .updates article p,
+					.fire-supplemental .details dd {
+						font-size: 0.6875em; /* 11 / 16 */
+					}
+					.fire-supplemental .details dd {
+						margin-bottom: 14px;
+					}
+					.fire-supplemental .updates article footer {
+						text-align: right;
+						text-transform: uppercase;
+						font-size: 0.625em; /* 10 / 16 */
+					}
+					.fire-supplemental .updates article footer a {
+						display: block;
+						border-top: 1px solid #1c2a3c;
+						padding: 2px 0;
+						margin-top: 6px;
+						color: rgba(255,255,255,0.7);
+					}
+					.fire-supplemental .updates article footer a:hover {
+						border-top: 1px solid #ec7c2d;
+						color: white;
+					}
+	
+	.fire-supplemental .dispatches {
+	}
+			.fire-supplemental .dispatches > header {
+				background: #1e2c39;
+				width: 102.868068833652%; /* 538 / 523 */
+				margin: 0 0 35px -2.868068833652%;
+			}
+					.fire-supplemental .dispatches > header h1 {
+						background: white url(i/twitter.png) no-repeat 97.5% 6px;
+						overflow: hidden;
+						background-size: 41px 34px;
+						color: #0f1620;
+						box-shadow: inset 0 -2px 0 #ec7c2d;
+						font-size: 0.875em; /* 14 / 16 */
+						padding: 8px 0 12px 2.868068833652%;
+						font-family: "superclarendon", Georgia, serif;
+						font-weight: 400;
+					}
+					.fire-supplemental .dispatches > header p {
+						color: #9db5cb;
+						font-size: 0.75em;
+						line-height: 1.3;
+						padding: 9px 20px 16px 2.868068833652%;
+					}
+					.fire-supplemental .dispatches > header p span {
+						color: white;
+					}
+			
+			.fire-supplemental .dispatches article {
+				position: relative;
+				padding-left: 60px;
+				margin-bottom: 20px;
+			}
+					.fire-supplemental .dispatches article .img {
+						display: block;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 48px;
+						padding-top: 2px;
+					}
+					.fire-supplemental .dispatches article .img img {
+						width: 100%;
+						height: auto;
+					}
+					.fire-supplemental .dispatches article a:hover {
+						text-decoration: underline;
+					}
+					.fire-supplemental .dispatches article header {
+						position: relative;
+						width: 100%;
+						border-bottom: 1px solid #23334a;
+						text-align: right;
+						padding-bottom: 3px;
+						margin-bottom: 3px;
+						font-size: 0.8125em; /* 13 / 16 */
+						color: #ec7c2d;
+					}
+							.fire-supplemental .dispatches article header h1 {
+								position: absolute;
+								text-align: left;
+								color: white;
+								text-transform: uppercase;
+								bottom: 3px;
+								left: 0;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+							}
+					
+					.fire-supplemental .dispatches article p {
+						font-size: 0.8125em; /* 13 / 16 */
+						line-height: 1.3;
+						font-family: "superclarendon", Georgia, serif;
+						font-weight: 300;
+					}
+							.fire-supplemental .dispatches article p a {
+								color: #c9ddf8;
+							}
+					
+
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 1200px) {
+
+									.fire-supplemental .tertiaries {
+										padding-top: 0;
+										border-top: 0;
+									}
+											.fire-supplemental .tertiaries > section {
+												width: 100%;
+											}
+											.fire-supplemental .updates {
+												float: none;
+												margin-bottom: 40px;
+											}
+											.fire-supplemental .details {
+												float: none;
+											}
+											.fire-supplemental .updates h2,
+											.fire-supplemental .details h2,
+											.single-evergreen aside > h2 {
+											    border-top: 3px solid #EC7C2D;
+											    margin-bottom: 21px;
+											    padding-top: 6px;
+												text-align: left;
+											}
+											.single-evergreen {
+												text-align: left;
+											}
+													.single-evergreen .resources ul {
+														margin-left: 0;
+													}
+													.single-evergreen .recent {
+													}
+													.single-evergreen .recent .area {
+														text-align: right;
+													}
+
+							    }
+
+							/*	=================================================================================== */
+
+
+							    @media screen and (max-width: 700px) {
+
+									.fire-supplemental .deployed dd {
+									    font-size: 1.25em;
+									}
+									.fire-supplemental .tertiaries {
+										margin-bottom: 35px;
+									}
+									.fire-supplemental > .primary {
+										width: 100%;
+										float: none;
+									}
+									.fire-supplemental > .secondary {
+										width: 100%;
+										float: none;
+									}
+
+							    }
+
+							/*	=================================================================================== */
+
+
+
+
+
+
+/*	#################################################################
+	#################################################################
+	EPILOGUE
+	#################################################################
+	################################################################# */
+	
+	.epilogue {
+		background: black;
+		border-top: 1px solid #637faa;
+	}
+			.epilogue-inner {
+				position: relative;
+				z-index: 1;
+				text-align: right;
+				padding: 25px 0 40px;
+			}
+					.epilogue .legal {
+						font-size: 0.6875em; /* 11 / 16 */
+					}
+					.epilogue nav {
+						margin-bottom: 10px;
+						font-size: 0.8125em; /* 13 / 16 */
+					}
+							.epilogue nav li {
+								display: inline-block;
+								margin-right: 11px;
+							}
+									.epilogue nav li:last-child {
+										margin-right: 0;
+									}
+									.epilogue nav a {
+										color: #c4d6f0;
+									}
+									.epilogue nav a:hover,
+									.epilogue .legal a:hover {
+										color: white;
+										text-decoration: underline;
+									}
+					
+					.epilogue h1 {
+						position: absolute;
+						width: 206px;
+						height: 19px;
+						top: 24px;
+						overflow: hidden;
+						box-shadow:
+							inset 106px 0 0 black,
+							inset 107px 0 0 #c18358;
+					}
+							.epilogue .parent,
+							.epilogue .title {
+								position: absolute;
+								display: block;
+							}
+							.epilogue .parent {
+								left: 0;
+								top: 0;
+								width: 97px;
+								height: 100%;
+								text-align: left;
+								white-space: nowrap;
+								text-indent: 100%;
+								overflow: hidden;
+								background: url(i/fire-icons.png) no-repeat -72px -34px;
+								background-size: 500px 500px; 
+							}
+							.epilogue .title {
+								right: 0;
+								top: 0;
+								color: #ec7c2d;
+								text-align: right;
+								text-transform: uppercase;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-size: 1.125em; /* 18 / 16 */
+								font-weight: 200;
+							}
+									.epilogue .title:hover {
+										color: white;
+									}
+
+
+									/*	=================================================================================== */
+
+
+									    @media screen and (max-width: 630px) {
+
+											.epilogue-inner {
+												padding-top: 70px;
+												text-align: center;
+											}
+											.epilogue h1 {
+												left: 50%;
+												margin-left: -103px;
+											}
+											.epilogue nav {
+												line-height: 2;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
+
+
+
+
+
+
