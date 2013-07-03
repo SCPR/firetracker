@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load tz %}
+{% load tracker_tags %}
 
 {% block fire_detail_header %}
     <!-- begin header -->
@@ -37,19 +38,11 @@
                 <section class="summary">
                     <div class="stats">
                         <figure>
-                            {% if calwildfire.containment_percent == None %}
-                                <span>n/a</span>
-                            {% else %}
-                                <span>{{ calwildfire.containment_percent|default_if_none:"n/a"|intcomma }}%</span>
-                            {% endif %}
+                            <span>{{ calwildfire.containment_percent|percentify }}</span>
                             <figcaption>Contained</figcaption>
                         </figure>
                         <figure>
-                            {% if calwildfire.acres_burned == None %}
-                                <span>n/a</span>
-                            {% else %}
-                                <span>{{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }}%</span>
-                            {% endif %}
+                            <span>{{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }}</span>
                             <figcaption>Acres burned</figcaption>
                         </figure>
                         <figure>
@@ -72,7 +65,8 @@
                 </section><!--/ .summary -->
                 <div class="context">
                     <figure class="location">
-                        <div class="map"><img src="{{ STATIC_URL }}/media/kittens-602x212.jpg" alt="Map" /></div>
+                        <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=602x212&amp;maptype=roadmap
+                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Map" /></div>
                         <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
                     </figure><!--/ .location -->
                     <section class="damages">

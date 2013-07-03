@@ -29,7 +29,6 @@ def index(request):
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
-
     }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):
