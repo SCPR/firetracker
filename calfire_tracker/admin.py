@@ -21,6 +21,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'fire_name',
                     'fire_slug',
                     'county',
+                    'promoted_fire',
                     'twitter_hashtag',
                     'date_time_started',
                     'location',
