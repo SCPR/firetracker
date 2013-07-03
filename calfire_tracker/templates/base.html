@@ -37,8 +37,9 @@
         <!-- end meta -->
 
         <!-- begin css -->
-        <link href="assets/css/reset.css" media="screen" rel="stylesheet" />
-        <link href="assets/css/display.css" media="screen" rel="stylesheet" />
+        <link href="{{ STATIC_URL }}/css/reset.css" media="screen" rel="stylesheet" />
+        <link href="{{ STATIC_URL }}/css/display.css" media="screen" rel="stylesheet" />
+
         <!--[if lt IE 9]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
             <link href="assets/css/display-ie.css" media="screen" rel="stylesheet" />
@@ -48,7 +49,9 @@
         <!-- begin base scripts -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://projects.scpr.org/static/static-files/scripts/modernizr-2.5.3.min.js"></script>
-        <script src="assets/js/behaviors.js"></script>
+        <script src="{{ STATIC_URL }}/js/behaviors.js"></script>
+        <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+        <script src="{{ STATIC_URL }}/js/moment.min.js"></script>
         <script type="text/javascript" src="//use.typekit.net/mos4lel.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
         <script async="" src="http://www.google-analytics.com/ga.js"></script>
@@ -61,33 +64,10 @@
     <!-- begin body -->
     <body>
 
-        <!-- begin header -->
-        <header class="masthead">
-            <div class="masthead-inner bound">
-                <div class="brief clearfix">
-                    <h1>Powerhouse Fire</h1>
-                    <h2>
-                        <mark>Los Angeles County</mark>
-                        <span>Last Update: Thursday, June 13, 2013</span>
-                    </h2>
-                </div>
-                <aside class="brand">
-                    <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
-                    <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
-                </aside>
-                <aside class="share">
-                    <ul class="clearfix">
-                        <li class="em"><a href="#">Email a link to this fire page</a></li>
-                        <li class="tu"><a href="#">Share this fire page on Tumblr</a></li>
-                        <li class="tw"><a href="#">Share this fire page on Twitter</a></li>
-                        <li class="fa"><a href="#">Share this fire page on Facebook</a></li>
-                    </ul>
-                </aside>
-            </div><!--/ .masthead-inner -->
-        </header><!--/ .masthead -->
-        <!-- end header -->
-
-        {% block fire_details %}{% endblock %}
+        {% block fire_index_header %}{% endblock %}
+        {% block fire_index_content %}{% endblock %}
+        {% block fire_detail_header %}{% endblock %}
+        {% block fire_details_content %}{% endblock %}
 
         <!-- begin footer -->
         <footer class="epilogue">
@@ -106,6 +86,7 @@
         <!-- end footer -->
 
         <!-- begin scripts -->
+
         <!-- end scripts -->
 
         <!-- begin analytics -->

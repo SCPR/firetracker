@@ -2,69 +2,244 @@
 {% load humanize %}
 {% load tz %}
 
-{% block data-details %}
-    <div id="content-article">
-        <h4 class="kicker"><a href="/">Home</a> --> <a href="/wildfires/">Wildfires</a></h4>
-        <h1>Quick post generator for California Wildfires</h1>
-
-        <div id="content-article-metadata">
-            <p><span class="pubdate">May 30, 2013</span></p>
-        </div>
-
-        <div id="content-article-text">
-            <p>Select a fire below to see details and generate the HTML embed for the start of an article, or use the <a href="/api/v1/wildfire/?format=json">API</a>.</p>
-        </div>
-    </div>
-{% endblock %}
-
-{% block data-visuals %}
-    <div id="content-visuals">
-        <div id="content-table">
-            <div class="row-fluid">
-                <div class="span12">
-                    {% if calwildfire_listing %}
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Fire</th>
-                                    <th>Acres Burned</th>
-                                    <th>Containment</th>
-                                    <th>County</th>
-                                    <th>Last Update</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for wildfire in calwildfire_listing %}
-                                    <tr>
-                                    	<td><a href="{{  wildfire.get_absolute_url  }}">{{  wildfire.fire_name  }}</a></td>
-
-                                    	{% if wildfire.acres_burned = None %}
-                                        	<td></td>
-                                    	{% else %}
-                                        	<td>{{  wildfire.acres_burned|intcomma  }}</td>
-                                        {% endif %}
-
-                                    	{% if wildfire.containment_percent = None %}
-                                        	<td></td>
-                                    	{% else %}
-                                        	<td>{{  wildfire.containment_percent|intcomma  }}</td>
-                                        {% endif %}
-
-                                    	<td>{{  wildfire.county  }}</td>
-                                    	<td>{{  wildfire.last_updated|localtime }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                    	<p>Nothing available.</p>
-                    {% endif %}
-                </div>
+{% block fire_index_header %}
+    <header class="facade">
+        <div class="titling">
+            <div class="titling-inner bound">
+                <h1>Fire Tracker</h1>
+                <h2><a href="http://kpcc.org">89.3 KPCC</a></h2>
+                <aside class="pledge"><a href="#">Pledge now.</a></aside>
             </div>
-        </div>
-    </div>
+        </div><!--/ .titling -->
+        <div class="subtitling">
+            <div class="subtitling-inner bound">
+                <h3>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</h3>
+                <aside class="share">
+                    <ul class="clearfix">
+                        <li class="em"><a href="#">Email a link to this fire page</a></li>
+                        <li class="tu"><a href="#">Share this fire page on Tumblr</a></li>
+                        <li class="tw"><a href="#">Share this fire page on Twitter</a></li>
+                        <li class="fa"><a href="#">Share this fire page on Facebook</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div><!--/ .subtitling -->
+    </header><!--/ .facade -->
 {% endblock %}
 
-{% block data-footer %}
-    <div id="content-footer"></div>
+{% block fire_index_content %}
+    <div class="lobby">
+        <div class="lobby-inner bound clearfix">
+
+            <figure class="foreword">
+                <div class="photo"><img src="{{ STATIC_URL }}/media/green-valley-scene.jpg" alt="" /></div>
+                <figcaption>
+                    <mark>So far during 2013, <em>47 fires</em> have consumed a total of <em>14,388 acres</em> throughout Southern California.</mark>
+                    <span>Southern California’s wildfire season officially begins in October.</span>
+                </figcaption>
+            </figure><!--/ .foreward -->
+
+            <aside class="comparison">
+                <header>
+                    <h1>Year-Over-Year Comparison</h1>
+                    <p>2013: Year to date</p>
+                </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th><span>2012</span></th>
+                            <th><span>2013</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Fires</th>
+                            <td>62</td>
+                            <td>47</td>
+                        </tr>
+                        <tr>
+                            <th>Acres</th>
+                            <td>20,095</td>
+                            <td>14,388</td>
+                        </tr>
+                        <tr>
+                            <th>Injuries</th>
+                            <td>37</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <th>Cost</th>
+                            <td>$10<span>m</span></td>
+                            <td>$7.2<span>m</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </aside>
+
+        </div><!--/ .lobby-inner -->
+    </div><!--/ .lobby -->
+
+
+    <div class="landing-row welcome">
+        <div class="landing-row-inner bound clearfix">
+
+            <section class="following">
+
+                <h1>Fires We're Following</h1>
+
+                <article>
+                    <header class="clearfix">
+                        <h1><a href="#">Powerhouse Fire</a></h1>
+                        <div class="meta">
+                            <h2>Los Angeles County</h2>
+                            <h3>Last Update: Thursday, June 13, 2013</h3>
+                        </div>
+                        <h4 class="jump"><a href="#">Full Details</a><h4>
+                    </header>
+                    <div class="scenes clearfix">
+                        <div class="imagery clearfix">
+                            <figure class="location">
+                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
+                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                            </figure>
+                            <figure class="photo">
+                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
+                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                            </figure>
+                        </div>
+                        <aside class="vitals clearfix">
+                            <dl class="contained">
+                                <dt>Contained</dt>
+                                <dd>37%</dd>
+                            </dl>
+                            <dl class="acres">
+                                <dt>Acres burned</dt>
+                                <dd>128</dd>
+                            </dl>
+                            <dl class="started">
+                                <dt>Started (2013)</dt>
+                                <dd>Jun 3</dd>
+                            </dl>
+                            <dl class="air">
+                                <dt>Air Quality Index (Worst: 500)</dt>
+                                <dd>425</dd>
+                            </dl>
+                        </aside>
+                    </div>
+                </article><!--/ (individual fire) -->
+
+                <article>
+                    <header class="clearfix">
+                        <h1><a href="#">Lake Fire</a></h1>
+                        <div class="meta">
+                            <h2>Lake County</h2>
+                            <h3>Last Update: Thursday, June 13, 2013</h3>
+                        </div>
+                        <h4 class="jump"><a href="#">Full Details</a><h4>
+                    </header>
+                    <div class="scenes clearfix">
+                        <div class="imagery clearfix">
+                            <figure class="location">
+                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
+                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                            </figure>
+                            <figure class="photo">
+                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
+                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                            </figure>
+                        </div>
+                        <aside class="vitals clearfix">
+                            <dl class="contained">
+                                <dt>Contained</dt>
+                                <dd>85%</dd>
+                            </dl>
+                            <dl class="acres">
+                                <dt>Acres burned</dt>
+                                <dd>595</dd>
+                            </dl>
+                            <dl class="started">
+                                <dt>Started (2013)</dt>
+                                <dd>Jun 2</dd>
+                            </dl>
+                            <dl class="air">
+                                <dt>Air Quality Index (Worst: 500)</dt>
+                                <dd>300</dd>
+                            </dl>
+                        </aside>
+                    </div>
+                </article><!--/ (individual fire) -->
+                <article>
+                    <header class="clearfix">
+                        <h1><a href="#">152 Fire</a></h1>
+                        <div class="meta">
+                            <h2>Merced County</h2>
+                            <h3>Last Update: Thursday, June 13, 2013</h3>
+                        </div>
+                        <h4 class="jump"><a href="#">Full Details</a><h4>
+                    </header>
+                    <div class="scenes clearfix">
+                        <div class="imagery clearfix">
+                            <figure class="location">
+                                <b class="img"><img src="http://placekitten.com/333/219" alt="" /></b>
+                                <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                            </figure>
+                            <figure class="photo">
+                                <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></b>
+                                <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                            </figure>
+                        </div>
+                        <aside class="vitals clearfix">
+                            <dl class="contained">
+                                <dt>Contained</dt>
+                                <dd>100%</dd>
+                            </dl>
+                            <dl class="acres">
+                                <dt>Acres burned</dt>
+                                <dd>1,072</dd>
+                            </dl>
+                            <dl class="started">
+                                <dt>Started (2013)</dt>
+                                <dd>Jun 1</dd>
+                            </dl>
+                            <dl class="air">
+                                <dt>Air Quality Index (Worst: 500)</dt>
+                                <dd>50</dd>
+                            </dl>
+                        </aside>
+                    </div>
+                </article><!--/ (individual fire) -->
+            </section><!--/ .following -->
+            <div class="evergreen">
+                <aside class="resources">
+                    <h2>California Fire Resources</h2>
+                    <ul>
+                        <li><a href="#">Readying your home for fire safety</a></li>
+                        <li><a href="#">What to know about fire insurance</a></li>
+                        <li><a href="#">How to care for and protect pets during a fire</a></li>
+                        <li><a href="#">California Fire and Resource Assessment Program (FRAP)</a></li>
+                        <li><a href="#">Northern California Geographic Area Coordination Center (ONCC)</a></li>
+                    </ul>
+                </aside>
+                <aside class="coverage">
+                    {% block kpcc_coverage %}
+                        {% include 'kpcc_coverage.html' %}
+                    {% endblock %}
+                </aside>
+            </div><!--/ .evergreen -->
+        </div><!--/ .landing-row-inner -->
+    </div><!--/ .landing-row -->
+
+    <div class="landing-row reverse-chron">
+        <div class="landing-row-inner bound clearfix">
+            <section class="all-fires">
+                <h1>All Fires</h1>
+                <ul>
+                    {% for wildfire in calwildfire_listing %}
+                        <li><a href="{{  wildfire.get_absolute_url  }}">{{ wildfire.fire_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </section><!--/ .all-fires -->
+        </div><!--/ .landing-row-inner -->
+    </div><!--/ .landing-row -->
 {% endblock %}

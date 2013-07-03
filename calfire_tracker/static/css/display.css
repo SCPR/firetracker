@@ -13,6 +13,617 @@ body {
 
 /*	#################################################################
 	#################################################################
+	FACADE
+	#################################################################
+	################################################################# */
+
+	.facade {
+		margin-bottom: 50px;
+	}
+			.facade .titling {
+				background: #392c25 url(i/ephemeral-smoke.jpg) no-repeat center top;
+				background-size: auto 100%;
+				border-bottom: 1px solid #ba622c;
+			}
+					.facade .titling-inner {
+						position: relative;
+						padding: 78px 0 37px;
+					}
+							.facade .pledge {
+								position: absolute;
+								top: 0;
+								right: -15px;
+							}
+									.facade .pledge a {
+										background: black url(i/heart-icon-orange.png) no-repeat 95px 11px;
+										background-size: 15px 15px;
+										padding: 11px 41px 10px 14px;
+										display: block;
+										color: #f07a30;
+										font-size: 0.8125em; /* 13 / 16 */
+									}
+									.facade .pledge a:hover {
+										text-decoration: underline;
+										color: #fdc29d;
+									}
+
+							.facade h1 {
+								text-transform: uppercase;
+								color: white;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-weight: 200;
+								font-size: 3.8125em; /* 61 / 16 */
+								line-height: 0.8;
+								margin-bottom: 22px;
+							}
+							.facade h2 {
+								width: 141px;
+								height: 21px;
+							}
+									.facade h2 a {
+										display: block;
+										width: 100%;
+										height: 100%;
+										overflow: hidden;
+										white-space: nowrap;
+										text-indent: 100%;
+										background: url(i/fire-icons.png) no-repeat -100px -50px;
+										background-size: 700px 700px;
+									}
+
+			.facade .subtilting {
+			}
+					.facade .subtitling-inner {
+						position: relative;
+						padding: 15px 0 0;
+					}
+							.facade h3 {
+								font-family: "superclarendon", Georgia, serif;
+								font-weight: 300;
+								font-size: 0.9375em; /* 15 / 16 */
+								margin-right: 160px;
+							}
+
+							/*	=================================================================================== */
+
+							    @media screen and (min-width: 1710px) {
+
+									.facade .titling {
+										background-size: 100% auto;
+									}
+
+							    }
+
+							/*	=================================================================================== */
+
+
+
+
+
+
+/*	#################################################################
+	#################################################################
+	LOBBY
+	#################################################################
+	################################################################# */
+
+	.lobby {
+		margin-bottom: 50px;
+	}
+			.lobby-inner {
+			}
+					.lobby-inner .foreword {
+						float: left;
+						width: 74.384615384615%; /* 967 / 1300 */
+					}
+					.lobby-inner .comparison {
+						float: right;
+						width: 23.153846153846%; /* 301 / 1300 */
+						border-top: 1px solid #472f24;
+						text-transform: uppercase;
+						font-family: "proxima-nova-condensed", Arial, sans-serif;
+						padding-top: 10px;
+					}
+							.lobby-inner .comparison header {
+								margin-bottom: 25px;
+								text-align: right;
+								font-weight: 300;
+							}
+									.lobby-inner .comparison h1 {
+										color: #f07a30;
+										font-size: 0.9375em; /* 15 / 16 */
+									}
+									.lobby-inner .comparison p {
+										color: #984d1e;
+										font-size: 0.75em;
+									}
+
+							.lobby-inner .comparison table {
+								width: 100%;
+								overflow: hidden;
+								position: relative;
+							}
+									.lobby-inner .comparison thead {
+										color: #f07a30;
+									}
+											.lobby-inner .comparison thead tr {
+											}
+											.lobby-inner .comparison thead th {
+												text-align: right;
+												font-size: 1.4375em; /* 23 / 16 */
+												font-weight: 200;
+											}
+											.lobby-inner .comparison thead th span {
+												display: block;
+												margin-bottom: -40px;
+											}
+											.lobby-inner .comparison thead th:nth-child(1) {
+												text-align: left;
+												text-indent: -9999px;
+												overflow: hidden;
+											}
+											.lobby-inner .comparison thead th:nth-child(2) {
+											}
+											.lobby-inner .comparison thead th:nth-child(3) {
+												width: 35%;
+											}
+									
+									.lobby-inner .comparison tbody {
+									}
+											.lobby-inner .comparison tbody tr {
+											}
+											.lobby-inner .comparison tbody th,
+											.lobby-inner .comparison tbody td {
+												vertical-align: top;
+												box-shadow:
+														inset 0 16px 0 #0f1620,
+														inset 0 17px 0 #3c5889;
+											}
+											.lobby-inner .comparison tbody th {
+												font-size: 0.8125em; /* 13 / 16 */
+												font-weight: 600;
+												background: url(i/fire-icons.png) no-repeat 0 -81px;
+												background-size: 700px 700px;
+												padding-left: 2px;
+											}
+													.lobby-inner .comparison tbody tr:nth-child(1) th	{ background-position: 3px -78px;	}
+													.lobby-inner .comparison tbody tr:nth-child(2) th	{ background-position: 4px -268px;	}
+													.lobby-inner .comparison tbody tr:nth-child(3) th	{ background-position: 3px -459px;	}
+													.lobby-inner .comparison tbody tr:nth-child(4) th	{ background-position: 3px -647px;	}
+
+											.lobby-inner .comparison tbody td {
+												text-align: right;
+												color: white;
+												font-size: 2.0625em; /* 33 / 16 */
+												font-weight: 200;
+												padding: 18px 0 11px;
+											}
+													.lobby-inner .comparison tbody td span {
+														font-size: 0.60606060606061em; /* 20 / 33 */
+													}
+	
+	.lobby-inner .foreword {
+		position: relative;
+		z-index: 1;
+	}
+			.lobby-inner .foreword figcaption {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 3;
+				margin: 22px 45px 0 17px;
+				font-family: "proxima-nova-condensed", Arial, sans-serif;
+				max-width: 590px;
+				text-shadow: 0 0 10px black;
+			}
+					.lobby-inner .foreword figcaption mark {
+						background: none;
+						font-size: 2.375em; /* 38 / 16 */
+						line-height: 1.15;
+						color: white;
+						display: block;
+						font-weight: 200;
+						margin-bottom: 20px;
+					}
+					.lobby-inner .foreword figcaption mark em {
+						font-style: normal;
+						font-weight: 600;
+					}
+					.lobby-inner .foreword figcaption span {
+						display: block;
+						color: white;
+						font-weight: 300;
+					}
+			
+			.lobby-inner .foreword .photo {
+				position: relative;
+				z-index: 2;
+				overflow: hidden;
+				height: 423px;
+			}
+					.lobby-inner .foreword .photo img {
+						position: absolute;
+						height: 100%;
+						top: 0;
+						right: 0;
+						width: auto;
+					}
+
+					/*	=================================================================================== */
+
+					    @media screen and (max-width: 1160px) {
+
+							.lobby-inner .foreword .photo img {
+								right: auto;
+								left: -40%;
+							}
+							.lobby-inner .foreword {
+								width: 66.384615384615%; /* -8 */
+							}
+							.lobby-inner .comparison {
+								width: 31.153846153846%; /* +8 */
+							}
+							.lobby-inner .comparison tbody td {
+								font-size: 1.5em;
+								padding-bottom: 20px;
+							}
+
+					    }
+
+					/*	=================================================================================== */
+
+					    @media screen and (max-width: 900px) {
+
+							.lobby-inner .foreword .photo img {
+								left: -55%;
+							}
+
+					    }
+
+					/*	=================================================================================== */
+
+					    @media screen and (max-width: 800px) {
+
+							.lobby-inner .foreword .photo img {
+								left: -75%;
+							}
+							.lobby-inner .comparison tbody td {
+								font-size: 1.3em;
+								padding-bottom: 24px;
+							}
+							.lobby-inner .foreword figcaption mark {
+								font-size: 2.0em;
+							}
+
+					    }
+
+					/*	=================================================================================== */
+
+					    @media screen and (max-width: 600px) {
+
+
+							.lobby-inner {
+							}
+									.lobby-inner .foreword {
+										float: none;
+										width: 100%;
+										margin-bottom: 15px;
+										padding-bottom: 30px;
+										border-bottom: 3px solid #472F24;
+									}
+											.lobby-inner .foreword figcaption mark,
+											.lobby-inner .foreword figcaption span {
+												background: rgba(0,0,0,0.5);
+												padding: 10px;
+												margin-left: -10px;
+											}
+
+									.lobby-inner .comparison {
+										float: none;
+										width: 100%;
+										border-top: none;
+										padding-top: 0;
+									}
+											.lobby-inner .comparison {
+												max-width: 290px;
+												margin: 0 auto;
+											}
+
+							.facade .subtilting {
+							}
+									.facade .subtitling-inner {
+										padding-bottom: 25px;
+									}
+											.facade h3 {
+												font-size: 0.75em; /* 12 / 16 */
+												text-align: center;
+												margin: 0 10% 20px;
+											}
+									
+									.facade .subtitling .share {
+										top: auto;
+										bottom: 0;
+										right: auto;
+										overflow: hidden;
+										left: 50%;
+										margin-left: -70px;
+									}
+
+					    }
+
+					/*	=================================================================================== */
+
+
+
+
+
+
+
+/*	#################################################################
+	#################################################################
+	LANDING-ROW: "WELCOME"
+	#################################################################
+	################################################################# */
+
+	.landing-row {
+		box-shadow: inset 0 3px 0 #213046;
+		margin-bottom: 80px;
+	}
+			.landing-row.welcome {
+			}
+					.landing-row .following {
+						width: 74.384615384615%; /* 967 / 1300 */
+						float: left;
+					}
+					.landing-row .evergreen {
+						width: 23.153846153846%; /* 301 / 1300 */
+						float: right;
+					}
+	
+	.landing-row .evergreen {
+		padding-top: 63px;
+	}
+	
+	.landing-row .following {
+	}
+			.landing-row .following > h1,
+			.landing-row .all-fires > h1 {
+				border-top: 3px solid #6a8bc5;
+				margin-bottom: 41px;
+				font-size: 0.9375em; /* 15 / 16 */
+				font-family: "superclarendon", Georgia, serif;
+				padding-top: 7px;
+				font-weight: 300;
+			}
+			.landing-row .following article {
+				margin-bottom: 48px;
+			}
+					.landing-row .following article .scenes {
+					}
+							.landing-row .following .scenes .imagery {
+								float: left;
+								width: 48.603929679421%; /* 470 / 967 */
+							}
+									.landing-row .following .scenes .imagery figure {
+										width: 47.234042553191%; /* 222 / 470 */
+										overflow: hidden;
+									}
+									.landing-row .following .scenes .imagery .img,
+									.landing-row .following .scenes .vitals {
+										height: 146px;
+									}
+									.landing-row .following .scenes .imagery .img {
+										display: block;
+										width: 100%;
+										position: relative;
+										overflow: hidden;
+										margin-bottom: 8px;
+									}
+									.landing-row .following .scenes .imagery img {
+										position: absolute;
+										height: 100%;
+										width: auto;
+									}
+									.landing-row .following .scenes .imagery figcaption {
+										color: white;
+										font-size: 0.6875em; /* 11 / 16 */
+									}
+									.landing-row .following .scenes .imagery .location {
+										float: left;
+									}
+									.landing-row .following .scenes .imagery .location {
+										float: right;
+									}
+
+							.landing-row .following .scenes .vitals {
+								float: right;
+								width: 47.983453981386%; /* 464 / 967 */
+								color: white;
+								background: #787e88;
+							}
+									.landing-row .following .scenes .vitals dl {
+										box-shadow: inset 1px 0 0 #606368;
+										float: left;
+										width: 24.137931034483%; /* 112 / 464 */
+										text-align: center;
+										margin-top: 9px;
+										padding: 100px 0 0;
+										position: relative;
+										text-transform: uppercase;
+										overflow: hidden;
+									}
+											.landing-row .following .scenes .vitals dl:first-child {
+												margin-left: 1.6%;
+												box-shadow: none;
+											}
+											.landing-row .following .scenes .vitals dd {
+												color: white;
+												white-space: nowrap;
+												font-family: "proxima-nova-condensed", Arial, sans-serif;
+												font-size: 2.375em; /* 38 / 16 */
+												position: absolute;
+												top: 45px;
+												letter-spacing: -0.05em;
+												left: 0;
+												width: 100%;
+												font-weight: 200;
+												display: block;
+											}
+											.landing-row .following .scenes .vitals dt {
+												color: #030303;
+												font-size: 0.5625em; /* 9 / 16 */
+												text-align: center;
+												width: 90%;
+												margin-left: 5%;
+												line-height: 1;
+												font-weight: 800;
+											}
+
+
+					.landing-row .following article header {
+						border-top: 1px solid #ec7c2d;
+						padding: 10px 133px 0 0;
+						position: relative;
+						margin-bottom: 20px;
+					}
+							.landing-row .following article h1 {
+								color: white;
+								text-transform: uppercase;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-size: 2.375em; /* 38 / 16 */
+								line-height: 0.85;
+								padding-top: 1px;
+								width: 50%; /* arbitrary */
+								float: left;
+								font-weight: 200;
+							}
+							.landing-row .following article .meta {
+								float: right;
+								width: 48%; /* arbitrary */
+								text-transform: uppercase;
+								text-align: right;
+								font-size: 0.75em;
+							}
+									.landing-row .following article h2 {
+										font-weight: 800;
+										color: #ec7c2d;
+										margin-bottom: 3px;
+									}
+									.landing-row .following article h3 {
+										font-weight: 600;
+										color: #4e678a;
+									}
+
+
+							.landing-row .following article .jump {
+								position: absolute;
+								top: 11px;
+								right: 0;
+							}
+									.landing-row .following article .jump a {
+										color: white;
+										background: #ec7c2d url(i/ephemera-caret.png) no-repeat 92% 8px;
+										background-size: 8px 15px;
+										display: inline-block;
+										font-family: "proxima-nova-condensed", Arial, sans-serif;
+										font-size: 0.9375em; /* 15 / 16 */
+										text-transform: uppercase;
+										padding: 7px 29px 7px 15px;
+									}
+									.landing-row .following article .jump a:hover {
+										background-color: #b9540d;
+									}
+
+
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 1100px) {
+
+											.landing-row.welcome {
+											}
+													.landing-row .following {
+														width: 100%;
+														float: none;
+														margin-bottom: 60px;
+													}
+													.landing-row .evergreen {
+														width: 100%;
+														float: none;
+													}
+
+									    }
+
+									/*	=================================================================================== */
+
+									    @media screen and (max-width: 650px) {
+
+											.landing-row .following article header {
+												font-size: 0.85em;
+												padding: 10px 0 15px 0;
+												border-bottom: 1px solid #472f24;
+											}
+													.landing-row .following article h1 {
+														width: 100%;
+														float: none;
+														padding-bottom: 7px;
+														margin-bottom: 7px;
+														border-bottom: 1px solid #472f24;
+													}
+													.landing-row .following article .meta {
+														float: none;
+														width: auto;
+														text-align: left;
+														margin-right: 120px;
+													}
+													.landing-row .following article .jump {
+														top: 56px;
+														right: 0;
+													}
+															.landing-row .following article .jump a {
+																padding: 5px 29px 4px 15px;
+																background-position: 92% 4px;
+															}
+
+											.landing-row .following .scenes .imagery {
+												float: none;
+												width: 100%;
+												margin-bottom: 20px;
+											}
+											.landing-row .following .scenes .vitals {
+												float: none;
+												width: 100%;
+											}
+
+									    }
+
+									/*	=================================================================================== */
+
+
+
+
+
+
+
+
+/*	#################################################################
+	#################################################################
+	LANDING-ROW: "REVERSE CHRON"
+	#################################################################
+	################################################################# */
+
+	.landing-row.reverse-chron {
+		padding-bottom: 150px;
+	}
+
+
+
+
+
+
+
+/*	#################################################################
+	#################################################################
 	MASTHEAD
 	#################################################################
 	################################################################# */
@@ -141,17 +752,21 @@ body {
 												text-decoration: underline;
 											}
 
-					.masthead .share {
+					.masthead .share,
+					.facade .share {
 						position: absolute;
-						bottom: 0;
-						left: 0;
 					}
-							.masthead .share ul {
+							.masthead .share		{ left: 0;		bottom: 0;		}
+							.facade .share			{ right: 0;		top: 15px;		}
+
+							.share ul {
 							}
-									.masthead .share li {
+									.share li,
+									.share li {
 										display: inline;
 									}
-											.masthead .share li a {
+											.share li a,
+											.share li a {
 												display: block;
 												float: left;
 												height: 20px;
@@ -163,15 +778,15 @@ body {
 												overflow: hidden;
 												margin-left: 17px;
 											}
-													.masthead .share li:first-child a	{ margin-left: 0; }
-													.masthead .share .em a				{ background-position: -100px 0; }
-													.masthead .share .em a:hover		{ background-position: -100px -25px; }
-													.masthead .share .tu a				{ background-position: -140px 0; }
-													.masthead .share .tu a:hover		{ background-position: -140px -25px; }
-													.masthead .share .tw a				{ background-position: -179px 0; }
-													.masthead .share .tw a:hover		{ background-position: -179px -25px; }
-													.masthead .share .fa a				{ background-position: -217px 0; }
-													.masthead .share .fa a:hover		{ background-position: -217px -25px; }
+													.share li:first-child a		{ margin-left: 0; }
+													.share .em a				{ background-position: -100px 0; }
+													.share .em a:hover			{ background-position: -100px -25px; }
+													.share .tu a				{ background-position: -140px 0; }
+													.share .tu a:hover			{ background-position: -140px -25px; }
+													.share .tw a				{ background-position: -179px 0; }
+													.share .tw a:hover			{ background-position: -179px -25px; }
+													.share .fa a				{ background-position: -217px 0; }
+													.share .fa a:hover			{ background-position: -217px -25px; }
 
 
 
@@ -563,14 +1178,16 @@ body {
 
 /*	#################################################################
 	#################################################################
-	SIDEBAR ("SINGLE EVERGREEN")
+	SIDEBAR ("EVERGREEN")
 	#################################################################
 	################################################################# */
 	
-	.single-evergreen {
+	.single-evergreen,
+	.evergreen {
 		text-align: right;
 	}
-			.single-evergreen aside > h2 {
+			.single-evergreen aside > h2,
+			.evergreen aside > h2 {
 				color: #d5e1f3;
 				font-family: "superclarendon", Georgia, serif;
 				font-weight: 300; /* "Light" (400 = "Regular") */
@@ -581,19 +1198,23 @@ body {
 				padding-right: 4.651162790698%; /* 14 / 301 */
 				padding-bottom: 14px;
 			}
-			.single-evergreen aside {
+			.single-evergreen aside,
+			.evergreen aside {
 				margin-bottom: 50px;
 			}
 			.single-evergreen .resources {
 			}
-					.single-evergreen .resources ul {
+					.single-evergreen .resources ul,
+					.evergreen .resources ul {
 						font-size: 0.75em;
 						margin-left: 15%;
 					}
-							.single-evergreen .resources li {
+							.single-evergreen .resources li,
+							.evergreen .resources li {
 								margin-bottom: 1.1875em;
 							}
-							.single-evergreen .resources a:hover {
+							.single-evergreen .resources a:hover,
+							.evergreen .resources a:hover {
 								text-decoration: underline;
 								color: #cce1ff;
 							}
@@ -744,21 +1365,28 @@ body {
 			}
 			.fire-supplemental .coverage {
 			}
-					.fire-supplemental .coverage li {
+					.fire-supplemental .coverage li,
+					.evergreen .coverage li {
 						margin-bottom: 18px;
 						min-height: 48px;
 					}
-							.fire-supplemental .coverage a {
+							.fire-supplemental .coverage a,
+							.evergreen .coverage a {
 								display: block;
 								width: 100%;
 								position: relative;
 							}
-							.fire-supplemental .coverage .img {
+							.fire-supplemental .coverage .img,
+							.evergreen .coverage .img {
 								width: 16.747572815534%; /* 69 / 412 */
 								position: absolute;
 								max-width: 70px;
 							}
-							.fire-supplemental .coverage img {
+							.evergreen .coverage .img {
+								right: 0;
+							}
+							.fire-supplemental .coverage img,
+							.evergreen .coverage img {
 								width: 100%;
 								height: auto;
 							}
@@ -767,26 +1395,33 @@ body {
 								display: block;
 								margin-left: 19.174757281553%; /* 79 / 412 */
 							}
-							.fire-supplemental .coverage span {
+							.evergreen .coverage span,
+							.evergreen .coverage mark {
+								display: block;
+								margin-right: 19.174757281553%; /* 79 / 412 */
+							}
+							.fire-supplemental .coverage span,
+							.evergreen .coverage span {
 								font-size: 0.625em; /* 10 / 16 */
 								color: #4d6e9d;
 								margin-bottom: 3px;
 								font-family: "superclarendon", Georgia, serif;
 								font-weight: 300;
 							}
-							.fire-supplemental .coverage mark {
+							.fire-supplemental .coverage mark,
+							.evergreen .coverage mark {
 								background: none;
 								color: #8ba5ca;
 								font-size: 0.8125em; /* 13 / 16 */
 							}
-							.fire-supplemental .coverage a:hover span {
+							.fire-supplemental .coverage a:hover span,
+							.evergreen .coverage a:hover span {
 								color: #8ba5ca;
 							}
-							.fire-supplemental .coverage a:hover mark {
+							.fire-supplemental .coverage a:hover mark,
+							.evergreen .coverage a:hover mark {
 								color: white;
 								text-decoration: underline;
-							}
-							.fire-supplemental .coverage a:hover img {
 							}
 
 			.fire-supplemental .deployed {
