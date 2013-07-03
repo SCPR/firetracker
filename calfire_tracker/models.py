@@ -11,6 +11,7 @@ class CalWildfire(models.Model):
     created_fire_id = models.CharField('Fire Unique ID', max_length=500, null=True, blank=True)
     fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
+    promoted_fire = models.BooleanField(default=False)
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
     county = models.CharField('County', max_length=1024, null=True, blank=True)
     location = models.CharField('Location', max_length=1024, null=True, blank=True)
