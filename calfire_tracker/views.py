@@ -4,12 +4,34 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.template import RequestContext
+from django.db.models import Q, Avg, Max, Min, Sum, Count
 from calfire_tracker.models import CalWildfire
 
 def index(request):
-    calwildfires = CalWildfire.objects.all()
-    return render_to_response('index.html', {'calwildfires': calwildfires},
-        context_instance=RequestContext(request))
+    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
+
+    so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
+    so_cal_fires = so_cal_counties.count()
+    so_cal_acreage = so_cal_counties.aggregate(total_acres=Sum('acres_burned'))
+    total_2013_fires = CalWildfire.objects.all().count()
+    total_2013_acreage = CalWildfire.objects.all().aggregate(total_acres=Sum('acres_burned'))
+    total_2013_injuries = CalWildfire.objects.all().aggregate(total_injuries=Sum('injuries'))
+    total_2012_fires = CalWildfire.objects.all().count()
+    total_2012_acreage = CalWildfire.objects.all().aggregate(total_acres=Sum('acres_burned'))
+    total_2012_injuries = CalWildfire.objects.all().aggregate(total_injuries=Sum('injuries'))
+
+    return render_to_response('index.html', {
+        'calwildfires': calwildfires,
+        'so_cal_fires': so_cal_fires,
+        'so_cal_acreage': so_cal_acreage,
+        'total_2012_fires': total_2013_fires,
+        'total_2012_acreage': total_2013_acreage,
+        'total_2012_injuries': total_2013_injuries,
+        'total_2013_fires': total_2013_fires,
+        'total_2013_acreage': total_2013_acreage,
+        'total_2013_injuries': total_2013_injuries,
+
+    }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):
     fire_detail = get_object_or_404(CalWildfire, fire_slug=fire_slug)
@@ -17,5 +39,7 @@ def detail(request, fire_slug):
     enddate = timedelta(days=21)
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
-    return render_to_response('detail.html', {'calwildfire': fire_detail, 'calwildfires': calwildfires},
-        context_instance=RequestContext(request))
+    return render_to_response('detail.html', {
+        'calwildfire': fire_detail,
+        'calwildfires': calwildfires
+    }, context_instance=RequestContext(request))
