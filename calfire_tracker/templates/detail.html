@@ -7,7 +7,7 @@
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief clearfix">
-                <h1>{{ calwildfire.fire_name }}</h1>
+                <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
                 <h2>
                     <mark>{{ calwildfire.county }}</mark>
                     <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
@@ -37,11 +37,19 @@
                 <section class="summary">
                     <div class="stats">
                         <figure>
-                            <span>{{ calwildfire.containment_percent }}%</span>
+                            {% if calwildfire.containment_percent == None %}
+                                <span>n/a</span>
+                            {% else %}
+                                <span>{{ calwildfire.containment_percent|default_if_none:"n/a"|intcomma }}%</span>
+                            {% endif %}
                             <figcaption>Contained</figcaption>
                         </figure>
                         <figure>
-                            <span>{{ calwildfire.acres_burned|intcomma }}</span>
+                            {% if calwildfire.acres_burned == None %}
+                                <span>n/a</span>
+                            {% else %}
+                                <span>{{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }}%</span>
+                            {% endif %}
                             <figcaption>Acres burned</figcaption>
                         </figure>
                         <figure>
