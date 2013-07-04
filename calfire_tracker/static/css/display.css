@@ -427,12 +427,24 @@ body {
 									.landing-row .following .scenes .imagery figcaption {
 										color: white;
 										font-size: 0.6875em; /* 11 / 16 */
+										background: url(i/fire-icons.png) no-repeat 0 -25px;
+										background-size: 700px 700px;
+										padding-left: 16px;
+									}
+									.landing-row .following .scenes .imagery figcaption span {
+										display: block;
+										background: #0f1620;
+										padding: 2px 0 5px 0;
 									}
 									.landing-row .following .scenes .imagery .location {
 										float: left;
 									}
-									.landing-row .following .scenes .imagery .location {
+									.landing-row .following .scenes .imagery .photo {
 										float: right;
+									}
+									.landing-row .following .scenes .imagery .photo figcaption {
+										background-position: -669px 0;
+										padding-left: 24px;
 									}
 
 							.landing-row .following .scenes .vitals {
@@ -467,7 +479,7 @@ body {
 												color: white;
 												white-space: nowrap;
 												font-family: "proxima-nova-condensed", Arial, sans-serif;
-												font-size: 2.375em; /* 38 / 16 */
+												font-size: 2em; /* 32 / 16 */
 												position: absolute;
 												top: 45px;
 												letter-spacing: -0.05em;
@@ -554,7 +566,7 @@ body {
 												padding-top: 90px; /* had been 100 */
 											}
 											.landing-row .following .scenes .vitals dd {
-												font-size: 2em;
+												font-size: 1.75em; /* 28 / 16 */
 											}
 
 									    }
@@ -565,7 +577,7 @@ body {
 									    @media screen and (max-width: 860px) {
 
 											.landing-row .following .scenes .vitals dd {
-												font-size: 1.7em;
+												font-size: 1.5em;
 												top: 49px;
 											}
 											.landing-row .following .scenes .vitals dt {
@@ -639,7 +651,7 @@ body {
 									/*	=================================================================================== */
 
 
-									    @media screen and (max-width: 650px) {
+									    @media screen and (max-width: 700px) {
 
 											.landing-row .following article header {
 												font-size: 0.85em;
@@ -673,14 +685,38 @@ body {
 												width: 100%;
 												margin-bottom: 20px;
 											}
+													.landing-row .following .scenes .imagery .img {
+														height: auto;
+													}
+													.landing-row .following .scenes .imagery img {
+														height: auto;
+														width: 100%;
+														position: static;
+													}
+
 											.landing-row .following .scenes .vitals {
 												float: none;
 												width: 100%;
+											}
+													.landing-row .following .scenes .vitals dd {
+														font-size: 2em;
+														top: 44px;
+													}
+
+									    }
+
+									/*	=================================================================================== */
+									    @media screen and (max-width: 700px) {
+
+											.landing-row .following .scenes .vitals dd {
+												font-size: 1.5em;
+												top: 48px;
 											}
 
 									    }
 
 									/*	=================================================================================== */
+
 
 
 
