@@ -17,7 +17,7 @@ def iterate_through_urls_to_scrape():
     logging.debug('running construct_url_to_scrape function')
 
     # archive url
-    url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2012&pc=500'
+    url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2012&pc=1&cp=79'
 
     extract_details_link_if_present(url_query)
 

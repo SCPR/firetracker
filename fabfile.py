@@ -20,4 +20,4 @@ def scrape():
     local('python manage.py scraper_wildfires')
 
 def archives():
-    local('python manage.py scraper_archives')
+    local('python manage.py v3_scraper_wildfires')
