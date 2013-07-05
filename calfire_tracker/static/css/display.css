@@ -1586,7 +1586,7 @@ body {
 	################################################################# */
 
 	.fire-supplemental {
-		padding-bottom: 50px;
+		background: url(i/median-hairline-fire-supplemental.png) repeat-y 44.364012409514% top;
 	}
 			.fire-supplemental > .primary {
 				width: 42.605997931748%; /* 412 / 967 */
@@ -1723,7 +1723,8 @@ body {
 
 	.fire-supplemental .tertiaries {
 		border-top: 3px solid #ec7c2d;
-		padding-top: 5px;
+		padding: 5px 0 50px;
+		background: url(i/median-hairline-standalone.png) repeat-y center top;
 	}
 			.fire-supplemental .tertiaries > section		{ width: 46.116504854369%; /* 190 / 412 */	}
 			.fire-supplemental .updates						{ float: left;								}
@@ -1767,6 +1768,7 @@ body {
 					}
 	
 	.fire-supplemental .dispatches {
+		padding-bottom: 60px;
 	}
 			.fire-supplemental .dispatches > header {
 				background: #1e2c39;
@@ -1853,6 +1855,7 @@ body {
 									.fire-supplemental .tertiaries {
 										padding-top: 0;
 										border-top: 0;
+										background: none;
 									}
 											.fire-supplemental .tertiaries > section {
 												width: 100%;
@@ -1891,6 +1894,9 @@ body {
 
 							    @media screen and (max-width: 700px) {
 
+									.fire-supplemental {
+										background: none;
+									}
 									.fire-supplemental .deployed dd {
 									    font-size: 1.25em;
 									}
