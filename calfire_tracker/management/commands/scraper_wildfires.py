@@ -15,22 +15,8 @@ logging.basicConfig(level=logging.DEBUG)
 def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
-
-    # current url
     url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
-
-    # archive url
-    #url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2010&pc=500'
-
     extract_details_link_if_present(url_query)
-
-# write a dictionary to a text file #
-def write_list_to_text_file(data_list):
-    ''' write a dictionary to a text file '''
-    scraped_data = open('scraped_data.txt', 'wb')
-    for item in data_list:
-        scraped_data.write("%s\n" % item)
-    scraped_data.close()
 
 # begin first pass, finding links to details pages if present #
 def extract_details_link_if_present(url_query):
