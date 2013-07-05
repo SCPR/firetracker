@@ -1720,6 +1720,14 @@ body {
 							.fire-supplemental .deployed .helicopters	{ background-position: center -847px;	}
 							.fire-supplemental .deployed .dozers		{ background-position: center -1058px;	}
 							.fire-supplemental .deployed .tenders		{ background-position: center -1270px;	}
+							
+							.fire-supplemental .deployed .none dt {
+							}
+							.fire-supplemental .deployed .none dd {
+								color: #5b6169;
+								font-size: 1.2em;
+								text-transform: uppercase;
+							}
 
 	.fire-supplemental .tertiaries {
 		border-top: 3px solid #ec7c2d;
