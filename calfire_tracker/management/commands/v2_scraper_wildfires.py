@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
-from calfire_tracker.models import CalWildfire
+from wildfires.models import Wildfire
 import csv, time, datetime, logging, re, types
 import pytz
 from dateutil import parser
@@ -11,12 +11,24 @@ from scraper_configs import BaseScraper
 # log everything and send to stderr #
 logging.basicConfig(level=logging.DEBUG)
 
+# storage container for output purposes #
+container_of_data_dicts = []
+
 # hit url and run functions #
 def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
     url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
+    #write_list_to_text_file(container_of_data_dicts)
     extract_details_link_if_present(url_query)
+
+# write a dictionary to a text file #
+def write_list_to_text_file(data_list):
+    ''' write a dictionary to a text file '''
+    scraped_data = open('scraped_data.txt', 'wb')
+    for item in data_list:
+        scraped_data.write("%s\n" % item)
+    scraped_data.close()
 
 # begin first pass, finding links to details pages if present #
 def extract_details_link_if_present(url_query):
@@ -53,6 +65,7 @@ def extract_data_table(table):
         target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
         target_data = target_cell[1].text.encode('utf-8')
         data_dict[target_key] = target_data
+    #container_of_data_dicts.append(data_dict)
     save_data_from_dict_to_model(data_dict)
 
 # begin iterating through details items #
@@ -76,6 +89,7 @@ def extract_data_from_cells(fire_name, details_link, details_table):
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
             target_data = target_cell[1].text.encode('utf-8')
             data_dict[target_key] = target_data
+        #container_of_data_dicts.append(data_dict)
         save_data_from_dict_to_model(data_dict)
 
 # function to save data to our database #
@@ -224,14 +238,10 @@ def save_data_from_dict_to_model(data_dict):
     # constructed unique id to check to see if record exists in database #
     created_fire_id = fire_name + '-' + county
 
-    # create fireslug if one doesn't exist #
-    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
-
-    obj, created = CalWildfire.objects.get_or_create(
+    obj, created = Wildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
         defaults={
             'fire_name': fire_name,
-            'fire_slug': fire_slug,
             'county': county,
             'location': location,
             'administrative_unit': administrative_unit,
@@ -262,7 +272,6 @@ def save_data_from_dict_to_model(data_dict):
     )
 
     if not created:
-        obj.fire_slug = fire_slug
         obj.location = location
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
@@ -294,11 +303,6 @@ def save_data_from_dict_to_model(data_dict):
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
     formatted_data = string.lower().replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
-    return formatted_data
-
-def slugifyFireName(string):
-    ''' lowercase_and_replace_space_with_dash '''
-    formatted_data = string.lower().replace(':', '-').replace(' ', '-').replace('_', '-').replace('_-_', '-').replace('/', '-')
     return formatted_data
 
 def convert_time_to_nicey_format(date_to_parse):

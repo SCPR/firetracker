@@ -15,7 +15,10 @@ logging.basicConfig(level=logging.DEBUG)
 def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
-    url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
+
+    # archive url
+    url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2012&pc=1&cp=79'
+
     extract_details_link_if_present(url_query)
 
 # begin first pass, finding links to details pages if present #
