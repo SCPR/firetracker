@@ -1734,9 +1734,15 @@ body {
 		padding: 5px 0 50px;
 		background: url(i/median-hairline-standalone.png) repeat-y center top;
 	}
-			.fire-supplemental .tertiaries > section		{ width: 46.116504854369%; /* 190 / 412 */	}
-			.fire-supplemental .updates						{ float: left;								}
-			.fire-supplemental .details						{ float: right;								}
+			.fire-supplemental .tertiaries.just-the-facts {
+				background: none;
+			}
+
+			.fire-supplemental .tertiaries > section				{ width: 46.116504854369%; /* 190 / 412 */	}
+			.fire-supplemental .tertiaries.just-the-facts > section	{ width: 100%;								}
+			.fire-supplemental .updates								{ float: left;								}
+			.fire-supplemental .details								{ float: right;								}
+			.fire-supplemental .just-the-facts .details				{ float: none;								}
 			
 			.fire-supplemental .updates {
 			}
