@@ -11,19 +11,17 @@ from scraper_configs import BaseScraper
 # log everything and send to stderr #
 logging.basicConfig(level=logging.DEBUG)
 
-# storage container for output purposes #
-container_of_data_dicts = []
-
 # hit url and run functions #
 def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
+
+    # current url
     url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
 
     # archive url
     #url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2010&pc=500'
 
-    #write_list_to_text_file(container_of_data_dicts)
     extract_details_link_if_present(url_query)
 
 # write a dictionary to a text file #
@@ -69,7 +67,6 @@ def extract_data_table(table):
         target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
         target_data = target_cell[1].text.encode('utf-8')
         data_dict[target_key] = target_data
-    #container_of_data_dicts.append(data_dict)
     save_data_from_dict_to_model(data_dict)
 
 # begin iterating through details items #
@@ -93,7 +90,6 @@ def extract_data_from_cells(fire_name, details_link, details_table):
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
             target_data = target_cell[1].text.encode('utf-8')
             data_dict[target_key] = target_data
-        #container_of_data_dicts.append(data_dict)
         save_data_from_dict_to_model(data_dict)
 
 # function to save data to our database #
