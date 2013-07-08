@@ -24,14 +24,19 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'promoted_fire',
                     'twitter_hashtag',
                     'date_time_started',
+                    'administrative_unit',
+                    'more_info',
+                    'last_scraped',
+                ]
+            }),
+
+            ('Location', {
+                'fields': [
                     'location',
                     'computed_location',
                     'location_latitude',
                     'location_longitude',
                     'location_geocode_error',
-                    'administrative_unit',
-                    'more_info',
-                    'last_scraped',
                 ]
             }),
 
