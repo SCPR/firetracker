@@ -15,7 +15,13 @@ logging.basicConfig(level=logging.DEBUG)
 def iterate_through_urls_to_scrape():
     ''' runs a given function based on a list of URLs to scrape '''
     logging.debug('running construct_url_to_scrape function')
+
+    # current url
     url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
+
+    # archive url
+    #url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2012&pc=1&cp=79'
+
     extract_details_link_if_present(url_query)
 
 # begin first pass, finding links to details pages if present #
@@ -222,16 +228,19 @@ def save_data_from_dict_to_model(data_dict):
         notes = None
 
     # constructed unique id to check to see if record exists in database #
-    created_fire_id = fire_name + '-' + county
+    created_fire_id = '%s-%s' % (fire_name, county)
 
     # create fireslug if one doesn't exist #
     fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
+
+    twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
 
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
         defaults={
             'fire_name': fire_name,
             'fire_slug': fire_slug,
+            'twitter_hashtag': twitter_hashtag,
             'county': county,
             'location': location,
             'administrative_unit': administrative_unit,
@@ -263,6 +272,7 @@ def save_data_from_dict_to_model(data_dict):
 
     if not created:
         obj.fire_slug = fire_slug
+        obj.twitter_hashtag = twitter_hashtag
         obj.location = location
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
@@ -299,6 +309,11 @@ def lowercase_remove_colon_and_replace_space_with_underscore(string):
 def slugifyFireName(string):
     ''' lowercase_and_replace_space_with_dash '''
     formatted_data = string.lower().replace(':', '-').replace(' ', '-').replace('_', '-').replace('_-_', '-').replace('/', '-')
+    return formatted_data
+
+def hashtagifyFireName(string):
+    ''' lowercase_and_replace_space_with_dash '''
+    formatted_data = titlecase(string).replace(' ', '')
     return formatted_data
 
 def convert_time_to_nicey_format(date_to_parse):
