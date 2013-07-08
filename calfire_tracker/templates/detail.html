@@ -65,9 +65,11 @@
                 </section><!--/ .summary -->
                 <div class="context">
                     <figure class="location">
-                        <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=602x212&amp;maptype=roadmap
-                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Map" /></div>
-                        <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                        <div class="map">
+                            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap
+                &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
+                        </div>
+                        <figcaption><span>{{ calwildfire.location }}</span></figcaption>
                     </figure><!--/ .location -->
                     <section class="damages">
                         <dl class="threatened">
