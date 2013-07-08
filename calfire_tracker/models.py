@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.encoding import smart_str
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+from geopy import geocoders
 import pytz
 import time, datetime
 
