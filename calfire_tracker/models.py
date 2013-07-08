@@ -52,22 +52,20 @@ class CalWildfire(models.Model):
     def get_absolute_url(self):
         return ('detail', [self.fire_slug,])
 
-    # this taken from easy_maps base code for geocoding
-    def fill_geocode_data(self):
-        if not self.location_address:
-            self.geocode_error = True
-            return
-        try:
-            g = geocoders.GoogleV3()
-            address = smart_str(self.location_address)
-            self.computed_address, (self.latitude, self.longitude,) = g.geocode(address + 'Los Angeles, Ca')
-            self.geocode_error = False
-        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
-            self.geocode_error = True
-
     def save(self, *args, **kwargs):
         #if not self.id:
             #self.fire_slug = slugify(self.fire_name)
         if not self.created_fire_id:
         	self.created_fire_id = self.created_fire_id
+
+        if not self.computed_location:
+            self.geocode_error = True
+        try:
+            g = geocoders.GoogleV3()
+            address = smart_str(self.computed_location)
+            self.computed_location, (self.location_latitude, self.location_longitude,) = g.geocode(address)
+            self.geocode_error = False
+        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
+            self.geocode_error = True
+
         super(CalWildfire, self).save()

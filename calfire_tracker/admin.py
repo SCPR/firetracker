@@ -25,6 +25,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'twitter_hashtag',
                     'date_time_started',
                     'location',
+                    'computed_location',
                     'location_latitude',
                     'location_longitude',
                     'location_geocode_error',
