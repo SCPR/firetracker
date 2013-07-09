@@ -1214,6 +1214,29 @@ body {
 				background: #0f1620;
 				border-bottom: 20px solid #0f1620; /* Yep, it's a hack */
 			}
+					.fire-dashboard .location.no-map {
+						background: #1e2c39;
+						min-height: 40px;
+						font-family: "proxima-nova-condensed", Arial, sans-serif;
+						box-shadow:
+							inset 0 32px 0 #1e2c39,
+							inset 0 33px 0 #5c87af;
+					}
+							.fire-dashboard .location.no-map dl {
+								padding-top: 16px;
+								padding-left: 44px;
+								background: url(i/blue-location-pin.png) no-repeat 0 16px;
+								background-size: 25px 39px;
+								margin: 0 6% 14px;
+							}
+									.fire-dashboard .location.no-map dt {
+										text-transform: uppercase;
+										font-size: 0.6125em;
+										font-family: "proxima-nova", Arial, sans-serif;
+										font-weight: 600;
+										margin-bottom: 13px;
+									}
+
 					.fire-dashboard .location .map {
 						height: 106px;
 						position: relative;
