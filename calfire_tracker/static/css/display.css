@@ -1059,8 +1059,106 @@ body {
 
 													    }
 
+
+
 													/*	=================================================================================== */
 
+
+													    @media screen and (max-width: 730px) {
+															
+															.masthead .brief {
+															}
+																	.masthead .brief h1 {
+																		width: 100%;
+																		float: none;
+																	}
+																	.masthead .brief h2 {
+																		width: 100%;
+																		float: none;
+																		text-align: left;
+																	}
+
+															.masthead .brand {
+																box-shadow:
+																	inset 115px 0 0 #0F1620,
+																	inset 116px 0 0 #536175;
+															}
+																	.masthead .brand h4 {
+																		font-size: 0.8125em;
+																		line-height: 1.25;
+																		padding: 16px 0 12px;
+																		float: none;
+																		margin-left: 130px;
+																		text-align: left;
+																		position: static;
+																		display: inline-block;
+																	}
+																			.masthead .brand h4 span {
+																				font-size: 1em;
+																				padding: 15px 0 10px;
+																				display: inline;
+																				margin-right: 0;
+																			}
+																			.masthead .brand h4 a {
+																				display: inline;
+																				position: static;
+																				padding: 0 0 0 0;
+																				background: none;
+																			}
+
+																	.masthead .brand h3 {
+																		width: 110px; /* had been 246 */
+																		height: auto;
+																		top: 16px; /* had been 21 */
+																	}
+																			.masthead .brand h3 span {
+																				position: static;
+																				height: auto;
+																			}
+																			.masthead .brand .parent {
+																				width: 100%; /* had been 137 */
+																				margin-bottom: 1px;
+																				height: 18px;
+																				background-size: 490px 490px;
+																				background-position: -70px -34px;
+																			}
+																			.masthead .brand .title {
+																				text-align: left;
+																			}
+
+														}
+
+
+													/*	=================================================================================== */
+
+													    @media screen and (max-width: 500px) {
+
+															.masthead .share {
+																left: 50%;
+																margin-left: -70px;
+															}
+
+														}
+
+
+													/*	=================================================================================== */
+
+													    @media screen and (max-width: 460px) {
+
+															.masthead .brief h1 {
+																font-size: 3em;
+																margin-left: 0;
+															}
+															.masthead .brand h4 {
+																font-size: 0.7em;
+															}
+
+														}
+
+
+													/*	=================================================================================== */
+
+/*
 													    @media screen and (max-width: 740px) {
 
 															.masthead-inner {
@@ -1115,7 +1213,11 @@ body {
 
 													    }
 
+*/
+
 													/*	=================================================================================== */
+
+/*
 
 													    @media screen and (max-width: 600px) {
 
@@ -1146,6 +1248,8 @@ body {
 															}
 
 													    }
+
+*/
 
 													/*	=================================================================================== */
 
