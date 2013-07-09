@@ -54,31 +54,14 @@
                             <figcaption>Air Quality Index (500: most hazardous)</figcaption>
                         </figure>
                     </div><!--/ .stats -->
-
-
-
                     <div class="photo">
-                        <!--
-                        ===============================================================================================================================================
-                        TO CHRIS:
-                        In the event of NO DEFINED PHOTO, replace this with: <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
-                        ===============================================================================================================================================
-                        -->
-                        <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" />
+                        {% if calwildfire.asset_host_image_id %}
+                            {% block kpcc_images %}
+                                {% include 'kpcc_images.html' %}
+                            {% endblock %}
+                        {% else %}
+                        {% endif %}
                     </div>
-                    <!--
-                    ===============================================================================================================================================
-                    TO CHRIS:
-                    In the event of NO DEFINED PHOTO, remove this <aside> element completely.
-                    ===============================================================================================================================================
-                    -->
-                    <aside class="credit">
-                        <p>Photo credit: Maya Sugarman / KPCC</p>
-                    </aside><!--/ .credit -->
-
-
-
-
                 </section><!--/ .summary -->
                 <div class="context">
 
