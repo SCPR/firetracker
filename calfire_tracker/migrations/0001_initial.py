@@ -8,15 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'WildfireUpdate'
-        db.create_table('calfire_tracker_wildfireupdate', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_time_update', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('update_text', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('source', self.gf('django.db.models.fields.URLField')(max_length=1024, null=True, blank=True)),
-        ))
-        db.send_create_signal('calfire_tracker', ['WildfireUpdate'])
-
         # Adding model 'CalWildfire'
         db.create_table('calfire_tracker_calwildfire', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -24,7 +15,6 @@ class Migration(SchemaMigration):
             ('promoted_fire', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('twitter_hashtag', self.gf('django.db.models.fields.CharField')(max_length=140, null=True, blank=True)),
             ('last_scraped', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('wildfire_update', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calfire_tracker.WildfireUpdate'], null=True, blank=True)),
             ('fire_name', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
             ('county', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True, blank=True)),
             ('acres_burned', self.gf('django.db.models.fields.IntegerField')(max_length=8, null=True, blank=True)),
@@ -62,13 +52,23 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('calfire_tracker', ['CalWildfire'])
 
+        # Adding model 'WildfireUpdate'
+        db.create_table('calfire_tracker_wildfireupdate', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('date_time_update', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('fire_name', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calfire_tracker.CalWildfire'], null=True, blank=True)),
+            ('update_text', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('source', self.gf('django.db.models.fields.URLField')(max_length=1024, null=True, blank=True)),
+        ))
+        db.send_create_signal('calfire_tracker', ['WildfireUpdate'])
+
 
     def backwards(self, orm):
-        # Deleting model 'WildfireUpdate'
-        db.delete_table('calfire_tracker_wildfireupdate')
-
         # Deleting model 'CalWildfire'
         db.delete_table('calfire_tracker_calwildfire')
+
+        # Deleting model 'WildfireUpdate'
+        db.delete_table('calfire_tracker_wildfireupdate')
 
 
     models = {
@@ -112,12 +112,12 @@ class Migration(SchemaMigration):
             'total_helicopters': ('django.db.models.fields.IntegerField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
             'total_water_tenders': ('django.db.models.fields.IntegerField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
             'training': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'twitter_hashtag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'}),
-            'wildfire_update': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calfire_tracker.WildfireUpdate']", 'null': 'True', 'blank': 'True'})
+            'twitter_hashtag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'})
         },
         'calfire_tracker.wildfireupdate': {
             'Meta': {'object_name': 'WildfireUpdate'},
             'date_time_update': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'fire_name': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calfire_tracker.CalWildfire']", 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'source': ('django.db.models.fields.URLField', [], {'max_length': '1024', 'null': 'True', 'blank': 'True'}),
             'update_text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})

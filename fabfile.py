@@ -21,3 +21,6 @@ def scrape():
 
 def archives():
     local('python manage.py v3_scraper_wildfires')
+
+def convert():
+    local('python manage.py convert_to_south calfire_tracker')
