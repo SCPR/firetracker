@@ -98,7 +98,7 @@
                                     <figure class="location">
                                         <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
                 &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
-                                        <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                                        <figcaption><span>{{ wildfire.location }}</span></figcaption>
                                     </figure>
                                     <figure class="photo">
                                         <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="{{ wildfire.fire_name }}" /></b>
