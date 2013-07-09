@@ -3,6 +3,10 @@
 {% load tz %}
 {% load tracker_tags %}
 
+{% block kpcc_api_query_script %}
+    <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+{% endblock %}
+
 {% block fire_index_header %}
     <header class="facade">
         <div class="titling">
@@ -55,24 +59,26 @@
                     <tbody>
                         <tr>
                             <th>Fires</th>
-                            <td>{{ total_2012_fires }}</td>
-                            <td>{{ total_2013_fires }}</td>
+                            <td>{{ total_2012_fires|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_fires|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Acres</th>
-                            <td>{{ total_2012_acreage.total_acres|intcomma }}</td>
-                            <td>{{ total_2013_acreage.total_acres|intcomma }}</td>
+                            <td>{{ total_2012_acreage.total_acres|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_acreage.total_acres|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Injuries</th>
-                            <td>{{ total_2012_injuries.total_injuries|intcomma }}</td>
-                            <td>{{ total_2013_injuries.total_injuries|intcomma }}</td>
+                            <td>{{ total_2012_injuries.total_injuries|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_injuries.total_injuries|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
+                        <!--
                         <tr>
                             <th>Cost</th>
-                            <td>$??<span>m</span></td>
-                            <td>$??<span>m</span></td>
+                            <td><span></span></td>
+                            <td><span></span></td>
                         </tr>
+                        -->
                     </tbody>
                 </table>
             </aside>

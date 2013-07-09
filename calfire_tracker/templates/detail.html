@@ -3,6 +3,10 @@
 {% load tz %}
 {% load tracker_tags %}
 
+{% block kpcc_api_query_script %}
+    <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+{% endblock %}
+
 {% block fire_detail_header %}
     <!-- begin header -->
     <header class="masthead">
