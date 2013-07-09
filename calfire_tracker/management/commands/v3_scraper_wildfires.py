@@ -95,13 +95,13 @@ def save_data_from_dict_to_model(data_dict):
     else:
         fire_name = 'fire_name'
 
-    created_fire_id = '%s-%s' % (fire_name, county)
-    twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
-
     if data_dict.has_key('county'):
         county = data_dict['county']
     else:
         county = None
+
+    created_fire_id = '%s-%s' % (fire_name, county)
+    twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
 
     if data_dict.has_key('estimated_containment'):
         acres_burned = extract_initial_integer(data_dict['estimated_containment'])

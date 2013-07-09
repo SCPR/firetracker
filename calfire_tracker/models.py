@@ -7,7 +7,6 @@ from geopy import geocoders
 import pytz
 import time, datetime
 
-# Create your models here.
 class CalWildfire(models.Model):
 
     # management & curation
@@ -15,6 +14,7 @@ class CalWildfire(models.Model):
     promoted_fire = models.BooleanField('Feature This Fire?', default=False)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
+    #wildfire_update = models.ForeignKey(WildfireUpdate, blank=True, null=True)
 
     # general details
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
@@ -84,3 +84,17 @@ class CalWildfire(models.Model):
             self.geocode_error = True
 
         super(CalWildfire, self).save()
+
+class WildfireUpdate(models.Model):
+    date_time_update = models.DateTimeField('Time of Update', null=True, blank=True)
+    fire_name = models.ForeignKey(CalWildfire, blank=True, null=True)
+    update_text = models.TextField('Latest Update', null=True, blank=True)
+    source = models.URLField('Source', max_length=1024, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.update_text
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+        	self.date_time_update = datetime.datetime.now()
+        super(WildfireUpdate, self).save()

@@ -8,80 +8,16 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'CalWildfire.current_situation'
-        db.add_column('calfire_tracker_calwildfire', 'current_situation',
+        # Adding field 'WildfireUpdate.fire_name'
+        db.add_column('calfire_tracker_wildfireupdate', 'fire_name',
                       self.gf('django.db.models.fields.TextField')(null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'CalWildfire.damage_assessment'
-        db.add_column('calfire_tracker_calwildfire', 'damage_assessment',
-                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'CalWildfire.training'
-        db.add_column('calfire_tracker_calwildfire', 'training',
-                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
-                      keep_default=False)
-
-
-        # Changing field 'CalWildfire.evacuations'
-        db.alter_column('calfire_tracker_calwildfire', 'evacuations', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.phone_numbers'
-        db.alter_column('calfire_tracker_calwildfire', 'phone_numbers', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.road_closures'
-        db.alter_column('calfire_tracker_calwildfire', 'road_closures', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.location'
-        db.alter_column('calfire_tracker_calwildfire', 'location', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.computed_location'
-        db.alter_column('calfire_tracker_calwildfire', 'computed_location', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.cause'
-        db.alter_column('calfire_tracker_calwildfire', 'cause', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.notes'
-        db.alter_column('calfire_tracker_calwildfire', 'notes', self.gf('django.db.models.fields.TextField')(null=True))
-
-        # Changing field 'CalWildfire.cooperating_agencies'
-        db.alter_column('calfire_tracker_calwildfire', 'cooperating_agencies', self.gf('django.db.models.fields.TextField')(null=True))
 
     def backwards(self, orm):
-        # Deleting field 'CalWildfire.current_situation'
-        db.delete_column('calfire_tracker_calwildfire', 'current_situation')
+        # Deleting field 'WildfireUpdate.fire_name'
+        db.delete_column('calfire_tracker_wildfireupdate', 'fire_name')
 
-        # Deleting field 'CalWildfire.damage_assessment'
-        db.delete_column('calfire_tracker_calwildfire', 'damage_assessment')
-
-        # Deleting field 'CalWildfire.training'
-        db.delete_column('calfire_tracker_calwildfire', 'training')
-
-
-        # Changing field 'CalWildfire.evacuations'
-        db.alter_column('calfire_tracker_calwildfire', 'evacuations', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.phone_numbers'
-        db.alter_column('calfire_tracker_calwildfire', 'phone_numbers', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.road_closures'
-        db.alter_column('calfire_tracker_calwildfire', 'road_closures', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.location'
-        db.alter_column('calfire_tracker_calwildfire', 'location', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.computed_location'
-        db.alter_column('calfire_tracker_calwildfire', 'computed_location', self.gf('django.db.models.fields.TextField')(max_length=255, null=True))
-
-        # Changing field 'CalWildfire.cause'
-        db.alter_column('calfire_tracker_calwildfire', 'cause', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.notes'
-        db.alter_column('calfire_tracker_calwildfire', 'notes', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Changing field 'CalWildfire.cooperating_agencies'
-        db.alter_column('calfire_tracker_calwildfire', 'cooperating_agencies', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
 
     models = {
         'calfire_tracker.calwildfire': {
@@ -124,7 +60,16 @@ class Migration(SchemaMigration):
             'total_helicopters': ('django.db.models.fields.IntegerField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
             'total_water_tenders': ('django.db.models.fields.IntegerField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
             'training': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'twitter_hashtag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'})
+            'twitter_hashtag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'}),
+            'wildfire_update': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calfire_tracker.WildfireUpdate']", 'null': 'True', 'blank': 'True'})
+        },
+        'calfire_tracker.wildfireupdate': {
+            'Meta': {'object_name': 'WildfireUpdate'},
+            'date_time_update': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'fire_name': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'source': ('django.db.models.fields.URLField', [], {'max_length': '1024', 'null': 'True', 'blank': 'True'}),
+            'update_text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         }
     }
 
