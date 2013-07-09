@@ -160,26 +160,17 @@
                     <div class="tertiaries clearfix">
                         <section class="updates">
                             <h2>Updates Tracker</h2>
-                            <article>
-                                <h1>June 6, 2013 11:06 AM</h1>
-                                <p>U.S. Forest Service spokesman Matt Corelli: "It's imperative that we use caution around them and that we don't drive over them and don't operate near them, so some areas are inaccessible after a fire to evaluate."</p>
-                                <footer><a href="#">Source</a></footer>
-                            </article>
-                            <article>
-                                <h1>June 6, 2013 8:17 AM</h1>
-                                <p>The estimated cost of fighting the fire has risen to $11.4 million. The fire has burned more than 30,000 acres in the Angeles National Forest.</p>
-                                <footer><a href="#">Source</a></footer>
-                            </article>
-                            <article>
-                                <h1>June 5, 2013 2:30 PM</h1>
-                                <p>10 more homes found destroyed. The total is up from six to 16 homes destroyed.</p>
-                                <footer><a href="#">Source</a></footer>
-                            </article>
-                            <article>
-                                <h1>June 4, 2013 4:52 PM</h1>
-                                <p>All evacuations for communities affected by the flames have been lifted. The fire has destroyed six homes.</p>
-                                <footer><a href="#">Source</a></footer>
-                            </article>
+                            {% for update in wildfire_updates %}
+                                {% if update.update_text %}
+                                    <article>
+                                        <h1>{{ update.date_time_update|date:"F j, Y g:i a" }}</h1>
+                                        <p>{{ update.update_text }}</p>
+                                        <footer><a href="{{ update.source }}" target="_blank">Source</a></footer>
+                                    </article>
+                                {% else %}
+                                <article></article>
+                                {% endif %}
+                            {% endfor %}
                         </section><!--/ .updates -->
                         <section class="details">
                             <h2>More Details</h2>
