@@ -16,21 +16,32 @@ class CalWildfireAdmin(admin.ModelAdmin):
         prepopulated_fields = {'fire_slug': ('fire_name',)}
 
         fieldsets = [
-            ('Fire Details', {
+
+            ('Management & Curation', {
                 'fields': [
-                    'fire_name',
-                    'fire_slug',
-                    'county',
                     'promoted_fire',
                     'twitter_hashtag',
-                    'date_time_started',
-                    'administrative_unit',
-                    'more_info',
                     'last_scraped',
                 ]
             }),
 
-            ('Location', {
+            ('General Details', {
+                'fields': [
+                    'fire_name',
+                    'county',
+                    'acres_burned',
+                    'containment_percent',
+                    'date_time_started',
+                    'last_updated',
+                    'administrative_unit',
+                    'more_info',
+                    'fire_slug',
+
+                ]
+            }),
+
+            ('Location Information', {
+                'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
                     'location',
                     'computed_location',
@@ -40,12 +51,9 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
 
-            ('Basic Stats', {
+            ('Fire Stats', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
-                    'last_updated',
-                    'containment_percent',
-                    'acres_burned',
                     'injuries',
                     'evacuations',
                     'structures_threatened',
@@ -53,19 +61,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
 
-            ('Situation On The Ground', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
-                'fields': [
-                    'phone_numbers',
-                    'road_closures',
-                    'cause',
-                    'cooperating_agencies',
-                    'conditions',
-                    'notes',
-                ]
-            }),
-
-            ('Resources', {
+            ('Resources Deployed', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
                     'total_dozers',
@@ -78,6 +74,17 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
 
+            ('Situation On The Ground', {
+                'classes': ('collapse', 'wide', 'extrapretty',),
+                'fields': [
+                    'cause',
+                    'cooperating_agencies',
+                    'road_closures',
+                    'conditions',
+                    'phone_numbers',
+                    'notes',
+                ]
+            }),
         ]
 
 	list_filter = ['date_time_started', 'last_updated']
