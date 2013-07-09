@@ -3,6 +3,43 @@
 {% load tz %}
 {% load tracker_tags %}
 
+{% block kpcc_api_query_script %}
+    <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+{% endblock %}
+
+{% block kpcc_api_query_config %}
+    <script>
+        var kpccApiArticleConfig = {
+            // comma separated string of items to query against
+            // default is blogs,news,segments
+            // options are news, blogs, segments, episodes, video
+            types: 'news,blogs,segments',
+
+            // string of what you want to query Outpost for
+            // the script will outmatically convert spaces to a + sign
+            query: '{{ calwildfire.fire_slug }}',
+
+            // integer showing the number of items to return
+            limit: 5,
+
+            // the page of results to return
+            page: 1,
+
+            // the div on the page in which you want the content to appear
+            contentContainer: '#article-list-content'
+        };
+
+        var kpccApiImageConfig = {
+            // string of what you want to query Outpost for
+            // the script will outmatically convert spaces to a + sign
+            asset_id: '{{ calwildfire.asset_host_image_id }}',
+
+            // the div on the page in which you want the content to appear
+            contentContainer: '.api-image-content'
+        };
+    </script>
+{% endblock %}
+
 {% block fire_detail_header %}
     <!-- begin header -->
     <header class="masthead">
@@ -56,11 +93,14 @@
                     </div><!--/ .stats -->
                     <div class="photo">
                         {% if calwildfire.asset_host_image_id %}
-                            {% block kpcc_images %}
-                                {% include 'kpcc_images.html' %}
-                            {% endblock %}
+                            <div class="api-image-content">
+                                <img src="{{ calwildfire.asset_host_image_id }}" alt="{{ calwildfire.fire_name }}" />
+                                <aside class="credit">
+                                    <p>Photo credit: Maya Sugarman / KPCC</p>
+                                </aside>
+                            </div>
                         {% else %}
-                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="{{ calwildfire.fire_name }}" />
                         {% endif %}
                     </div>
                 </section><!--/ .summary -->
@@ -109,9 +149,8 @@
             <div class="fire-supplemental clearfix">
                 <div class="primary">
                     <section class="coverage">
-                        {% block kpcc_coverage %}
-                            {% include 'kpcc_coverage.html' %}
-                        {% endblock %}
+                        <h2>Recent KPCC Coverage</h2>
+                        <ul id="article-list-content"></ul>
                     </section>
                     <section class="deployed">
                         <h2>Resources Deployed</h2>

@@ -32,14 +32,14 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):
-    fire_detail = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     startdate = date.today()
     enddate = timedelta(days=21)
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.all()
     return render_to_response('detail.html', {
-        'calwildfire': fire_detail,
+        'calwildfire': calwildfire,
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
     }, context_instance=RequestContext(request))

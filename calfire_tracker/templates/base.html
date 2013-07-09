@@ -59,7 +59,8 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://projects.scpr.org/static/static-files/scripts/modernizr-2.5.3.min.js"></script>
         <script src="{{ STATIC_URL }}/js/behaviors.js"></script>
-        <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+        {% block kpcc_api_query_script %}{% endblock %}
+        {% block kpcc_api_query_config %}{% endblock %}
         <script src="{{ STATIC_URL }}/js/moment.min.js"></script>
         <script type="text/javascript" src="//use.typekit.net/mos4lel.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
