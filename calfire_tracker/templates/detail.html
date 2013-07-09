@@ -11,7 +11,7 @@
                 <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
                 <h2>
                     <mark>{{ calwildfire.county }}</mark>
-                    <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
+                    <span>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a" }}</span>
                 </h2>
             </div>
             <aside class="brand">
@@ -62,6 +62,8 @@
                     </aside><!--/ .credit -->
                 </section><!--/ .summary -->
                 <div class="context">
+
+                    <!-- begin hooks for map or no -->
                     {% if calwildfire.location_latitude and calwildfire.location_longitude %}
                         <figure class="location">
                             <div class="map">
@@ -69,8 +71,7 @@
                     &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" />
                             </div>
                             <figcaption><span>{{ calwildfire.location }}</span></figcaption>
-                        </figure><!--/ .location -->
-
+                        </figure>
                     {% else %}
                         <aside class="location no-map">
                             <dl>
@@ -79,6 +80,8 @@
                             </dl>
                         </aside>
                     {% endif %}
+                    <!-- end hooks for map or no -->
+
                     <section class="damages">
                         <dl class="threatened">
                             <dt>Structures Threatened</dt>
@@ -128,19 +131,10 @@
                             </dl>
                         </div>
                         <div class="row clearfix">
-
-                            {% if calwildfire.total_helicopters == None %}
-                                <dl class="helicopters">
-                                    <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            {% else %}
-                                <dl class="helicopters">
-                                    <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            {% endif %}
-
+                            <dl class="helicopters">
+                                <dt>Helicopters</dt>
+                                <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
+                            </dl>
                             <dl class="dozers">
                                 <dt>Dozers</dt>
                                 <dd>{{ calwildfire.total_dozers|default_if_none:"n/a"|intcomma }}</dd>

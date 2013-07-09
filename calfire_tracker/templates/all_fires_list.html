@@ -6,7 +6,7 @@
     <ul>
         {% for wildfire in calwildfires %}
         <li>
-            <a href="{{ wildfire.get_absolute_url }}"><h1>{{ wildfire.fire_name }}</h1><h2>{{ wildfire.date_time_started|date:"M d" }}</h2>
+            <a href="{{ wildfire.get_absolute_url }}"><h1>{{ wildfire.fire_name }}</h1><h2>{{ wildfire.date_time_started|date:"M j" }}</h2>
             <div class="area"><mark>{{ wildfire.acres_burned|intcomma }}</mark> <b>Acres</b></div></a>
         </li>
         {% endfor %}
