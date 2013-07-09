@@ -19,6 +19,7 @@ class CalWildfire(models.Model):
     promoted_fire = models.BooleanField('Feature This Fire?', default=False)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
+    staff_updates = models.Foreignkey(WildfireUpdate)
 
     # general details
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
