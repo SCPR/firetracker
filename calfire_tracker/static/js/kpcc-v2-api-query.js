@@ -5,7 +5,7 @@ var kpccApiImageDisplay = kpccApiImageDisplay || {};
 // begin main function
 jqueryNoConflict(document).ready(function(){
     kpccApiArticleDisplay.constructQueryUrl();
-    kpccApiImageDisplay.constructQueryUrl();
+    //kpccApiImageDisplay.constructQueryUrl();
 });
 
 // begin kpccApiArticleDisplay

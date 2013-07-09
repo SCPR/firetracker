@@ -93,9 +93,14 @@
                     </div><!--/ .stats -->
                     <div class="photo">
                         {% if calwildfire.asset_host_image_id %}
-                            <div class="api-image-content"></div>
+                            <div class="api-image-content">
+                                <img src="{{ calwildfire.asset_host_image_id }}" alt="{{ calwildfire.fire_name }}" />
+                                <aside class="credit">
+                                    <p>Photo credit: Maya Sugarman / KPCC</p>
+                                </aside>
+                            </div>
                         {% else %}
-                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="{{ calwildfire.fire_name }}" />
                         {% endif %}
                     </div>
                 </section><!--/ .summary -->
