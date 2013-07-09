@@ -55,8 +55,20 @@
                         </figure>
                     </div><!--/ .stats -->
                     <div class="photo">
-                        <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" />
+                        <!--
+                        ===============================================================================================================================================
+                        TO CHRIS:
+                        In the event of NO DEFINED PHOTO, replace this with: <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                        ===============================================================================================================================================
+                        -->
+                        <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" />
                     </div>
+                    <!--
+                    ===============================================================================================================================================
+                    TO CHRIS:
+                    In the event of NO DEFINED PHOTO, remove this <aside> element completely.
+                    ===============================================================================================================================================
+                    -->
                     <aside class="credit">
                         <p>Photo credit: Maya Sugarman / KPCC</p>
                     </aside><!--/ .credit -->
