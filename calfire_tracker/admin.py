@@ -22,6 +22,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
             ('Management & Curation', {
                 'fields': [
                     'promoted_fire',
+                    'asset_host_image_id',
                     'twitter_hashtag',
                     'last_scraped',
                 ]

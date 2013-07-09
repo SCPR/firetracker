@@ -12,6 +12,7 @@ class CalWildfire(models.Model):
     # management & curation
     created_fire_id = models.CharField('Fire Unique ID', max_length=500, null=True, blank=True)
     promoted_fire = models.BooleanField('Feature This Fire?', default=False)
+    asset_host_image_id = models.CharField('Image ID from Asset Host', max_length=140, null=True, blank=True)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
     #wildfire_update = models.ForeignKey(WildfireUpdate, blank=True, null=True)
