@@ -40,10 +40,10 @@ var kpccApiArticleDisplay = {
 
     createArrayFrom: function(data){
 
-        console.log(data);
+        //console.log(data);
 
         // begin loop
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i<data.length; i++) {
             var asset = data[i].assets[0].small.url;
             var short_title = data[i].short_title;
             var permalink = data[i].permalink;
@@ -57,7 +57,8 @@ var kpccApiArticleDisplay = {
                     '<b class="img"><img src="' + asset + '" /></b>' +
                     '<span>' + kpccApiArticleDisplay.takeTime(published_at) + '</span>' +
                     '<mark>' + short_title + '</mark></a>' +
-                '</li>');
+                '</li>'
+            );
         }
        // end loop
     }
@@ -81,9 +82,12 @@ var kpccApiImageDisplay = {
     },
 
     createArrayFrom: function(data){
-
-        console.log(data);
-
+        jqueryNoConflict(kpccApiImageConfig.contentContainer).html(
+            '<img src="' + data.urls.full + '" alt="' + data.caption + '" />' +
+            '<aside class="credit">' +
+            '<p>Photo credit: ' + data.owner + '</p>' +
+            '</aside>'
+        );
     }
 }
 // end kpccApiImageDisplay
