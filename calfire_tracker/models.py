@@ -28,15 +28,15 @@ class CalWildfire(models.Model):
     fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
 
     # location information
-    location = models.TextField('Location from Cal Fire ', max_length=1024, null=True, blank=True)
-    computed_location = models.TextField('Location to Geocode', max_length=255, null=True, blank=True)
+    location = models.TextField('Location from Cal Fire ', null=True, blank=True)
+    computed_location = models.TextField('Location to Geocode', null=True, blank=True)
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
     location_geocode_error = models.BooleanField('Geocoded Error', default=False)
 
     # fire stats
     injuries = models.CharField('Reported Injuries', max_length=1024, null=True, blank=True)
-    evacuations = models.TextField('Reported Evacuations', max_length=1024, null=True, blank=True)
+    evacuations = models.TextField('Reported Evacuations', null=True, blank=True)
     structures_threatened = models.CharField('Reported Structures Threatened', max_length=1024, null=True, blank=True)
     structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
 
@@ -50,12 +50,15 @@ class CalWildfire(models.Model):
     total_fire_crews = models.IntegerField('Fire Crews Deployed', max_length=10, null=True, blank=True)
 
     # situation on the ground
-    cause = models.TextField('Cause', max_length=1024, null=True, blank=True)
-    cooperating_agencies = models.TextField('Cooperating Agencies', max_length=1024, null=True, blank=True)
-    road_closures = models.TextField('Road Closures', max_length=1024, null=True, blank=True)
+    cause = models.TextField('Cause', null=True, blank=True)
+    cooperating_agencies = models.TextField('Cooperating Agencies', null=True, blank=True)
+    road_closures = models.TextField('Road Closures', null=True, blank=True)
     conditions = models.TextField('Conditions', null=True, blank=True)
-    phone_numbers = models.TextField('Phone Numbers', max_length=1024, null=True, blank=True)
-    notes = models.TextField('Notes', max_length=1024, null=True, blank=True)
+    current_situation = models.TextField('Current Situation', null=True, blank=True)
+    damage_assessment = models.TextField('Damage Assessment', null=True, blank=True)
+    training = models.TextField('Training', null=True, blank=True)
+    phone_numbers = models.TextField('Phone Numbers', null=True, blank=True)
+    notes = models.TextField('Notes', null=True, blank=True)
 
     def __unicode__(self):
         return self.fire_name

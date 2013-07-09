@@ -11,7 +11,7 @@
                 <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
                 <h2>
                     <mark>{{ calwildfire.county }}</mark>
-                    <span>Last Update: {{ calwildfire.last_updated|date:"D, M d, Y g:i a" }}</span>
+                    <span>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a" }}</span>
                 </h2>
             </div>
             <aside class="brand">
@@ -62,6 +62,8 @@
                     </aside><!--/ .credit -->
                 </section><!--/ .summary -->
                 <div class="context">
+
+                    <!-- begin hooks for map or no -->
                     {% if calwildfire.location_latitude and calwildfire.location_longitude %}
                         <figure class="location">
                             <div class="map">
@@ -69,8 +71,7 @@
                     &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" />
                             </div>
                             <figcaption><span>{{ calwildfire.location }}</span></figcaption>
-                        </figure><!--/ .location -->
-
+                        </figure>
                     {% else %}
                         <aside class="location no-map">
                             <dl>
@@ -79,6 +80,8 @@
                             </dl>
                         </aside>
                     {% endif %}
+                    <!-- end hooks for map or no -->
+
                     <section class="damages">
                         <dl class="threatened">
                             <dt>Structures Threatened</dt>
@@ -128,19 +131,10 @@
                             </dl>
                         </div>
                         <div class="row clearfix">
-
-                            {% if calwildfire.total_helicopters == None %}
-                                <dl class="helicopters">
-                                    <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            {% else %}
-                                <dl class="helicopters">
-                                    <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            {% endif %}
-
+                            <dl class="helicopters">
+                                <dt>Helicopters</dt>
+                                <dd>{{ calwildfire.total_helicopters|default_if_none:"n/a"|intcomma }}</dd>
+                            </dl>
                             <dl class="dozers">
                                 <dt>Dozers</dt>
                                 <dd>{{ calwildfire.total_dozers|default_if_none:"n/a"|intcomma }}</dd>
@@ -208,13 +202,13 @@
                                 {% endif %}
 
                                 <dt>Current Situation</dt>
-                                <dd>Significant progress was made on the fire yesterday and last night. Crews continue to make good progress towards meeting control objectives. Due to aggressive fire suppression efforts, fire activity has diminished, allowing demobilization of excess resources. There are still closures in some areas allowing firefighters to complete firefighting and mop up efforts. Mop up and patrol of the fire line is required 200 feet from the perimeter, so motorists are asked to stay on the lookout for crews.</dd>
+                                <dd>{{ calwildfire.current_situation|default_if_none:"n/a" }}</dd>
 
                                 <dt>Damage Assessment</dt>
-                                <dd>Assessments have begun to determine the damage caused by fire suppression operations and the necessary fire line repair. Areas requiring suppression repair are being identified and repair efforts will begin with specialized teams. The cooperating agencies have been active in restoring power lines, utilities, and roads affected by the fire. In addition, the damage inspection teams will continue to locate damaged structures.</dd>
+                                <dd>{{ calwildfire.damage_assessment|default_if_none:"n/a" }}</dd>
 
                                 <dt>Training</dt>
-                                <dd>Wildland firefighting requires special skills and the most highly qualified firefighters spend a substantial amount of time mentoring and training new hires and talented firefighters. Many certifications require firefighters to attend classes on their own time and obtain training record sign off from experienced training officers and firefighting specialists. On this fire, a number of trainees have been assigned and are currently being evaluated.</dd>
+                                <dd>{{ calwildfire.training|default_if_none:"n/a" }}</dd>
                             </dl>
                         </section><!--/ .details -->
                     </div><!--/ .tertiaries -->
