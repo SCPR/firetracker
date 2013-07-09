@@ -6,8 +6,13 @@ class WildfireUpdateAdmin(admin.ModelAdmin):
         list_per_page = 10
         search_fields = ['update_text']
 
+class WildfireUpdateInline(admin.TabularInline):
+    model = WildfireUpdate
+
 class CalWildfireAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_started', 'injuries', 'acres_burned', 'containment_percent', 'last_updated', 'last_scraped',)
+
+        inlines = (WildfireUpdateInline,)
 
         list_per_page = 10
         ordering = ('-date_time_started',)
