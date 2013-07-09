@@ -1,22 +1,20 @@
-from calfire_tracker.models import CalWildfire
+from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.contrib import admin
 
-class CalWildfireAdmin(admin.ModelAdmin):
+class WildfireUpdateAdmin(admin.ModelAdmin):
+	list_display = ('fire_name', 'date_time_update', 'update_text', 'source',)
+        list_per_page = 10
+        search_fields = ['update_text']
 
+class CalWildfireAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_started', 'injuries', 'acres_burned', 'containment_percent', 'last_updated', 'last_scraped',)
 
         list_per_page = 10
-
         ordering = ('-date_time_started',)
-
         date_hierarchy = 'date_time_started'
-
         save_on_top = True
-
         prepopulated_fields = {'fire_slug': ('fire_name',)}
-
         fieldsets = [
-
             ('Management & Curation', {
                 'fields': [
                     'promoted_fire',
@@ -24,7 +22,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'last_scraped',
                 ]
             }),
-
             ('General Details', {
                 'fields': [
                     'fire_name',
@@ -39,7 +36,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
                 ]
             }),
-
             ('Location Information', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
@@ -50,7 +46,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'location_geocode_error',
                 ]
             }),
-
             ('Fire Stats', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
@@ -60,7 +55,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'structures_destroyed',
                 ]
             }),
-
             ('Resources Deployed', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
@@ -73,7 +67,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'total_fire_crews',
                 ]
             }),
-
             ('Situation On The Ground', {
                 'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
@@ -93,4 +86,5 @@ class CalWildfireAdmin(admin.ModelAdmin):
 	list_filter = ['date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
 
+admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(CalWildfire, CalWildfireAdmin)
