@@ -55,23 +55,14 @@
                         </figure>
                     </div><!--/ .stats -->
                     <div class="photo">
-                        <!--
-                        ===============================================================================================================================================
-                        TO CHRIS:
-                        In the event of NO DEFINED PHOTO, replace this with: <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
-                        ===============================================================================================================================================
-                        -->
-                        <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" alt="" />
+                        {% if calwildfire.asset_host_image_id %}
+                            {% block kpcc_images %}
+                                {% include 'kpcc_images.html' %}
+                            {% endblock %}
+                        {% else %}
+                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                        {% endif %}
                     </div>
-                    <!--
-                    ===============================================================================================================================================
-                    TO CHRIS:
-                    In the event of NO DEFINED PHOTO, remove this <aside> element completely.
-                    ===============================================================================================================================================
-                    -->
-                    <aside class="credit">
-                        <p>Photo credit: Maya Sugarman / KPCC</p>
-                    </aside><!--/ .credit -->
                 </section><!--/ .summary -->
                 <div class="context">
 
@@ -97,19 +88,19 @@
                     <section class="damages">
                         <dl class="threatened">
                             <dt>Structures Threatened</dt>
-                            <dd>{{ calwildfire.structures_threatened|default_if_none:"n/a"|intcomma }}</dd>
+                            <dd>{{ calwildfire.structures_threatened|default_if_none:"n/a" }}</dd>
                         </dl>
                         <dl class="destroyed">
                             <dt>Structures Destroyed</dt>
-                            <dd>{{ calwildfire.structures_destroyed|default_if_none:"n/a"|intcomma }}</dd>
+                            <dd>{{ calwildfire.structures_destroyed|default_if_none:"n/a" }}</dd>
                         </dl>
                         <dl class="evacuations">
                             <dt>Evacuations</dt>
-                            <dd>{{ calwildfire.evacuations|default_if_none:"n/a"|intcomma }}</dd>
+                            <dd>{{ calwildfire.evacuations|default_if_none:"n/a" }}</dd>
                         </dl>
                         <dl class="injuries">
                             <dt>Injuries</dt>
-                            <dd>{{ calwildfire.injuries|default_if_none:"n/a"|intcomma }}</dd>
+                            <dd>{{ calwildfire.injuries|default_if_none:"n/a" }}</dd>
                         </dl>
                     </section>
                 </div><!--/ .context -->

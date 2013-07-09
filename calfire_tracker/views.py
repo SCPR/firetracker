@@ -37,7 +37,7 @@ def detail(request, fire_slug):
     enddate = timedelta(days=21)
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
-    wildfire_updates = WildfireUpdate.objects.all().order_by('-date_time_update')
+    wildfire_updates = WildfireUpdate.objects.all()
     return render_to_response('detail.html', {
         'calwildfire': fire_detail,
         'calwildfires': calwildfires,
