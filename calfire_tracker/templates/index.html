@@ -7,6 +7,30 @@
     <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
 {% endblock %}
 
+{% block kpcc_api_query_config %}
+    <script>
+        var kpccApiArticleConfig = {
+            // comma separated string of items to query against
+            // default is blogs,news,segments
+            // options are news, blogs, segments, episodes, video
+            types: 'news,blogs,segments',
+
+            // string of what you want to query Outpost for
+            // the script will outmatically convert spaces to a + sign
+            query: '{{ calwildfires.fire_slug }}',
+
+            // integer showing the number of items to return
+            limit: 5,
+
+            // the page of results to return
+            page: 1,
+
+            // the div on the page in which you want the content to appear
+            contentContainer: '#article-list-content'
+        };
+    </script>
+{% endblock %}
+
 {% block fire_index_header %}
     <header class="facade">
         <div class="titling">
@@ -107,8 +131,12 @@
                                         <figcaption><span>{{ wildfire.location }}</span></figcaption>
                                     </figure>
                                     <figure class="photo">
-                                        <b class="img"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="{{ wildfire.fire_name }}" /></b>
-                                        <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                                        {% if wildfire.asset_host_image_id %}
+                                            <b class="img"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></b>
+                                            <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
+                                        {% else %}
+                                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                                        {% endif %}
                                     </figure>
                                 </div>
                                 <aside class="vitals clearfix">
@@ -147,14 +175,12 @@
                     </ul>
                 </aside>
                 <aside class="coverage">
-                    {% block kpcc_coverage %}
-                        {% include 'kpcc_coverage.html' %}
-                    {% endblock %}
+                    <h2>Recent KPCC Coverage</h2>
+                    <ul id="article-list-content"></ul>
                 </aside>
             </div><!--/ .evergreen -->
         </div><!--/ .landing-row-inner -->
     </div><!--/ .landing-row -->
-
     <div class="landing-row reverse-chron">
         <div class="landing-row-inner bound clearfix">
             <section class="all-fires">
@@ -171,7 +197,11 @@
                                     <li class="contained">{{ item.containment_percent|percentify }} contained</li>
                                 </ul>
                             </div>
-                            <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ STATIC_URL }}/media/firefighters.jpg" alt="" /></a></b>
+                            {% if wildfire.asset_host_image_id %}
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></a></b>
+                            {% else %}
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ STATIC_URL }}/media/archive-fire-photo-fallback.jpg" alt="{{ wildfire.fire_name }}" /></a></b>
+                            {% endif %}
                         </article>
                     {% endfor %}
                 {% endfor %}
