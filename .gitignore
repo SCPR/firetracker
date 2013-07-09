@@ -4,3 +4,4 @@ venv
 *.sqlite
 *.csv
 SCRATCHPAD.md
+migrations
