@@ -12,7 +12,7 @@ def sync():
 def run():
     local('python manage.py runserver')
 
-def schema(params='initial'):
+def schema(params='auto'):
     local('python manage.py schemamigration calfire_tracker --' + params)
     local('python manage.py migrate calfire_tracker')
 

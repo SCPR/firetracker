@@ -49,12 +49,10 @@
                             <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
                             <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                         </figure>
-                        <!--
                         <figure>
                             <span>425</span>
                             <figcaption>Air Quality Index (500: most hazardous)</figcaption>
                         </figure>
-                        -->
                     </div><!--/ .stats -->
                     <div class="photo">
                         <img src="{{ STATIC_URL }}/media/powerhouse-full.jpg" />
@@ -80,9 +78,11 @@
                     
                     
                     <figure class="location">
-                        <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=602x212&amp;maptype=roadmap
-                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Map" /></div>
-                        <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
+                        <div class="map">
+                            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap
+                &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
+                        </div>
+                        <figcaption><span>{{ calwildfire.location }}</span></figcaption>
                     </figure><!--/ .location -->
                     <section class="damages">
                         <dl class="threatened">
@@ -228,7 +228,7 @@
                     <section class="dispatches">
                         <header>
                             <h1>Dispatches From You</h1>
-                            <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>#PowerhouseFire</span>, and they’ll be displayed here.</p>
+                            <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>{{ calwildfire.twitter_hashtag }}</span>, and they’ll be displayed here.</p>
                         </header>
                         <article>
                             <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>

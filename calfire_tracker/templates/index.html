@@ -96,8 +96,8 @@
                             <div class="scenes clearfix">
                                 <div class="imagery clearfix">
                                     <figure class="location">
-                                        <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center=34.1119534,-118.1989617&amp;zoom=12&amp;size=222x146&amp;maptype=roadmap
-                &amp;markers=color:blue%7C34.1119534,-118.1989617&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
+                                        <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
                                         <figcaption><span>Angeles National Forest, Southwest of Green Valley</span></figcaption>
                                     </figure>
                                     <figure class="photo">
@@ -108,7 +108,7 @@
                                 <aside class="vitals clearfix">
                                     <dl class="contained">
                                         <dt>Contained</dt>
-                                        <dd>{{ wildfire.containment_percent|percentify }}%</dd>
+                                        <dd>{{ wildfire.containment_percent|percentify }}</dd>
                                     </dl>
                                     <dl class="acres">
                                         <dt>Acres burned</dt>
