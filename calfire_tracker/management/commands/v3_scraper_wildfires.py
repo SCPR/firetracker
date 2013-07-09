@@ -101,7 +101,7 @@ def save_data_from_dict_to_model(data_dict):
         county = None
 
     if data_dict.has_key('location'):
-        location = data_dict['location']
+        location = titlecase(data_dict['location'])
     else:
         location = None
 
