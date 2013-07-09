@@ -95,25 +95,13 @@ def save_data_from_dict_to_model(data_dict):
     else:
         fire_name = 'fire_name'
 
+    created_fire_id = '%s-%s' % (fire_name, county)
+    twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
+
     if data_dict.has_key('county'):
         county = data_dict['county']
     else:
         county = None
-
-    if data_dict.has_key('location'):
-        location = titlecase(data_dict['location'])
-    else:
-        location = None
-
-    if data_dict.has_key('administrative_unit'):
-        administrative_unit = data_dict['administrative_unit']
-    else:
-        administrative_unit = None
-
-    if data_dict.has_key('more_info'):
-        more_info = data_dict['more_info']
-    else:
-        more_info = None
 
     if data_dict.has_key('estimated_containment'):
         acres_burned = extract_initial_integer(data_dict['estimated_containment'])
@@ -128,13 +116,6 @@ def save_data_from_dict_to_model(data_dict):
         acres_burned = None
         containment_percent = None
 
-    if data_dict.has_key('last_updated'):
-        last_updated = convert_time_to_nicey_format(data_dict['last_updated'])
-    elif data_dict.has_key('last_update'):
-        last_updated = convert_time_to_nicey_format(data_dict['last_update'])
-    else:
-        last_updated = None
-
     if data_dict.has_key('date_time_started'):
         date_time_started = convert_time_to_nicey_format(data_dict['date_time_started'])
     elif data_dict.has_key('date_started'):
@@ -142,10 +123,34 @@ def save_data_from_dict_to_model(data_dict):
     else:
         date_time_started = None
 
-    if data_dict.has_key('phone_numbers'):
-        phone_numbers = data_dict['phone_numbers']
+    if data_dict.has_key('last_updated'):
+        last_updated = convert_time_to_nicey_format(data_dict['last_updated'])
+    elif data_dict.has_key('last_update'):
+        last_updated = convert_time_to_nicey_format(data_dict['last_update'])
     else:
-        phone_numbers = None
+        last_updated = None
+
+    if data_dict.has_key('administrative_unit'):
+        administrative_unit = data_dict['administrative_unit']
+    else:
+        administrative_unit = None
+
+    if data_dict.has_key('more_info'):
+        more_info = data_dict['more_info']
+    else:
+        more_info = None
+
+    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
+
+    if data_dict.has_key('location'):
+        location = titlecase(data_dict['location'])
+    else:
+        location = None
+
+    if data_dict.has_key('injuries'):
+        injuries = data_dict['injuries']
+    else:
+        injuries = None
 
     if data_dict.has_key('evacuations'):
         evacuations = data_dict['evacuations']
@@ -156,16 +161,6 @@ def save_data_from_dict_to_model(data_dict):
         structures_threatened = data_dict['structures_threatened']
     else:
         structures_threatened = None
-
-    if data_dict.has_key('injuries'):
-        injuries = data_dict['injuries']
-    else:
-        injuries = None
-
-    if data_dict.has_key('road_closures_'):
-        road_closures = data_dict['road_closures_']
-    else:
-        road_closures = None
 
     if data_dict.has_key('structures_destroyed'):
         structures_destroyed = data_dict['structures_destroyed']
@@ -197,99 +192,103 @@ def save_data_from_dict_to_model(data_dict):
     else:
         total_water_tenders = None
 
-    if data_dict.has_key('cause'):
-        cause = data_dict['cause']
-    else:
-        cause = None
-
     if data_dict.has_key('total_airtankers'):
         total_airtankers = extract_initial_integer(data_dict['total_airtankers'])
     else:
         total_airtankers = None
-
-    if data_dict.has_key('conditions'):
-        conditions = data_dict['conditions']
-    else:
-        conditions = None
-
-    if data_dict.has_key('cooperating_agencies'):
-        cooperating_agencies = data_dict['cooperating_agencies']
-    else:
-        cooperating_agencies = None
 
     if data_dict.has_key('total_fire_crews'):
         total_fire_crews = extract_initial_integer(data_dict['total_fire_crews'])
     else:
         total_fire_crews = None
 
+    if data_dict.has_key('cause'):
+        cause = data_dict['cause']
+    else:
+        cause = None
+
+    if data_dict.has_key('cooperating_agencies'):
+        cooperating_agencies = data_dict['cooperating_agencies']
+    else:
+        cooperating_agencies = None
+
+    if data_dict.has_key('road_closures_'):
+        road_closures = data_dict['road_closures_']
+    else:
+        road_closures = None
+
+    if data_dict.has_key('conditions'):
+        conditions = data_dict['conditions']
+    else:
+        conditions = None
+
+    if data_dict.has_key('phone_numbers'):
+        phone_numbers = data_dict['phone_numbers']
+    else:
+        phone_numbers = None
+
     if data_dict.has_key('notes'):
         notes = data_dict['notes']
     else:
         notes = None
 
-    # constructed unique id to check to see if record exists in database #
-    created_fire_id = '%s-%s' % (fire_name, county)
-
-    # create fireslug if one doesn't exist #
-    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
-
-    twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
-
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
         defaults={
-            'fire_name': fire_name,
-            'fire_slug': fire_slug,
             'twitter_hashtag': twitter_hashtag,
+            'last_scraped': datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific')),
+
+            'fire_name': fire_name,
             'county': county,
-            'location': location,
-            'administrative_unit': administrative_unit,
-            'more_info': more_info,
             'acres_burned': acres_burned,
             'containment_percent': containment_percent,
-            'last_updated': last_updated,
             'date_time_started': date_time_started,
-            'phone_numbers': phone_numbers,
+            'last_updated': last_updated,
+            'administrative_unit': administrative_unit,
+            'more_info': more_info,
+            'fire_slug': fire_slug,
+
+            'location': location,
+
+            'injuries': injuries,
             'evacuations': evacuations,
             'structures_threatened': structures_threatened,
-            'injuries': injuries,
-            'road_closures': road_closures,
             'structures_destroyed': structures_destroyed,
+
             'total_dozers': total_dozers,
             'total_helicopters': total_helicopters,
             'total_fire_engines': total_fire_engines,
             'total_fire_personnel': total_fire_personnel,
             'total_water_tenders': total_water_tenders,
-            'cause': cause,
             'total_airtankers': total_airtankers,
-            'conditions': conditions,
-            'cooperating_agencies': cooperating_agencies,
             'total_fire_crews': total_fire_crews,
+
+            'cause': cause,
+            'cooperating_agencies': cooperating_agencies,
+            'road_closures': road_closures,
+            'conditions': conditions,
+            'phone_numbers': phone_numbers,
             'notes': notes,
-            'last_scraped': datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
         }
     )
 
     if not created:
-        obj.fire_slug = fire_slug
-        obj.twitter_hashtag = twitter_hashtag
-        obj.location = location
-        obj.administrative_unit = administrative_unit
-        obj.more_info = more_info
+        obj.last_scraped = datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
+
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
-        obj.last_updated = last_updated
         obj.date_time_started = date_time_started
-        obj.phone_numbers = phone_numbers
+        obj.last_updated = last_updated
+        obj.administrative_unit = administrative_unit
+        obj.more_info = more_info
+
+        obj.location = location
+
+        obj.injuries = injuries
         obj.evacuations = evacuations
         obj.structures_threatened = structures_threatened
-        obj.injuries = injuries
-        obj.road_closures = road_closures
         obj.structures_destroyed = structures_destroyed
-        obj.cause = cause
-        obj.conditions = conditions
-        obj.cooperating_agencies = cooperating_agencies
-        obj.notes = notes
+
         obj.total_dozers = total_dozers
         obj.total_helicopters = total_helicopters
         obj.total_fire_engines = total_fire_engines
@@ -297,7 +296,13 @@ def save_data_from_dict_to_model(data_dict):
         obj.total_water_tenders = total_water_tenders
         obj.total_airtankers = total_airtankers
         obj.total_fire_crews =  total_fire_crews
-        obj.last_scraped = datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
+
+        obj.cause = cause
+        obj.cooperating_agencies = cooperating_agencies
+        obj.road_closures = road_closures
+        obj.conditions = conditions
+        obj.road_closures = road_closures
+        obj.notes = notes
         obj.save()
 
 ### begin helper and formatting functions ###
