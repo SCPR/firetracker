@@ -7,7 +7,11 @@ from geopy import geocoders
 import pytz
 import time, datetime
 
-# Create your models here.
+class WildfireUpdate(models.Model):
+    date_time_update = models.DateTimeField('Time of Update', null=True, blank=True)
+    update_text = models.TextField('Latest Update', null=True, blank=True)
+    source = models.URLField('Source', max_length=1024, null=True, blank=True)
+
 class CalWildfire(models.Model):
 
     # management & curation
