@@ -7,7 +7,7 @@
     <head>
 
         <!-- begin meta -->
-        {% block title %}{% endblock %}
+        <title>{% block title %}{% endblock %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -17,26 +17,25 @@
         <!--
             <meta name="robots" content="noindex, nofollow, noarchive">
         -->
-        {% block description %}{% endblock %}
-        {% block keywords %}{% endblock %}
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
         <meta name="author" content="89.3 KPCC" />
-        {% block og_site_name %}{% endblock %}
+        <meta property="og:site_name" content="{% block og_site_name %}{% endblock %}" />
         <meta property="og:type" content="website"/>
-        <meta property="og:image" content="{{ STATIC_URL }}/meta/firetracker-opengraph.jpg" />
-        {% block og_site_title %}{% endblock %}
-        {% block og_url %}{% endblock %}
-        {% block og_description %}{% endblock %}
+        <meta property="og:image" content="{ STATIC_URL }}/meta/firetracker-opengraph.jpg" />
+        <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+        <meta property="og:url" content="{% block og_url %}{% endblock %}" />
+        <meta property="og:description" content="{% block og_description %}{% endblock %}" />
         <meta name="twitter:card" content="summary"/>
-        {% block twitter_url %}{% endblock %}
+        <meta name="twitter:url" content="{% block twitter_url %}{% endblock %}"/>
         <meta name="twitter:domain" content="http://projects.scpr.org/"/>
         <meta name="twitter:site" content="KPCC"/>
-        {% block twitter_url %}{% endblock %}
-        <meta name="twitter:creator:id" content="KPCC"/>
-        {% block twitter_title %}{% endblock %}
-        {% block twitter_description %}{% endblock %}
+        <meta name="twitter:creator:id" content=""/>
+        <meta name="twitter:title" content="{% block twitter_title %}{% endblock %}"/>
+        <meta name="twitter:description" content="{% block twitter_description %}{% endblock %}"/>
         <meta name="twitter:image:src" content="http://www.scpr.org/assets/logo-masthead.png"/>
         <link rel="shortcut icon" href="http://media.scpr.org/favicon.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}/meta/apple-touch-icon-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" href="{ STATIC_URL }}/meta/apple-touch-icon-precomposed.png" />
         <!-- end meta -->
 
         <!-- begin css -->
