@@ -144,11 +144,11 @@ INSTALLED_APPS = (
     # api & tools
     'south',
     'django_admin_bootstrapped',
-	'massadmin',
+    'massadmin',
     'debug_toolbar',
-	#'tastypie',
-	'csvimporter',
-	'data_exports',
+    #'tastypie',
+    'csvimporter',
+    'data_exports',
 
     # admin
     'django.contrib.admin',
