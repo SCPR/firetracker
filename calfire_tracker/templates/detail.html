@@ -68,7 +68,14 @@
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
                 <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
             </aside>
-            {% include "social-sharing.html" %}
+            <aside class="share">
+                <ul class="clearfix">
+                    <li class="em"><a href="#">Email a link to this fire page</a></li>
+                    <li class="tu"><a href="http://tumblr.com/share?s=&amp;v=3&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}&amp;u={{ calwildfire.get_absolute_url }}">Share this fire page on Tumblr</a></li>
+                    <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20-%20{{ calwildfire.get_absolute_url|urlencode }}%20via%20@KPCC's%20FireTracker">Share this fire page on Twitter</a></li>
+                    <li class="fa"><a href="https://www.facebook.com/sharer.php?u={{ calwildfire.get_absolute_url|urlencode }}&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share this fire page on Facebook</a></li>
+                </ul>
+            </aside>
         </div><!--/ .masthead-inner -->
     </header><!--/ .masthead -->
     <!-- end header -->
