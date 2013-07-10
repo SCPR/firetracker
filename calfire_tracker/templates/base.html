@@ -7,42 +7,35 @@
     <head>
 
         <!-- begin meta -->
-        <title>Fire Tracker | 89.3 KPCC</title>
+        <title>{% block title %}{% endblock %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="format-detection" content="telephone=no"/>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-
         <!--
-        =======================================================================
-        =======================================================================
-        REMOVE BEFORE LAUNCHING                                             -->
-        <meta name="robots" content="noindex, nofollow, noarchive">         <!--
-        =======================================================================
-        =======================================================================
+            <meta name="robots" content="noindex, nofollow, noarchive">
         -->
-
-        <meta name="description" content="89.3 KPCC's up-to-the-minute tool for following and researching Southern California wildfires." />
-        <meta name="keywords" content="KPCC,Southern California Public Radio,89.3,89.3 KPCC,Southern California,Pasadena,Los Angeles,Fires,Wildfires,Fire Tracker,News" />
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
         <meta name="author" content="89.3 KPCC" />
-        <meta property="og:site_name" content="Fire Tracker | 89.3 KPCC" />
+        <meta property="og:site_name" content="{% block og_site_name %}{% endblock %}" />
         <meta property="og:type" content="website"/>
-        <meta property="og:image" content="http://projects.scpr.org/firetracker/static/meta/firetracker-opengraph.jpg" />
-        <meta property="og:title" content="#" />
-        <meta property="og:url" content="#" />
-        <meta property="og:description" content="89.3 KPCC's up-to-the-minute tool for following and researching Southern California wildfires." />
+        <meta property="og:image" content="{ STATIC_URL }}/meta/firetracker-opengraph.jpg" />
+        <meta property="og:title" content="{% block og_title %}{% endblock %}" />
+        <meta property="og:url" content="{% block og_url %}{% endblock %}" />
+        <meta property="og:description" content="{% block og_description %}{% endblock %}" />
         <meta name="twitter:card" content="summary"/>
-        <meta name="twitter:url" content="#"/>
+        <meta name="twitter:url" content="{% block twitter_url %}{% endblock %}"/>
         <meta name="twitter:domain" content="http://projects.scpr.org/"/>
         <meta name="twitter:site" content="KPCC"/>
         <meta name="twitter:creator:id" content=""/>
-        <meta name="twitter:title" content="#"/>
-        <meta name="twitter:description" content="89.3 KPCC's up-to-the-minute tool for following and researching Southern California wildfires."/>
+        <meta name="twitter:title" content="{% block twitter_title %}{% endblock %}"/>
+        <meta name="twitter:description" content="{% block twitter_description %}{% endblock %}"/>
         <meta name="twitter:image:src" content="http://www.scpr.org/assets/logo-masthead.png"/>
         <link rel="shortcut icon" href="http://media.scpr.org/favicon.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon-precomposed" href="static/meta/apple-touch-icon-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" href="{ STATIC_URL }}/meta/apple-touch-icon-precomposed.png" />
         <!-- end meta -->
 
         <!-- begin css -->
@@ -73,7 +66,6 @@
 
     <!-- begin body -->
     <body>
-
         {% block fire_index_header %}{% endblock %}
         {% block fire_index_content %}{% endblock %}
         {% block fire_detail_header %}{% endblock %}
@@ -82,15 +74,15 @@
         <!-- begin footer -->
         <footer class="epilogue">
             <div class="epilogue-inner bound">
-                <h1><a href="http://kpcc.org" class="parent">89.3 KPCC</a> <a href="#" class="title">Fire Tracker</a></h1>
+                <h1><a href="http://www.scpr.org/" class="parent">89.3 KPCC</a> <a href="/wildfires/" class="title">Fire Tracker</a></h1>
                 <nav>
                     <ul>
-                        <li><a href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Website Feedback</a></li>
+                        <li><a href="http://scpr.org/terms/">Terms &amp; Conditions</a></li>
+                        <li><a href="http://scpr.org/privacy/">Privacy</a></li>
+                        <li><a href="http://scpr.org/web_site_feedback">Website Feedback</a></li>
                     </ul>
                 </nav>
-                <p class="legal">Copyright 2013 &copy; <a href="http://kpcc.org">Southern California Public Radio</a></p>
+                <p class="legal">Copyright {% now "Y" %} &copy; <a href="http://www.scpr.org/">Southern California Public Radio</a></p>
             </div>
         </footer><!--/ .epilogue -->
         <!-- end footer -->

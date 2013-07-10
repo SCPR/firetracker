@@ -3,6 +3,19 @@
 {% load tz %}
 {% load tracker_tags %}
 
+<!-- begin meta -->
+{% block title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.date_time_started|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.date_time_started|date:"l, F j, Y" }}.{% endif %}{% endblock %}
+{% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_url %}/wildfires/{% endblock %}
+{% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+{% block twitter_url %}/wildfires/{% endblock %}
+{% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+<!-- end meta -->
+
 {% block kpcc_api_query_script %}
     <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
 {% endblock %}
@@ -52,8 +65,8 @@
                 </h2>
             </div>
             <aside class="brand">
-                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
-                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
+                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
+                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
             </aside>
             <aside class="share">
                 <ul class="clearfix">
