@@ -29,6 +29,6 @@ python-dateutil==1.5
 python-ptrace==0.6.4
 pytz==2012c
 titlecase==0.5.1
-tweepy==2.1
+-e git+git://github.com/tweepy/tweepy.git#egg=tweepy
 wsgiref==0.1.2
 yolk==0.4.3
