@@ -39,7 +39,8 @@ def detail(request, fire_slug):
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.all()
-
+    auth1 = tweepy.auth.OAuthHandler()
+    auth1.set_access_token()
     api = tweepy.API(auth1)
     result_list = api.search('#PowerhouseFire')
 
@@ -49,10 +50,3 @@ def detail(request, fire_slug):
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
     }, context_instance=RequestContext(request))
-
-def tweetstream(request):
-    auth1 = tweepy.auth.OAuthHandler('mmIazAE9Qa6U7Wc2cXcLQ','ZDIc3elxbnPTuDTiKMCXDS0Kvk2WoZ5kVab3gBXgInY')
-    auth1.set_access_token('12804312-FAAGSRR2Jvj828sKXuuBiJ9MnQZHA5CYIHCt6NBmf','KVkDNuyRl5X7m942Ik0PySA4RY9Lm7Y4v9a9kHH2c')
-    api = tweepy.API(auth1)
-    result_list = api.search('ChrisLKeller')
-    return render_to_response('test.html', {'result_list': result_list})
