@@ -17,7 +17,7 @@ def restart():
     Restarts the server
     """
     with cd(REMOTE_APP_ROOT):
-        run('touch tmp/restart.txt')
+        run('mkdir -p tmp/ && touch tmp/restart.txt')
 
 
 def deploy():
