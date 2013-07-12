@@ -39,5 +39,4 @@ urlpatterns = patterns('',
 
 	# app urls
     (r'^wildfires/', include('calfire_tracker.urls')),
-
 )
