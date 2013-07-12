@@ -22,7 +22,7 @@
         <meta name="author" content="89.3 KPCC" />
         <meta property="og:site_name" content="{% block og_site_name %}{% endblock %}" />
         <meta property="og:type" content="website"/>
-        <meta property="og:image" content="{ STATIC_URL }}/meta/firetracker-opengraph.jpg" />
+        <meta property="og:image" content="{% static 'meta/firetracker-opengraph.jpg' %}" />
         <meta property="og:title" content="{% block og_title %}{% endblock %}" />
         <meta property="og:url" content="{% block og_url %}{% endblock %}" />
         <meta property="og:description" content="{% block og_description %}{% endblock %}" />
@@ -35,12 +35,12 @@
         <meta name="twitter:description" content="{% block twitter_description %}{% endblock %}"/>
         <meta name="twitter:image:src" content="http://www.scpr.org/assets/logo-masthead.png"/>
         <link rel="shortcut icon" href="http://media.scpr.org/favicon.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon-precomposed" href="{ STATIC_URL }}/meta/apple-touch-icon-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" href="{% static 'meta/apple-touch-icon-precomposed.png' %}" />
         <!-- end meta -->
 
         <!-- begin css -->
-        <link href="{{ STATIC_URL }}/css/reset.css" media="screen" rel="stylesheet" />
-        <link href="{{ STATIC_URL }}/css/display.css" media="screen" rel="stylesheet" />
+        <link href="{% static 'css/reset.css' %}" media="screen" rel="stylesheet" />
+        <link href="{% static 'css/display.css' %}" media="screen" rel="stylesheet" />
 
         <!--[if lt IE 9]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -51,10 +51,10 @@
         <!-- begin base scripts -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://projects.scpr.org/static/static-files/scripts/modernizr-2.5.3.min.js"></script>
-        <script src="{{ STATIC_URL }}/js/behaviors.js"></script>
+        <script src="{% static 'js/behaviors.js' %}"></script>
         {% block kpcc_api_query_script %}{% endblock %}
         {% block kpcc_api_query_config %}{% endblock %}
-        <script src="{{ STATIC_URL }}/js/moment.min.js"></script>
+        <script src="{% static 'js/moment.min.js' %}"></script>
         <script type="text/javascript" src="//use.typekit.net/mos4lel.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
         <script async="" src="http://www.google-analytics.com/ga.js"></script>

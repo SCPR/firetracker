@@ -17,7 +17,7 @@
 <!-- end meta -->
 
 {% block kpcc_api_query_script %}
-    <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
 {% endblock %}
 
 {% block kpcc_api_query_config %}
@@ -113,7 +113,7 @@
                                 </aside>
                             </div>
                         {% else %}
-                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="{{ calwildfire.fire_name }}" />
+                            <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="{{ calwildfire.fire_name }}" />
                         {% endif %}
                     </div>
                 </section><!--/ .summary -->
