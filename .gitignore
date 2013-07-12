@@ -6,3 +6,4 @@ venv
 SCRATCHPAD.md
 migrations
 settings_development.py
+tmp/
