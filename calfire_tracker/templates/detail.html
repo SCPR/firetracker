@@ -3,6 +3,19 @@
 {% load tz %}
 {% load tracker_tags %}
 
+<!-- begin meta -->
+{% block title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.date_time_started|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.date_time_started|date:"l, F j, Y" }}.{% endif %}{% endblock %}
+{% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_url %}/wildfires/{% endblock %}
+{% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+{% block twitter_url %}/wildfires/{% endblock %}
+{% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+<!-- end meta -->
+
 {% block kpcc_api_query_script %}
     <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
 {% endblock %}
@@ -52,15 +65,15 @@
                 </h2>
             </div>
             <aside class="brand">
-                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
-                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
+                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="/wildfires/">Fire Tracker</a></span></h3>
+                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
             </aside>
             <aside class="share">
                 <ul class="clearfix">
-                    <li class="em"><a href="#">Email a link to this fire page</a></li>
-                    <li class="tu"><a href="#">Share this fire page on Tumblr</a></li>
-                    <li class="tw"><a href="#">Share this fire page on Twitter</a></li>
-                    <li class="fa"><a href="#">Share this fire page on Facebook</a></li>
+                    <li class="em"><a title="Email a link" href="mailto:?subject={{ calwildfire.fire_name }}%20in%20{{ calwildfire.county }}&body=The {{ calwildfire.fire_name }} in {{ calwildfire.county }} is burning near {{ calwildfire.location }}.">Email a link</a></li>
+                    <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}&amp;u={{ calwildfire.get_absolute_url }}">Share on Tumblr</a></li>
+                    <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20-%20{{ calwildfire.get_absolute_url|urlencode }}%20via%20@KPCC's%20FireTracker">Share on Twitter</a></li>
+                    <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u={{ calwildfire.get_absolute_url|urlencode }}&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share on Facebook</a></li>
                 </ul>
             </aside>
         </div><!--/ .masthead-inner -->
@@ -251,62 +264,15 @@
                             <h1>Dispatches From You</h1>
                             <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>{{ calwildfire.twitter_hashtag }}</span>, and they’ll be displayed here.</p>
                         </header>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">4h</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                            </header>
-                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">16 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                            </header>
-                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">15 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                            </header>
-                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">12 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                            </header>
-                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">10 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                            </header>
-                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">9 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                            </header>
-                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">7 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                            </header>
-                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">2 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                            </header>
-                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                        </article>
+                        {% for result in result_list %}
+                            <article>
+                                <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
+                                <header>
+                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+                                </header>
+                                <p>{{ result.text }}</p>
+                            </article>
+                        {% endfor %}
                     </section><!--/ .dispatches -->
                 </div><!--/ .secondary -->
             </div><!--/ .fire-details -->
