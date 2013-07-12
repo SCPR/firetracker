@@ -5,3 +5,4 @@ venv
 *.csv
 SCRATCHPAD.md
 migrations
+settings_development.py

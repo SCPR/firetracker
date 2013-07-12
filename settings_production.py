@@ -2,9 +2,9 @@
 
 # -*- coding: utf-8 -*-
 import os
-import dj_database_url
+from os.path import expanduser
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -14,22 +14,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'django_test',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'root',                  # Not used with sqlite3.
-        'HOST': '/Applications/MAMP/tmp/mysql/mysql.sock',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
 
-'''
-DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///firetracker.sqlite')
-}
-'''
+# Load in sensitive information
+# Contains:
+# * DATABASES
+# * SECRET_KEY
+execfile(expanduser('~/apps/firetracker/.production_settings'))
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -88,8 +79,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'pg4j+xce0qm2dmcz%fv_#7u&amp;_qu^fyng7nnbg-ccus6r!b&amp;q#%'
 
 TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
 
@@ -144,11 +133,11 @@ INSTALLED_APPS = (
     # api & tools
     'south',
     'django_admin_bootstrapped',
-	'massadmin',
+    'massadmin',
     'debug_toolbar',
-	#'tastypie',
-	'csvimporter',
-	'data_exports',
+    #'tastypie',
+    'csvimporter',
+    'data_exports',
 
     # admin
     'django.contrib.admin',
