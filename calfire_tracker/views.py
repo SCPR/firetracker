@@ -41,8 +41,7 @@ def detail(request, fire_slug):
     wildfire_updates = WildfireUpdate.objects.all()
 
     api = tweepy.API(auth1)
-    result_list = api.search('#PowerhouseFire')
-
+    result_list = api.search(calwildfire.twitter_hashtag)
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
