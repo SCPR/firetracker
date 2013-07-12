@@ -40,6 +40,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
 
 )
-
-# Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'firetracker.wsgi.application'
