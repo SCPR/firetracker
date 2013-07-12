@@ -27,7 +27,7 @@ def restart():
         run('mkdir -p tmp/ && touch tmp/restart.txt')
 
 
-def setup_static_files():
+def collectstatic():
     """
     Handle the static assets on the remote server.
     """
@@ -42,7 +42,7 @@ def deploy():
     """
     with cd(env.project_root):
         update_code()
-        setup_static_files()
+        collectstatic()
         restart()
 
 
@@ -51,7 +51,8 @@ def migrate(*args):
     Execute south migrations (takes arguments)
     """
     with cd(env.project_root):
-        run("%s manage.py migrate " % env.python_exe) + " ".join(args)
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py migrate " % env.python_exe) + " ".join(args)
 
 
 def revert():
@@ -60,21 +61,17 @@ def revert():
     """
     with cd(env.project_root):
         run('git reset --hard @{1}')
+        collectstatic()
         restart()
 
 
-def schema(params='auto'):
-    local('python manage.py schemamigration calfire_tracker --' + params)
-    local('python manage.py migrate calfire_tracker')
-
-
 def scrape():
-    local('python manage.py scraper_wildfires')
+    local("%s manage.py scraper_wildfires" % env.python_exe)
 
 
 def archives():
-    local('python manage.py v3_scraper_wildfires')
+    local('%s manage.py v3_scraper_wildfires' % env.python_exe)
 
 
 def convert():
-    local('python manage.py convert_to_south calfire_tracker')
+    local("%s manage.py convert_to_south calfire_tracker" % env.python_exe)
