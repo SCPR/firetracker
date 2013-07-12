@@ -20,12 +20,20 @@ def restart():
         run('mkdir -p tmp/ && touch tmp/restart.txt')
 
 
+def update_code():
+    """
+    Updates the code on the remote server
+    """
+    with cd(REMOTE_APP_ROOT):
+        run('git pull')
+
+
 def deploy():
     """
     Pulls the latest code from source control & restarts the server
     """
     with cd(REMOTE_APP_ROOT):
-        run('git pull')
+        update_code()
         restart()
 
 
