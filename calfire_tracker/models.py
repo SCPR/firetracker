@@ -36,7 +36,7 @@ class CalWildfire(models.Model):
     location_geocode_error = models.BooleanField('Geocoded Error', default=False)
 
     # fire stats
-    injuries = models.CharField('Reported Injuries', max_length=1024, null=True, blank=True)
+    injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
     evacuations = models.TextField('Reported Evacuations', null=True, blank=True)
     structures_threatened = models.CharField('Reported Structures Threatened', max_length=1024, null=True, blank=True)
     structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
