@@ -9,7 +9,7 @@ from fabric.colors import green
 env.user            = 'archive'
 env.hosts           = ['66.226.4.228']
 env.project_root    = '/web/archive/apps/firetracker/firetracker'
-env.python_exe      = "/web/archive/apps/firetracker/virtualenv/firetracker/bin/python"
+env.python_exe      = "/web/archive/apps/firetracker/virtualenvs/firetracker/bin/python"
 
 def update_code():
     """
@@ -31,7 +31,7 @@ def setup_static_files():
     """
     Handle the static assets on the remote server.
     """
-    with cd(env.project_root)
+    with cd(env.project_root):
         run("%s manage.py collectstatic --noinput" % env.python_exe)
 
 
@@ -50,7 +50,7 @@ def migrate(*args):
     Execute south migrations (takes arguments)
     """
     with cd(env.project_root):
-        run("%s manage.py migrate " % env.python_exe) + " ".join(args))
+        run("%s manage.py migrate " % env.python_exe) + " ".join(args)
 
 
 def revert():
