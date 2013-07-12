@@ -64,14 +64,14 @@ def revert():
         collectstatic()
         restart()
 
-
 def scrape():
-    local("%s manage.py scraper_wildfires" % env.python_exe)
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py scraper_wildfires" % env.python_exe)
 
+# local fab commands
+def local_scrape():
+    local("%s manage.py scraper_wildfires" % env.python_exe)
 
 def archives():
     local('%s manage.py v3_scraper_wildfires' % env.python_exe)
-
-
-def convert():
-    local("%s manage.py convert_to_south calfire_tracker" % env.python_exe)
