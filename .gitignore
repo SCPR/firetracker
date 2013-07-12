@@ -7,3 +7,4 @@ SCRATCHPAD.md
 migrations
 settings_development.py
 tmp/*
+public/static/*
