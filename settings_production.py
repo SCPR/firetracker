@@ -19,7 +19,7 @@ MANAGERS = ADMINS
 # Contains:
 # * DATABASES
 # * SECRET_KEY
-execfile(expanduser('~/apps/firetracker/.production_settings '))
+execfile(expanduser('~/apps/firetracker/.production_settings'))
 
 
 # Local time zone for this installation. Choices can be found here:
