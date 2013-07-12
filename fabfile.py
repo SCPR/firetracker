@@ -32,7 +32,8 @@ def setup_static_files():
     Handle the static assets on the remote server.
     """
     with cd(env.project_root):
-        run("%s manage.py collectstatic --noinput" % env.python_exe)
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py collectstatic --noinput" % env.python_exe)
 
 
 def deploy():
