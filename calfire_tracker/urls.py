@@ -15,12 +15,4 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'detail',
     ),
-
-    url(
-        regex   = r'^test/tweets/$',
-        view    = tweetstream,
-        kwargs  = {},
-        name    = 'tweetstream',
-    ),
-
 )
