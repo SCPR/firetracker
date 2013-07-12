@@ -39,8 +39,7 @@ def detail(request, fire_slug):
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.all()
-    auth1 = tweepy.auth.OAuthHandler()
-    auth1.set_access_token()
+
     api = tweepy.API(auth1)
     result_list = api.search('#PowerhouseFire')
 
