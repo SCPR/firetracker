@@ -2,7 +2,7 @@ import os, sys, site
 
 REMOTE_APP_ROOT = "/web/archive/apps/firetracker"
 #REMOTE_APP_ROOT = "/Users/bryan/projects/firetracker"
-INTERP = "%s/virtualenv/firetracker/bin/python" % REMOTE_APP_ROOT
+INTERP = "%s/virtualenvs/firetracker/bin/python" % REMOTE_APP_ROOT
 
 if sys.executable != INTERP: os.execl(INTERP, INTERP, *sys.argv)
 
