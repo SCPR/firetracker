@@ -264,62 +264,15 @@
                             <h1>Dispatches From You</h1>
                             <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>{{ calwildfire.twitter_hashtag }}</span>, and they’ll be displayed here.</p>
                         </header>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">4h</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                            </header>
-                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">16 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                            </header>
-                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">15 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                            </header>
-                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">12 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                            </header>
-                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-01.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">10 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Public Health</a></h2>
-                            </header>
-                            <p><a href="#">@LACo_FD</a> <a href="#">@Nathan_James01</a> Info on <a href="#">#powerhousefire</a> boil water notice pls call local water provider or Dept Public Hlth 626-430-5420</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-02.png" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">9 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LA Co Public Works</a></h2>
-                            </header>
-                            <p><a href="#">#Powerhousefire</a> restoration work continues on Lake Hughes Road. Public Words road crew works at bridge. <a href="#">pic.twitter.com/XFtAq78p5D</a></p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-03.jpg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">7 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">Yvette Nipar</a></h2>
-                            </header>
-                            <p><a href="#">#LA</a> Please help find this dogs owners--got displaced during the <a href="#">#PowerHouseFire</a>.  <a href="#">http://bit.ly/179V6Hd</a>  (Now in Simi Valley)</p>
-                        </article>
-                        <article>
-                            <b class="img"><img src="{{ STATIC_URL }}/media/twitter-04.jpeg" alt="" /></b>
-                            <header>
-                                <h1><a href="!!!!!!!-permalink-to-tweet">2 Jun</a></h1><h2><a href="!!!!!!!-url-to-user-profile-page">LACoFDDiv4</a></h2>
-                            </header>
-                            <p>Engine 30 on the Powerhouse Fire in Grass Valley providing structure protection <a href="#">#lacofd</a> <a href="#">#powerhousefire</a> <a href="#">pic.twitter.com/LHVKb2hRWJ</a></p>
-                        </article>
+                        {% for result in result_list %}
+                            <article>
+                                <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
+                                <header>
+                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+                                </header>
+                                <p>{{ result.text }}</p>
+                            </article>
+                        {% endfor %}
                     </section><!--/ .dispatches -->
                 </div><!--/ .secondary -->
             </div><!--/ .fire-details -->

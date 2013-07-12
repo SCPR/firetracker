@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from calfire_tracker.views import index, detail
+from calfire_tracker.views import index, detail, tweetstream
 
 urlpatterns = patterns('',
     url(
@@ -14,6 +14,13 @@ urlpatterns = patterns('',
         view    = detail,
         kwargs  = {},
         name    = 'detail',
+    ),
+
+    url(
+        regex   = r'^test/tweets/$',
+        view    = tweetstream,
+        kwargs  = {},
+        name    = 'tweetstream',
     ),
 
 )
