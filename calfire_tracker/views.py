@@ -19,7 +19,6 @@ def index(request):
     total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
     total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
-
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
@@ -35,14 +34,13 @@ def index(request):
 def detail(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     startdate = date.today()
-    enddate = timedelta(days=21)
+    enddate = timedelta(days=60)
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
-    wildfire_updates = WildfireUpdate.objects.all()
+    wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name)
 
     api = tweepy.API(auth1)
-    result_list = api.search('#PowerhouseFire')
-
+    result_list = api.search(calwildfire.twitter_hashtag)
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,

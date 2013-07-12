@@ -88,10 +88,9 @@ class CalWildfire(models.Model):
 
 class WildfireUpdate(models.Model):
     date_time_update = models.DateTimeField('Time of Update', null=True, blank=True)
-    fire_name = models.ForeignKey(CalWildfire, blank=True, null=True)
+    fire_name = models.ForeignKey(CalWildfire, null=True, blank=True, related_name='calwildfire_fire_name')
     update_text = models.TextField('Latest Update', null=True, blank=True)
     source = models.URLField('Source', max_length=1024, null=True, blank=True)
-
     def __unicode__(self):
         return self.update_text
 
