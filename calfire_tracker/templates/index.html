@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load tz %}
 {% load tracker_tags %}
+{% load static %}
 
 <!-- begin meta -->
 {% block title %}Fire Tracker | 89.3 KPCC{% endblock %}
@@ -17,7 +18,7 @@
 <!-- end meta -->
 
 {% block kpcc_api_query_script %}
-    <script src="{{ STATIC_URL }}/js/kpcc-v2-api-query.js"></script>
+    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
 {% endblock %}
 
 {% block kpcc_api_query_config %}
@@ -83,7 +84,7 @@
     <div class="lobby">
         <div class="lobby-inner bound clearfix">
             <figure class="foreword">
-                <div class="photo"><img src="{{ STATIC_URL }}/media/green-valley-scene.jpg" alt="" /></div>
+                <div class="photo"><img src="{% static 'media/green-valley-scene.jpg' %}" alt="" /></div>
                 <figcaption>
                     <mark>So far during {% now "Y" %}, at least <em>{{ so_cal_fires }} wildfires</em> have consumed more than <em>{{ so_cal_acreage.total_acres|intcomma }} acres</em> throughout Southern California.*</mark>
                     <span>Southern California’s wildfire season officially begins in October.</span>
@@ -158,7 +159,7 @@
                                             <b class="img"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></b>
                                             <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
                                         {% else %}
-                                            <img src="{{ STATIC_URL }}/media/single-fire-photo-fallback.jpg" alt="" />
+                                            <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="" />
                                         {% endif %}
                                     </figure>
                                 </div>
@@ -223,7 +224,7 @@
                             {% if wildfire.asset_host_image_id %}
                                 <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% else %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ STATIC_URL }}/media/archive-fire-photo-fallback.jpg" alt="{{ wildfire.fire_name }}" /></a></b>
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% endif %}
                         </article>
                     {% endfor %}

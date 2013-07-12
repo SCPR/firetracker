@@ -1,4 +1,6 @@
-{% load admin_static bootstrapped_goodies_tags %}{% load url from future %}<!DOCTYPE html>
+{% load admin_static bootstrapped_goodies_tags %}{% load url from future %}
+{% load static %}
+<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 <title>{% block title %}{% endblock %}</title>
