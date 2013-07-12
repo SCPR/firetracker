@@ -6,6 +6,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from calfire_tracker.models import CalWildfire, WildfireUpdate
+import tweepy
 
 def index(request):
     calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
@@ -38,8 +39,13 @@ def detail(request, fire_slug):
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.all()
+
+    api = tweepy.API(auth1)
+    result_list = api.search('#PowerhouseFire')
+
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
+        'result_list': result_list,
     }, context_instance=RequestContext(request))
