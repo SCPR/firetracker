@@ -204,14 +204,11 @@
                         <section class="updates">
                             <h2>Updates Tracker</h2>
                             {% for update in wildfire_updates %}
-                                {% if update.update_text %}
-                                    <article>
-                                        <h1>{{ update.date_time_update|date:"F j, Y g:i a" }}</h1>
-                                        <p>{{ update.update_text }}</p>
-                                        <footer><a href="{{ update.source }}" target="_blank">Source</a></footer>
-                                    </article>
-                                {% else %}
-                                {% endif %}
+                                <article>
+                                    <h1>{{ update.date_time_update|date:"F j, Y g:i a" }}</h1>
+                                    <p>{{ update.update_text }}</p>
+                                    <footer><a href="{{ update.source }}" target="_blank">Source</a></footer>
+                                </article>
                             {% endfor %}
                         </section><!--/ .updates -->
                         <section class="details">
