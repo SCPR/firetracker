@@ -38,7 +38,6 @@ def detail(request, fire_slug):
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name)
-
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
     return render_to_response('detail.html', {
