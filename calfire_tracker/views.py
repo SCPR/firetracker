@@ -6,6 +6,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from calfire_tracker.models import CalWildfire, WildfireUpdate
+from django.conf import settings
 import tweepy
 
 def index(request):
@@ -38,6 +39,8 @@ def detail(request, fire_slug):
     displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name)
+    auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
+    auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
     return render_to_response('detail.html', {
