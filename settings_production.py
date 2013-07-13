@@ -8,10 +8,6 @@ from settings_common import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-# Load in sensitive information
-# Contains:
-# * DATABASES
-# * SECRET_KEY
 execfile(expanduser('~/apps/firetracker/.production_settings'))
 
 
