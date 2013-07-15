@@ -33,7 +33,7 @@ class CalWildfire(models.Model):
     computed_location = models.TextField('Location to Geocode', null=True, blank=True)
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
-    location_geocode_error = models.BooleanField('Geocoded Error', default=False)
+    location_geocode_error = models.BooleanField('Needs Geocoded Location', default=True)
 
     # fire stats
     injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
@@ -68,22 +68,25 @@ class CalWildfire(models.Model):
     def get_absolute_url(self):
         return ('detail', [self.fire_slug,])
 
+    def fill_geocode_data(self):
+        if not self.computed_location:
+            self.location_geocode_error = True
+        else:
+            try:
+                g = geocoders.GoogleV3()
+                address = smart_str(self.computed_location)
+                self.computed_location, (self.location_latitude, self.location_longitude,) = g.geocode(address)
+                self.location_geocode_error = False
+            except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
+                self.location_geocode_error = True
+
     def save(self, *args, **kwargs):
         #if not self.id:
             #self.fire_slug = slugify(self.fire_name)
         if not self.created_fire_id:
         	self.created_fire_id = self.created_fire_id
-
-        if not self.computed_location:
-            self.geocode_error = True
-        try:
-            g = geocoders.GoogleV3()
-            address = smart_str(self.computed_location)
-            self.computed_location, (self.location_latitude, self.location_longitude,) = g.geocode(address)
-            self.geocode_error = False
-        except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
-            self.geocode_error = True
-
+        if (self.location_latitude is None) or (self.location_longitude is None):
+            self.fill_geocode_data()
         super(CalWildfire, self).save()
 
 class WildfireUpdate(models.Model):
