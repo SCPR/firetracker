@@ -61,6 +61,9 @@ def revert():
         restart()
 
 def scrape():
+    """
+    Manually runs the scraper on the server
+    """
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
