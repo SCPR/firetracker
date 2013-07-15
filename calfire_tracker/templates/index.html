@@ -69,7 +69,7 @@
                 <h3>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</h3>
                 <aside class="share">
                     <ul class="clearfix">
-                        <li class="em"><a title="Email a link" href="mailto:?subject=KPCC's Fire Tracker is a tool for following and researching California wildfires&body=View the page here: {% url index %}">Email a link</a></li>
+                        <li class="em"><a title="Email a link" href="mailto:?subject=KPCC's Fire Tracker is a tool for following and researching California wildfires&body=View KPCC's Fire Tracker here: {{ request.build_absolute_uri|urlencode }}">Email a link</a></li>
                         <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t=KPCC%27s%20Fire%20Tracker%20is%20a%20tool%20for%20following%20and%20researching%20California%20wildfires&amp;u=http%3A%2F%2F127.0.0.1%3A8000%2Fwildfires%2F">Share on Tumblr</a></li>
                         <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text=KPCC%27s%20Fire%20Tracker%20is%20a%20tool%20for%20following%20and%20researching%20California%20wildfires%20-%20http%3A%2F%2F127.0.0.1%3A8000%2Fwildfires%2F">Share on Twitter</a></li>
                         <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fwildfires%2F&amp;t=KPCC%27s%20Fire%20Tracker%20is%20a%20tool%20for%20following%20and%20researching%20California%20wildfires">Share on Facebook</a></li>
