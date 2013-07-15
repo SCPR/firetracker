@@ -21,10 +21,20 @@ def index(request):
     total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
     total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
+
+
+
+    search_url = 'http://search.twitter.com/search.json?q=Django'
+
+
+
     to_json = {
         "image_asset_url": "http://a.scpr.org/i/95077d2c2d1aba02f88188b54ecd9ef5/64180-eight.jpg",
         "image_asset_credit": "Cal Fire"
     }
+
+
+
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
