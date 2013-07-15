@@ -69,9 +69,9 @@ def scrape():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
-# local fab commands
-def local_scrape():
-    local("%s manage.py scraper_wildfires" % env.python_exe)
+# local dev commands
+def run():
+    local("python manage.py runserver")
 
-def archives():
-    local('%s manage.py v3_scraper_wildfires' % env.python_exe)
+def local_scrape():
+    local("python manage.py scraper_wildfires")
