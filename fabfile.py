@@ -11,13 +11,13 @@ env.hosts           = ['66.226.4.228']
 env.project_root    = '/web/archive/apps/firetracker/firetracker'
 env.python_exe      = "/web/archive/apps/firetracker/virtualenvs/firetracker/bin/python"
 
+# production commands
 def update_code():
     """
     Updates the code on the remote server
     """
     with cd(env.project_root):
         run('git pull')
-
 
 def restart():
     """
@@ -26,7 +26,6 @@ def restart():
     with cd(env.project_root):
         run('mkdir -p tmp/ && touch tmp/restart.txt')
 
-
 def collectstatic():
     """
     Handle the static assets on the remote server.
@@ -34,7 +33,6 @@ def collectstatic():
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py collectstatic --noinput" % env.python_exe)
-
 
 def deploy():
     """
@@ -45,7 +43,6 @@ def deploy():
         collectstatic()
         restart()
 
-
 def migrate(*args):
     """
     Execute south migrations (takes arguments)
@@ -53,7 +50,6 @@ def migrate(*args):
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py migrate " % env.python_exe) + " ".join(args)
-
 
 def revert():
     """
@@ -71,7 +67,13 @@ def scrape():
 
 # local dev commands
 def run():
+    """
+    Runs local dev server
+    """
     local("python manage.py runserver")
 
 def local_scrape():
+    """
+    Runs scraper for local database
+    """
     local("python manage.py scraper_wildfires")
