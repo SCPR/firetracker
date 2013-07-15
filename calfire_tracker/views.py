@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
+from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.conf import settings
 import tweepy
@@ -20,6 +21,11 @@ def index(request):
     total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
     total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
+    to_json = {
+        "image_asset_url": "http://a.scpr.org/i/95077d2c2d1aba02f88188b54ecd9ef5/64180-eight.jpg",
+        "image_asset_credit": "Cal Fire"
+    }
+
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
@@ -30,6 +36,7 @@ def index(request):
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
+        'to_json': to_json,
     }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):

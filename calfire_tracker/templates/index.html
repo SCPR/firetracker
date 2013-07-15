@@ -159,7 +159,8 @@
                                             <b class="img"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></b>
                                             <figcaption><span>Maya Sugarman / KPCC</span></figcaption>
                                         {% else %}
-                                            <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="" />
+                                            <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></b>
+                                            <figcaption><span>KPCC</span></figcaption>
                                         {% endif %}
                                     </figure>
                                 </div>
