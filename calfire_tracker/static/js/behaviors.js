@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
 	// ============================================================
 	$(".fire-dashboard .damages .evacuations").each(function(){
 
-		var evacsMax = 250;
+		var evacsMax = 175;
 		var myEvacsChars = $(this).find("dd").html().length;
 
 		if(myEvacsChars > evacsMax) {
