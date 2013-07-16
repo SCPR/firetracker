@@ -3,7 +3,7 @@ import os
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Chris Keller', 'ckeller@scpr.org'),
 )
 
 MANAGERS = ADMINS
