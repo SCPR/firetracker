@@ -55,8 +55,9 @@ def detail(request, fire_slug):
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
 
+
     if calwildfire.asset_host_image_id:
-        kpcc_image = search_assethost(calwildfire.asset_host_image_id)
+        kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
         kpcc_image = None
 
