@@ -12,7 +12,11 @@ import tweepy
 from kpccapi import *
 
 def index(request):
-    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
+    startdate = date.today()
+    enddate = timedelta(days=60)
+    displaydate = startdate - enddate
+    #calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
+    calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate).order_by('-date_time_started', 'fire_name')
     so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
     so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
     so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
@@ -39,7 +43,7 @@ def detail(request, fire_slug):
     startdate = date.today()
     enddate = timedelta(days=60)
     displaydate = startdate - enddate
-    calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate).order_by('-date_time_started')
+    calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate).order_by('-date_time_started', 'fire_name')
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name)
     auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
