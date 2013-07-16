@@ -39,7 +39,7 @@ def detail(request, fire_slug):
     startdate = date.today()
     enddate = timedelta(days=60)
     displaydate = startdate - enddate
-    calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate)
+    calwildfires = CalWildfire.objects.filter(date_time_started__gte=displaydate).order_by('-date_time_started')
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name)
     auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
