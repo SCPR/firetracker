@@ -6,6 +6,8 @@ ADMINS = (
     ('Chris Keller', 'ckeller@scpr.org'),
 )
 
+SEND_BROKEN_LINK_EMAILS = True
+
 MANAGERS = ADMINS
 
 # Local time zone for this installation. Choices can be found here:
