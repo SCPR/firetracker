@@ -30,31 +30,4 @@
     <div class="page-cols page-cols-simple bound">
         <p>Sorry, we couldn't find the page you're looking for. You might try starting over at <a href="/firetracker">Fire Tracker's home page</a>.</p>
     </div><!--/ .page-cols -->
-    <div class="landing-row reverse-chron">
-        <div class="landing-row-inner bound clearfix">
-            <section class="all-fires">
-                <h1>Recent Fires</h1>
-                {% for wildfire in calwildfires|rows:3 %}
-                    {% for item in wildfire %}
-                        <article>
-                            <div>
-                                <h1><a href="{{ item.get_absolute_url }}">{{ item|truncatewords:2 }}</a></h1>
-                                <ul>
-                                    <li class="date">{{ item.date_time_started|date:"M j, Y" }}</li>
-                                    <li class="location">{{ item.county }}</li>
-                                    <li class="acreage">{{ item.acres_burned|default_if_none:"n/a"|intcomma }} acres</li>
-                                    <li class="contained">{{ item.containment_percent|percentify }} contained</li>
-                                </ul>
-                            </div>
-                            {% if item.asset_host_image_id %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
-                            {% else %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
-                            {% endif %}
-                        </article>
-                    {% endfor %}
-                {% endfor %}
-            </section><!--/ .all-fires -->
-        </div><!--/ .landing-row-inner -->
-    </div><!--/ .landing-row -->
 {% endblock %}
