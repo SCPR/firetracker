@@ -215,9 +215,7 @@
                                 </ul>
                             </div>
                             {% if item.asset_host_image_id %}
-                                {% with item.asset_host_image_id|search_assethost as image %}</p>
-                                    <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{image.0}}" alt="{{ wildfire.fire_name }}" /></a></b>
-                                {% endwith %}
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% else %}
                                 <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% endif %}
