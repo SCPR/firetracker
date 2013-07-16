@@ -30,18 +30,21 @@ def index(request):
 
     total_2012_fires = 5809
     total_2012_acreage = 141154
-    total_2012_injuries = 'n/a'
+    total_2012_injuries = None
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
         'so_cal_acreage': so_cal_acreage,
-        'total_2012_fires': total_2012_fires,
-        'total_2012_acreage': total_2012_acreage,
-        'total_2012_injuries': total_2012_injuries,
+
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
+
+        'total_2012_fires': total_2012_fires,
+        'total_2012_acreage': total_2012_acreage,
+        'total_2012_injuries': total_2012_injuries,
+
     }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):
