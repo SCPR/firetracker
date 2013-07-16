@@ -98,19 +98,16 @@
                     </div><!--/ .stats -->
                     <div class="photo">
                         {% if calwildfire.asset_host_image_id %}
-                            <div class="api-image-content">
-                                <img src="{{ kpcc_image.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
+                            <img src="{{ kpcc_image.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
                                 <aside class="credit">
                                     <p>{{ kpcc_image.asset_photo_credit }}</p>
                                 </aside>
-                            </div>
                         {% else %}
                             <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="{{ calwildfire.fire_name }}" />
                         {% endif %}
                     </div>
                 </section><!--/ .summary -->
                 <div class="context">
-
                     <!-- begin hooks for map or no -->
                     {% if calwildfire.location_latitude and calwildfire.location_longitude %}
                         <figure class="location">

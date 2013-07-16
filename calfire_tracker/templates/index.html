@@ -42,16 +42,6 @@
             // the div on the page in which you want the content to appear
             contentContainer: '#article-list-content'
         };
-
-        var kpccApiImageConfig = {
-            // string of what you want to query Outpost for
-            // the script will outmatically convert spaces to a + sign
-            asset_id: null,
-
-            // the div on the page in which you want the content to appear
-            contentContainer: null
-        };
-
     </script>
 {% endblock %}
 
@@ -156,8 +146,10 @@
                                     </figure>
                                     <figure class="photo">
                                         {% if wildfire.asset_host_image_id %}
-                                            <b class="img"><img src="{{ kpcc_image.asset_url_link }}" alt="{{ wildfire.fire_name }}" /></b>
-                                            <figcaption><span>{{ kpcc_image.asset_photo_credit }}</span></figcaption>
+                                            {% with wildfire.asset_host_image_id|search_assethost as image %}</p>
+                                                <b class="img"><img src="{{image.0}}" alt="{{ wildfire.fire_name }}" /></b>
+                                                <figcaption><span>{{image.1}}</span></figcaption>
+                                            {% endwith %}
                                         {% else %}
                                             <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></b>
                                             <figcaption><span>KPCC</span></figcaption>
@@ -223,7 +215,9 @@
                                 </ul>
                             </div>
                             {% if item.asset_host_image_id %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ kpcc_image.asset_url_link }}" alt="{{ wildfire.fire_name }}" /></a></b>
+                                {% with item.asset_host_image_id|search_assethost as image %}</p>
+                                    <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{image.0}}" alt="{{ wildfire.fire_name }}" /></a></b>
+                                {% endwith %}
                             {% else %}
                                 <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% endif %}

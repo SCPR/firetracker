@@ -11,7 +11,7 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'promoted_fire', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'last_updated', 'last_scraped',)
+	list_display = ('fire_name', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'last_updated', 'last_scraped',)
         inlines = (WildfireUpdateInline,)
         list_per_page = 10
         ordering = ('-date_time_started',)

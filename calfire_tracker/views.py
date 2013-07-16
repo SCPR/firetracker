@@ -22,7 +22,6 @@ def index(request):
     total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
     total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
-    kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, '64570')
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
@@ -33,7 +32,6 @@ def index(request):
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
-        'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
 
 def detail(request, fire_slug):
@@ -47,7 +45,6 @@ def detail(request, fire_slug):
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
-
 
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
