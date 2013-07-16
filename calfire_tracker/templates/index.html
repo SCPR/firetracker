@@ -10,9 +10,9 @@
 {% block keywords %}KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}Fire Tracker | 89.3 KPCC{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
-{% block og_url %}/wildfires/{% endblock %}
+{% block og_url %}{% url index %}{% endblock %}
 {% block og_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
-{% block twitter_url %}/wildfires/{% endblock %}
+{% block twitter_url %}{% url index %}{% endblock %}
 {% block twitter_title %}Fire Tracker | 89.3 KPCC{% endblock %}
 {% block twitter_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
 <!-- end meta -->
@@ -76,7 +76,7 @@
             <figure class="foreword">
                 <div class="photo"><img src="{% static 'media/green-valley-scene.jpg' %}" alt="" /></div>
                 <figcaption>
-                    <mark>So far during {% now "Y" %}, at least <em>{{ so_cal_fires }} wildfires</em> have consumed more than <em>{{ so_cal_acreage.total_acres|intcomma }} acres</em> throughout Southern California.*</mark>
+                    <mark>So far during <em>{% now "Y" %}</em>, at least <em>{{ so_cal_fires }} wildfires</em> have consumed more than <em>{{ so_cal_acreage.total_acres|intcomma }} acres</em> throughout <em>Southern California</em>.*</mark>
                     <span>Southern California’s wildfire season officially begins in October.</span>
                 </figcaption>
             </figure><!--/ .foreward -->

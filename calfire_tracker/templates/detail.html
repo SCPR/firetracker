@@ -10,9 +10,9 @@
 {% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
-{% block og_url %}/wildfires/{% endblock %}
+{% block og_url %}{% url index %}{% endblock %}
 {% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
-{% block twitter_url %}/wildfires/{% endblock %}
+{% block twitter_url %}{% url index %}{% endblock %}
 {% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
