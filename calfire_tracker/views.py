@@ -23,9 +23,15 @@ def index(request):
     total_2013_fires = CalWildfire.objects.filter(date_time_started__year='2013').count()
     total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
     total_2013_injuries = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_injuries=Sum('injuries'))
-    total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
-    total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
-    total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
+
+    #total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
+    #total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
+    #total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
+
+    total_2012_fires = 5809
+    total_2012_acreage = 141154
+    total_2012_injuries = 'n/a'
+
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
