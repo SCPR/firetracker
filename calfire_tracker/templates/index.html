@@ -154,26 +154,15 @@
                 &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
                                         <figcaption><span>{{ wildfire.location }}</span></figcaption>
                                     </figure>
-
-
-
-
-
-
                                     <figure class="photo">
                                         {% if wildfire.asset_host_image_id %}
-                                            <b class="img"><img src="{{ to_json.image_asset_url }}" alt="{{ wildfire.fire_name }}" /></b>
-                                            <figcaption><span>{{ to_json.image_asset_credit }}</span></figcaption>
+                                            <b class="img"><img src="{{ kpcc_image.asset_url_link }}" alt="{{ wildfire.fire_name }}" /></b>
+                                            <figcaption><span>{{ kpcc_image.asset_photo_credit }}</span></figcaption>
                                         {% else %}
                                             <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></b>
                                             <figcaption><span>KPCC</span></figcaption>
                                         {% endif %}
                                     </figure>
-
-
-
-
-
                                 </div>
                                 <aside class="vitals clearfix">
                                     <dl class="contained">
@@ -233,8 +222,8 @@
                                     <li class="contained">{{ item.containment_percent|percentify }} contained</li>
                                 </ul>
                             </div>
-                            {% if wildfire.asset_host_image_id %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ wildfire.asset_host_image_id }}" alt="{{ wildfire.fire_name }}" /></a></b>
+                            {% if item.asset_host_image_id %}
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ kpcc_image.asset_url_link }}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% else %}
                                 <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
                             {% endif %}
