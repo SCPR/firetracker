@@ -22,11 +22,11 @@
         <meta name="description" content="{% block description %}{% endblock %}" />
         <meta name="keywords" content="{% block keywords %}{% endblock %}" />
         <meta name="author" content="89.3 KPCC" />
+        <meta property="og:title" content="{% block og_title %}{% endblock %}" />
         <meta property="og:site_name" content="{% block og_site_name %}{% endblock %}" />
         <meta property="og:type" content="{% block og_type %}{% endblock %}" />
         <meta property="og:image" content="http://projects.scpr.org{% static 'meta/firetracker-opengraph.jpg' %}" />
-        <meta property="og:title" content="{% block og_title %}{% endblock %}" />
-        <meta property="og:url" content="http://projects.scpr.org{% block og_url %}{% endblock %}" />
+        <meta property="og:url" content="{% block og_url %}{% endblock %}" />
         <meta property="og:description" content="{% block og_description %}{% endblock %}" />
         <meta name="twitter:card" content="summary"/>
         <meta name="twitter:url" content="{% block twitter_url %}{% endblock %}"/>
