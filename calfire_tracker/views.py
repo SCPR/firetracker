@@ -22,14 +22,7 @@ def index(request):
     total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
     total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
-
-
-
-    kpcc_image = search_assethost('64570')
-
-
-
-
+    kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, '64570')
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
