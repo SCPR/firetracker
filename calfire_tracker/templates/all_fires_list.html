@@ -10,5 +10,8 @@
             <div class="area"><mark>{{ wildfire.acres_burned|default_if_none:"n/a"|intcomma }}</mark> <b>Acres</b></div></a>
         </li>
         {% endfor %}
+        <li>
+            <a href="{% url index %}"><h1>View All Fires</h1></a>
+        </li>
     </ul>
 </nav>

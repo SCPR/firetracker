@@ -44,8 +44,7 @@ def index(request):
         'total_2012_fires': total_2012_fires,
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
-
-    }, context_instance=RequestContext(request))
+    })
 
 def detail(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
@@ -68,3 +67,9 @@ def detail(request, fire_slug):
         'result_list': result_list,
         'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
+
+def archives(request):
+    calwildfires = CalWildfire.objects.all()
+    return render_to_response('archives.html', {
+        'calwildfires': calwildfires,
+    })
