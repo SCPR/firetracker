@@ -5,9 +5,11 @@ from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
+from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.conf import settings
 import tweepy
+from kpccapi import *
 
 def index(request):
     calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
@@ -43,9 +45,16 @@ def detail(request, fire_slug):
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
+
+    if calwildfire.asset_host_image_id:
+        kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
+    else:
+        kpcc_image = None
+
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
+        'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
