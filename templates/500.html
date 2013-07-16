@@ -1,1 +1,33 @@
-Server Error.
+{% extends "base.html" %}
+{% load tz %}
+{% load static %}
+
+<!-- begin meta -->
+{% block title %}500 Error | 89.3 KPCC{% endblock %}
+{% block description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+{% block keywords %}KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}Fire Tracker | 89.3 KPCC{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_url %}/wildfires/{% endblock %}
+{% block og_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+{% block twitter_url %}/wildfires/{% endblock %}
+{% block twitter_title %}Fire Tracker | 89.3 KPCC{% endblock %}
+{% block twitter_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+<!-- end meta -->
+
+{% block error_page_content %}
+    <header class="masthead">
+        <div class="masthead-inner bound">
+            <div class="brief">
+                <h1>500: Server Error</h1>
+            </div>
+            <aside class="brand">
+                <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
+                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="#">Pledge now.</a></h4>
+            </aside>
+        </div><!--/ .masthead-inner -->
+    </header><!--/ .masthead -->
+    <div class="page-cols page-cols-simple bound">
+        <p>Sorry, we couldn't find the page you're looking for. You might try starting over at <a href="/firetracker">Fire Tracker's home page</a>.</p>
+    </div><!--/ .page-cols -->
+{% endblock %}
