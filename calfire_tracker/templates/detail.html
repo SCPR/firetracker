@@ -11,9 +11,9 @@
 {% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_url %}{% url index %}{% endblock %}
+{% block og_url %}{{ calwildfire.get_absolute_url }}{% endblock %}
 {% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
-{% block twitter_url %}{% url index %}{% endblock %}
+{% block twitter_url %}{{ calwildfire.get_absolute_url }}{% endblock %}
 {% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
