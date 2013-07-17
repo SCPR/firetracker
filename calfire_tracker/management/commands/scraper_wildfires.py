@@ -276,7 +276,6 @@ def save_data_from_dict_to_model(data_dict):
 
     if not created:
         obj.last_scraped = datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
-
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
         obj.date_time_started = date_time_started
