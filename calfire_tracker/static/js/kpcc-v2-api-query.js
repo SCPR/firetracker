@@ -38,25 +38,42 @@ var kpccApiArticleDisplay = {
     },
 
     createArrayFrom: function(data){
-        // begin loop
-        for (var i = 0; i<data.length; i++) {
-            var asset = data[i].assets[0].small.url;
-            var short_title = data[i].short_title;
-            var permalink = data[i].permalink;
-            var thumbnail = data[i].thumbnail;
-            var published_at = data[i].published_at;
-            var teaser = data[i].teaser;
 
-            // write data to div
+        var article_image_asset;
+
+        if (data.length === 0) {
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<li><a href=\"' + permalink + '\" target="_blank">' +
-                    '<b class="img"><img src="' + asset + '" /></b>' +
-                    '<span>' + kpccApiArticleDisplay.takeTime(published_at) + '</span>' +
-                    '<mark>' + short_title + '</mark></a>' +
-                '</li>'
+                '<li style="color: #5b6169">No related articles found for the ' + kpccApiArticleConfig.fire_display_name +
+                ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</li>'
             );
+        } else {
+
+            // begin loop
+            for (var i = 0; i<data.length; i++) {
+
+                if (data[i].assets.length === 0) {
+                    article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
+                } else {
+                    article_image_asset = data[i].assets[0].small.url;
+                }
+
+                var short_title = data[i].short_title;
+                var permalink = data[i].permalink;
+                var thumbnail = data[i].thumbnail;
+                var published_at = data[i].published_at;
+                var teaser = data[i].teaser;
+
+                // write data to div
+                jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
+                    '<li><a href=\"' + permalink + '\" target="_blank">' +
+                        '<b class="img"><img src="' + article_image_asset + '" /></b>' +
+                        '<span>' + kpccApiArticleDisplay.takeTime(published_at) + '</span>' +
+                        '<mark>' + short_title + '</mark></a>' +
+                    '</li>'
+                );
+            }
+           // end loop
         }
-       // end loop
     }
 }
 // end kpccApiArticleDisplay

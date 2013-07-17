@@ -41,7 +41,13 @@
             page: 1,
 
             // the div on the page in which you want the content to appear
-            contentContainer: '#article-list-content'
+            contentContainer: '#article-list-content',
+
+            // contextual variable for script of no articles present
+            fire_display_name: '{{ calwildfire.fire_name }}',
+
+            // contextual variable for script of no articles present
+            fire_county_name: '{{ calwildfire.county }}'
         };
     </script>
 {% endblock %}
