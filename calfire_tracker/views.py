@@ -33,7 +33,10 @@ def index(request):
     total_2012_injuries = None
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master
     #kpcc_articles = search_kpcc_article_api('wildfires+burning+california')
 
 >>>>>>> master
@@ -53,6 +56,9 @@ def index(request):
 =======
 
         #'kpcc_articles': kpcc_articles,
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
     })
 
@@ -66,7 +72,10 @@ def detail(request, fire_slug):
     result_list = api.search(calwildfire.twitter_hashtag)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master
     #kpcc_articles = search_kpcc_article_api('%s' % (calwildfire.fire_slug))
 
 >>>>>>> master
@@ -81,6 +90,10 @@ def detail(request, fire_slug):
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        #'kpcc_articles': kpcc_articles,
+>>>>>>> master
 =======
         #'kpcc_articles': kpcc_articles,
 >>>>>>> master
