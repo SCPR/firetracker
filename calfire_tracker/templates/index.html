@@ -128,7 +128,7 @@
         <div class="landing-row-inner bound clearfix">
             <section class="following">
                 <h1>Fires We're Following</h1>
-                {% for wildfire in calwildfires %}
+                {% for wildfire in calwildfires|slice:":3" %}
                     {% if wildfire.promoted_fire %}
                         <article>
                             <header class="clearfix">
@@ -144,8 +144,10 @@
                                     <figure class="location">
                                         <!-- begin hooks for map or no -->
                                         {% if wildfire.location_latitude and wildfire.location_longitude %}
-                                            <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
-                                                            &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
+                                            <b class="img">
+                                                <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                                            &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
+                                            </b>
                                             <figcaption><span>{{ wildfire.location }}</span></figcaption>
                                         {% else %}
                                             <b class="location no-map"></b>
