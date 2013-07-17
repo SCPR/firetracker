@@ -18,34 +18,6 @@
 {% block twitter_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
 <!-- end meta -->
 
-{% block kpcc_api_query_script %}
-    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
-{% endblock %}
-
-{% block kpcc_api_query_config %}
-    <script>
-        var kpccApiArticleConfig = {
-            // comma separated string of items to query against
-            // default is blogs,news,segments
-            // options are news, blogs, segments, episodes, video
-            types: 'news,blogs,segments',
-
-            // string of what you want to query Outpost for
-            // the script will outmatically convert spaces to a + sign
-            query: '{{ calwildfires.fire_slug }}',
-
-            // integer showing the number of items to return
-            limit: 5,
-
-            // the page of results to return
-            page: 1,
-
-            // the div on the page in which you want the content to appear
-            contentContainer: '#article-list-content'
-        };
-    </script>
-{% endblock %}
-
 {% block fire_index_header %}
     <header class="facade">
         <div class="titling">
@@ -194,8 +166,16 @@
                     </ul>
                 </aside>
                 <aside class="coverage">
-                    <h2>Recent KPCC Coverage</h2>
-                    <ul id="article-list-content"></ul>
+                    {% if kpcc_articles %}
+                        <h2>Recent KPCC Coverage</h2>
+                        <ul id="article-list-content">
+                        <!-- thank you mr. bowers for helping me see the ease of unpacking class instances -->
+                            {% for article in kpcc_articles %}
+                                <li><a href="{{ article.permalink }}" target="_blank"><b class="img"><img src="{{ article.image_asset }}"></b><span>{{ article.publish_date|create_date|date:"F j, g:i a" }}</span><mark>{{ article.short_title }}</mark></a></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                    {% endif %}
                 </aside>
             </div><!--/ .evergreen -->
         </div><!--/ .landing-row-inner -->
