@@ -32,6 +32,11 @@ def index(request):
     total_2012_acreage = 141154
     total_2012_injuries = None
 
+<<<<<<< HEAD
+=======
+    #kpcc_articles = search_kpcc_article_api('wildfires+burning+california')
+
+>>>>>>> master
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'so_cal_fires': so_cal_fires,
@@ -44,6 +49,11 @@ def index(request):
         'total_2012_fires': total_2012_fires,
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
+<<<<<<< HEAD
+=======
+
+        #'kpcc_articles': kpcc_articles,
+>>>>>>> master
     })
 
 def detail(request, fire_slug):
@@ -55,6 +65,11 @@ def detail(request, fire_slug):
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
 
+<<<<<<< HEAD
+=======
+    #kpcc_articles = search_kpcc_article_api('%s' % (calwildfire.fire_slug))
+
+>>>>>>> master
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
@@ -65,6 +80,10 @@ def detail(request, fire_slug):
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
+<<<<<<< HEAD
+=======
+        #'kpcc_articles': kpcc_articles,
+>>>>>>> master
         'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
 

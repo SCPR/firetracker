@@ -22,11 +22,19 @@ class kpcc_api_article():
         self.time = short_title
 
 # search kpcc api for related articles to display on detail pages
+<<<<<<< HEAD
 def search_kpcc_article_api():
     url_prefix = 'http://www.scpr.org/api/v2/content/?'
     url_types = 'types=news,blogs,segments'
     url_query = '&query=wildfire+burning+california'
     url_limit = '&limit=10'
+=======
+def search_kpcc_article_api(query_params):
+    url_prefix = 'http://www.scpr.org/api/v2/content/?'
+    url_types = 'types=news,blogs,segments'
+    url_query = '&query=%s' % (query_params)
+    url_limit = '&limit=5'
+>>>>>>> master
     url_page = '&page=1'
     search_url = '%s%s%s%s%s' % (url_prefix, url_types, url_query, url_limit, url_page)
     json_response = urllib.urlopen(search_url)

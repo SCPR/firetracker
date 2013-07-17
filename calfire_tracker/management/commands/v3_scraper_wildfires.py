@@ -140,7 +140,8 @@ def save_data_from_dict_to_model(data_dict):
     else:
         more_info = None
 
-    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
+    fire_slug = '%s' % (slugifyFireName(fire_name))
+    county_slug = '%s' % (slugifyFireName(county))
 
     if data_dict.has_key('location'):
         location = titlecase(data_dict['location'])
@@ -247,6 +248,7 @@ def save_data_from_dict_to_model(data_dict):
             'administrative_unit': administrative_unit,
             'more_info': more_info,
             'fire_slug': fire_slug,
+            'county_slug': county_slug,
 
             'location': location,
 
@@ -274,7 +276,6 @@ def save_data_from_dict_to_model(data_dict):
 
     if not created:
         obj.last_scraped = datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
-
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
         obj.date_time_started = date_time_started
@@ -282,8 +283,10 @@ def save_data_from_dict_to_model(data_dict):
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
 
-        obj.location = location
+        obj.fire_slug = fire_slug
+        obj.county_slug = county_slug
 
+        obj.location = location
         obj.injuries = injuries
         obj.evacuations = evacuations
         obj.structures_threatened = structures_threatened

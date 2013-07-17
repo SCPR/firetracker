@@ -11,19 +11,23 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'last_updated', 'last_scraped',)
+	list_display = ('fire_name', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
         inlines = (WildfireUpdateInline,)
         list_per_page = 10
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
         save_on_top = True
-        prepopulated_fields = {'fire_slug': ('fire_name',)}
+        prepopulated_fields = {
+            'fire_slug': ('fire_name',),
+            'county_slug': ('county',)
+        }
         fieldsets = [
             ('Management & Curation', {
                 'fields': [
                     'promoted_fire',
                     'asset_host_image_id',
                     'twitter_hashtag',
+                    'air_quality_rating',
                     'last_scraped',
                 ]
             }),
@@ -38,6 +42,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'administrative_unit',
                     'more_info',
                     'fire_slug',
+                    'county_slug',
                 ]
             }),
             ('Location Information', {
@@ -87,7 +92,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
             }),
         ]
 
-	list_filter = ['date_time_started', 'last_updated']
+	list_filter = ['county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
 
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)

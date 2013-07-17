@@ -63,10 +63,10 @@
             </aside>
             <aside class="share">
                 <ul class="clearfix">
-                    <li class="em"><a title="Email a link" href="mailto:?subject={{ calwildfire.fire_name }}%20in%20{{ calwildfire.county }}&body=The {{ calwildfire.fire_name }} in {{ calwildfire.county }} is burning near {{ calwildfire.location }}.">Email a link</a></li>
-                    <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}&amp;u={{ calwildfire.get_absolute_url }}">Share on Tumblr</a></li>
-                    <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20-%20{{ calwildfire.get_absolute_url|urlencode }}%20via%20@KPCC's%20FireTracker">Share on Twitter</a></li>
-                    <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u={{ calwildfire.get_absolute_url|urlencode }}&amp;t={{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share on Facebook</a></li>
+                    <li class="em"><a title="Email a link" href="mailto:?subject=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker&body={{ calwildfire.fire_name }}:%20http%3A%2F%2Fprojects.scpr.org%2Ffiretracker{{ calwildfire.get_absolute_url|urlencode }}">Email a link</a></li>
+                    <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker&amp;u=http%3A%2F%2Fprojects.scpr.org%2Ffiretracker{{ calwildfire.get_absolute_url|urlencode }}">Share on Tumblr</a></li>
+                    <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker:%20http%3A%2F%2Fprojects.scpr.org%2Ffiretracker{{ calwildfire.get_absolute_url|urlencode }}">Share on Twitter</a></li>
+                    <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fprojects.scpr.org%2Ffiretracker{{ calwildfire.get_absolute_url|urlencode }}&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share on Facebook</a></li>
                 </ul>
             </aside>
         </div><!--/ .masthead-inner -->
@@ -93,7 +93,7 @@
                             <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                         </figure>
                         <figure>
-                            <span>425</span>
+                            <span>{{ calwildfire.air_quality_rating|default_if_none:"n/a"|intcomma }}</span>
                             <figcaption>Air Quality Index (500: most hazardous)</figcaption>
                         </figure>
                     </div><!--/ .stats -->

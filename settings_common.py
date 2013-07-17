@@ -3,6 +3,7 @@ import os
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
+    ('Bryan Ricker', 'bricker@scpr.org'),
     ('Chris Keller', 'ckeller@scpr.org'),
 )
 
@@ -92,7 +93,7 @@ INSTALLED_APPS = (
     'django_admin_bootstrapped',
     'massadmin',
     'debug_toolbar',
-    #'tastypie',
+    'tastypie',
     'csvimporter',
     'data_exports',
 
