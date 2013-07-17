@@ -99,18 +99,18 @@
                     <tbody>
                         <tr>
                             <th>Fires</th>
-                            <td>{{ total_2012_fires|default_if_none:"n/a"|intcomma }}</td>
-                            <td>{{ total_2013_fires|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2012_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Acres</th>
-                            <td>{{ total_2012_acreage|default_if_none:"n/a"|intcomma }}</td>
-                            <td>{{ total_2013_acreage.total_acres|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2012_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_acreage.total_acres|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Injuries</th>
-                            <td>{{ total_2012_injuries|default_if_none:"n/a"|intcomma }}</td>
-                            <td>{{ total_2013_injuries.total_injuries|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2012_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_injuries.total_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <!--
                         <tr>
@@ -142,9 +142,16 @@
                             <div class="scenes clearfix">
                                 <div class="imagery clearfix">
                                     <figure class="location">
-                                        <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
-                &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
-                                        <figcaption><span>{{ wildfire.location }}</span></figcaption>
+                                        <!-- begin hooks for map or no -->
+                                        {% if wildfire.location_latitude and wildfire.location_longitude %}
+                                            <b class="img"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                                            &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></b>
+                                            <figcaption><span>{{ wildfire.location }}</span></figcaption>
+                                        {% else %}
+                                            <b class="location no-map"></b>
+                                            <figcaption></figcaption>
+                                        {% endif %}
+                                        <!-- end hooks for map or no -->
                                     </figure>
                                     <figure class="photo">
                                         {% if wildfire.asset_host_image_id %}
@@ -161,11 +168,15 @@
                                 <aside class="vitals clearfix">
                                     <dl class="contained">
                                         <dt>Contained</dt>
-                                        <dd>{{ wildfire.containment_percent|percentify }}</dd>
+                                        {% if wildfire.containment_percent %}
+                                            <dd>{{ wildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
+                                        {% else %}
+                                            <dd>{{ wildfire.containment_percent|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        {% endif %}
                                     </dl>
                                     <dl class="acres">
                                         <dt>Acres burned</dt>
-                                        <dd>{{ wildfire.acres_burned|intcomma }}</dd>
+                                        <dd>{{ wildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                     </dl>
                                     <dl class="started">
                                         <dt>Started ({{ wildfire.date_time_started|date:"Y" }})</dt>
@@ -173,7 +184,7 @@
                                     </dl>
                                     <dl class="air">
                                         <dt>Air Quality Index (Worst: 500)</dt>
-                                        <dd>{{ wildfire.air_quality_rating|default_if_none:"n/a"|intcomma }}</dd>
+                                        <dd>{{ wildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                     </dl>
                                 </aside>
                             </div>
@@ -211,9 +222,13 @@
                                 <h1><a href="{{ item.get_absolute_url }}">{{ item|truncatewords:2 }}</a></h1>
                                 <ul>
                                     <li class="date">{{ item.date_time_started|date:"M j, Y" }}</li>
-                                    <li class="location">{{ item.county }}</li>
-                                    <li class="acreage">{{ item.acres_burned|default_if_none:"n/a"|intcomma }} acres</li>
-                                    <li class="contained">{{ item.containment_percent|percentify }} contained</li>
+                                    <li class="location">{{ item.county|default:"n/a"|default_if_none:"n/a" }}</li>
+                                    <li class="acreage">{{ item.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }} acres</li>
+                                    {% if wildfire.containment_percent %}
+                                        <li class="contained">{{ item.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }} contained</li>
+                                    {% else %}
+                                        <li class="contained">{{ item.containment_percent|default:"n/a"|default_if_none:"n/a" }} contained</li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             {% if item.asset_host_image_id %}
