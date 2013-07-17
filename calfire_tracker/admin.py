@@ -1,6 +1,8 @@
 from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.contrib import admin
 
+
+
 class WildfireUpdateAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_update', 'update_text', 'source',)
         list_per_page = 10
@@ -12,10 +14,13 @@ class WildfireUpdateInline(admin.StackedInline):
 
 class CalWildfireAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
+	list_filter = ['county', 'date_time_started', 'last_updated']
+	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
         list_per_page = 10
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
+
         save_on_top = True
         prepopulated_fields = {
             'fire_slug': ('fire_name',),
@@ -92,8 +97,18 @@ class CalWildfireAdmin(admin.ModelAdmin):
             }),
         ]
 
-	list_filter = ['county', 'date_time_started', 'last_updated']
-	search_fields = ['fire_name', 'county', 'acres_burned']
+        actions = [
+            'featured',
+            'unfeature',
+        ]
+
+        def featured(self, request, queryset):
+            queryset.update(promoted_fire = True)
+        featured.short_description = "Add Fire to Featured Section"
+
+        def unfeature(self, request, queryset):
+            queryset.update(promoted_fire = False)
+        unfeature.short_description = "Remove Fire to Featured Section"
 
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(CalWildfire, CalWildfireAdmin)
