@@ -27,6 +27,7 @@ class CalWildfire(models.Model):
     administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
     more_info = models.URLField('URL To More Info', max_length=1024, null=True, blank=True)
     fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
+    county_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
 
     # location information
     location = models.TextField('Location from Cal Fire ', null=True, blank=True)

@@ -140,7 +140,8 @@ def save_data_from_dict_to_model(data_dict):
     else:
         more_info = None
 
-    fire_slug = '%s-%s' % (slugifyFireName(county), slugifyFireName(fire_name))
+    fire_slug = '%s' % (slugifyFireName(fire_name))
+    county_slug = '%s' % (slugifyFireName(county))
 
     if data_dict.has_key('location'):
         location = titlecase(data_dict['location'])
