@@ -34,7 +34,10 @@ def search_kpcc_article_api(query_params):
     articles = []
     for kpcc_article in js_object:
         article_permalink = kpcc_article['permalink']
-        article_image_asset = kpcc_article['assets'][0]['small']['url']
+        try:
+            article_image_asset = kpcc_article['assets'][0]['small']['url']
+        except:
+            article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
         article_publish_date = kpcc_article['published_at']
         article_short_title = kpcc_article['short_title']
         this_article = kpcc_api_article(article_permalink, article_image_asset, article_publish_date, article_short_title)
