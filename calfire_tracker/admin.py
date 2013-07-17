@@ -17,7 +17,10 @@ class CalWildfireAdmin(admin.ModelAdmin):
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
         save_on_top = True
-        prepopulated_fields = {'fire_slug': ('fire_name',)}
+        prepopulated_fields = {
+            'fire_slug': ('fire_name',),
+            'county_slug': ('county',)
+        }
         fieldsets = [
             ('Management & Curation', {
                 'fields': [
@@ -39,6 +42,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'administrative_unit',
                     'more_info',
                     'fire_slug',
+                    'county_slug',
                 ]
             }),
             ('Location Information', {
