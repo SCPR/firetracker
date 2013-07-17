@@ -1,6 +1,5 @@
 from django.template import Library
 from django.conf import settings
-from dateutil import parser
 import logging
 import simplejson as json
 import urllib
@@ -142,10 +141,6 @@ def percentify(value):
     else:
         return str(value) + '%'
 
-def create_date(value):
-    display_date = parser.parse(value)
-    return display_date
-
 def search_assethost(assethost_id):
     url_prefix = 'http://a.scpr.org/api/assets/'
     url_suffix = '.json?auth_token='
@@ -162,7 +157,6 @@ register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
 register.filter(percentify)
-register.filter(create_date)
 register.filter(search_assethost)
 
 def _test():
