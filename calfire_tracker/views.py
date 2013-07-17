@@ -59,7 +59,7 @@ def detail(request, fire_slug):
     api = tweepy.API(auth1)
     result_list = api.search(calwildfire.twitter_hashtag)
 
-    #kpcc_articles = search_kpcc_article_api('%s' % (calwildfire.fire_slug))
+    kpcc_articles = search_kpcc_article_api('%s' % (calwildfire.fire_slug))
 
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
@@ -71,7 +71,7 @@ def detail(request, fire_slug):
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
-        #'kpcc_articles': kpcc_articles,
+        'kpcc_articles': kpcc_articles,
         'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
 
