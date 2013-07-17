@@ -165,18 +165,7 @@
                         <li><a href="http://gacc.nifc.gov/oncc/">Northern California Geographic Area Coordination Center (ONCC)</a></li>
                     </ul>
                 </aside>
-                <aside class="coverage">
-                    {% if kpcc_articles %}
-                        <h2>Recent KPCC Coverage</h2>
-                        <ul id="article-list-content">
-                        <!-- thank you mr. bowers for helping me see the ease of unpacking class instances -->
-                            {% for article in kpcc_articles %}
-                                <li><a href="{{ article.permalink }}" target="_blank"><b class="img"><img src="{{ article.image_asset }}"></b><span>{{ article.publish_date|create_date|date:"F j, g:i a" }}</span><mark>{{ article.short_title }}</mark></a></li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                    {% endif %}
-                </aside>
+
             </div><!--/ .evergreen -->
         </div><!--/ .landing-row-inner -->
     </div><!--/ .landing-row -->
