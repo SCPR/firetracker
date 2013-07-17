@@ -43,8 +43,8 @@ var kpccApiArticleDisplay = {
 
         if (data.length === 0) {
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<li style="color: #5b6169">No related articles found for the ' + kpccApiArticleConfig.fire_display_name +
-                ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</li>'
+                '<li><mark class="no-article-present">No related articles found for the ' + kpccApiArticleConfig.fire_display_name +
+                ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</mark></li>'
             );
         } else {
 
