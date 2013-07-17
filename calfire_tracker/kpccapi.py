@@ -46,5 +46,3 @@ def search_kpcc_article_api(query_params):
         this_article = kpcc_api_article(article_permalink, article_image_asset, article_publish_date, article_short_title)
         articles.append(this_article)
     return articles
-
-if __name__ == "__main__": search_kpcc_article_api()
