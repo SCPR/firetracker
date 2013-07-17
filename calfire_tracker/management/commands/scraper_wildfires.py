@@ -284,8 +284,10 @@ def save_data_from_dict_to_model(data_dict):
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
 
-        obj.location = location
+        obj.fire_slug = fire_slug
+        obj.county_slug = county_slug
 
+        obj.location = location
         obj.injuries = injuries
         obj.evacuations = evacuations
         obj.structures_threatened = structures_threatened
