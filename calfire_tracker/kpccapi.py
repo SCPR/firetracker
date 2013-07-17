@@ -16,10 +16,10 @@ def search_assethost(kpcc_image_token, assethost_id):
 
 class kpcc_api_article():
     def __init__(self, permalink, image_asset, publish_date, short_title):
-        self.user = permalink
-        self.text = image_asset
-        self.graphic = publish_date
-        self.time = short_title
+        self.permalink = permalink
+        self.image_asset = image_asset
+        self.publish_date = publish_date
+        self.short_title = short_title
 
 def search_kpcc_article_api(query_params):
     url_prefix = 'http://www.scpr.org/api/v2/content/?'
