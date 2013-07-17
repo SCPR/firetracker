@@ -32,7 +32,7 @@ def index(request):
     total_2012_acreage = 141154
     total_2012_injuries = None
 
-    kpcc_articles = search_kpcc_article_api('wildfire+burning+california', 5)
+    kpcc_articles = search_kpcc_article_api('wildfires+burning+california')
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
