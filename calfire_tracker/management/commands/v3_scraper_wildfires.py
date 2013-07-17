@@ -114,7 +114,7 @@ def save_data_from_dict_to_model(data_dict):
         containment_percent = extract_containment_amount(data_dict['containment'])
     else:
         acres_burned = None
-        containment_percent = None
+        containment_percent = 100
 
     if data_dict.has_key('date_time_started'):
         date_time_started = convert_time_to_nicey_format(data_dict['date_time_started'])
