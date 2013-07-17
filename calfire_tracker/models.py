@@ -81,6 +81,9 @@ class CalWildfire(models.Model):
             except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
                 self.location_geocode_error = True
 
+    #def require_asset_id_if_featured(self):
+        #self.asset_host_image_id = '11111'
+
     def save(self, *args, **kwargs):
         #if not self.id:
             #self.fire_slug = slugify(self.fire_name)
@@ -88,6 +91,10 @@ class CalWildfire(models.Model):
         	self.created_fire_id = self.created_fire_id
         if (self.location_latitude is None) or (self.location_longitude is None):
             self.fill_geocode_data()
+
+        #if (self.promoted_fire is True) and (self.asset_host_image_id is None):
+            #self.require_asset_id_if_featured()
+
         super(CalWildfire, self).save()
 
 class WildfireUpdate(models.Model):
