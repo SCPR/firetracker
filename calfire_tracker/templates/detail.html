@@ -137,7 +137,6 @@
                         </aside>
                     {% endif %}
                     <!-- end hooks for map or no -->
-
                     <section class="damages">
                         <dl class="threatened">
                             <dt>Structures Threatened</dt>
@@ -215,18 +214,16 @@
                             <h2>More Details</h2>
                             <dl>
                                 <dt>Administrative Unit</dt>
-                                <dd>{{ calwildfire.administrative_unit|default_if_none:"n/a" }}</dd>
+                                <dd>{{ calwildfire.administrative_unit|default:"n/a"|default_if_none:"n/a" }}</dd>
 
                                 <dt>Road Closures</dt>
-                                <dd>{{ calwildfire.road_closures|default:"n/a" }}</dd>
+                                <dd>{{ calwildfire.road_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
 
                                 <dt>Cause</dt>
-                                <dd>{{ calwildfire.cause|default_if_none:"n/a" }}</dd>
+                                <dd>{{ calwildfire.cause|default:"n/a"|default_if_none:"n/a" }}</dd>
 
-                                <!--
                                 <dt>School Closures</dt>
-                                <dd></dd>
-                                -->
+                                <dd>{{ calwildfire.school_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
 
                                 <dt>Cooperating Agencies</dt>
                                 <dd>{{ calwildfire.cooperating_agencies|default:"n/a"|default_if_none:"n/a" }}</dd>
