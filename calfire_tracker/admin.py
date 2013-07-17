@@ -24,6 +24,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'promoted_fire',
                     'asset_host_image_id',
                     'twitter_hashtag',
+                    'air_quality_rating',
                     'last_scraped',
                 ]
             }),
