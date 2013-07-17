@@ -1,0 +1,27 @@
+<!-- index.html -->
+<aside class="coverage">
+    {% if kpcc_articles %}
+        <h2>Recent KPCC Coverage</h2>
+        <ul id="article-list-content">
+        <!-- thank you mr. bowers for helping me see the ease of unpacking class instances -->
+            {% for article in kpcc_articles %}
+                <li><a href="{{ article.permalink }}" target="_blank"><b class="img"><img src="{{ article.image_asset }}"></b><span>{{ article.publish_date|create_date|date:"F j, g:i a" }}</span><mark>{{ article.short_title }}</mark></a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    {% endif %}
+</aside>
+
+<!-- detail.html -->
+<section class="coverage">
+    {% if kpcc_articles %}
+        <h2>Recent KPCC Coverage</h2>
+        <ul id="article-list-content">
+        <!-- thank you mr. bowers for helping me see the ease of unpacking class instances -->
+            {% for article in kpcc_articles %}
+                <li><a href="{{ article.permalink }}" target="_blank"><b class="img"><img src="{{ article.image_asset }}"></b><span>{{ article.publish_date|create_date|date:"F j, g:i a" }}</span><mark>{{ article.short_title }}</mark></a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    {% endif %}
+</section>
