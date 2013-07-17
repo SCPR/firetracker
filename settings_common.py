@@ -93,7 +93,7 @@ INSTALLED_APPS = (
     'django_admin_bootstrapped',
     'massadmin',
     'debug_toolbar',
-    #'tastypie',
+    'tastypie',
     'csvimporter',
     'data_exports',
 
