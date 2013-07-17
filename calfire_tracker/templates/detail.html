@@ -65,7 +65,7 @@
                             <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                         </figure>
                         <figure>
-                            <span>425</span>
+                            <span>{{ calwildfire.air_quality_rating|default_if_none:"n/a"|intcomma }}</span>
                             <figcaption>Air Quality Index (500: most hazardous)</figcaption>
                         </figure>
                     </div><!--/ .stats -->

@@ -145,7 +145,7 @@
                                     </dl>
                                     <dl class="air">
                                         <dt>Air Quality Index (Worst: 500)</dt>
-                                        <dd>425</dd>
+                                        <dd>{{ wildfire.air_quality_rating|default_if_none:"n/a"|intcomma }}</dd>
                                     </dl>
                                 </aside>
                             </div>

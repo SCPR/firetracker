@@ -14,6 +14,7 @@ class CalWildfire(models.Model):
     promoted_fire = models.BooleanField('Feature This Fire?', default=False)
     asset_host_image_id = models.CharField('Image ID from Asset Host', max_length=140, null=True, blank=True)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
+    air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
 
     # general details
