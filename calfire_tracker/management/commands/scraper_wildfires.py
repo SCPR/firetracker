@@ -248,6 +248,7 @@ def save_data_from_dict_to_model(data_dict):
             'administrative_unit': administrative_unit,
             'more_info': more_info,
             'fire_slug': fire_slug,
+            'county_slug': county_slug,
 
             'location': location,
 
