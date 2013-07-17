@@ -3,6 +3,7 @@ import os
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 ADMINS = (
+    ('Bryan Ricker', 'bricker@scpr.org'),
     ('Chris Keller', 'ckeller@scpr.org'),
 )
 
