@@ -21,7 +21,6 @@ class kpcc_api_article():
         self.publish_date = publish_date
         self.short_title = short_title
 
-# search kpcc api for related articles to display on detail pages
 def search_kpcc_article_api(query_params):
     url_prefix = 'http://www.scpr.org/api/v2/content/?'
     url_types = 'types=news,blogs,segments'
@@ -35,12 +34,10 @@ def search_kpcc_article_api(query_params):
     articles = []
     for kpcc_article in js_object:
         article_permalink = kpcc_article['permalink']
-
         try:
             article_image_asset = kpcc_article['assets'][0]['small']['url']
         except:
             article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
-
         article_publish_date = kpcc_article['published_at']
         article_short_title = kpcc_article['short_title']
         this_article = kpcc_api_article(article_permalink, article_image_asset, article_publish_date, article_short_title)

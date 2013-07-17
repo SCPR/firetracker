@@ -18,6 +18,34 @@
 {% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
 
+{% block kpcc_api_query_script %}
+    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
+{% endblock %}
+
+{% block kpcc_api_query_config %}
+    <script>
+        var kpccApiArticleConfig = {
+            // comma separated string of items to query against
+            // default is blogs,news,segments
+            // options are news, blogs, segments, episodes, video
+            types: 'news,blogs,segments',
+
+            // string of what you want to query Outpost for
+            // the script will outmatically convert spaces to a + sign
+            query: '{{ calwildfire.fire_name }} {{ calwildfire.county }}',
+
+            // integer showing the number of items to return
+            limit: 5,
+
+            // the page of results to return
+            page: 1,
+
+            // the div on the page in which you want the content to appear
+            contentContainer: '#article-list-content'
+        };
+    </script>
+{% endblock %}
+
 {% block fire_detail_header %}
     <!-- begin header -->
     <header class="masthead">
@@ -120,19 +148,12 @@
                     </section>
                 </div><!--/ .context -->
             </div><!--/ .fire-dashboard -->
+
             <div class="fire-supplemental clearfix">
                 <div class="primary">
                     <section class="coverage">
-                        {% if kpcc_articles %}
-                            <h2>Recent KPCC Coverage</h2>
-                            <ul id="article-list-content">
-                            <!-- thank you mr. bowers for helping me see the ease of unpacking class instances -->
-                                {% for article in kpcc_articles %}
-                                    <li><a href="{{ article.permalink }}" target="_blank"><b class="img"><img src="{{ article.image_asset }}"></b><span>{{ article.publish_date|create_date|date:"F j, g:i a" }}</span><mark>{{ article.short_title }}</mark></a></li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                        {% endif %}
+                        <h2>Recent KPCC Coverage</h2>
+                        <ul id="article-list-content"></ul>
                     </section>
                     <section class="deployed">
                         <h2>Resources Deployed</h2>
@@ -234,7 +255,7 @@
                             <article>
                                 <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
                                 <header>
-                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|date:"F j, g:i a" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
                                 </header>
                                 <p>{{ result.text }}</p>
                             </article>
