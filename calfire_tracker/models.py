@@ -27,6 +27,7 @@ class CalWildfire(models.Model):
     administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
     more_info = models.URLField('URL To More Info', max_length=1024, null=True, blank=True)
     fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
+    county_slug = models.SlugField('County Slug', max_length=140, null=True, blank=True)
 
     # location information
     location = models.TextField('Location from Cal Fire ', null=True, blank=True)
@@ -94,6 +95,7 @@ class WildfireUpdate(models.Model):
     fire_name = models.ForeignKey(CalWildfire, null=True, blank=True, related_name='calwildfire_fire_name')
     update_text = models.TextField('Latest Update', null=True, blank=True)
     source = models.URLField('Source', max_length=1024, null=True, blank=True)
+
     def __unicode__(self):
         return self.update_text
 
