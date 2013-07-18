@@ -84,4 +84,4 @@ def archives(request):
     })
 
 def about_data(request):
-    return render_to_response('about.html')
+    return render_to_response('about-data.html')
