@@ -128,71 +128,68 @@
         <div class="landing-row-inner bound clearfix">
             <section class="following">
                 <h1>Fires We're Following</h1>
-                {% for wildfire in calwildfires|slice:":3" %}
-                    {% if wildfire.promoted_fire %}
-                        <article>
-                            <header class="clearfix">
-                                <h1><a href="{{ wildfire.get_absolute_url }}">{{ wildfire.fire_name }}</a></h1>
-                                <div class="meta">
-                                    <h2>{{ wildfire.county }}</h2>
-                                    <h3>Last Update: {{ wildfire.last_updated|date:"D, M d, Y g:i a" }}</h3>
-                                </div>
-                                <h4 class="jump"><a href="{{ wildfire.get_absolute_url }}">Full Details</a><h4>
-                            </header>
-                            <div class="scenes clearfix">
-                                <div class="imagery clearfix">
-                                    <figure class="location">
-                                        <!-- begin hooks for map or no -->
-                                        {% if wildfire.location_latitude and wildfire.location_longitude %}
-                                            <b class="img">
-                                                <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
-                                                            &amp;markers=color:blue%7C{{ wildfire.location_latitude }},{{ wildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
-                                            </b>
-                                            <figcaption><span>{{ wildfire.location }}</span></figcaption>
-                                        {% else %}
-                                            <b class="location no-map"></b>
-                                            <figcaption><span>{{ wildfire.location }}</span></figcaption>
-                                        {% endif %}
-                                        <!-- end hooks for map or no -->
-                                    </figure>
-                                    <figure class="photo">
-                                        {% if wildfire.asset_host_image_id %}
-                                            {% with wildfire.asset_host_image_id|search_assethost as image %}</p>
-                                                <b class="img"><img src="{{image.0}}" alt="{{ wildfire.fire_name }}" /></b>
-                                                <figcaption><span>{{image.1}}</span></figcaption>
-                                            {% endwith %}
-                                        {% else %}
-                                            <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></b>
-                                            <figcaption><span>KPCC</span></figcaption>
-                                        {% endif %}
-                                    </figure>
-                                </div>
-                                <aside class="vitals clearfix">
-                                    <dl class="contained">
-                                        <dt>Contained</dt>
-                                        {% if wildfire.containment_percent %}
-                                            <dd>{{ wildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
-                                        {% else %}
-                                            <dd>{{ wildfire.containment_percent|default:"n/a"|default_if_none:"n/a" }}</dd>
-                                        {% endif %}
-                                    </dl>
-                                    <dl class="acres">
-                                        <dt>Acres burned</dt>
-                                        <dd>{{ wildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                    </dl>
-                                    <dl class="started">
-                                        <dt>Started ({{ wildfire.date_time_started|date:"Y" }})</dt>
-                                        <dd>{{ wildfire.date_time_started|date:"M j" }}</dd>
-                                    </dl>
-                                    <dl class="air">
-                                        <dt>Air Quality Index (Worst: 500)</dt>
-                                        <dd>{{ wildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                    </dl>
-                                </aside>
+                {% for featured in featuredfires %}
+                    <article>
+                        <header class="clearfix">
+                            <h1><a href="{{ featured.get_absolute_url }}">{{ featured.fire_name }}</a></h1>
+                            <div class="meta">
+                                <h2>{{ featured.county }}</h2>
+                                <h3>Last Update: {{ featured.last_updated|date:"D, M d, Y g:i a" }}</h3>
                             </div>
-                        </article>
-                    {% else %}
-                    {% endif %}
+                            <h4 class="jump"><a href="{{ featured.get_absolute_url }}">Full Details</a><h4>
+                        </header>
+                        <div class="scenes clearfix">
+                            <div class="imagery clearfix">
+                                <figure class="location">
+                                    <!-- begin hooks for map or no -->
+                                    {% if featured.location_latitude and featured.location_longitude %}
+                                        <b class="img">
+                                            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                                        &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
+                                        </b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% else %}
+                                        <b class="location no-map"></b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% endif %}
+                                    <!-- end hooks for map or no -->
+                                </figure>
+                                <figure class="photo">
+                                    {% if featured.asset_host_image_id %}
+                                        {% with featured.asset_host_image_id|search_assethost as image %}</p>
+                                            <b class="img"><img src="{{image.0}}" alt="{{ featured.fire_name }}" /></b>
+                                            <figcaption><span>{{image.1}}</span></figcaption>
+                                        {% endwith %}
+                                    {% else %}
+                                        <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ featured.fire_name }}" /></b>
+                                        <figcaption><span>KPCC</span></figcaption>
+                                    {% endif %}
+                                </figure>
+                            </div>
+                            <aside class="vitals clearfix">
+                                <dl class="contained">
+                                    <dt>Contained</dt>
+                                    {% if featured.containment_percent %}
+                                        <dd>{{ featured.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
+                                    {% else %}
+                                        <dd>{{ featured.containment_percent|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% endif %}
+                                </dl>
+                                <dl class="acres">
+                                    <dt>Acres burned</dt>
+                                    <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                </dl>
+                                <dl class="started">
+                                    <dt>Started ({{ wildfire.date_time_started|date:"Y" }})</dt>
+                                    <dd>{{ featured.date_time_started|date:"M j" }}</dd>
+                                </dl>
+                                <dl class="air">
+                                    <dt>Air Quality Index (Worst: 500)</dt>
+                                    <dd>{{ featured.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                </dl>
+                            </aside>
+                        </div>
+                    </article>
                 {% endfor %}
             </section><!--/ .following -->
             <div class="evergreen">
