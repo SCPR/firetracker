@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from calfire_tracker.views import index, detail, archives
+from calfire_tracker.views import index, detail, archives, about_data
 
 urlpatterns = patterns('',
     url(
@@ -21,6 +21,13 @@ urlpatterns = patterns('',
         view    = archives,
         kwargs  = {},
         name    = 'archives',
+    ),
+
+    url(
+        regex   = r'^about/about-the-data/$',
+        view    = about_data,
+        kwargs  = {},
+        name    = 'about_data',
     ),
 
 )
