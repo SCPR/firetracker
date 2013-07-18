@@ -736,6 +736,68 @@ body {
 
 
 
+/*	#################################################################
+	#################################################################
+	ARCHIVES
+	#################################################################
+	################################################################# */
+
+	.page-cols-archive {
+		margin-top: -40px;
+	}
+			.page-cols-archive {
+				padding-bottom: 90px;
+			}
+			.page-cols-archive .all-fires {
+				width: 100%;
+			}
+			.page-cols-archive .all-fires > h1 {
+				margin-bottom: 2em;
+			}
+			.page-cols-archive .all-fires article h1 a {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+
+			/*	=================================================================================== */
+
+			    @media screen and (min-width: 1101px) {
+
+					.page-cols-archive .all-fires article {
+					}
+
+					.page-cols-archive .all-fires article:nth-child(3n+2),
+					.page-cols-archive .all-fires article:nth-child(3n+3) {
+						margin-right: 0;
+					}				
+					.page-cols-archive .all-fires article {
+						width: 23.5%;
+					}
+					.page-cols-archive .all-fires article:nth-child(4n+2) {
+						margin-right: 2%;
+					}
+					
+					.page-cols-archive .all-fires article:nth-child(4n+3) {
+						margin-right: 2%;
+
+					}
+					.page-cols-archive .all-fires article:nth-child(4n+4) {
+						margin-right: 2%;
+
+					}
+					.page-cols-archive .all-fires article:nth-child(4n+5) {
+					}
+
+
+			    }
+
+			/*	=================================================================================== */
+
+
+
+
 
 
 
