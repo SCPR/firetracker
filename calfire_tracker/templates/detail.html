@@ -61,7 +61,7 @@
                 <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
                 <h2>
                     <mark>{{ calwildfire.county }}</mark>
-                    <span>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a" }}</span>
+                    <span>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a T" }}</span>
                 </h2>
             </div>
             <aside class="brand">
@@ -205,7 +205,7 @@
                             <h2>Updates Tracker</h2>
                             {% for update in wildfire_updates %}
                                 <article>
-                                    <h1>{{ update.date_time_update|date:"F j, Y g:i a" }}</h1>
+                                    <h1>{{ update.date_time_update|date:"F j, Y g:i a T" }}</h1>
                                     <p>{{ update.update_text }}</p>
                                     <footer><a href="{{ update.source }}" target="_blank">Source</a></footer>
                                 </article>
@@ -265,7 +265,8 @@
                             <article>
                                 <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
                                 <header>
-                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|date:"F j, Y" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|format_for_timezone|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+
                                 </header>
                                 <p>{{ result.text }}</p>
                             </article>

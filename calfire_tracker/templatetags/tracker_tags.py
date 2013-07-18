@@ -1,6 +1,9 @@
 from django.template import Library
 from django.conf import settings
 from dateutil import parser
+from datetime import datetime, time, date, timedelta
+from pytz import timezone
+import pytz
 import logging
 import simplejson as json
 import urllib
@@ -146,6 +149,17 @@ def create_date(value):
     display_date = parser.parse(value)
     return display_date
 
+def format_for_timezone(value):
+    ''' working some crazy datetime magic that might be working '''
+    ''' based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est '''
+    utc = timezone('UTC')
+    #pacific = pytz.timezone('US/Pacific')
+
+    utc_created_at = utc.localize(value)
+    #pacific_created_at = utc_created_at.astimezone(pacific)
+
+    return utc_created_at
+
 def search_assethost(assethost_id):
     url_prefix = 'http://a.scpr.org/api/assets/'
     url_suffix = '.json?auth_token='
@@ -163,6 +177,7 @@ register.filter(rows_distributed)
 register.filter(columns)
 register.filter(percentify)
 register.filter(create_date)
+register.filter(format_for_timezone)
 register.filter(search_assethost)
 
 def _test():
