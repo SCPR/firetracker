@@ -745,6 +745,11 @@ body {
 						position: relative;
 						margin-bottom: 45px;
 					}
+					.all-fires article.jump {
+						background: url(i/icon-grid.png) no-repeat 0 10px;
+						background-size: 26.24584717608% auto;
+						min-height: 80px;
+					}
 					.all-fires article:nth-child(3n+2) { /* every first block, when 3-across */
 						margin-right: 3.309203722854%; /* 32 / 967 */
 					}
@@ -761,13 +766,22 @@ body {
 										font-size: 1.25em; /* 20 / 16 */
 										line-height: 0.9;
 									}
+									.landing-row article.jump h1 {
+										color: #ec7c2d;
+										background: url(i/ephemera-caret.png) no-repeat right 1px;
+										background-size: 8px 15px;
+									}
 									.all-fires article h1 a {
 										display: block;
 										border-bottom: 1px solid #2a3952;
 										padding: 1px 0 8px;
 									}
+									.all-fires article.jump h1 a {
+										border-bottom: 1px solid #f4b081;
+									}
 									.all-fires article h1 a:hover {
 										border-bottom: 1px solid white;
+										color: white;
 									}
 									.all-fires article ul {
 										font-size: 0.8125em; /* 13 / 16 */
@@ -829,6 +843,9 @@ body {
 											.all-fires {
 												font-size: 0.8125em;
 											}
+													.all-fires article.jump h1 {
+														background-position: right 0px;
+													}
 
 									    }
 
@@ -845,6 +862,11 @@ body {
 												background: none;
 												margin-right: 0;
 											}
+											.all-fires article.jump:nth-child(3n+2),
+											.all-fires article.jump:nth-child(3n+3) {
+												background: url(i/icon-grid.png) no-repeat 0 10px;
+												background-size: 26.24584717608% auto;
+											}
 											.all-fires article:nth-child(odd) {
 												margin-left: 4%;
 											}
@@ -860,6 +882,11 @@ body {
 												margin-bottom: 35px;
 												border-top: 3px solid #ec7c2d;
 											}
+													.all-fires article.jump,
+													.all-fires article.jump:nth-child(3n+2),
+													.all-fires article.jump:nth-child(3n+3) {
+														background: none;
+													}											
 													.all-fires article:nth-child(odd) {
 														margin-left: 7%;
 													}
