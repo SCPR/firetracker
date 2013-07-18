@@ -179,7 +179,7 @@
                                     <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
                                 <dl class="started">
-                                    <dt>Started ({{ wildfire.date_time_started|date:"Y" }})</dt>
+                                    <dt>Started ({{ featured.date_time_started|date:"Y" }})</dt>
                                     <dd>{{ featured.date_time_started|date:"M j" }}</dd>
                                 </dl>
                                 <dl class="air">
