@@ -1,8 +1,6 @@
 from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.contrib import admin
 
-
-
 class WildfireUpdateAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_update', 'update_text', 'source',)
         list_per_page = 10
