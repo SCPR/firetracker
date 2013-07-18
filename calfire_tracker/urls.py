@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = r'^about/about-the-data/$',
+        regex   = r'^about/the-data/$',
         view    = about_data,
         kwargs  = {},
         name    = 'about_data',
