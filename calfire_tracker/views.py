@@ -84,7 +84,4 @@ def archives(request):
     })
 
 def about_data(request):
-    #calwildfires = CalWildfire.objects.all().order_by('containment_percent', '-date_time_started', 'fire_name')
-    return render_to_response('about.html', {
-        #'calwildfires': calwildfires,
-    })
+    return render_to_response('about.html')
