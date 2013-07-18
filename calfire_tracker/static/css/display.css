@@ -132,10 +132,14 @@ body {
 									.lobby-inner .comparison h1 {
 										color: #f07a30;
 										font-size: 0.9375em; /* 15 / 16 */
+										margin-bottom: 0.2em;
 									}
-									.lobby-inner .comparison p {
+									.lobby-inner .comparison ul {
 										color: #984d1e;
 										font-size: 0.75em;
+									}
+									.lobby-inner .comparison ul span {
+										color: #f07a30;
 									}
 
 							.lobby-inner .comparison table {
@@ -248,6 +252,16 @@ body {
 						right: 0;
 						width: auto;
 					}
+
+					/*	=================================================================================== */
+
+					    @media screen and (max-width: 1300px) {
+
+							.lobby-inner .comparison tbody td {
+								font-size: 1.75em;
+							}
+
+					    }
 
 					/*	=================================================================================== */
 
