@@ -1879,10 +1879,9 @@ body {
 
 					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-					.fire-supplemental .coverage mark.no-article-present {
+					.fire-supplemental .coverage .no-article-present {
 			    		color: #5b6169;
-			    		margin-left: 19.174757281553%;
-			    		margin-right: 19.174757281553%;
+						font-size: 0.8125em;
 					}
 
 					/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
