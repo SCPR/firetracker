@@ -2298,6 +2298,13 @@ body {
 									.epilogue nav a {
 										color: #c4d6f0;
 									}
+									.epilogue nav .about {
+										border-left: 1px solid #c18358;
+										padding-left: 11px;
+									}
+									.epilogue nav .about a {
+										color: #ec7c2d;
+									}
 									.epilogue nav a:hover,
 									.epilogue .legal a:hover {
 										color: white;
@@ -2349,7 +2356,7 @@ body {
 									/*	=================================================================================== */
 
 
-									    @media screen and (max-width: 630px) {
+									    @media screen and (max-width: 800px) {
 
 											.epilogue-inner {
 												padding-top: 70px;
@@ -2361,6 +2368,10 @@ body {
 											}
 											.epilogue nav {
 												line-height: 2;
+											}
+											.epilogue nav .about {
+												border-left: none;
+												padding-left: 0;
 											}
 
 									    }
