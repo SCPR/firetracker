@@ -148,8 +148,8 @@
                                     <!-- begin hooks for map or no -->
                                     {% if featured.location_latitude and featured.location_longitude %}
                                         <b class="img">
-                                            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
-                                                        &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" />
+                                            <a href="{{ featured.get_absolute_url }}"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                                        &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></a>
                                         </b>
                                         <figcaption><span>{{ featured.location }}</span></figcaption>
                                     {% else %}
