@@ -5,6 +5,10 @@ var kpccApiImageDisplay = kpccApiImageDisplay || {};
 // begin main function
 jqueryNoConflict(document).ready(function(){
     kpccApiArticleDisplay.constructQueryUrl();
+
+    function appendTweets(element, content){
+        jqueryNoConflict(element).append(content);
+    }
 });
 
 // begin kpccApiArticleDisplay
@@ -43,10 +47,15 @@ var kpccApiArticleDisplay = {
 
         if (data.length === 0) {
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<li><mark class="no-article-present">No related articles found for the ' + kpccApiArticleConfig.fire_display_name +
-                ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</mark></li>'
+                '<p class="no-article-present">No related articles found for the ' +
+                kpccApiArticleConfig.fire_display_name + ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</p>'
             );
+
         } else {
+
+            jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
+                '<ul id="article-list-content"></ul>'
+            );
 
             // begin loop
             for (var i = 0; i<data.length; i++) {
@@ -64,7 +73,7 @@ var kpccApiArticleDisplay = {
                 var teaser = data[i].teaser;
 
                 // write data to div
-                jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
+                jqueryNoConflict('#article-list-content').append(
                     '<li><a href=\"' + permalink + '\" target="_blank">' +
                         '<b class="img"><img src="' + article_image_asset + '" /></b>' +
                         '<span>' + kpccApiArticleDisplay.takeTime(published_at) + '</span>' +
