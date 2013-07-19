@@ -1,0 +1,41 @@
+
+.bound															{ width: 1100px;															}
+
+
+
+
+.epilogue .parent,
+.facade h2 a,
+.lobby-inner .comparison tbody th,
+.landing-row .following .scenes .imagery figcaption,
+.all-fires article li,
+.masthead .brand .parent,
+.masthead .brand h4 a,
+.share li a,
+.share li a,
+.fire-dashboard .location figcaption,
+.fire-dashboard .damages dl,
+.epilogue .parent												{ background-image: url(i/1x/fire-icons.png);							}
+.facade .pledge a												{ background-image: url(i/1x/heart-icon-orange.png);					}
+.landing-row .following .scenes .vitals dl						{ background-image: url(i/1x/vitals-icons.png);							}
+.landing-row .following article .jump a,
+.landing-row article.jump h1									{ background-image: url(i/1x/ephemera-caret.png);						}
+.all-fires article.jump											{ background-image: url(i/1x/icon-grid.png);							}
+.fire-dashboard .location.no-map dl								{ background-image: url(i/1x/blue-location-pin.png);					}
+.fire-message dl												{ background-image: url(i/1x/blue-evacuee.png);							}
+.fire-supplemental												{ background-image: url(i/1x/median-hairline-fire-supplemental.png);	}
+.fire-supplemental .deployed dl									{ background-image: url(i/1x/fire-deployables.png);						}
+.fire-supplemental .tertiaries									{ background-image: url(i/1x/median-hairline-standalone.png);			}
+.fire-supplemental .dispatches > header h1						{ background-image: url(i/1x/twitter.png);								}
+
+
+
+
+
+
+
+
+
+
+
+
