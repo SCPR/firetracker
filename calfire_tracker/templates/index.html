@@ -161,11 +161,11 @@
                                 <figure class="photo">
                                     {% if featured.asset_host_image_id %}
                                         {% with featured.asset_host_image_id|search_assethost as image %}
-                                            <b class="img"><img src="{{image.0}}" alt="{{ featured.fire_name }}" /></b>
+                                            <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{image.0}}" alt="{{ featured.fire_name }}" /></a></b>
                                             <figcaption><span>{{image.1}}</span></figcaption>
                                         {% endwith %}
                                     {% else %}
-                                        <b class="img"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ featured.fire_name }}" /></b>
+                                        <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ featured.fire_name }}" /></a></b>
                                         <figcaption><span>KPCC</span></figcaption>
                                     {% endif %}
                                 </figure>
