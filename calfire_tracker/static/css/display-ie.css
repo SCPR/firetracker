@@ -20,7 +20,7 @@
 .landing-row .following .scenes .vitals dl						{ background-image: url(i/1x/vitals-icons.png);							}
 .landing-row .following article .jump a,
 .landing-row article.jump h1									{ background-image: url(i/1x/ephemera-caret.png);						}
-.all-fires article.jump											{ background-image: url(i/1x/icon-grid.png);							}
+.all-fires article.jump											{ background: none;														}
 .fire-dashboard .location.no-map dl								{ background-image: url(i/1x/blue-location-pin.png);					}
 .fire-message dl												{ background-image: url(i/1x/blue-evacuee.png);							}
 .fire-supplemental												{ background-image: url(i/1x/median-hairline-fire-supplemental.png);	}
@@ -30,8 +30,42 @@
 
 
 
+.lobby-inner .comparison thead th {
+	height: 50px;
+}
+.lobby-inner .comparison thead th:first-child {
+	color: #0F1620;
+}
+.lobby-inner .comparison tbody td {
+	font-size: 1.5em;
+}
 
 
+
+
+.landing-row .following article {
+	position: relative;
+	width: 100%;
+	min-height: 270px;
+	overflow: hidden;
+}
+.landing-row .following article header {
+	min-height: 50px;
+	position: static;
+	display: block;
+	overflow: hidden;
+}
+.landing-row .following article .scenes {
+	width: 100%;
+	position: relative;
+	min-height: 180px;
+	overflow: hidden;
+	margin-top: 60px; /* ???? */
+	margin-left: 0;
+	left: auto;
+	top: auto;
+	display: static;
+}
 
 
 
