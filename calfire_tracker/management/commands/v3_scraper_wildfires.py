@@ -278,7 +278,11 @@ def save_data_from_dict_to_model(data_dict):
         }
     )
 
-    if not created:
+    if not created and obj.last_updated = last_updated:
+        obj.last_scraped = last_scraped
+        obj.save()
+
+    else:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
@@ -286,16 +290,13 @@ def save_data_from_dict_to_model(data_dict):
         obj.last_updated = last_updated
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
-
         obj.fire_slug = fire_slug
         obj.county_slug = county_slug
-
         obj.location = location
         obj.injuries = injuries
         obj.evacuations = evacuations
         obj.structures_threatened = structures_threatened
         obj.structures_destroyed = structures_destroyed
-
         obj.total_dozers = total_dozers
         obj.total_helicopters = total_helicopters
         obj.total_fire_engines = total_fire_engines
@@ -303,7 +304,6 @@ def save_data_from_dict_to_model(data_dict):
         obj.total_water_tenders = total_water_tenders
         obj.total_airtankers = total_airtankers
         obj.total_fire_crews =  total_fire_crews
-
         obj.cause = cause
         obj.cooperating_agencies = cooperating_agencies
         obj.road_closures = road_closures
