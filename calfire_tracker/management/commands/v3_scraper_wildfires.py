@@ -278,7 +278,7 @@ def save_data_from_dict_to_model(data_dict):
         }
     )
 
-    if not created and obj.last_updated = last_updated:
+    if not created and obj.last_updated == last_updated:
         obj.last_scraped = last_scraped
         obj.save()
 
