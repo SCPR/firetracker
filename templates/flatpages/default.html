@@ -5,7 +5,7 @@
 {% load static %}
 
 <!-- begin meta -->
-{% block title %}{{ flatpage.title }}{% endblock %}
+{% block title %}{{ flatpage.title }} | Fire Tracker | 89.3 KPCC{% endblock %}
 {% block description %}Fire Tracker, KPCC's tool for following & researching California wildfires, contains fire information displayed by the California Department of Forestry and Fire Protection.{% endblock %}
 {% block keywords %}wildfire data, historic, archives, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}{{ flatpage.title }}{% endblock %}
@@ -22,7 +22,7 @@
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief">
-                <h1><a href="{% url index %}about/the-data/">About The Data</a></h1>
+                <h1><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></h1>
             </div>
             <aside class="brand">
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
