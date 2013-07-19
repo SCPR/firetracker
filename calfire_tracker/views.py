@@ -77,10 +77,7 @@ def detail(request, fire_slug):
     }, context_instance=RequestContext(request))
 
 def archives(request):
-    calwildfires = CalWildfire.objects.all().order_by('containment_percent', '-date_time_started', 'fire_name')
+    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
     })
-
-#def about_data(request):
-    #return render_to_response('about-data.html')

@@ -22,12 +22,4 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'archives',
     ),
-
-    #url(
-        #regex   = r'^about/the-data/$',
-        #view    = about_data,
-        #kwargs  = {},
-        #name    = 'about_data',
-    #),
-
 )
