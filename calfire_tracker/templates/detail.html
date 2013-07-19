@@ -268,7 +268,7 @@
                                     <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|format_for_timezone|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
 
                                 </header>
-                                <p>{{ result.text }}</p>
+                                <p>{{ result.text|safe }}</p>
                             </article>
                         {% endfor %}
                     </section><!--/ .dispatches -->
