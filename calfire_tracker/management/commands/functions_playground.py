@@ -3,7 +3,9 @@ from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
 from calfire_tracker.models import CalWildfire
 import csv, time, datetime, logging, re, types
+from datetime import tzinfo
 import pytz
+from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
 from scraper_configs import BaseScraper
