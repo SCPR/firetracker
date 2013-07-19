@@ -82,5 +82,5 @@ def archives(request):
         'calwildfires': calwildfires,
     })
 
-def about_data(request):
-    return render_to_response('about-data.html')
+#def about_data(request):
+    #return render_to_response('about-data.html')

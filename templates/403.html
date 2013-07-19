@@ -3,7 +3,7 @@
 {% load static %}
 
 <!-- begin meta -->
-{% block title %}403: Forbidden | 89.3 KPCC{% endblock %}
+{% block title %}403: Forbidden | Fire Tracker | 89.3 KPCC{% endblock %}
 {% block description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
 {% block keywords %}KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}Fire Tracker | 89.3 KPCC{% endblock %}
@@ -15,7 +15,7 @@
 {% block twitter_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
 <!-- end meta -->
 
-{% block error_page_content %}
+{% block extended_page_header %}
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief">
@@ -27,6 +27,9 @@
             </aside>
         </div><!--/ .masthead-inner -->
     </header><!--/ .masthead -->
+{% endblock %}
+
+{% block extended_page_content %}
     <div class="page-cols page-cols-simple bound">
         <p>Sorry, you don't have permission to access this page. You might try starting over at <a href="{% url index %}">Fire Tracker's home page</a>.</p>
     </div><!--/ .page-cols -->

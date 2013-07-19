@@ -67,13 +67,11 @@
 
     <!-- begin body -->
     <body>
-        {% block fire_index_header %}{% endblock %}
-        {% block fire_index_content %}{% endblock %}
-        {% block fire_detail_header %}{% endblock %}
-        {% block fire_details_content %}{% endblock %}
-        {% block error_page_content %}{% endblock %}
-        {% block archives_page_content %}{% endblock %}
-        {% block about_data_content %}{% endblock %}
+
+        <!-- streamlining content blocks -->
+        {% block extended_page_header %}{% endblock %}
+        {% block extended_page_content %}{% endblock %}
+        <!-- streamlining content blocks -->
 
         <!-- begin footer -->
         <footer class="epilogue">
