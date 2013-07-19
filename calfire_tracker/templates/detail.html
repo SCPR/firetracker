@@ -108,16 +108,19 @@
                             <figcaption>Air Quality Index (500: most hazardous)</figcaption>
                         </figure>
                     </div><!--/ .stats -->
-                    <div class="photo">
-                        {% if calwildfire.asset_host_image_id %}
+                    {% if calwildfire.asset_host_image_id %}
+                        <div class="photo">
                             <img src="{{ kpcc_image.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
-                                <aside class="credit">
-                                    <p>{{ kpcc_image.asset_photo_credit }}</p>
-                                </aside>
-                        {% else %}
+                        </div>
+                        <aside class="credit">
+                            <p>{{ kpcc_image.asset_photo_credit }}</p>
+                        </aside>
+                    {% else %}
+                        <div class="photo">
                             <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="{{ calwildfire.fire_name }}" />
-                        {% endif %}
-                    </div>
+                        </div>
+                        <aside class="credit"></aside>
+                    {% endif %}
                 </section><!--/ .summary -->
                 <div class="context">
                     <!-- begin hooks for map or no -->
