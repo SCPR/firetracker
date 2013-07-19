@@ -81,6 +81,3 @@ def archives(request):
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
     })
-
-#def about_data(request):
-    #return render_to_response('about-data.html')
