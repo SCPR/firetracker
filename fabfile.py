@@ -85,3 +85,9 @@ def local_scrape():
     Runs scraper for local database
     """
     local("python manage.py scraper_wildfires")
+
+def local_functions():
+    """
+    Runs scraper for local database
+    """
+    local("python manage.py functions_playground")

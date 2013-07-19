@@ -3,7 +3,9 @@ from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
 from calfire_tracker.models import CalWildfire
 import csv, time, datetime, logging, re, types
+from datetime import tzinfo
 import pytz
+from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
 from scraper_configs import BaseScraper
@@ -233,11 +235,14 @@ def save_data_from_dict_to_model(data_dict):
     else:
         notes = None
 
+    last_scraped = datetime.datetime.now()
+
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
+
         defaults={
             'twitter_hashtag': twitter_hashtag,
-            'last_scraped': datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific')),
+            'last_scraped': last_scraped,
 
             'fire_name': fire_name,
             'county': county,
@@ -274,24 +279,25 @@ def save_data_from_dict_to_model(data_dict):
         }
     )
 
-    if not created:
-        obj.last_scraped = datetime.datetime.utcnow().replace(tzinfo=pytz.timezone('US/Pacific'))
+    if not created and obj.last_updated == last_updated:
+        obj.last_scraped = last_scraped
+        obj.save()
+
+    else:
+        obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
         obj.date_time_started = date_time_started
         obj.last_updated = last_updated
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
-
         obj.fire_slug = fire_slug
         obj.county_slug = county_slug
-
         obj.location = location
         obj.injuries = injuries
         obj.evacuations = evacuations
         obj.structures_threatened = structures_threatened
         obj.structures_destroyed = structures_destroyed
-
         obj.total_dozers = total_dozers
         obj.total_helicopters = total_helicopters
         obj.total_fire_engines = total_fire_engines
@@ -299,7 +305,6 @@ def save_data_from_dict_to_model(data_dict):
         obj.total_water_tenders = total_water_tenders
         obj.total_airtankers = total_airtankers
         obj.total_fire_crews =  total_fire_crews
-
         obj.cause = cause
         obj.cooperating_agencies = cooperating_agencies
         obj.road_closures = road_closures
@@ -324,11 +329,14 @@ def hashtagifyFireName(string):
     formatted_data = titlecase(string).replace(' ', '')
     return formatted_data
 
-def convert_time_to_nicey_format(date_to_parse):
+def convert_time_to_nicey_format(date_time_parse):
     ''' work crazy datetime magic that might be working '''
-    los_angeles = pytz.timezone('US/Pacific')
-    target_datetime = los_angeles.localize(parser.parse(date_to_parse))
-    return target_datetime
+    ''' based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est '''
+    utc = timezone('UTC')
+    pacific = pytz.timezone('US/Pacific')
+    date_time_parse = parser.parse(date_time_parse)
+    pacificizd_date_time_parse = pacific.localize(date_time_parse)
+    return pacificizd_date_time_parse
 
 def extract_link_from_cells(row_name):
     ''' extract more_info link from cell '''
