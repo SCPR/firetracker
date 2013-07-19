@@ -23,9 +23,7 @@
 .all-fires article.jump											{ background: none;														}
 .fire-dashboard .location.no-map dl								{ background-image: url(i/1x/blue-location-pin.png);					}
 .fire-message dl												{ background-image: url(i/1x/blue-evacuee.png);							}
-.fire-supplemental												{ background-image: url(i/1x/median-hairline-fire-supplemental.png);	}
 .fire-supplemental .deployed dl									{ background-image: url(i/1x/fire-deployables.png);						}
-.fire-supplemental .tertiaries									{ background-image: url(i/1x/median-hairline-standalone.png);			}
 .fire-supplemental .dispatches > header h1						{ background-image: url(i/1x/twitter.png);								}
 
 
