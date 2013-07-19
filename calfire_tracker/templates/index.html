@@ -160,7 +160,7 @@
                                 </figure>
                                 <figure class="photo">
                                     {% if featured.asset_host_image_id %}
-                                        {% with featured.asset_host_image_id|search_assethost as image %}</p>
+                                        {% with featured.asset_host_image_id|search_assethost as image %}
                                             <b class="img"><img src="{{image.0}}" alt="{{ featured.fire_name }}" /></b>
                                             <figcaption><span>{{image.1}}</span></figcaption>
                                         {% endwith %}
@@ -235,9 +235,11 @@
                                 </ul>
                             </div>
                             {% if item.asset_host_image_id %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
+                                {% with item.asset_host_image_id|search_assethost as image %}
+                                    <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{image.0}}" alt="{{ item.fire_name }}" /></a></b>
+                                {% endwith %}
                             {% else %}
-                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ wildfire.fire_name }}" /></a></b>
+                                <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ item.fire_name }}" /></a></b>
                             {% endif %}
                         </article>
                     {% endfor %}
