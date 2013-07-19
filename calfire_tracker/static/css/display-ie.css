@@ -40,6 +40,11 @@
 
 
 
+.fire-dashboard .credit {
+	background: black; /* you don't understand rgba */
+}
+
+
 
 .landing-row .following article {
 	position: relative;
@@ -47,23 +52,24 @@
 	min-height: 270px;
 	overflow: hidden;
 }
-.landing-row .following article header {
-	min-height: 50px;
-	position: static;
-	display: block;
-	overflow: hidden;
-}
-.landing-row .following article .scenes {
-	width: 100%;
-	position: relative;
-	min-height: 180px;
-	overflow: hidden;
-	margin-top: 60px; /* ???? */
-	margin-left: 0;
-	left: auto;
-	top: auto;
-	display: static;
-}
+		.landing-row .following article header {
+			min-height: 50px;
+			position: static;
+			display: block;
+			overflow: hidden;
+		}
+		.landing-row .following article .scenes {
+			width: 100%;
+			position: relative;
+			min-height: 180px;
+			overflow: hidden;
+			margin-top: 60px; /* ???? */
+			margin-left: 0;
+			top: auto;
+			display: static;
+		}
+		.landing-row .following article .scenes .imagery {
+		}
 
 
 
