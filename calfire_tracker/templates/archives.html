@@ -18,7 +18,7 @@
 {% block twitter_description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
 <!-- end meta -->
 
-{% block archives_page_content %}
+{% block extended_page_header %}
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief">
@@ -30,6 +30,9 @@
             </aside>
         </div><!--/ .masthead-inner -->
     </header><!--/ .masthead -->
+{% endblock %}
+
+{% block extended_page_content %}
     <div class="page-cols page-cols-archive bound">
         <section class="all-fires clearfix">
         <h1>Currently showing all fires from {% now "Y" %}.</h1>
