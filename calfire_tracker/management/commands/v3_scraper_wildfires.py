@@ -239,6 +239,7 @@ def save_data_from_dict_to_model(data_dict):
 
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
+
         defaults={
             'twitter_hashtag': twitter_hashtag,
             'last_scraped': last_scraped,
