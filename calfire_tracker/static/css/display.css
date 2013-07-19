@@ -142,6 +142,19 @@ body {
 										color: #f07a30;
 									}
 
+							.lobby-inner .comparison .disclaimer {
+								text-align: right;
+								text-transform: none;
+								font-family: "proxima-nova", Arial, sans-serif;
+								font-size: 0.75em;
+								padding-top: 0.75em;
+								color: #3b4c64;
+							}
+									.lobby-inner .comparison .disclaimer a:hover {
+										color: #a3b9d8;
+										text-decoration: underline;
+									}
+							
 							.lobby-inner .comparison table {
 								width: 100%;
 								overflow: hidden;
@@ -171,7 +184,7 @@ body {
 											.lobby-inner .comparison thead th:nth-child(3) {
 												width: 35%;
 											}
-
+									
 									.lobby-inner .comparison tbody {
 									}
 											.lobby-inner .comparison tbody tr {
@@ -205,7 +218,7 @@ body {
 													.lobby-inner .comparison tbody td span {
 														font-size: 0.60606060606061em; /* 20 / 33 */
 													}
-
+	
 	.lobby-inner .foreword {
 		position: relative;
 		z-index: 1;
@@ -238,7 +251,7 @@ body {
 						color: white;
 						font-weight: 300;
 					}
-
+			
 			.lobby-inner .foreword .photo {
 				position: relative;
 				z-index: 2;
@@ -353,7 +366,7 @@ body {
 												text-align: center;
 												margin: 0 10% 20px;
 											}
-
+									
 									.facade .subtitling .share {
 										top: auto;
 										bottom: 0;
@@ -393,11 +406,11 @@ body {
 						width: 23.153846153846%; /* 301 / 1300 */
 						float: right;
 					}
-
+	
 	.landing-row .evergreen {
 		padding-top: 63px;
 	}
-
+	
 	.landing-row .following {
 	}
 			.landing-row .following > h1,
@@ -635,17 +648,17 @@ body {
 											/* --------------------------------- */
 											/* Arbitrarily slapping on clearfix: */
 											.landing-row .evergreen:after {
-											    content: ".";
-											    display: block;
-											    height: 0;
-											    clear: both;
+											    content: "."; 
+											    display: block; 
+											    height: 0; 
+											    clear: both; 
 											    visibility: hidden;
 											}
 											.landing-row .evergreen {
 												display: inline-block;
 											}
 											/* --------------------------------- */
-
+											
 											.evergreen .resources {
 												width: 45%;
 												float: left;
@@ -771,14 +784,14 @@ body {
 					.page-cols-archive .all-fires article:nth-child(3n+2),
 					.page-cols-archive .all-fires article:nth-child(3n+3) {
 						margin-right: 0;
-					}
+					}				
 					.page-cols-archive .all-fires article {
 						width: 23.5%;
 					}
 					.page-cols-archive .all-fires article:nth-child(4n+2) {
 						margin-right: 2%;
 					}
-
+					
 					.page-cols-archive .all-fires article:nth-child(4n+3) {
 						margin-right: 2%;
 
@@ -962,7 +975,7 @@ body {
 													.all-fires article.jump:nth-child(3n+2),
 													.all-fires article.jump:nth-child(3n+3) {
 														background: none;
-													}
+													}											
 													.all-fires article:nth-child(odd) {
 														margin-left: 7%;
 													}
@@ -986,7 +999,7 @@ body {
 	MASTHEAD
 	#################################################################
 	################################################################# */
-
+	
 	.masthead {
 		margin-bottom: 34px;
 		overflow: hidden;
@@ -1033,7 +1046,7 @@ body {
 									.masthead .brief h2 span {
 										display: block;
 									}
-
+					
 					.masthead .brand {
 						position: absolute;
 						top: 0;
@@ -1157,10 +1170,10 @@ body {
 																font-size: 0.85em;
 															}
 															.masthead .brand h4 {
-																margin-left: 330px; /* formerly 280px */
+																margin-left: 330px; /* formerly 280px */	
 															}
 															.masthead .brand h4 span {
-																font-size: 0.75em; /* formerly 0.8125 */
+																font-size: 0.75em; /* formerly 0.8125 */	
 															}
 
 													    }
@@ -1171,7 +1184,7 @@ body {
 
 
 													    @media screen and (max-width: 730px) {
-
+															
 															.masthead .brief {
 															}
 																	.masthead .brief h1 {
@@ -1467,7 +1480,7 @@ body {
 				width: 31.127197518097%; /* 301 / 967 */
 				float: right;
 			}
-
+	
 	.fire-dashboard .context {
 		background: #1e2c39;
 	}
@@ -1565,7 +1578,7 @@ body {
 							.fire-dashboard .damages dl.destroyed			{ background-position: -669px -250px;	}
 							.fire-dashboard .damages dl.evacuations			{ background-position: -669px -400px;	}
 							.fire-dashboard .damages dl.injuries			{ background-position: -669px -550px;	}
-
+							
 							.fire-dashboard .damages dt {
 								color: white;
 								font-family: "superclarendon", Georgia, serif;
@@ -1591,7 +1604,7 @@ body {
 										font-size: 1.15em;
 									}
 							    }
-
+						
 							/*	=================================================================================== */
 
 							    @media screen and (max-width: 830px) {
@@ -1609,7 +1622,7 @@ body {
 							/*	=================================================================================== */
 
 
-
+	
 	.fire-dashboard .summary {
 		position: relative;
 		z-index: 1;
@@ -1631,7 +1644,7 @@ body {
 				color: white;
 			}
 					.fire-dashboard .credit {
-						background: rgba(0,0,0,0.4);
+						background: rgba(0,0,0,0.65);
 						width: 100%;
 						left: 0;
 						bottom: 0;
@@ -1712,7 +1725,7 @@ body {
 																				height: auto;
 																				width: 100%;
 																			}
-
+															
 															.fire-dashboard .damages {
 																padding-bottom: 20px;
 															}
@@ -1732,7 +1745,7 @@ body {
 													}
 													.fire-dashboard .stats span {
 													}
-
+													
 													.fire-dashboard .summary .photo {
 														width: 100%;
 													}
@@ -1754,7 +1767,7 @@ body {
 	SIDEBAR ("EVERGREEN")
 	#################################################################
 	################################################################# */
-
+	
 	.single-evergreen,
 	.evergreen {
 		text-align: right;
@@ -1791,7 +1804,7 @@ body {
 								text-decoration: underline;
 								color: #cce1ff;
 							}
-
+			
 			.single-evergreen .recent {
 			}
 					.single-evergreen .recent > h2 {
@@ -1803,7 +1816,7 @@ body {
 					.single-evergreen .recent li {
 						border-bottom: 1px solid #1a283d;
 						box-shadow: inset -55px 0 0 #070b10;
-						padding-right: 4.651162790698%; /* 14 / 301 */
+						padding-right: 4.651162790698%; /* 14 / 301 */						
 					}
 							.single-evergreen .recent a {
 								display: block;
@@ -1867,21 +1880,21 @@ body {
 
 													/* By this point, SIDEBAR has been jettisoned from the right side and is sitting, block-level, below everything.
 													/* It's comprsied of 2 sections, which should now — for a time — live side-by-side with each other. */
-
+													
 													/* --------------------------------- */
 													/* Arbitrarily slapping on clearfix: */
 													.single-evergreen:after {
-													    content: ".";
-													    display: block;
-													    height: 0;
-													    clear: both;
+													    content: "."; 
+													    display: block; 
+													    height: 0; 
+													    clear: both; 
 													    visibility: hidden;
 													}
 													.single-evergreen {
 														display: inline-block;
 													}
 													/* --------------------------------- */
-
+													
 													.single-evergreen .resources {
 														width: 46%;
 														float: left;
@@ -1890,8 +1903,8 @@ body {
 														width: 46%;
 														float: right;
 													}
-
-
+													
+													
 											    }
 
 											/*	=================================================================================== */
@@ -1916,7 +1929,7 @@ body {
 				width: 54.084798345398%; /* 523 / 967 */
 				float: right;
 			}
-
+	
 	.fire-supplemental .primary h2 {
 		color: white;
 		font-family: "superclarendon", Georgia, serif;
@@ -2050,7 +2063,7 @@ body {
 							.fire-supplemental .deployed .helicopters	{ background-position: center -847px;	}
 							.fire-supplemental .deployed .dozers		{ background-position: center -1058px;	}
 							.fire-supplemental .deployed .tenders		{ background-position: center -1270px;	}
-
+							
 							.fire-supplemental .deployed .none dt {
 							}
 							.fire-supplemental .deployed .none dd {
@@ -2073,7 +2086,7 @@ body {
 			.fire-supplemental .updates								{ float: left;								}
 			.fire-supplemental .details								{ float: right;								}
 			.fire-supplemental .just-the-facts .details				{ float: none;								}
-
+			
 			.fire-supplemental .updates {
 			}
 					.fire-supplemental .updates article {
@@ -2110,7 +2123,7 @@ body {
 						border-top: 1px solid #ec7c2d;
 						color: white;
 					}
-
+	
 	.fire-supplemental .dispatches {
 		padding-bottom: 60px;
 	}
@@ -2139,7 +2152,7 @@ body {
 					.fire-supplemental .dispatches > header p span {
 						color: white;
 					}
-
+			
 			.fire-supplemental .dispatches article {
 				position: relative;
 				padding-left: 60px;
@@ -2179,7 +2192,7 @@ body {
 								left: 0;
 								font-family: "proxima-nova-condensed", Arial, sans-serif;
 							}
-
+					
 					.fire-supplemental .dispatches article p {
 						font-size: 0.8125em; /* 13 / 16 */
 						line-height: 1.3;
@@ -2189,7 +2202,7 @@ body {
 							.fire-supplemental .dispatches article p a {
 								color: #c9ddf8;
 							}
-
+					
 
 
 							/*	=================================================================================== */
@@ -2270,7 +2283,7 @@ body {
 	EPILOGUE
 	#################################################################
 	################################################################# */
-
+	
 	.epilogue {
 		background: black;
 		border-top: 1px solid #637faa;
@@ -2298,7 +2311,6 @@ body {
 									.epilogue nav a {
 										color: #c4d6f0;
 									}
-
 									.epilogue nav .about {
 										border-left: 1px solid #c18358;
 										padding-left: 11px;
@@ -2306,13 +2318,12 @@ body {
 									.epilogue nav .about a {
 										color: #ec7c2d;
 									}
-									
 									.epilogue nav a:hover,
 									.epilogue .legal a:hover {
 										color: white;
 										text-decoration: underline;
 									}
-
+					
 					.epilogue h1 {
 						position: absolute;
 						width: 206px;
@@ -2338,7 +2349,7 @@ body {
 								text-indent: 100%;
 								overflow: hidden;
 								background: url(i/fire-icons.png) no-repeat -72px -34px;
-								background-size: 500px 500px;
+								background-size: 500px 500px; 
 							}
 							.epilogue .title {
 								right: 0;
