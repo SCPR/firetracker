@@ -86,6 +86,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'cause',
                     'cooperating_agencies',
                     'road_closures',
+                    'school_closures',
                     'conditions',
                     'current_situation',
                     'damage_assessment',
