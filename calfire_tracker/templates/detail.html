@@ -127,8 +127,8 @@
                     {% if calwildfire.location_latitude and calwildfire.location_longitude %}
                         <figure class="location">
                             <div class="map">
-                                <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap
-                    &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" />
+                                <a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap
+                    &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a>
                             </div>
                             <figcaption><span>{{ calwildfire.location }}</span></figcaption>
                         </figure>
@@ -261,7 +261,7 @@
                     <section class="dispatches">
                         <header>
                             <h1>Dispatches From You</h1>
-                            <p>Your firsthand stories, photos, and videos help us capture the full reporting of this fire. Tag your tweets with the hashtag <span>{{ calwildfire.twitter_hashtag }}</span>, and they’ll be displayed here.</p>
+                            <p>Tweet your firsthand stories, photos, and videos to help us capture the full story of this fire. Hashtag your tweets with <span>{{ calwildfire.twitter_hashtag }}</span>. To see updates, refresh this page.</p>
                         </header>
                         {% for result in result_list %}
                             <article>
