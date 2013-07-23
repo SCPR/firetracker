@@ -16,6 +16,7 @@ class CalWildfire(models.Model):
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
+    data_source = models.CharField('Data Source', max_length=1024, null=True, blank=True)
 
     # general details
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
@@ -55,6 +56,7 @@ class CalWildfire(models.Model):
     cause = models.TextField('Cause', null=True, blank=True)
     cooperating_agencies = models.TextField('Cooperating Agencies', null=True, blank=True)
     road_closures = models.TextField('Road Closures', null=True, blank=True)
+    school_closures = models.TextField('School Closures', null=True, blank=True)
     conditions = models.TextField('Conditions', null=True, blank=True)
     current_situation = models.TextField('Current Situation', null=True, blank=True)
     damage_assessment = models.TextField('Damage Assessment', null=True, blank=True)
@@ -81,9 +83,6 @@ class CalWildfire(models.Model):
             except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
                 self.location_geocode_error = True
 
-    #def require_asset_id_if_featured(self):
-        #self.asset_host_image_id = '11111'
-
     def save(self, *args, **kwargs):
         #if not self.id:
             #self.fire_slug = slugify(self.fire_name)
@@ -91,10 +90,6 @@ class CalWildfire(models.Model):
         	self.created_fire_id = self.created_fire_id
         if (self.location_latitude is None) or (self.location_longitude is None):
             self.fill_geocode_data()
-
-        #if (self.promoted_fire is True) and (self.asset_host_image_id is None):
-            #self.require_asset_id_if_featured()
-
         super(CalWildfire, self).save()
 
 class WildfireUpdate(models.Model):

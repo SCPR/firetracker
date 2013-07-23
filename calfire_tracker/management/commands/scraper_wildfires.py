@@ -220,6 +220,11 @@ def save_data_from_dict_to_model(data_dict):
     else:
         road_closures = None
 
+    if data_dict.has_key('school_closures_'):
+        school_closures = data_dict['school_closures_']
+    else:
+        school_closures = None
+
     if data_dict.has_key('conditions'):
         conditions = data_dict['conditions']
     else:
@@ -243,6 +248,9 @@ def save_data_from_dict_to_model(data_dict):
         defaults={
             'twitter_hashtag': twitter_hashtag,
             'last_scraped': last_scraped,
+
+            # added as a default. should be changed when usfs data is available
+            'data_source': 'CalFire',
 
             'fire_name': fire_name,
             'county': county,
@@ -273,6 +281,7 @@ def save_data_from_dict_to_model(data_dict):
             'cause': cause,
             'cooperating_agencies': cooperating_agencies,
             'road_closures': road_closures,
+            'school_closures': school_closures,
             'conditions': conditions,
             'phone_numbers': phone_numbers,
             'notes': notes,
@@ -308,8 +317,9 @@ def save_data_from_dict_to_model(data_dict):
         obj.cause = cause
         obj.cooperating_agencies = cooperating_agencies
         obj.road_closures = road_closures
+        obj.school_closures = school_closures
         obj.conditions = conditions
-        obj.road_closures = road_closures
+        obj.phone_numbers = phone_numbers
         obj.notes = notes
         obj.save()
 

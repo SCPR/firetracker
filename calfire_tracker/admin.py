@@ -32,6 +32,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'twitter_hashtag',
                     'air_quality_rating',
                     'last_scraped',
+                    'data_source',
                 ]
             }),
             ('General Details', {
@@ -85,6 +86,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'cause',
                     'cooperating_agencies',
                     'road_closures',
+                    'school_closures',
                     'conditions',
                     'current_situation',
                     'damage_assessment',
