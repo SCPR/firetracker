@@ -1,6 +1,5 @@
 var jqueryNoConflict = jQuery;
 var kpccApiArticleDisplay = kpccApiArticleDisplay || {};
-var kpccApiImageDisplay = kpccApiImageDisplay || {};
 
 // begin main function
 jqueryNoConflict(document).ready(function(){
@@ -41,18 +40,20 @@ var kpccApiArticleDisplay = {
         return dateOutput;
     },
 
-    createArrayFrom: function(data){
+    noArticlesFound: function (elementToAppendTo){
+        jqueryNoConflict(elementToAppendTo).append(
+            '<p class="no-article-present">No related articles found for the ' +
+            kpccApiArticleConfig.fire_display_name + ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</p>'
+        );
+    },
 
+    createArrayFrom: function(data){
         var article_image_asset;
+        //var article_comparison_date = kpccApiArticleDisplay.takeTime(kpccApiArticleConfig.fire_start_date);
 
         if (data.length === 0) {
-            jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<p class="no-article-present">No related articles found for the ' +
-                kpccApiArticleConfig.fire_display_name + ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</p>'
-            );
-
+            kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
         } else {
-
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
                 '<ul id="article-list-content"></ul>'
             );
@@ -66,33 +67,29 @@ var kpccApiArticleDisplay = {
                     article_image_asset = data[i].assets[0].small.url;
                 }
 
+                var test_for_recency = moment('2012-10-20').isBefore('2013-7-23');
+                console.log(test_for_recency);
 
-                var test = moment('2010-10-20').isBefore('2010-10-21');
-                console.log(test);
-
-
-                //console.log(data[i].published_at);
-                //console.log(kpccApiArticleDisplay.takeTime(published_at).toUpperCase())
+                if (test_for_recency === true) {
 
 
 
+                } else {
+                    var short_title = data[i].short_title;
+                    var permalink = data[i].permalink;
+                    var thumbnail = data[i].thumbnail;
+                    var published_at = data[i].published_at;
+                    var teaser = data[i].teaser;
 
-
-
-                var short_title = data[i].short_title;
-                var permalink = data[i].permalink;
-                var thumbnail = data[i].thumbnail;
-                var published_at = data[i].published_at;
-                var teaser = data[i].teaser;
-
-                // write data to div
-                jqueryNoConflict('#article-list-content').append(
-                    '<li><a href=\"' + permalink + '\" target="_blank">' +
-                        '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
-                        '<mark>' + short_title + '</mark></a>' +
-                    '</li>'
-                );
+                    // write data to div
+                    jqueryNoConflict('#article-list-content').append(
+                        '<li><a href=\"' + permalink + '\" target="_blank">' +
+                            '<b class="img"><img src="' + article_image_asset + '" /></b>' +
+                            '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                            '<mark>' + short_title + '</mark></a>' +
+                        '</li>'
+                    );
+                }
             }
            // end loop
         }
