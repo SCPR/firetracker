@@ -35,7 +35,7 @@ var kpccApiArticleDisplay = {
     },
 
     takeTime: function (dateInput){
-        var dateFormat = 'MMM. D, h:mm a';
+        var dateFormat = 'MMMM D, h:mm a';
         var dateOutput = moment(dateInput).format(dateFormat);
         //var dateOutput = moment(dateInput).fromNow();
         return dateOutput;
@@ -76,7 +76,7 @@ var kpccApiArticleDisplay = {
                 jqueryNoConflict('#article-list-content').append(
                     '<li><a href=\"' + permalink + '\" target="_blank">' +
                         '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                        '<span>' + kpccApiArticleDisplay.takeTime(published_at) + '</span>' +
+                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
                         '<mark>' + short_title + '</mark></a>' +
                     '</li>'
                 );
