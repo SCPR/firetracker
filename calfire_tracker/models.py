@@ -16,6 +16,7 @@ class CalWildfire(models.Model):
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
+    data_source = models.CharField('Data Source', max_length=1024, null=True, blank=True)
 
     # general details
     fire_name = models.CharField('Fire Name', max_length=1024, null=True, blank=True)
