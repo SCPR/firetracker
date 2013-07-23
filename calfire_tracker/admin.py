@@ -32,6 +32,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'twitter_hashtag',
                     'air_quality_rating',
                     'last_scraped',
+                    'data_source',
                 ]
             }),
             ('General Details', {
