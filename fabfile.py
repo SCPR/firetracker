@@ -74,19 +74,19 @@ def scrape():
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
 # development functions
-def local_run():
+def localrun():
     """
     Runs local dev server
     """
     local("python manage.py runserver")
 
-def local_scrape():
+def localscrape():
     """
     Runs scraper for local database
     """
     local("python manage.py scraper_wildfires")
 
-def local_functions():
+def localfunctions():
     """
     Runs scraper for local database
     """
