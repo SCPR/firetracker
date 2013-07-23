@@ -90,7 +90,7 @@ class CalWildfire(models.Model):
         	self.created_fire_id = self.created_fire_id
         if (self.location_latitude is None) or (self.location_longitude is None):
             self.fill_geocode_data()
-        super(CalWildfire, self).save()
+        super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):
     date_time_update = models.DateTimeField('Time of Update', null=True, blank=True)

@@ -142,8 +142,16 @@ def save_data_from_dict_to_model(data_dict):
     else:
         more_info = None
 
-    fire_slug = '%s' % (slugifyFireName(fire_name))
     county_slug = '%s' % (slugifyFireName(county))
+    scraped_fire_slug = '%s' % (slugifyFireName(fire_name))
+
+    # if an object with fire slug exists in the database
+    if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
+        fire_slug = scraped_fire_slug
+
+    # if it does, append the county slug to the fire slug
+    else:
+        fire_slug = '%s-%s' % (scraped_fire_slug, county_slug)
 
     if data_dict.has_key('location'):
         location = titlecase(data_dict['location'])
@@ -300,8 +308,6 @@ def save_data_from_dict_to_model(data_dict):
         obj.last_updated = last_updated
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
-        obj.fire_slug = fire_slug
-        obj.county_slug = county_slug
         obj.location = location
         obj.injuries = injuries
         obj.evacuations = evacuations
