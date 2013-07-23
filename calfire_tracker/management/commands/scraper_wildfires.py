@@ -249,6 +249,9 @@ def save_data_from_dict_to_model(data_dict):
             'twitter_hashtag': twitter_hashtag,
             'last_scraped': last_scraped,
 
+            # added as a default. should be changed when usfs data is available
+            'data_source': 'CalFire',
+
             'fire_name': fire_name,
             'county': county,
             'acres_burned': acres_burned,
