@@ -66,6 +66,19 @@ var kpccApiArticleDisplay = {
                     article_image_asset = data[i].assets[0].small.url;
                 }
 
+
+                var test = moment('2010-10-20').isBefore('2010-10-21');
+                console.log(test);
+
+
+                //console.log(data[i].published_at);
+                //console.log(kpccApiArticleDisplay.takeTime(published_at).toUpperCase())
+
+
+
+
+
+
                 var short_title = data[i].short_title;
                 var permalink = data[i].permalink;
                 var thumbnail = data[i].thumbnail;
