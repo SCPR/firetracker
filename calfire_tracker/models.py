@@ -56,6 +56,7 @@ class CalWildfire(models.Model):
     cause = models.TextField('Cause', null=True, blank=True)
     cooperating_agencies = models.TextField('Cooperating Agencies', null=True, blank=True)
     road_closures = models.TextField('Road Closures', null=True, blank=True)
+    school_closures = models.TextField('School Closures', null=True, blank=True)
     conditions = models.TextField('Conditions', null=True, blank=True)
     current_situation = models.TextField('Current Situation', null=True, blank=True)
     damage_assessment = models.TextField('Damage Assessment', null=True, blank=True)
