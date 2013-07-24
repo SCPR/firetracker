@@ -40,12 +40,6 @@ var kpccApiArticleDisplay = {
         return dateOutput;
     },
 
-    articleIsRecent: function (article_date, fire_date){
-        var test_for_recency = moment(article_date).isBefore(fire_date);
-        console.log(test_for_recency);
-        return test_for_recency;
-    },
-
     noArticlesFound: function (elementToAppendTo){
         jqueryNoConflict(elementToAppendTo).append(
             '<p class="no-article-present">No related articles found for the ' +
@@ -55,16 +49,14 @@ var kpccApiArticleDisplay = {
 
     createArrayFrom: function(data){
         var article_image_asset;
-        var first_article_date = moment(data[0].published_at).format('YYYY-MM-DD');
 
         if (data.length === 0) {
             kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
 
-        } else if (kpccApiArticleDisplay.articleIsRecent(first_article_date, '2013-07-23') === true) {
-            kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
-
         } else {
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append('<ul id="article-list-content"></ul>');
+
+            var fire_start_date = kpccApiArticleConfig.fire_start_date;
 
             // begin loop
             for (var i = 0; i<data.length; i++) {
@@ -80,15 +72,22 @@ var kpccApiArticleDisplay = {
                 var thumbnail = data[i].thumbnail;
                 var published_at = data[i].published_at;
                 var teaser = data[i].teaser;
+                var article_start_date = moment(data[i].published_at).format('YYYY-MM-DD')
+                var articleIsOld = moment(article_start_date).isBefore(fire_start_date);
+                if (articleIsOld === true) {
 
-                // write data to div
-                jqueryNoConflict('#article-list-content').append(
-                    '<li><a href=\"' + permalink + '\" target="_blank">' +
-                        '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
-                        '<mark>' + short_title + '</mark></a>' +
-                    '</li>'
-                );
+                    continue;
+
+                } else {
+                    // write data to div
+                    jqueryNoConflict('#article-list-content').append(
+                        '<li><a href=\"' + permalink + '\" target="_blank">' +
+                            '<b class="img"><img src="' + article_image_asset + '" /></b>' +
+                            '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                            '<mark>' + short_title + '</mark></a>' +
+                        '</li>'
+                    );
+                }
             }
             // end loop
         }

@@ -51,7 +51,7 @@
             fire_county_name: '{{ calwildfire.county }}',
 
             // contextual variable for script of no articles present
-            fire_start_date: '{{ calwildfire.date_time_started }}'
+            fire_start_date: '{{ calwildfire.date_time_started|date:"Y-m-d" }}'
 
         };
     </script>
