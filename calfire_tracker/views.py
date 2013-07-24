@@ -9,6 +9,7 @@ from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate
 from django.conf import settings
 import tweepy
+from dateutil import parser
 from kpccapi import *
 
 def index(request):
@@ -99,10 +100,6 @@ def embeddable(request, fire_slug):
         #'kpcc_articles': kpcc_articles,
         #'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
-
-
-
-
 
 def archives(request):
     calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')

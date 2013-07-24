@@ -1,6 +1,5 @@
 var jqueryNoConflict = jQuery;
 var kpccApiArticleDisplay = kpccApiArticleDisplay || {};
-var kpccApiImageDisplay = kpccApiImageDisplay || {};
 
 // begin main function
 jqueryNoConflict(document).ready(function(){
@@ -37,28 +36,28 @@ var kpccApiArticleDisplay = {
     takeTime: function (dateInput){
         var dateFormat = 'MMMM D, h:mm a';
         var dateOutput = moment(dateInput).format(dateFormat);
-        //var dateOutput = moment(dateInput).fromNow();
         return dateOutput;
     },
 
-    createArrayFrom: function(data){
+    noArticlesFound: function (elementToAppendTo){
+        jqueryNoConflict(elementToAppendTo).append(
+            '<p class="no-article-present">No related articles found for the ' +
+            kpccApiArticleConfig.fire_display_name + ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</p>'
+        );
+    },
 
+    createArrayFrom: function(data){
         var article_image_asset;
 
         if (data.length === 0) {
-            jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<p class="no-article-present">No related articles found for the ' +
-                kpccApiArticleConfig.fire_display_name + ' in ' + kpccApiArticleConfig.fire_county_name + ', California.</p>'
-            );
+            kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
 
         } else {
 
-            jqueryNoConflict(kpccApiArticleConfig.contentContainer).append(
-                '<ul id="article-list-content"></ul>'
-            );
+            var fire_start_date = kpccApiArticleConfig.fire_start_date;
 
             // begin loop
-            for (var i = 0; i<data.length; i++) {
+            for (var i=0; i<data.length; i++) {
 
                 if (data[i].assets.length === 0) {
                     article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
@@ -71,17 +70,28 @@ var kpccApiArticleDisplay = {
                 var thumbnail = data[i].thumbnail;
                 var published_at = data[i].published_at;
                 var teaser = data[i].teaser;
+                var article_start_date = moment(data[i].published_at).format('YYYY-MM-DD')
+                var articleIsOld = moment(article_start_date).isBefore(fire_start_date);
 
-                // write data to div
-                jqueryNoConflict('#article-list-content').append(
-                    '<li><a href=\"' + permalink + '\" target="_blank">' +
-                        '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
-                        '<mark>' + short_title + '</mark></a>' +
-                    '</li>'
-                );
+                //console.log(articleIsOld);
+
+                if (articleIsOld === true) {
+
+                    continue;
+
+                } else {
+
+                    jqueryNoConflict(kpccApiArticleConfig.contentContainer).append('<ul id="article-list-content"></ul>');
+                    jqueryNoConflict('#article-list-content').append(
+                        '<li><a href=\"' + permalink + '\" target="_blank">' +
+                            '<b class="img"><img src="' + article_image_asset + '" /></b>' +
+                            '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                            '<mark>' + short_title + '</mark></a>' +
+                        '</li>'
+                    );
+                }
             }
-           // end loop
+            // end loop
         }
     }
 }
