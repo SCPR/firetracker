@@ -42,6 +42,7 @@
         <!-- begin css -->
         <link href="{% static 'css/reset.css' %}" media="screen" rel="stylesheet" />
         <link href="{% static 'css/display.css' %}" media="screen" rel="stylesheet" />
+        {% block css_overrides %}{% endblock %}
 
         <!--[if lt IE 9]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

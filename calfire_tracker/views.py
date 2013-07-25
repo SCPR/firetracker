@@ -87,10 +87,10 @@ def embeddable(request, fire_slug):
     #result_list = api.search(calwildfire.twitter_hashtag)
     #kpcc_articles = search_kpcc_article_api('%s %s' % (calwildfire.fire_name, calwildfire.county))
 
-    #if calwildfire.asset_host_image_id:
-        #kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
-    #else:
-        #kpcc_image = None
+    if calwildfire.asset_host_image_id:
+        kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
+    else:
+        kpcc_image = None
 
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
@@ -98,7 +98,7 @@ def embeddable(request, fire_slug):
         #'wildfire_updates': wildfire_updates,
         #'result_list': result_list,
         #'kpcc_articles': kpcc_articles,
-        #'kpcc_image': kpcc_image,
+        'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
 
 def archives(request):
