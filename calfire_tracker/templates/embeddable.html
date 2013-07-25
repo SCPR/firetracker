@@ -101,22 +101,12 @@
                 </section><!--/ .summary -->
                 <div class="context">
                     <section class="damages">
-                    {% if calwildfire.location_latitude and calwildfire.location_longitude %}
-                        <figure class="location">
-                            <div class="map">
-                                <a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=900x212&amp;maptype=roadmap
-                    &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a>
-                            </div>
-                            <figcaption><span>{{ calwildfire.location }}</span></figcaption>
-                        </figure>
-                    {% else %}
                         <aside class="location no-map">
                             <dl>
                                 <dt>Location</dt>
                                 <dd>{{ calwildfire.location }}</dd>
                             </dl>
                         </aside>
-                    {% endif %}
                     </section>
                 </div><!--/ .context -->
             </div><!--/ .fire-dashboard -->
