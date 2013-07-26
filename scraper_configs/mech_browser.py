@@ -5,12 +5,9 @@ import cookielib
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
 
 class BaseScraper():
-
     @staticmethod
-
-    # new instance of mechanize browser
     def create_instance_of_mechanize(url_target):
-        # new instance of mechanize browser
+        ''' new instance of mechanize browser '''
         mech = mechanize.Browser()
 
         # Cookie Jar
@@ -30,7 +27,6 @@ class BaseScraper():
 
         # adds user-Agent
         mech.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19')]
-
         page_scrape = mech.open(url_target)
         html_scrape = page_scrape.read()
         soup_scrape = BeautifulSoup(html_scrape, convertEntities=BeautifulSoup.HTML_ENTITIES)

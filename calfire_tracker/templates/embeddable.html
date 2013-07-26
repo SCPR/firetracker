@@ -31,9 +31,11 @@
     .fire-dashboard .context {width: inherit; float: none;}
     .fire-dashboard .location {background: none; border-bottom: 0px solid #0f1620;}
     .epilogue {display: none;}
-    @media screen and (max-width: 500px) {
-        .fire-dashboard .photo img {display: none;}
-        .fire-dashboard .credit {display: none;}
+
+
+    @media screen and (max-width: 730px) {
+        .masthead .brief h1 {width: 100%; float: none;}
+        .masthead .brief h2 {width: 100%; float: none; text-align: right;}
     }
     </style>
 {% endblock %}
@@ -52,7 +54,6 @@
             </div>
             <aside class="brand">
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
-                <h4><a href="https://scprcontribute.publicradio.org/">Embed This</a></h4>
             </aside>
         </div>
     </header>
@@ -62,8 +63,8 @@
     <div class="page-cols clearfix bound">
         <div class="primary">
             <div class="fire-dashboard clearfix">
-                <section class="summary">
-                    <div class="stats">
+                <div class="context">
+                    <section class="damages">
                         <figure>
                             {% if calwildfire.containment_percent %}
                                 <span>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</span>
@@ -80,34 +81,16 @@
                             <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
                             <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                         </figure>
-                    </div><!--/ .stats -->
-                    {% if calwildfire.asset_host_image_id %}
-                        <div class="photo">
-                            <img src="{{ kpcc_image.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
-                        </div>
-                        <aside class="credit">
-                            <p>{{ kpcc_image.asset_photo_credit }}</p>
-                        </aside>
-                    {% else %}
-                        <div class="photo">
-                            <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="{{ calwildfire.fire_name }}" />
-                        </div>
-                        <aside class="credit"></aside>
-                    {% endif %}
-                </section><!--/ .summary -->
-                <div class="context">
-                    <section class="damages">
                         <aside class="location no-map">
                             <dl>
                                 <dt>Location</dt>
                                 <dd>{{ calwildfire.location }}</dd>
                             </dl>
                         </aside>
+                        <h4><a href="#">Embed This</a></h4>
                     </section>
-                </div><!--/ .context -->
-            </div><!--/ .fire-dashboard -->
-        </div><!--/ .primary -->
-    </div><!--/ .page-cols -->
-
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
