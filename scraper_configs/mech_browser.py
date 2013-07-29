@@ -2,7 +2,6 @@ import mechanize
 import urllib
 import urllib2
 import cookielib
-from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
 
 class BaseScraper():
     @staticmethod
@@ -27,7 +26,8 @@ class BaseScraper():
 
         # adds user-Agent
         mech.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19')]
-        page_scrape = mech.open(url_target)
-        html_scrape = page_scrape.read()
-        soup_scrape = BeautifulSoup(html_scrape, convertEntities=BeautifulSoup.HTML_ENTITIES)
-        return soup_scrape
+        raw_html = mech.open(url_target)
+        raw_html = raw_html.read()
+        with open('incidents_current.html', 'wb', buffering=0) as new_file:
+            new_file.write(raw_html)
+        new_file.close()
