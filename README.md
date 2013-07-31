@@ -12,7 +12,7 @@ Fire Tracker, KPCC's tool for following & researching California wildfires, cont
 * Mapped locations are based on the approximate location of the fire as released by CalFire and should not be used to make decisions that affect you and your family.
 * Data for fires that have reached 100 percent containment may contain inaccuracies.
 * In cases where data for a particular item is not available or not clear, we display it as "n/a", or not available.
-* To determine the number of fires and acreage affected by wildfires in Southern California we have added the number of fires that CalFire has tracked in Los Angeles, Orange, Riverside, San Bernardino and Ventura counties. This figure does not necessarily take into consideration wildfires for which another organization has jurisdiction.  
+* To determine the number of fires and acreage affected by wildfires in Southern California we have added the number of fires that CalFire has tracked in Los Angeles, Orange, Riverside, San Bernardino and Ventura counties. This figure does not necessarily take into consideration wildfires for which another organization has jurisdiction.
 * The 2012 aggregate data is based on data from the [CalFire archives](http://cdfdata.fire.ca.gov/incidents/incidents_archived).
 * The 2013 aggregate data is based on 2013 fires contained in the database, and as such does not necessarily take into consideration wildfires for which another organization has jurisdiction.
 * Air quality data is periodically updated based on [AirNow](http://airnow.gov/) ratings and based on an approximate zipcode.
