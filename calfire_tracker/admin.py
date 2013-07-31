@@ -11,7 +11,7 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
+	list_display = ('fire_name', 'data_source', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
 	list_filter = ['county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
