@@ -9,13 +9,13 @@ from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
-from scraper_configs import BaseScraper
+from scraper_configs import TestScraper
 
 logging.basicConfig(level=logging.DEBUG)
 
 def retrieve_data_from_page():
     ''' save raw html from a web page locally '''
-    scraper_instance = BaseScraper()
+    scraper_instance =TestScraper()
     raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
     local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
 
@@ -110,7 +110,7 @@ def evaluate_fire_update_time(list_of_fires):
 
 def extract_details_table(fire_name, details_link):
     ''' iterate through items on details page and save to database '''
-    details_scraper = BaseScraper()
+    details_scraper =TestScraper()
     raw_html = details_scraper.retrieve_source_html_with_mechanize(details_link)
     raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     details_table = raw_details.findAll('table', {'class': 'incident_table'})
