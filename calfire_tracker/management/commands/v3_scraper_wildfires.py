@@ -55,76 +55,57 @@ def add_data_source_to(list_of_fires):
             #pass
         #else:
             #fire['last_update'] = None
-    evaluate_fire_update_time(list_of_fires)
+    evaluate_whether_to_follow_details_link(list_of_fires)
 
-def evaluate_fire_update_time(list_of_fires):
+def evaluate_whether_to_follow_details_link(list_of_fires):
     ''' lets query the database to compare last_update time stamps '''
     for fire in list_of_fires:
-        try:
-            query_date_from_database = CalWildfire.objects.get(created_fire_id=fire['created_fire_id'])
-            # fire has a last update key
+        if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
+            details_scraper =TestScraper()
+            raw_html = details_scraper.retrieve_source_html_with_mechanize(fire['details_link'])
+            raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+            details_table = raw_details.findAll('table', {'class': 'incident_table'})
+            for table in details_table:
+                data_dict = {}
+                data_dict['name'] = fire['name']
+                data_dict['details_source'] = fire['details_source']
+                data_dict['details_link'] = fire['details_link']
+                data_rows = table.findAll('tr')[1:]
+                for row in data_rows:
+                    target_cell = row.findAll('td')
+                    target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
+                    target_data = target_cell[1].text.encode('utf-8')
+                    data_dict[target_key] = target_data
+                save_data_from_dict_to_model(data_dict)
+            print fire['name'] + ' has details page and didnt reach date comparison test'
 
-            if fire.has_key('last_update'):
-                date_comparison_boolean = compare_webpage_to_database(fire['last_update'], query_date_from_database.last_updated)
-                # fire update on the page is newer than database
+            ## DOES DETAIL PAGE NEED TO DATE COMPARISON
+            ## THIS MIGHT BE GOOD PLACE TO RUN COMPARISON AGAINST POPULATED DATA THAT DISAPPEARS...
 
-                if date_comparison_boolean == True:
+        elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
+            does_fire_exist_and_is_info_new(fire)
+        elif fire['details_source'] == 'Other/Inciweb':
+            does_fire_exist_and_is_info_new(fire)
+        else:
+            does_fire_exist_and_is_info_new(fire)
 
-                    try:
-                        if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
-                            print fire['name'] + ' will be updated with a CalFire details page'
-                            extract_details_table(fire['name'], fire['details_link'])
-
-                        elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
-                            # fire does not have a details page
-                            save_data_from_dict_to_model(fire)
-
-                        else:
-                            # fire will be updated with other details page
-                            save_data_from_dict_to_model(fire)
-
-                    except:
-                        # fire does not have a details page
-                        save_data_from_dict_to_model(fire)
-
-                else:
-                    # fire update time hasn't changed
-                    pass
-
-            else:
-                # fire doesnt have a date to compare
-                pass
-
-
-        ## DROPS IN 20 FIRE ONLY ##
-
-        except:
-            try:
-                # fire isn't in the database and has a details page
-                if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
-                    print fire['name'] + ' will be updated with a CalFire details page'
-                    extract_details_table(fire['name'], fire['details_link'])
-            except:
-                # fire isn't in the database and doesn't have a details page
+def does_fire_exist_and_is_info_new(fire):
+    try:
+        query_date_from_database = CalWildfire.objects.get(created_fire_id=fire['created_fire_id'])
+        if fire.has_key('last_update'):
+            date_comparison_boolean = compare_webpage_to_database(fire['last_update'], query_date_from_database.last_updated)
+            if date_comparison_boolean == True:
+                print fire['name'] + ' will be updated with new info'
                 save_data_from_dict_to_model(fire)
-
-def extract_details_table(fire_name, details_link):
-    ''' iterate through items on details page and save to database '''
-    details_scraper =TestScraper()
-    raw_html = details_scraper.retrieve_source_html_with_mechanize(details_link)
-    raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
-    details_table = raw_details.findAll('table', {'class': 'incident_table'})
-    for table in details_table:
-        data_dict = {}
-        data_rows = table.findAll('tr')[1:]
-        data_dict['name'] = fire_name
-        data_dict['more_info'] = details_link
-        for row in data_rows:
-            target_cell = row.findAll('td')
-            target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
-            target_data = target_cell[1].text.encode('utf-8')
-            data_dict[target_key] = target_data
-        save_data_from_dict_to_model(data_dict)
+            else:
+                print fire['name'] + ' doesnt have new info'
+                pass
+        else:
+            print fire['name'] + ' doesnt have a date to compare'
+            pass
+    except:
+        print fire['name'] + ' doesnt exist in the database'
+        save_data_from_dict_to_model(fire)
 
 def save_data_from_dict_to_model(data_dict):
     ''' save data stored in dict to models '''
