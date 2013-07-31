@@ -3,6 +3,7 @@ venv
 *.pyc
 *.sqlite
 *.csv
+*.txt
 SCRATCHPAD.md
 settings_development.py
 tmp/*
