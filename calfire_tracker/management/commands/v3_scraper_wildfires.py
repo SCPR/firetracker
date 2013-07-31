@@ -8,75 +8,115 @@ import pytz
 from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
-from scraper_configs import BaseScraper
+from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
+from scraper_configs import TestScraper
 
-# log everything and send to stderr #
 logging.basicConfig(level=logging.DEBUG)
 
-# hit url and run functions #
-def iterate_through_urls_to_scrape():
-    ''' runs a given function based on a list of URLs to scrape '''
-    logging.debug('running construct_url_to_scrape function')
+def retrieve_data_from_page():
+    ''' save raw html from a web page locally '''
+    scraper_instance =TestScraper()
+    raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
+    local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
 
-    # current url
-    url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500'
-
-    # archive url
-    #url_query = 'http://cdfdata.fire.ca.gov/incidents/incidents_archived?archive_year=2012&pc=1&cp=79'
-
-    extract_details_link_if_present(url_query)
-
-# begin first pass, finding links to details pages if present #
-def extract_details_link_if_present(url_query):
-    ''' extracts a given table for scraping '''
-    content_scrape = BaseScraper()
-    data_table = content_scrape.create_instance_of_mechanize(url_query)
-    data_table = data_table.findAll('table', {'class': 'incident_table'})[1:]
-    for table in data_table:
-        data_rows = table.findAll('tr')
-        target_cell = data_rows[1].findAll('td')
-        try:
-            fire_name = target_cell[1].text.encode('utf-8')
-            details_link = 'http://cdfdata.fire.ca.gov' + target_cell[1].a['href']
-        except:
-            details_link = None
-
-        # if there isn't a details link, then scrape rows from the index page
-        if details_link == None:
-            logging.debug('No link so I\'m using the general scraper')
-            extract_data_table(table)
-
-        # else scrape rows from details link page
-        else:
-            logging.debug('Found a link so I\'m using the details scraper')
-            extract_details_table(fire_name, details_link)
-
-# begin iterating through non-details items #
-def extract_data_table(table):
-    ''' extract_data if no details link present '''
-    data_rows = table.findAll('tr')[1:]
-    data_dict = {}
-    for row in data_rows:
-        target_cell = row.findAll('td')
-        target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
-        target_data = target_cell[1].text.encode('utf-8')
-        data_dict[target_key] = target_data
-    save_data_from_dict_to_model(data_dict)
-
-# begin iterating through details items #
-def extract_details_table(fire_name, details_link):
-    ''' extract target table from details page '''
-    details_scrape = BaseScraper()
-    details_table = details_scrape.create_instance_of_mechanize(details_link)
-    details_table = details_table.findAll('table', {'class': 'incident_table'})
-    extract_data_from_cells(fire_name, details_link, details_table)
-
-# extract data amd write to a dict #
-def extract_data_from_cells(fire_name, details_link, details_table):
-    ''' extract target data from details page '''
-    for table in details_table:
-        data_rows = table.findAll('tr')[1:]
+def open_file_and_parse_to_list(local_file):
+    ''' open local file, convert data table to dictionary & append to list '''
+    list_of_fires = []
+    target_data = BeautifulSoup(open(local_file), convertEntities=BeautifulSoup.HTML_ENTITIES)
+    table_instances = target_data.findAll('table', {'class': 'incident_table'})[1:]
+    for table in table_instances:
         data_dict = {}
+        data_rows = table.findAll('tr')[1:]
+        for row in data_rows:
+            target_cell = row.findAll('td')
+            details_information = determine_if_details_link_present(target_cell)
+            if details_information is not None:
+                for key, value in details_information.iteritems():
+                    data_dict[key] = value
+            else:
+                pass
+            target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
+            target_data = target_cell[1].text.encode('utf-8')
+            data_dict[target_key] = target_data
+        created_fire_id = '%s-%s' % (data_dict['name'], data_dict['county'])
+        data_dict['created_fire_id'] = created_fire_id
+        list_of_fires.append(data_dict)
+    add_data_source_to(list_of_fires)
+
+def add_data_source_to(list_of_fires):
+    ''' sets data source to CalFire if no details link and sets last update to none if key not present '''
+    for fire in list_of_fires:
+        if 'details_source' in fire:
+            pass
+        else:
+            fire['details_source'] = 'CalFire'
+            fire['details_link'] = None
+        #if 'last_update' in fire:
+            #pass
+        #else:
+            #fire['last_update'] = None
+    evaluate_fire_update_time(list_of_fires)
+
+def evaluate_fire_update_time(list_of_fires):
+    ''' lets query the database to compare last_update time stamps '''
+    for fire in list_of_fires:
+        try:
+            query_date_from_database = CalWildfire.objects.get(created_fire_id=fire['created_fire_id'])
+            # fire has a last update key
+
+            if fire.has_key('last_update'):
+                date_comparison_boolean = compare_webpage_to_database(fire['last_update'], query_date_from_database.last_updated)
+                # fire update on the page is newer than database
+
+                if date_comparison_boolean == True:
+
+                    try:
+                        if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
+                            print fire['name'] + ' will be updated with a CalFire details page'
+                            extract_details_table(fire['name'], fire['details_link'])
+
+                        elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
+                            # fire does not have a details page
+                            save_data_from_dict_to_model(fire)
+
+                        else:
+                            # fire will be updated with other details page
+                            save_data_from_dict_to_model(fire)
+
+                    except:
+                        # fire does not have a details page
+                        save_data_from_dict_to_model(fire)
+
+                else:
+                    # fire update time hasn't changed
+                    pass
+
+            else:
+                # fire doesnt have a date to compare
+                pass
+
+
+        ## DROPS IN 20 FIRE ONLY ##
+
+        except:
+            try:
+                # fire isn't in the database and has a details page
+                if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
+                    print fire['name'] + ' will be updated with a CalFire details page'
+                    extract_details_table(fire['name'], fire['details_link'])
+            except:
+                # fire isn't in the database and doesn't have a details page
+                save_data_from_dict_to_model(fire)
+
+def extract_details_table(fire_name, details_link):
+    ''' iterate through items on details page and save to database '''
+    details_scraper =TestScraper()
+    raw_html = details_scraper.retrieve_source_html_with_mechanize(details_link)
+    raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+    details_table = raw_details.findAll('table', {'class': 'incident_table'})
+    for table in details_table:
+        data_dict = {}
+        data_rows = table.findAll('tr')[1:]
         data_dict['name'] = fire_name
         data_dict['more_info'] = details_link
         for row in data_rows:
@@ -86,11 +126,8 @@ def extract_data_from_cells(fire_name, details_link, details_table):
             data_dict[target_key] = target_data
         save_data_from_dict_to_model(data_dict)
 
-# function to save data to our database #
 def save_data_from_dict_to_model(data_dict):
-    ''' save scraped data to data models '''
-    logging.debug('processing fire and saving to database')
-    logging.debug(data_dict)
+    ''' save data stored in dict to models '''
 
     if data_dict.has_key('name'):
         fire_name = data_dict['name']
@@ -102,7 +139,11 @@ def save_data_from_dict_to_model(data_dict):
     else:
         county = None
 
-    created_fire_id = '%s-%s' % (fire_name, county)
+    if data_dict.has_key('created_fire_id'):
+        created_fire_id = data_dict['created_fire_id']
+    else:
+        created_fire_id = '%s-%s' % (fire_name, county)
+
     twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
 
     if data_dict.has_key('estimated_containment'):
@@ -116,7 +157,12 @@ def save_data_from_dict_to_model(data_dict):
         containment_percent = extract_containment_amount(data_dict['containment'])
     else:
         acres_burned = None
-        containment_percent = 100
+        containment_percent = None
+
+    if data_dict.has_key('details_source'):
+        data_source = data_dict['details_source']
+    else:
+        data_source = None
 
     if data_dict.has_key('date_time_started'):
         date_time_started = convert_time_to_nicey_format(data_dict['date_time_started'])
@@ -137,8 +183,8 @@ def save_data_from_dict_to_model(data_dict):
     else:
         administrative_unit = None
 
-    if data_dict.has_key('more_info'):
-        more_info = data_dict['more_info']
+    if data_dict.has_key('details_link'):
+        more_info = data_dict['details_link']
     else:
         more_info = None
 
@@ -256,10 +302,7 @@ def save_data_from_dict_to_model(data_dict):
         defaults={
             'twitter_hashtag': twitter_hashtag,
             'last_scraped': last_scraped,
-
-            # added as a default. should be changed when usfs data is available
-            'data_source': 'CalFire',
-
+            'data_source': data_source,
             'fire_name': fire_name,
             'county': county,
             'acres_burned': acres_burned,
@@ -270,14 +313,11 @@ def save_data_from_dict_to_model(data_dict):
             'more_info': more_info,
             'fire_slug': fire_slug,
             'county_slug': county_slug,
-
             'location': location,
-
             'injuries': injuries,
             'evacuations': evacuations,
             'structures_threatened': structures_threatened,
             'structures_destroyed': structures_destroyed,
-
             'total_dozers': total_dozers,
             'total_helicopters': total_helicopters,
             'total_fire_engines': total_fire_engines,
@@ -285,7 +325,6 @@ def save_data_from_dict_to_model(data_dict):
             'total_water_tenders': total_water_tenders,
             'total_airtankers': total_airtankers,
             'total_fire_crews': total_fire_crews,
-
             'cause': cause,
             'cooperating_agencies': cooperating_agencies,
             'road_closures': road_closures,
@@ -296,11 +335,12 @@ def save_data_from_dict_to_model(data_dict):
         }
     )
 
-    if not created and obj.last_updated == last_updated:
-        obj.last_scraped = last_scraped
-        obj.save()
+    #if not created and obj.last_updated == last_updated:
+        #obj.last_scraped = last_scraped
+        #obj.save()
 
-    else:
+    if not created:
+    #else:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
@@ -329,11 +369,43 @@ def save_data_from_dict_to_model(data_dict):
         obj.notes = notes
         obj.save()
 
+class Command(BaseCommand):
+    help = 'Scrapes California Wildfires data'
+    def handle(self, *args, **options):
+        self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
+
+        #retrieve_data_from_page()
+        open_file_and_parse_to_list('incidents_current.html')
+
+        self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
+
 ### begin helper and formatting functions ###
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
     formatted_data = string.lower().replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
     return formatted_data
+
+def determine_if_details_link_present(target_cell):
+    ''' extracts an anchor tag if present in cell, determines source & creates dictionary to add to fire '''
+    target_text = target_cell[1].findAll('a')
+    data_dict = {}
+    if len(target_text) == 0:
+        pass
+    else:
+        for link in target_text:
+            try:
+                target_class = link['class']
+            except KeyError:
+                target_class = ""
+            if (target_class == 'bluelink'):
+                details_source = 'CalFire'
+                details_link = 'http://cdfdata.fire.ca.gov' + link['href']
+            else:
+                details_source = 'Other/Inciweb'
+                details_link = link['href']
+        data_dict['details_source'] = details_source
+        data_dict['details_link'] = details_link
+        return data_dict
 
 def slugifyFireName(string):
     ''' lowercase_and_replace_space_with_dash '''
@@ -354,6 +426,19 @@ def convert_time_to_nicey_format(date_time_parse):
     pacificizd_date_time_parse = pacific.localize(date_time_parse)
     return pacificizd_date_time_parse
 
+def compare_webpage_to_database(date_from_webpage, date_from_database):
+    ''' convert date to datetime, set tzinfo to pacific and compare it as UTC '''
+    utc = timezone('UTC')
+    pacific = pytz.timezone('US/Pacific')
+    parsed_date_from_webpage = parser.parse(date_from_webpage)
+    parsed_date_from_webpage = pacific.localize(parsed_date_from_webpage)
+    parsed_date_from_webpage = parsed_date_from_webpage.astimezone(utc)
+    if date_from_database < parsed_date_from_webpage:
+        should_i_update = True
+    else:
+        should_i_update = False
+    return should_i_update
+
 def extract_link_from_cells(row_name):
     ''' extract more_info link from cell '''
     target_cell = row_name.findAll('td')
@@ -371,18 +456,18 @@ def extract_initial_integer(string_to_match):
     try:
         if match:
             target_number = string_to_match.replace(',', '')
-            logging.debug(target_number)
+            #logging.debug(target_number)
             target_number = re.search(extract_number, target_number)
             target_number = target_number.group()
             target_number = int(target_number)
-            logging.debug(target_number)
+            #logging.debug(target_number)
 
         else:
             target_number = None
-            logging.debug(target_number)
+            #logging.debug(target_number)
     except:
         target_number = 'exception'
-        logging.debug(target_number)
+        #logging.debug(target_number)
 
     return target_number
 
@@ -396,11 +481,11 @@ def extract_containment_amount(string_to_match):
             hyphen_match = re.search(determine_hyphen, string_to_match)
             if hyphen_match:
                 target_number = re.split('-', string_to_match)
-                logging.debug(target_number)
+                #logging.debug(target_number)
                 target_number = re.search(extract_number, target_number[1])
                 target_number = target_number.group()
                 target_number = int(target_number)
-                logging.debug(target_number)
+                #logging.debug(target_number)
             else:
                 target_number = 100
         else:
@@ -408,10 +493,3 @@ def extract_containment_amount(string_to_match):
     except:
         target_number = 'exception'
     return target_number
-
-class Command(BaseCommand):
-    help = 'Scrapes California Wildfires data'
-    def handle(self, *args, **options):
-        self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
-        iterate_through_urls_to_scrape()
-        self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
