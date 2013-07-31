@@ -33,4 +33,4 @@ Fire Tracker, KPCC's tool for following & researching California wildfires, cont
 
 ### License
 
-GNU General Public License V2
+**GNU General Public License V2**
