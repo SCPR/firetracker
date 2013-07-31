@@ -88,7 +88,7 @@
                     <h1>Year-Over-Year Comparison</h1>
                     <ul>
                         <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2012"><span>2012:</span> Based on CalFire archived data</a>.</li>
-                        <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_current"><span>2013:</span> Aggregated from CalFire current incidents</a>.</li>
+                        <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2013"><span>2013:</span> Based on CalFire data through July 27, 2013</a>.</li>
                     </ul>
                 </header>
                 <table>
@@ -108,7 +108,7 @@
                         <tr>
                             <th>Acres</th>
                             <td>{{ total_2012_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                            <td>{{ total_2013_acreage.total_acres|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                            <td>{{ total_2013_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                         </tr>
                         <tr>
                             <th>Injuries</th>
