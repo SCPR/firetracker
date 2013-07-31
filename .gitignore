@@ -4,6 +4,7 @@ venv
 *.sqlite
 *.csv
 *.txt
+incidents_current.html
 SCRATCHPAD.md
 settings_development.py
 tmp/*
