@@ -21,9 +21,14 @@ def index(request):
     so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
     so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
     so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
-    total_2013_fires = CalWildfire.objects.filter(date_time_started__year='2013').count()
-    total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
-    total_2013_injuries = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_injuries=Sum('injuries'))
+
+    #total_2013_fires = CalWildfire.objects.filter(date_time_started__year='2013').count()
+    #total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
+    #total_2013_injuries = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_injuries=Sum('injuries'))
+
+    total_2013_fires = 4177
+    total_2013_acreage = 70060
+    total_2013_injuries = None
 
     #total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
     #total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
