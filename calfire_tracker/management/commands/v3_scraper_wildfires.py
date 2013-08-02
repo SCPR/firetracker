@@ -14,14 +14,14 @@ from scraper_configs import TestScraper
 logging.basicConfig(level=logging.DEBUG)
 
 ''' Testing or Live '''
-#SCRAPER_STATUS = 'Testing'
-SCRAPER_STATUS = 'None'
+SCRAPER_STATUS = 'Testing'
+#SCRAPER_STATUS = 'None'
 
 class Command(BaseCommand):
     help = 'Scrapes California Wildfires data'
     def handle(self, *args, **options):
         #retrieve_data_from_page()
-        open_file_and_parse_to_list()
+        open_and_build_list_of_raw_fire_data()
         self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
 def retrieve_data_from_page():
@@ -30,59 +30,51 @@ def retrieve_data_from_page():
     raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
     local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
 
-def open_file_and_parse_to_list():
+def open_and_build_list_of_raw_fire_data():
     ''' open local file, convert data table to dictionary & append to list '''
 
+    ''' for local testing from raw html file '''
     if SCRAPER_STATUS == 'Testing':
         target_data = BeautifulSoup(open('incidents_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
     else:
         scraper_instance =TestScraper()
         raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
         target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+    ''' for local testing from raw html file '''
 
     list_of_fires = []
     table_instances = target_data.findAll('table', {'class': 'incident_table'})[1:]
     for table in table_instances:
-        fire = {}
-        data_rows = table.findAll('tr')[1:]
-        for row in data_rows:
+        individual_fire = {}
+        determine_if_details_link_present(table, individual_fire)
+        data_points = table.findAll('tr')[1:]
+        for row in data_points:
             target_cell = row.findAll('td')
-            details_information = determine_if_details_link_present(target_cell)
-            if details_information is not None:
-                for key, value in details_information.iteritems():
-                    fire[key] = value
-            else:
-                pass
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
             target_data = target_cell[1].text.encode('utf-8')
-            try:
-                if fire.has_key(target_key):
-                    pass
-                else:
-                    fire[target_key] = target_data
-            except:
-                fire[target_key] = target_data
-        created_fire_id = '%s-%s' % (fire['name'], fire['county'])
-        fire['created_fire_id'] = created_fire_id
-        list_of_fires.append(fire)
-    add_data_source_to(list_of_fires)
 
-def add_data_source_to(list_of_fires):
-    ''' sets data source to CalFire if no details link and sets last update to none if key not present '''
-    for fire in list_of_fires:
-        if 'details_source' in fire:
-            pass
-        else:
-            fire['details_source'] = 'CalFire'
-            fire['details_link'] = None
-        #if 'last_update' in fire:
-            #pass
-        #else:
-            #fire['last_update'] = None
+            ###### PAIN POINT ######
+            #keep_first_instance_of(individual_fire, target_key, target_data)
+            if target_key == 'acres_burned_containment':
+                pass
+            else:
+                individual_fire[target_key] = target_data
+            ###### PAIN POINT ######
+
+        individual_fire['created_fire_id'] = '%s-%s' % (individual_fire['name'], individual_fire['county'])
+
+        ###### PAIN POINT ######
+        ## round back around to check on last upate ##
+        ###### PAIN POINT ######
+
+        list_of_fires.append(individual_fire)
     evaluate_whether_to_follow_details_link(list_of_fires)
 
 def evaluate_whether_to_follow_details_link(list_of_fires):
     ''' lets query the database to compare last_update time stamps '''
+
+    print list_of_fires
+
     for fire in list_of_fires:
         if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
             details_scraper =TestScraper()
@@ -90,29 +82,26 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
             raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
             details_table = raw_details.findAll('table', {'class': 'incident_table'})
             for table in details_table:
-                data_dict = {}
-                data_dict['name'] = fire['name']
-                data_dict['details_source'] = fire['details_source']
-                data_dict['details_link'] = fire['details_link']
+                individual_fire = {}
+                individual_fire['name'] = fire['name']
+                individual_fire['details_source'] = fire['details_source']
+                individual_fire['details_link'] = fire['details_link']
                 data_rows = table.findAll('tr')[1:]
                 for row in data_rows:
                     target_cell = row.findAll('td')
                     target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
                     target_data = target_cell[1].text.encode('utf-8')
 
-                    if data_dict.has_key(target_key):
+                    ###### PAIN POINT ######
+                    #keep_first_instance_of(individual_fire, target_key, target_data)
+                    if target_key == 'acres_burned_containment':
                         pass
                     else:
-                        data_dict[target_key] = target_data
+                        individual_fire[target_key] = target_data
+                    ###### PAIN POINT ######
 
-                    #if target_key == 'acres_burned_containment':
-                        #pass
-                    #else:
-                        #data_dict[target_key] = target_data
-
-                created_fire_id = '%s-%s' % (data_dict['name'], data_dict['county'])
-                data_dict['created_fire_id'] = created_fire_id
-            fire.update(data_dict)
+                individual_fire['created_fire_id'] = '%s-%s' % (individual_fire['name'], individual_fire['county'])
+            fire.update(individual_fire)
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
             does_fire_exist_and_is_info_new(fire)
@@ -154,9 +143,6 @@ def inciweb_details_scraper(fire):
     except:
         percent_contained = None
     fire['acres_burned_containment'] = '%s -%scontained' % (acres_burned, percent_contained)
-
-    print fire
-
     does_fire_exist_and_is_info_new(fire)
 
 def does_fire_exist_and_is_info_new(fire):
@@ -436,34 +422,43 @@ def lowercase_remove_colon_and_replace_space_with_underscore(string):
     formatted_data = string.lower().replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
     return formatted_data
 
-def determine_if_details_link_present(target_cell):
-    ''' extracts an anchor tag if present in cell, determines source & creates dictionary to add to fire '''
-    target_text = target_cell[1].findAll('a')
-    data_dict = {}
-    if len(target_text) == 0:
-        pass
+def keep_first_instance_of(target_dict, target_key, target_data):
+    ''' keeps first instance of a key and keeps from being overwritten '''
+    try:
+        if target_dict.has_key(target_key):
+            pass
+        else:
+            target_dict[target_key] = target_data
+    except:
+        target_dict[target_key] = target_data
+
+def determine_if_details_link_present(table, individual_fire):
+    ''' trying to isolate calfire links when links to other agency on the page '''
+    details_links = table.findAll('a')
+    if len(details_links) == 0:
+        details_source = 'CalFire'
+        details_link = None
+    elif len(details_links) == 1:
+        test_match = re.search('inciweb', details_links[0]['href'])
+        if test_match:
+            details_source = 'Inciweb'
+            details_link = details_links[0]['href']
+        else:
+            details_source = 'Other'
+            details_link = details_links[0]['href']
     else:
-        for link in target_text:
+        for link in details_links:
             try:
                 target_class = link['class']
             except KeyError:
                 target_class = ""
-            test_match = re.search('inciweb', link['href'])
-            if test_match:
-                details_source = 'Inciweb'
-                details_link = link['href']
-            elif (target_class == 'bluelink'):
+            if target_class == 'bluelink':
                 details_source = 'CalFire'
                 details_link = 'http://cdfdata.fire.ca.gov' + link['href']
             else:
-                details_source = 'Other'
-                details_link = link['href']
-        if data_dict.has_key('details_link'):
-            pass
-        else:
-            data_dict['details_source'] = details_source
-            data_dict['details_link'] = details_link
-        return data_dict
+                pass
+    individual_fire['details_source'] = details_source
+    individual_fire['details_link'] = details_link
 
 def slugifyFireName(string):
     ''' lowercase_and_replace_space_with_dash '''
