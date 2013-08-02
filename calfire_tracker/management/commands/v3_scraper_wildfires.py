@@ -13,34 +13,52 @@ from scraper_configs import TestScraper
 
 logging.basicConfig(level=logging.DEBUG)
 
+
+''' Testing or Live '''
+#SCRAPER_STATUS = 'Testing'
+SCRAPER_STATUS = 'None'
+
 def retrieve_data_from_page():
     ''' save raw html from a web page locally '''
     scraper_instance =TestScraper()
     raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
     local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
 
-def open_file_and_parse_to_list(local_file):
+def open_file_and_parse_to_list():
     ''' open local file, convert data table to dictionary & append to list '''
+
+    if SCRAPER_STATUS == 'Testing':
+        target_data = BeautifulSoup(open('incidents_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
+    else:
+        scraper_instance =TestScraper()
+        raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
+        target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+
     list_of_fires = []
-    target_data = BeautifulSoup(open(local_file), convertEntities=BeautifulSoup.HTML_ENTITIES)
     table_instances = target_data.findAll('table', {'class': 'incident_table'})[1:]
     for table in table_instances:
-        data_dict = {}
+        fire = {}
         data_rows = table.findAll('tr')[1:]
         for row in data_rows:
             target_cell = row.findAll('td')
             details_information = determine_if_details_link_present(target_cell)
             if details_information is not None:
                 for key, value in details_information.iteritems():
-                    data_dict[key] = value
+                    fire[key] = value
             else:
                 pass
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
             target_data = target_cell[1].text.encode('utf-8')
-            data_dict[target_key] = target_data
-        created_fire_id = '%s-%s' % (data_dict['name'], data_dict['county'])
-        data_dict['created_fire_id'] = created_fire_id
-        list_of_fires.append(data_dict)
+            try:
+                if fire.has_key(target_key):
+                    pass
+                else:
+                    fire[target_key] = target_data
+            except:
+                fire[target_key] = target_data
+        created_fire_id = '%s-%s' % (fire['name'], fire['county'])
+        fire['created_fire_id'] = created_fire_id
+        list_of_fires.append(fire)
     add_data_source_to(list_of_fires)
 
 def add_data_source_to(list_of_fires):
@@ -75,207 +93,260 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
                     target_cell = row.findAll('td')
                     target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
                     target_data = target_cell[1].text.encode('utf-8')
-                    data_dict[target_key] = target_data
-                save_data_from_dict_to_model(data_dict)
-            print fire['name'] + ' has details page and didnt reach date comparison test'
 
-            ## DOES DETAIL PAGE NEED TO DATE COMPARISON
-            ## THIS MIGHT BE GOOD PLACE TO RUN COMPARISON AGAINST POPULATED DATA THAT DISAPPEARS...
+                    if data_dict.has_key(target_key):
+                        pass
+                    else:
+                        data_dict[target_key] = target_data
 
+                    #if target_key == 'acres_burned_containment':
+                        #pass
+                    #else:
+                        #data_dict[target_key] = target_data
+
+                created_fire_id = '%s-%s' % (data_dict['name'], data_dict['county'])
+                data_dict['created_fire_id'] = created_fire_id
+            fire.update(data_dict)
+            does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
             does_fire_exist_and_is_info_new(fire)
-        elif fire['details_source'] == 'Other/Inciweb':
+        elif fire['details_source'] == 'Other':
             does_fire_exist_and_is_info_new(fire)
+        elif fire['details_source'] == 'Inciweb':
+            inciweb_details_scraper(fire)
         else:
             does_fire_exist_and_is_info_new(fire)
+
+def inciweb_details_scraper(fire):
+    ''' pull details from inciweb details page '''
+
+    if SCRAPER_STATUS == 'Testing':
+        target_data = BeautifulSoup(open('inciweb_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
+    else:
+        details_scraper =TestScraper()
+        raw_html = details_scraper.retrieve_source_html_with_mechanize(fire['details_link'])
+        target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+
+    table_instances = target_data.findAll('table', {'class': 'data'})
+    fire_dict = {}
+    for table in table_instances:
+        data_rows = table.findAll('tr')[1:]
+        instance_of_fire_details = {}
+        for row in data_rows:
+            target_key = convert_soup_list_to_data(row.findAll('th'))
+            target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_key)
+            target_data = convert_soup_list_to_data(row.findAll('td'))
+            instance_of_fire_details[target_key] = target_data
+        fire_dict.update(instance_of_fire_details)
+    fire.update(fire_dict)
+    try:
+        acres_burned = fire['size']
+    except:
+        acres_burned = None
+    try:
+        percent_contained = fire['percent_contained']
+    except:
+        percent_contained = None
+    fire['acres_burned_containment'] = '%s -%scontained' % (acres_burned, percent_contained)
+    does_fire_exist_and_is_info_new(fire)
 
 def does_fire_exist_and_is_info_new(fire):
     try:
         query_date_from_database = CalWildfire.objects.get(created_fire_id=fire['created_fire_id'])
+
         if fire.has_key('last_update'):
             date_comparison_boolean = compare_webpage_to_database(fire['last_update'], query_date_from_database.last_updated)
-            if date_comparison_boolean == True:
-                print fire['name'] + ' will be updated with new info'
-                save_data_from_dict_to_model(fire)
-            else:
-                print fire['name'] + ' doesnt have new info'
-                pass
+            fire['update_this_fire'] = date_comparison_boolean
+            decide_to_save_or_not(fire)
+
+        elif fire.has_key('last_updated'):
+            date_comparison_boolean = compare_webpage_to_database(fire['last_updated'], query_date_from_database.last_updated)
+            fire['update_this_fire'] = date_comparison_boolean
+            decide_to_save_or_not(fire)
+
         else:
-            print fire['name'] + ' doesnt have a date to compare'
-            pass
+            fire['update_this_fire'] = True
+            save_data_from_dict_to_model(fire)
     except:
-        print fire['name'] + ' doesnt exist in the database'
         save_data_from_dict_to_model(fire)
 
-def save_data_from_dict_to_model(data_dict):
+def decide_to_save_or_not(fire):
+    ''' final determination on whether to save '''
+    if fire['update_this_fire'] == True:
+        save_data_from_dict_to_model(fire)
+    else:
+        pass
+
+def save_data_from_dict_to_model(fire):
     ''' save data stored in dict to models '''
 
-    if data_dict.has_key('name'):
-        fire_name = data_dict['name']
+    print fire
+
+    if fire.has_key('name'):
+        fire_name = fire['name']
     else:
         fire_name = 'fire_name'
 
-    if data_dict.has_key('county'):
-        county = data_dict['county']
+    if fire.has_key('county'):
+        county = fire['county']
     else:
         county = None
 
-    if data_dict.has_key('created_fire_id'):
-        created_fire_id = data_dict['created_fire_id']
+    county_slug = '%s' % (slugifyFireName(county))
+    scraped_fire_slug = '%s' % (slugifyFireName(fire_name))
+
+    if fire.has_key('created_fire_id'):
+        created_fire_id = fire['created_fire_id']
     else:
         created_fire_id = '%s-%s' % (fire_name, county)
 
     twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
 
-    if data_dict.has_key('estimated_containment'):
-        acres_burned = extract_initial_integer(data_dict['estimated_containment'])
-        containment_percent = extract_containment_amount(data_dict['estimated_containment'])
-    elif data_dict.has_key('acres_burned_containment'):
-        acres_burned = extract_initial_integer(data_dict['acres_burned_containment'])
-        containment_percent = extract_containment_amount(data_dict['acres_burned_containment'])
-    elif data_dict.has_key('containment'):
-        acres_burned = extract_initial_integer(data_dict['containment'])
-        containment_percent = extract_containment_amount(data_dict['containment'])
+    if fire.has_key('estimated_containment'):
+        acres_burned = extract_initial_integer(fire['estimated_containment'])
+        containment_percent = extract_containment_amount(fire['estimated_containment'])
+    elif fire.has_key('acres_burned_containment'):
+        acres_burned = extract_initial_integer(fire['acres_burned_containment'])
+        containment_percent = extract_containment_amount(fire['acres_burned_containment'])
+    elif fire.has_key('containment'):
+        acres_burned = extract_initial_integer(fire['containment'])
+        containment_percent = extract_containment_amount(fire['containment'])
     else:
         acres_burned = None
-        containment_percent = None
+        containment_percent = 100
 
-    if data_dict.has_key('details_source'):
-        data_source = data_dict['details_source']
+    if fire.has_key('details_source'):
+        data_source = fire['details_source']
     else:
         data_source = None
 
-    if data_dict.has_key('date_time_started'):
-        date_time_started = convert_time_to_nicey_format(data_dict['date_time_started'])
-    elif data_dict.has_key('date_started'):
-        date_time_started = convert_time_to_nicey_format(data_dict['date_started'])
+    if fire.has_key('date_time_started'):
+        date_time_started = convert_time_to_nicey_format(fire['date_time_started'])
+    elif fire.has_key('date_started'):
+        date_time_started = convert_time_to_nicey_format(fire['date_started'])
     else:
         date_time_started = None
 
-    if data_dict.has_key('last_updated'):
-        last_updated = convert_time_to_nicey_format(data_dict['last_updated'])
-    elif data_dict.has_key('last_update'):
-        last_updated = convert_time_to_nicey_format(data_dict['last_update'])
+    if fire.has_key('last_updated'):
+        last_updated = convert_time_to_nicey_format(fire['last_updated'])
+    elif fire.has_key('last_update'):
+        last_updated = convert_time_to_nicey_format(fire['last_update'])
     else:
         last_updated = None
 
-    if data_dict.has_key('administrative_unit'):
-        administrative_unit = data_dict['administrative_unit']
+    if fire.has_key('administrative_unit'):
+        administrative_unit = fire['administrative_unit']
     else:
         administrative_unit = None
 
-    if data_dict.has_key('details_link'):
-        more_info = data_dict['details_link']
+    if fire.has_key('details_link'):
+        more_info = fire['details_link']
     else:
         more_info = None
 
-    county_slug = '%s' % (slugifyFireName(county))
-    scraped_fire_slug = '%s' % (slugifyFireName(fire_name))
-
-    # if an object with fire slug exists in the database
-    if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
-        fire_slug = scraped_fire_slug
-
-    # if it does, append the county slug to the fire slug
-    else:
-        fire_slug = '%s-%s' % (scraped_fire_slug, county_slug)
-
-    if data_dict.has_key('location'):
-        location = titlecase(data_dict['location'])
+    if fire.has_key('location'):
+        location = titlecase(fire['location'])
     else:
         location = None
 
-    if data_dict.has_key('injuries'):
-        injuries = data_dict['injuries']
+    if fire.has_key('injuries'):
+        injuries = extract_initial_integer(fire['injuries'])
     else:
         injuries = None
 
-    if data_dict.has_key('evacuations'):
-        evacuations = data_dict['evacuations']
+    if fire.has_key('evacuations'):
+        evacuations = fire['evacuations']
     else:
         evacuations = None
 
-    if data_dict.has_key('structures_threatened'):
-        structures_threatened = data_dict['structures_threatened']
+    if fire.has_key('structures_threatened'):
+        structures_threatened = fire['structures_threatened']
     else:
         structures_threatened = None
 
-    if data_dict.has_key('structures_destroyed'):
-        structures_destroyed = data_dict['structures_destroyed']
+    if fire.has_key('structures_destroyed'):
+        structures_destroyed = fire['structures_destroyed']
     else:
         structures_destroyed = None
 
-    if data_dict.has_key('total_dozers'):
-        total_dozers = extract_initial_integer(data_dict['total_dozers'])
+    if fire.has_key('total_dozers'):
+        total_dozers = extract_initial_integer(fire['total_dozers'])
     else:
         total_dozers = None
 
-    if data_dict.has_key('total_helicopters'):
-        total_helicopters = extract_initial_integer(data_dict['total_helicopters'])
+    if fire.has_key('total_helicopters'):
+        total_helicopters = extract_initial_integer(fire['total_helicopters'])
     else:
         total_helicopters = None
 
-    if data_dict.has_key('total_fire_engines'):
-        total_fire_engines = extract_initial_integer(data_dict['total_fire_engines'])
+    if fire.has_key('total_fire_engines'):
+        total_fire_engines = extract_initial_integer(fire['total_fire_engines'])
     else:
         total_fire_engines = None
 
-    if data_dict.has_key('total_fire_personnel'):
-        total_fire_personnel = extract_initial_integer(data_dict['total_fire_personnel'])
+    if fire.has_key('total_fire_personnel'):
+        total_fire_personnel = extract_initial_integer(fire['total_fire_personnel'])
     else:
         total_fire_personnel = None
 
-    if data_dict.has_key('total_water_tenders'):
-        total_water_tenders = extract_initial_integer(data_dict['total_water_tenders'])
+    if fire.has_key('total_water_tenders'):
+        total_water_tenders = extract_initial_integer(fire['total_water_tenders'])
     else:
         total_water_tenders = None
 
-    if data_dict.has_key('total_airtankers'):
-        total_airtankers = extract_initial_integer(data_dict['total_airtankers'])
+    if fire.has_key('total_airtankers'):
+        total_airtankers = extract_initial_integer(fire['total_airtankers'])
     else:
         total_airtankers = None
 
-    if data_dict.has_key('total_fire_crews'):
-        total_fire_crews = extract_initial_integer(data_dict['total_fire_crews'])
+    if fire.has_key('total_fire_crews'):
+        total_fire_crews = extract_initial_integer(fire['total_fire_crews'])
     else:
         total_fire_crews = None
 
-    if data_dict.has_key('cause'):
-        cause = data_dict['cause']
+    if fire.has_key('cause'):
+        cause = fire['cause']
     else:
         cause = None
 
-    if data_dict.has_key('cooperating_agencies'):
-        cooperating_agencies = data_dict['cooperating_agencies']
+    if fire.has_key('cooperating_agencies'):
+        cooperating_agencies = fire['cooperating_agencies']
     else:
         cooperating_agencies = None
 
-    if data_dict.has_key('road_closures_'):
-        road_closures = data_dict['road_closures_']
+    if fire.has_key('road_closures_'):
+        road_closures = fire['road_closures_']
     else:
         road_closures = None
 
-    if data_dict.has_key('school_closures_'):
-        school_closures = data_dict['school_closures_']
+    if fire.has_key('school_closures_'):
+        school_closures = fire['school_closures_']
     else:
         school_closures = None
 
-    if data_dict.has_key('conditions'):
-        conditions = data_dict['conditions']
+    if fire.has_key('conditions'):
+        conditions = fire['conditions']
     else:
         conditions = None
 
-    if data_dict.has_key('phone_numbers'):
-        phone_numbers = data_dict['phone_numbers']
+    if fire.has_key('phone_numbers'):
+        phone_numbers = fire['phone_numbers']
     else:
         phone_numbers = None
 
-    if data_dict.has_key('notes'):
-        notes = data_dict['notes']
+    if fire.has_key('notes'):
+        notes = fire['notes']
+    elif fire.has_key('remarks'):
+        notes = fire['remarks']
     else:
         notes = None
 
     last_scraped = datetime.datetime.now()
+
+    if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
+        fire_slug = scraped_fire_slug
+    else:
+        fire_slug = '%s-%s' % (scraped_fire_slug, county_slug)
 
     obj, created = CalWildfire.objects.get_or_create(
         created_fire_id = created_fire_id,
@@ -356,8 +427,7 @@ class Command(BaseCommand):
         self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
 
         #retrieve_data_from_page()
-        open_file_and_parse_to_list('incidents_current.html')
-
+        open_file_and_parse_to_list()
         self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
 ### begin helper and formatting functions ###
@@ -378,14 +448,21 @@ def determine_if_details_link_present(target_cell):
                 target_class = link['class']
             except KeyError:
                 target_class = ""
-            if (target_class == 'bluelink'):
+            test_match = re.search('inciweb', link['href'])
+            if test_match:
+                details_source = 'Inciweb'
+                details_link = link['href']
+            elif (target_class == 'bluelink'):
                 details_source = 'CalFire'
                 details_link = 'http://cdfdata.fire.ca.gov' + link['href']
             else:
-                details_source = 'Other/Inciweb'
+                details_source = 'Other'
                 details_link = link['href']
-        data_dict['details_source'] = details_source
-        data_dict['details_link'] = details_link
+        if data_dict.has_key('details_link'):
+            pass
+        else:
+            data_dict['details_source'] = details_source
+            data_dict['details_link'] = details_link
         return data_dict
 
 def slugifyFireName(string):
@@ -428,6 +505,12 @@ def extract_link_from_cells(row_name):
     except:
         target_link = None
     return target_link
+
+def convert_soup_list_to_data(element):
+    ''' takes table row that is a list and converts it to data '''
+    for el in element:
+        target_data = el.text.encode('utf-8')
+        return target_data
 
 def extract_initial_integer(string_to_match):
     ''' runs regex on acres cell to return acres burned as int '''
