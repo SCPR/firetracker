@@ -13,10 +13,16 @@ from scraper_configs import TestScraper
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 ''' Testing or Live '''
 #SCRAPER_STATUS = 'Testing'
 SCRAPER_STATUS = 'None'
+
+class Command(BaseCommand):
+    help = 'Scrapes California Wildfires data'
+    def handle(self, *args, **options):
+        #retrieve_data_from_page()
+        open_file_and_parse_to_list()
+        self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
 def retrieve_data_from_page():
     ''' save raw html from a web page locally '''
@@ -148,6 +154,9 @@ def inciweb_details_scraper(fire):
     except:
         percent_contained = None
     fire['acres_burned_containment'] = '%s -%scontained' % (acres_burned, percent_contained)
+
+    print fire
+
     does_fire_exist_and_is_info_new(fire)
 
 def does_fire_exist_and_is_info_new(fire):
@@ -180,7 +189,7 @@ def decide_to_save_or_not(fire):
 def save_data_from_dict_to_model(fire):
     ''' save data stored in dict to models '''
 
-    print fire
+    #print fire
 
     if fire.has_key('name'):
         fire_name = fire['name']
@@ -420,15 +429,6 @@ def save_data_from_dict_to_model(fire):
         obj.phone_numbers = phone_numbers
         obj.notes = notes
         obj.save()
-
-class Command(BaseCommand):
-    help = 'Scrapes California Wildfires data'
-    def handle(self, *args, **options):
-        self.stdout.write('\nScraping started at %s\n' % str(datetime.datetime.now()))
-
-        #retrieve_data_from_page()
-        open_file_and_parse_to_list()
-        self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
 ### begin helper and formatting functions ###
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
