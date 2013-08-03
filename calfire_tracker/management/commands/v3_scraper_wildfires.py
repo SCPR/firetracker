@@ -14,8 +14,8 @@ from scraper_configs import TestScraper
 logging.basicConfig(level=logging.DEBUG)
 
 ''' Testing or Live '''
-SCRAPER_STATUS = 'Testing'
-#SCRAPER_STATUS = 'None'
+#SCRAPER_STATUS = 'Testing'
+SCRAPER_STATUS = 'Live'
 
 class Command(BaseCommand):
     help = 'Scrapes California Wildfires data'
@@ -52,15 +52,7 @@ def open_and_build_list_of_raw_fire_data():
             target_cell = row.findAll('td')
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
             target_data = target_cell[1].text.encode('utf-8')
-
-            ###### PAIN POINT ######
-            #keep_first_instance_of(individual_fire, target_key, target_data)
-            if target_key == 'acres_burned_containment':
-                pass
-            else:
-                individual_fire[target_key] = target_data
-            ###### PAIN POINT ######
-
+            keep_first_instance_of(individual_fire, target_key, target_data)
         individual_fire['created_fire_id'] = '%s-%s' % (individual_fire['name'], individual_fire['county'])
 
         ###### PAIN POINT ######
@@ -72,9 +64,6 @@ def open_and_build_list_of_raw_fire_data():
 
 def evaluate_whether_to_follow_details_link(list_of_fires):
     ''' lets query the database to compare last_update time stamps '''
-
-    print list_of_fires
-
     for fire in list_of_fires:
         if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
             details_scraper =TestScraper()
@@ -82,26 +71,13 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
             raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
             details_table = raw_details.findAll('table', {'class': 'incident_table'})
             for table in details_table:
-                individual_fire = {}
-                individual_fire['name'] = fire['name']
-                individual_fire['details_source'] = fire['details_source']
-                individual_fire['details_link'] = fire['details_link']
+                determine_if_details_link_present(table, fire)
                 data_rows = table.findAll('tr')[1:]
                 for row in data_rows:
                     target_cell = row.findAll('td')
                     target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_cell[0].text.encode('utf-8'))
                     target_data = target_cell[1].text.encode('utf-8')
-
-                    ###### PAIN POINT ######
-                    #keep_first_instance_of(individual_fire, target_key, target_data)
-                    if target_key == 'acres_burned_containment':
-                        pass
-                    else:
-                        individual_fire[target_key] = target_data
-                    ###### PAIN POINT ######
-
-                individual_fire['created_fire_id'] = '%s-%s' % (individual_fire['name'], individual_fire['county'])
-            fire.update(individual_fire)
+                    keep_first_instance_of(fire, target_key, target_data)
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
             does_fire_exist_and_is_info_new(fire)
@@ -115,37 +91,68 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
 def inciweb_details_scraper(fire):
     ''' pull details from inciweb details page '''
 
+    ''' for local testing from raw html file '''
     if SCRAPER_STATUS == 'Testing':
         target_data = BeautifulSoup(open('inciweb_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
     else:
         details_scraper =TestScraper()
         raw_html = details_scraper.retrieve_source_html_with_mechanize(fire['details_link'])
         target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+    ''' for local testing from raw html file '''
+
+    ###### PAIN POINT ######
+    ## determine how to access text at the top of the inciweb page ##
+    ###### PAIN POINT ######
 
     table_instances = target_data.findAll('table', {'class': 'data'})
-    fire_dict = {}
     for table in table_instances:
+        instance_of_data_rows = {}
         data_rows = table.findAll('tr')[1:]
-        instance_of_fire_details = {}
         for row in data_rows:
             target_key = convert_soup_list_to_data(row.findAll('th'))
             target_key = lowercase_remove_colon_and_replace_space_with_underscore(target_key)
             target_data = convert_soup_list_to_data(row.findAll('td'))
-            instance_of_fire_details[target_key] = target_data
-        fire_dict.update(instance_of_fire_details)
-    fire.update(fire_dict)
+            instance_of_data_rows[target_key] = target_data
+        fire.update(instance_of_data_rows)
+    construct_inciweb_narrative(fire)
+
+def construct_inciweb_narrative(fire):
+    ''' combines narrative paragraphs into one string for later parsing for data points '''
     try:
         acres_burned = fire['size']
-    except:
-        acres_burned = None
-    try:
         percent_contained = fire['percent_contained']
     except:
+        acres_burned = None
         percent_contained = None
     fire['acres_burned_containment'] = '%s -%scontained' % (acres_burned, percent_contained)
+    remarks_list = []
+    try:
+        remarks = '%s' % (fire['remarks'])
+        events = '%s' % (fire['significant_events'])
+        behavior = '%s' % (fire['fire_behavior'])
+        fuel = 'Fuel for the fire includes %s.' % (fire['fuels_involved'])
+        terrain = 'Terrain difficulty is %s.' % (fire['terrain_difficulty'])
+    except:
+        remarks = None
+        events = None
+        behavior = None
+        fuel = None
+        terrain = None
+    remarks_list.append(remarks)
+    remarks_list.append(events)
+    remarks_list.append(behavior)
+    remarks_list.append(fuel)
+    remarks_list.append(terrain)
+
+    try:
+        remarks = ' '.join(remarks_list)
+        fire['remarks'] = remarks
+    except:
+        pass
     does_fire_exist_and_is_info_new(fire)
 
 def does_fire_exist_and_is_info_new(fire):
+    ''' checks date on newly acquired fire against the database '''
     try:
         query_date_from_database = CalWildfire.objects.get(created_fire_id=fire['created_fire_id'])
 
@@ -167,6 +174,7 @@ def does_fire_exist_and_is_info_new(fire):
 
 def decide_to_save_or_not(fire):
     ''' final determination on whether to save '''
+
     if fire['update_this_fire'] == True:
         save_data_from_dict_to_model(fire)
     else:
@@ -175,7 +183,12 @@ def decide_to_save_or_not(fire):
 def save_data_from_dict_to_model(fire):
     ''' save data stored in dict to models '''
 
-    #print fire
+    ''' for local testing from raw html file '''
+    if SCRAPER_STATUS == 'Testing':
+        print fire
+    else:
+        pass
+    ''' for local testing from raw html file '''
 
     if fire.has_key('name'):
         fire_name = fire['name']
@@ -198,13 +211,13 @@ def save_data_from_dict_to_model(fire):
     twitter_hashtag = '#%s' % (hashtagifyFireName(fire_name))
 
     if fire.has_key('estimated_containment'):
-        acres_burned = extract_initial_integer(fire['estimated_containment'])
+        acres_burned = extract_acres_integer(fire['estimated_containment'])
         containment_percent = extract_containment_amount(fire['estimated_containment'])
     elif fire.has_key('acres_burned_containment'):
-        acres_burned = extract_initial_integer(fire['acres_burned_containment'])
+        acres_burned = extract_acres_integer(fire['acres_burned_containment'])
         containment_percent = extract_containment_amount(fire['acres_burned_containment'])
     elif fire.has_key('containment'):
-        acres_burned = extract_initial_integer(fire['containment'])
+        acres_burned = extract_acres_integer(fire['containment'])
         containment_percent = extract_containment_amount(fire['containment'])
     else:
         acres_burned = None
@@ -382,12 +395,7 @@ def save_data_from_dict_to_model(fire):
         }
     )
 
-    #if not created and obj.last_updated == last_updated:
-        #obj.last_scraped = last_scraped
-        #obj.save()
-
     if not created:
-    #else:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
@@ -416,6 +424,7 @@ def save_data_from_dict_to_model(fire):
         obj.notes = notes
         obj.save()
 
+#                                           #
 ### begin helper and formatting functions ###
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
@@ -424,12 +433,9 @@ def lowercase_remove_colon_and_replace_space_with_underscore(string):
 
 def keep_first_instance_of(target_dict, target_key, target_data):
     ''' keeps first instance of a key and keeps from being overwritten '''
-    try:
-        if target_dict.has_key(target_key):
-            pass
-        else:
-            target_dict[target_key] = target_data
-    except:
+    if target_dict.has_key(target_key):
+        pass
+    else:
         target_dict[target_key] = target_data
 
 def determine_if_details_link_present(table, individual_fire):
@@ -492,42 +498,51 @@ def compare_webpage_to_database(date_from_webpage, date_from_database):
         should_i_update = False
     return should_i_update
 
-def extract_link_from_cells(row_name):
-    ''' extract more_info link from cell '''
-    target_cell = row_name.findAll('td')
-    try:
-        target_link = 'http://cdfdata.fire.ca.gov' + target_cell[0].a['href']
-    except:
-        target_link = None
-    return target_link
-
 def convert_soup_list_to_data(element):
     ''' takes table row that is a list and converts it to data '''
     for el in element:
         target_data = el.text.encode('utf-8')
         return target_data
 
+def extract_acres_integer(string_to_match):
+    ''' runs regex on acres cell to return acres burned as int '''
+    #print string_to_match
+    number_check = re.compile('\d+\sacres')
+    extract_acreage = re.compile('\d+\sacres')
+    extract_number = re.compile('^\d+')
+    match = re.search(number_check, string_to_match)
+    try:
+        if match:
+            target_number = string_to_match.replace(',', '')
+            target_number = re.search(extract_acreage, target_number).group()
+            target_number = re.search(extract_number, target_number).group()
+            target_number = int(target_number)
+        else:
+            target_number = None
+    except:
+        target_number = 'exception'
+
+    #print target_number
+    #return target_number
+
 def extract_initial_integer(string_to_match):
     ''' runs regex on acres cell to return acres burned as int '''
+    #print string_to_match
     number_check = re.compile('^\d+')
     extract_number = re.compile('\d+')
     match = re.search(number_check, string_to_match)
     try:
         if match:
             target_number = string_to_match.replace(',', '')
-            #logging.debug(target_number)
             target_number = re.search(extract_number, target_number)
             target_number = target_number.group()
             target_number = int(target_number)
-            #logging.debug(target_number)
-
         else:
             target_number = None
-            #logging.debug(target_number)
     except:
         target_number = 'exception'
-        #logging.debug(target_number)
 
+    #print target_number
     return target_number
 
 def extract_containment_amount(string_to_match):
@@ -540,15 +555,15 @@ def extract_containment_amount(string_to_match):
             hyphen_match = re.search(determine_hyphen, string_to_match)
             if hyphen_match:
                 target_number = re.split('-', string_to_match)
-                #logging.debug(target_number)
                 target_number = re.search(extract_number, target_number[1])
                 target_number = target_number.group()
                 target_number = int(target_number)
-                #logging.debug(target_number)
             else:
                 target_number = 100
         else:
             target_number = None
     except:
         target_number = 'exception'
+
+    #print target_number
     return target_number
