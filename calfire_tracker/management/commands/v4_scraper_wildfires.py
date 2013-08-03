@@ -523,11 +523,11 @@ def extract_acres_integer(string_to_match):
         target_number = 'exception'
 
     #print target_number
-    #return target_number
+    return target_number
 
 def extract_initial_integer(string_to_match):
     ''' runs regex on acres cell to return acres burned as int '''
-    #print string_to_match
+    print string_to_match
     number_check = re.compile('^\d+')
     extract_number = re.compile('\d+')
     match = re.search(number_check, string_to_match)
