@@ -9,7 +9,7 @@ from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
-from scraper_configs import TestScraper
+from scraper_configs import V2Scraper
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
 def retrieve_data_from_page():
     ''' save raw html from a web page locally '''
-    scraper_instance =TestScraper()
+    scraper_instance =V2Scraper()
     raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
     local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
 
@@ -37,7 +37,7 @@ def open_and_build_list_of_raw_fire_data():
     if SCRAPER_STATUS == 'Testing':
         target_data = BeautifulSoup(open('incidents_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
     else:
-        scraper_instance =TestScraper()
+        scraper_instance =V2Scraper()
         raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
         target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     ''' for local testing from raw html file '''
@@ -66,7 +66,7 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
     ''' lets query the database to compare last_update time stamps '''
     for fire in list_of_fires:
         if fire['details_source'] == 'CalFire' and fire['details_link'] is not None:
-            details_scraper =TestScraper()
+            details_scraper =V2Scraper()
             raw_html = details_scraper.retrieve_source_html_with_mechanize(fire['details_link'])
             raw_details = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
             details_table = raw_details.findAll('table', {'class': 'incident_table'})
@@ -95,7 +95,7 @@ def inciweb_details_scraper(fire):
     if SCRAPER_STATUS == 'Testing':
         target_data = BeautifulSoup(open('inciweb_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
     else:
-        details_scraper =TestScraper()
+        details_scraper =V2Scraper()
         raw_html = details_scraper.retrieve_source_html_with_mechanize(fire['details_link'])
         target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     ''' for local testing from raw html file '''

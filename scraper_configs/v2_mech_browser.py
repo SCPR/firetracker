@@ -4,7 +4,7 @@ import urllib
 import urllib2
 import cookielib
 
-class TestScraper():
+class V2Scraper():
     @staticmethod
     def retrieve_source_html_with_mechanize(url_target):
         ''' new instance of mechanize browser '''
