@@ -1,2 +1,2 @@
 from mech_browser import BaseScraper
-from testing_mech_browser import TestScraper
+from v2_mech_browser import TestScraper
