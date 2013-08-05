@@ -286,7 +286,9 @@
                                 <p>{{ result.text|safe }}</p>
                             </article>
                         {% empty %}
-                            <p class="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}.</p>
+                            <article>
+                                <p style="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}, California.</p>
+                            </article>
                         {% endfor %}
                     </section><!--/ .dispatches -->
                 </div><!--/ .secondary -->
