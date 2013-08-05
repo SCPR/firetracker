@@ -402,7 +402,6 @@ def save_data_from_dict_to_model(fire):
     )
 
     if not created:
-        obj.data_source = data_source,
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
