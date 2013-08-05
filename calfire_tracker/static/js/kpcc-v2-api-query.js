@@ -53,7 +53,7 @@ var kpccApiArticleDisplay = {
         if (data.length === 0) {
             kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
 
-        } else {
+        } else if (kpccApiArticleConfig.display === 'detail-page') {
             var fire_start_date = kpccApiArticleConfig.fire_start_date;
 
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append('<ul id="article-list-content"></ul>');
@@ -93,6 +93,37 @@ var kpccApiArticleDisplay = {
                 jqueryNoConflict('#article-list-content').remove();
                 kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
             }
+        } else {
+
+            console.log(data);
+            jqueryNoConflict(kpccApiArticleConfig.contentContainer).append('<ul id="article-list-content"></ul>');
+
+            // begin loop
+            for (var i = 0; i<data.length; i++) {
+
+                if (data[i].assets.length === 0) {
+                    article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
+                } else {
+                    article_image_asset = data[i].assets[0].small.url;
+                }
+
+                var short_title = data[i].short_title;
+                var permalink = data[i].permalink;
+                var thumbnail = data[i].thumbnail;
+                var published_at = data[i].published_at;
+                var teaser = data[i].teaser;
+
+                // write data to div
+                jqueryNoConflict('#article-list-content').append(
+                    '<li><a href=\"' + permalink + '\" target="_blank">' +
+                        '<b class="img"><img src="' + article_image_asset + '" /></b>' +
+                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                        '<mark>' + short_title + '</mark></a>' +
+                    '</li>'
+                );
+            }
+           // end loop
+
         }
     }
 }
