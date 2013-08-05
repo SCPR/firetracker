@@ -8,10 +8,23 @@ import pytz
 from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
-from scraper_configs import BaseScraper
+from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
+from scraper_configs import V2Scraper
 
-# log everything and send to stderr #
 logging.basicConfig(level=logging.DEBUG)
+
+def test_management_command():
+    obj, created = CalWildfire.objects.get_or_create(
+        created_fire_id = '111_fire',
+        defaults={
+            'fire_name': '111 fire',
+        }
+    )
+
+class Command(BaseCommand):
+    help = 'looping through dict for numbers'
+    def handle(self, *args, **options):
+        test_management_command()
 
 data_dict_to_scan = [
     {'estimated_containment': '406 lightning strikes, for a total of 73 confirmed fires.'},
@@ -34,6 +47,7 @@ data_dict_to_scan = [
     {'status_notes': '10,406 acres - 100% contained'},
     {'status_notes': '10,406 acres'},
 ]
+
 
 def loop_through_dict(list_of_dicts):
     for dict in list_of_dicts:
