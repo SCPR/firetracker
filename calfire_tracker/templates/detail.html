@@ -285,6 +285,8 @@
                                 </header>
                                 <p>{{ result.text|safe }}</p>
                             </article>
+                        {% empty %}
+                            <p class="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}.</p>
                         {% endfor %}
                     </section><!--/ .dispatches -->
                 </div><!--/ .secondary -->
