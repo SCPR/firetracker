@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'tastypie',
     'csvimporter',
     'data_exports',
+    'commander',
 
     # admin
     'django.contrib.admin',

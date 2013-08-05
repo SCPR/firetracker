@@ -45,7 +45,11 @@
                             <li class="date">{{ item.date_time_started|date:"M j, Y" }}</li>
                             <li class="location">{{ item.county }}</li>
                             <li class="acreage">{{ item.acres_burned|default_if_none:"n/a"|intcomma }} acres</li>
-                            <li class="contained">{{ item.containment_percent|percentify }} contained</li>
+                            {% if item.containment_percent %}
+                                <li class="contained">{{ item.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }} contained</li>
+                            {% else %}
+                                <li class="contained">{{ item.containment_percent|default:"n/a"|default_if_none:"n/a" }} contained</li>
+                            {% endif %}
                         </ul>
                     </div>
                     {% if item.asset_host_image_id %}
