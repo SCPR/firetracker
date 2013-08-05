@@ -65,6 +65,7 @@ def revert():
         collectstatic()
         restart()
 
+
 def scrape():
     """
     Production function to manually run the scraper on the remote server
@@ -72,6 +73,7 @@ def scrape():
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
+
 
 def dumpdata():
     """
