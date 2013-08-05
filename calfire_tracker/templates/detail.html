@@ -258,8 +258,18 @@
                                     {% endif %}
                                 {% endif %}
 
-                                <dt>Current Situation</dt>
-                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                {% if calwildfire.data_source == 'Inciweb' %}
+                                    <dt>Current Situation</dt>
+                                    <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                {% else %}
+                                    {% if calwildfire.data_source == 'CalFire' %}
+                                        <dt>Current Situation</dt>
+                                        <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% else %}
+                                        <dt>Current Situation</dt>
+                                        <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% endif %}
+                                {% endif %}
 
                                 <dt>Damage Assessment</dt>
                                 <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
@@ -283,7 +293,11 @@
                                     <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|format_for_timezone|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
 
                                 </header>
-                                <p>{{ result.text|safe }}</p>
+                                <p>{{ result.text|safe|urlize }}</p>
+                            </article>
+                        {% empty %}
+                            <article>
+                                <p style="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}, California.</p>
                             </article>
                         {% endfor %}
                     </section><!--/ .dispatches -->

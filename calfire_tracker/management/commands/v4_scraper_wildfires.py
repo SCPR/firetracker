@@ -337,6 +337,13 @@ def save_data_from_dict_to_model(fire):
     else:
         conditions = None
 
+    if fire.has_key('current_situation'):
+        current_situation = fire['current_situation']
+    elif fire.has_key('remarks'):
+        current_situation = fire['remarks']
+    else:
+        current_situation = None
+
     if fire.has_key('phone_numbers'):
         phone_numbers = fire['phone_numbers']
     else:
@@ -344,8 +351,6 @@ def save_data_from_dict_to_model(fire):
 
     if fire.has_key('notes'):
         notes = fire['notes']
-    elif fire.has_key('remarks'):
-        notes = fire['remarks']
     else:
         notes = None
 
@@ -390,12 +395,14 @@ def save_data_from_dict_to_model(fire):
             'road_closures': road_closures,
             'school_closures': school_closures,
             'conditions': conditions,
+            'current_situation': current_situation,
             'phone_numbers': phone_numbers,
             'notes': notes,
         }
     )
 
     if not created:
+        obj.data_source = data_source,
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
@@ -420,6 +427,7 @@ def save_data_from_dict_to_model(fire):
         obj.road_closures = road_closures
         obj.school_closures = school_closures
         obj.conditions = conditions
+        obj.current_situation = current_situation
         obj.phone_numbers = phone_numbers
         obj.notes = notes
         obj.save()
