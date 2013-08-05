@@ -47,6 +47,7 @@ var kpccApiArticleDisplay = {
     },
 
     createArrayFrom: function(data){
+
         var article_image_asset;
 
         if (data.length === 0) {
