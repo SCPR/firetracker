@@ -4,8 +4,14 @@ venv
 *.sqlite
 *.csv
 *.txt
-incidents_current.html
 SCRATCHPAD.md
+incidents_current.html
 settings_development.py
 tmp/*
 public/static/*
+functions_playground.py
+v1_scraper_wildfires.py
+v2_scraper_wildfires.py
+v3_scraper_wildfires.py
+v4_scraper_wildfires.py
+fires.json

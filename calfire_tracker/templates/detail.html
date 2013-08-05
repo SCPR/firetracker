@@ -26,6 +26,10 @@
 {% block kpcc_api_query_config %}
     <script>
         var kpccApiArticleConfig = {
+
+            // config to help script know which page data should be displayed on
+            display: 'detail-page',
+
             // comma separated string of items to query against
             // default is blogs,news,segments
             // options are news, blogs, segments, episodes, video
@@ -241,12 +245,17 @@
                                 <dt>Phone Numbers</dt>
                                 <dd>{{ calwildfire.phone_numbers|default:"n/a"|default_if_none:"n/a" }}</dd>
 
-                                {% if calwildfire.more_info %}
-                                    <dt>CalFire Page</dt>
-                                    <dd><a href="{{ calwildfire.more_info }}">More Information</a></dd>
+                                {% if calwildfire.data_source and calwildfire.more_info %}
+                                    <dt>Additional Details</dt>
+                                    <dd><a href="{{ calwildfire.more_info }}">Information from {{ calwildfire.data_source }}</a></dd>
                                 {% else %}
-                                    <dt>CalFire Page</dt>
-                                    <dd>n/a</dd>
+                                    {% if calwildfire.data_source %}
+                                        <dt>Data Source</dt>
+                                        <dd><a href="http://cdfdata.fire.ca.gov/">{{ calwildfire.data_source }}</a></dd>
+                                    {% else %}
+                                           <dt>Data Source</dt>
+                                           <dd>n/a</dd>
+                                    {% endif %}
                                 {% endif %}
 
                                 <dt>Current Situation</dt>
