@@ -258,8 +258,18 @@
                                     {% endif %}
                                 {% endif %}
 
-                                <dt>Current Situation</dt>
-                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                {% if calwildfire.data_source == 'Inciweb' %}
+                                    <dt>Current Situation</dt>
+                                    <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                {% else %}
+                                    {% if calwildfire.data_source == 'CalFire' %}
+                                        <dt>Current Situation</dt>
+                                        <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% else %}
+                                        <dt>Current Situation</dt>
+                                        <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% endif %}
+                                {% endif %}
 
                                 <dt>Damage Assessment</dt>
                                 <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
