@@ -73,6 +73,14 @@ def scrape():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
+def dumpdata():
+    """
+    Production function to manually run the scraper on the remote server
+    """
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py dumpdata calfire_tracker.calwildfire --indent=2 > fires.json" % env.python_exe)
+
 # development functions
 def localrun():
     """
@@ -85,6 +93,12 @@ def localscrape():
     Runs scraper for local database
     """
     local("python manage.py scraper_wildfires")
+
+def localload():
+    """
+    Runs scraper for local database
+    """
+    local("python manage.py loaddata fires.json")
 
 def localfunctions():
     """
