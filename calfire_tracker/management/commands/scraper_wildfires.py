@@ -351,8 +351,6 @@ def save_data_from_dict_to_model(fire):
 
     if fire.has_key('notes'):
         notes = fire['notes']
-    elif fire.has_key('remarks'):
-        notes = fire['remarks']
     else:
         notes = None
 
