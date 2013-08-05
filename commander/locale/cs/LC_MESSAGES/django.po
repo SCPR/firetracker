@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-14 12:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: admin.py:26
+#, python-format
+msgid "Comand %(title)s faild, %(error)s"
+msgstr "Příkaz %(title)s se nepodařilo provést, %(error)s"
+
+#: admin.py:32
+#, python-format
+msgid "%(ce)s commands from %(cw)s was successfully executed"
+msgstr "%(ce)s příkaz/ů z %(cw)s byl/o úspěšně provedeno"
+
+#: admin.py:34
+msgid "Run commands"
+msgstr "Spustit příkazy"
+
+#: models.py:12
+msgid "Title"
+msgstr "Titulek"
+
+#: models.py:13
+msgid "Slug"
+msgstr "Slug"
+
+#: models.py:14 models.py:20
+msgid "Command"
+msgstr "Příkaz"
+
+#: models.py:15
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: models.py:16
+msgid "Updated"
+msgstr "Updatováno"
+
+#: models.py:17
+msgid "Command run order"
+msgstr "Pořadí příkazu při spouštění"
+
+#: models.py:21
+msgid "Commands"
+msgstr "Příkazy"
