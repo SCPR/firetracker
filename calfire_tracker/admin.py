@@ -2,7 +2,7 @@ from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.contrib import admin
 
 class WildfireTweetAdmin(admin.ModelAdmin):
-	list_display = ('tweet_screen_name', 'tweet_created_at')
+	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
         list_per_page = 10
         search_fields = ['tweet_text']
 
