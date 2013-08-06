@@ -107,7 +107,7 @@ class WildfireUpdate(models.Model):
         super(WildfireUpdate, self).save()
 
 class WildfireTweet(models.Model):
-    twitter_hashtag = models.ForeignKey(CalWildfire, null=True, blank=True, related_name='calwildfire_twitter_hashtag')
+    tweet_hashtag = models.CharField('Tweet Hashtag', max_length=1024, null=True, blank=True)
     tweet_text = models.CharField('Tweet Text', max_length=1024, null=True, blank=True)
     tweet_created_at = models.DateTimeField('Tweet Date/Time', null=True, blank=True)
     tweet_id = models.CharField('Tweet ID', max_length=1024, null=True, blank=True)
@@ -115,7 +115,9 @@ class WildfireTweet(models.Model):
     tweet_profile_image_url = models.URLField('Tweet Profile Image', max_length=1024, null=True, blank=True)
 
     def __unicode__(self):
-        return self.twitter_hashtag
+        return self.tweet_screen_name
 
     def save(self, *args, **kwargs):
-        super(WildfireUpdate, self).save()
+        if not self.tweet_id:
+        	self.tweet_id = self.tweet_id
+        super(WildfireTweet, self).save()
