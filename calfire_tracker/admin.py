@@ -1,5 +1,10 @@
-from calfire_tracker.models import CalWildfire, WildfireUpdate
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.contrib import admin
+
+class WildfireTweetAdmin(admin.ModelAdmin):
+	list_display = ('tweet_created_at', 'tweet_screen_name')
+        list_per_page = 10
+        search_fields = ['tweet_text']
 
 class WildfireUpdateAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_update', 'update_text', 'source',)
@@ -110,5 +115,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
             queryset.update(promoted_fire = False)
         unfeature.short_description = "Remove Fire to Featured Section"
 
+admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(CalWildfire, CalWildfireAdmin)
