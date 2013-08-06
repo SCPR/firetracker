@@ -6,6 +6,10 @@ class WildfireTweetAdmin(admin.ModelAdmin):
         list_per_page = 10
         search_fields = ['tweet_text']
 
+class WildfireTweetInline(admin.StackedInline):
+    model = WildfireTweet
+    extra = 4
+
 class WildfireUpdateAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'date_time_update', 'update_text', 'source',)
         list_per_page = 10
@@ -19,7 +23,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
 	list_display = ('fire_name', 'data_source', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
 	list_filter = ['data_source', 'county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
-        inlines = (WildfireUpdateInline,)
+        inlines = (WildfireUpdateInline, WildfireTweetInline)
         list_per_page = 10
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
