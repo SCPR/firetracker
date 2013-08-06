@@ -64,7 +64,11 @@ def detail(request, fire_slug):
     auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
-    result_list = api.search(calwildfire.twitter_hashtag)
+
+    try:
+        result_list = api.search(calwildfire.twitter_hashtag)
+    except:
+        result_list = None
 
     #kpcc_articles = search_kpcc_article_api('%s %s' % (calwildfire.fire_name, calwildfire.county))
 
