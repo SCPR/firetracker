@@ -108,7 +108,7 @@ class WildfireUpdate(models.Model):
 
 class WildfireTweet(models.Model):
     tweet_hashtag = models.CharField('Tweet Hashtag', max_length=1024, null=True, blank=True)
-    tweet_text = models.CharField('Tweet Text', max_length=1024, null=True, blank=True)
+    tweet_text = models.TextField('Tweet Text', null=True, blank=True)
     tweet_created_at = models.DateTimeField('Tweet Date/Time', null=True, blank=True)
     tweet_id = models.CharField('Tweet ID', max_length=1024, null=True, blank=True)
     tweet_screen_name = models.CharField('Tweet User', max_length=1024, null=True, blank=True)
