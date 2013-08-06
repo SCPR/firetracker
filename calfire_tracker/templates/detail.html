@@ -286,20 +286,22 @@
                             <h1>Dispatches From You</h1>
                             <p>Tweet your firsthand stories, photos, and videos to help us capture the full story of this fire. Hashtag your tweets with <span>{{ calwildfire.twitter_hashtag }}</span>. To see updates, refresh this page.</p>
                         </header>
-                        {% for result in result_list %}
-                            <article>
-                                <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
-                                <header>
-                                    <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|format_for_timezone|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
+                        {% if result_list %}
+                            {% for result in result_list %}
+                                <article>
+                                    <b class="img"><img src="{{ result.user.profile_image_url }}" alt="" /></b>
+                                    <header>
+                                        <h1><a href="https://twitter.com/{{ result.user.screen_name }}/status/{{result.id}}" target="_blank">{{ result.created_at|format_for_timezone|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.user.screen_name }}" target="_blank">{{ result.user.screen_name }}</a></h2>
 
-                                </header>
-                                <p>{{ result.text|safe|urlize }}</p>
-                            </article>
-                        {% empty %}
-                            <article>
-                                <p style="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}, California.</p>
-                            </article>
-                        {% endfor %}
+                                    </header>
+                                    <p>{{ result.text|safe|urlize }}</p>
+                                </article>
+                            {% empty %}
+                                <article>
+                                    <p style="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}, California.</p>
+                                </article>
+                            {% endfor %}
+                        {% endif %}
                     </section><!--/ .dispatches -->
                 </div><!--/ .secondary -->
             </div><!--/ .fire-details -->
