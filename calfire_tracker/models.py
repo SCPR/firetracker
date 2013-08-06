@@ -31,7 +31,7 @@ class CalWildfire(models.Model):
     county_slug = models.SlugField('County Slug', max_length=140, null=True, blank=True)
 
     # location information
-    location = models.TextField('Location from Cal Fire ', null=True, blank=True)
+    location = models.TextField('Location from Cal Fire', null=True, blank=True)
     computed_location = models.TextField('Location to Geocode', null=True, blank=True)
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
@@ -104,4 +104,18 @@ class WildfireUpdate(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
         	self.date_time_update = datetime.datetime.now()
+        super(WildfireUpdate, self).save()
+
+class WildfireTweet(models.Model):
+    twitter_hashtag = models.ForeignKey(CalWildfire, null=True, blank=True, related_name='calwildfire_twitter_hashtag')
+    tweet_text = models.CharField('Tweet Text', max_length=1024, null=True, blank=True)
+    tweet_created_at = models.DateTimeField('Tweet Date/Time', null=True, blank=True)
+    tweet_id = models.CharField('Tweet ID', max_length=1024, null=True, blank=True)
+    tweet_screen_name = models.CharField('Tweet User', max_length=1024, null=True, blank=True)
+    tweet_profile_image_url = models.URLField('Tweet Profile Image', max_length=1024, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.twitter_hashtag
+
+    def save(self, *args, **kwargs):
         super(WildfireUpdate, self).save()
