@@ -45,11 +45,9 @@ def index(request):
         'featuredfires': featuredfires,
         'so_cal_fires': so_cal_fires,
         'so_cal_acreage': so_cal_acreage,
-
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
-
         'total_2012_fires': total_2012_fires,
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
