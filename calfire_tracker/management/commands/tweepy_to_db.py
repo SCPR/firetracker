@@ -69,7 +69,7 @@ def search_tweepy_for_hashtags(list_of_hashtags):
                             'tweet_hashtag': hashtag,
                             'tweet_id': result.id,
                             'tweet_screen_name': result.user.screen_name,
-                            'tweet_text': result.text.encode('utf-8'),
+                            'tweet_text': smart_unicode(result.text),
                             'tweet_created_at': result.created_at,
                             'tweet_profile_image_url': result.user.profile_image_url,
                         }
