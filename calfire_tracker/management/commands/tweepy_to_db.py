@@ -21,52 +21,41 @@ class Command(BaseCommand):
 
 def create_list_of_fire_hashtags():
     ''' pull the list of twitter hashtags from the database '''
-
-    # container to store hashtags
     list_of_hashtags = []
-
-    # queryset for hashtags
     query_for_hashtags = CalWildfire.objects.values_list('twitter_hashtag', flat=True)
-
-    # for each item in the hashtag...
     for hashtag in query_for_hashtags:
-
-        # append to list...
         list_of_hashtags.append(hashtag)
-
-    # pass list to query function...
     search_tweepy_for_hashtags(list_of_hashtags)
 
 def search_tweepy_for_hashtags(list_of_hashtags):
     ''' search tweepy for hashtags '''
-
-    # authenticate against tweepy
     auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
-
-    # clear the database
-    WildfireTweet.objects.all().delete()
-
-    # for each hashtag in the list
-    for hashtag in list_of_hashtags[0:15]:
-
-        # search the twitter api
+    list_of_result_dicts = []
+    for hashtag in list_of_hashtags:
         try:
             result_list = api.search(hashtag)
         except:
             result_list = None
-
-        # if items return
         if result_list is not None:
+            dict = {}
+            dict['hashtag_key'] = hashtag
+            dict['result_key'] = result_list
+            list_of_result_dicts.append(dict)
+        else:
+            pass
+    WildfireTweet.objects.all().delete()
+    save_tweepy_results_to_db(list_of_result_dicts)
 
-            # parse and save to database
-            for result in result_list:
-                try:
-                    obj, created = WildfireTweet.objects.get_or_create(
-                        tweet_id = result.id,
+def save_tweepy_results_to_db(list_of_result_dicts):
+    for items in list_of_result_dicts:
+        for result in items['result_key']:
+            try:
+                obj, created = WildfireTweet.objects.get_or_create(
+                    tweet_id = result.id,
                         defaults={
-                            'tweet_hashtag': hashtag,
+                            'tweet_hashtag': items['hashtag_key'],
                             'tweet_id': result.id,
                             'tweet_screen_name': result.user.screen_name,
                             'tweet_text': smart_unicode(result.text),
@@ -74,8 +63,5 @@ def search_tweepy_for_hashtags(list_of_hashtags):
                             'tweet_profile_image_url': result.user.profile_image_url,
                         }
                     )
-                # skip tweets if it raises an exception
-                except:
-                    pass
-        else:
-            pass
+            except:
+                pass
