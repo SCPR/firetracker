@@ -291,7 +291,6 @@
                                 <b class="img"><img src="{{ result.tweet_profile_image_url }}" alt="" /></b>
                                 <header>
                                     <h1><a href="https://twitter.com/{{ result.tweet_screen_name }}/status/{{result.tweet_id}}" target="_blank">{{ result.tweet_created_at|date:"F j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.tweet_screen_name }}" target="_blank">{{ result.tweet_screen_name }}</a></h2>
-
                                 </header>
                                 <p>{{ result.tweet_text|safe|urlize }}</p>
                             </article>
