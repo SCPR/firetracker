@@ -77,7 +77,7 @@ def scrape():
 
 def tweets():
     """
-    Production function to manually run the scraper on the remote server
+    pulls tweets from tweepy to production db
     """
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
@@ -104,6 +104,12 @@ def localscrape():
     Runs scraper for local database
     """
     local("python manage.py scraper_wildfires")
+
+def localtweets():
+    """
+    pulls tweets from tweepy to local db
+    """
+    local("python manage.py tweepy_to_db")
 
 def localload():
     """
