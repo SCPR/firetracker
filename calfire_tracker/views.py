@@ -6,7 +6,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
-from calfire_tracker.models import CalWildfire, WildfireUpdate
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.conf import settings
 import tweepy
 from dateutil import parser
@@ -45,38 +45,23 @@ def index(request):
         'featuredfires': featuredfires,
         'so_cal_fires': so_cal_fires,
         'so_cal_acreage': so_cal_acreage,
-
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
-
         'total_2012_fires': total_2012_fires,
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
-
-        #'kpcc_articles': kpcc_articles,
     })
 
 def detail(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
-    auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
-    auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
-    api = tweepy.API(auth1)
-
-    try:
-        result_list = api.search(calwildfire.twitter_hashtag)
-    except:
-        result_list = None
-
-    #kpcc_articles = search_kpcc_article_api('%s %s' % (calwildfire.fire_name, calwildfire.county))
-
+    result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
         kpcc_image = None
-
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
@@ -88,25 +73,12 @@ def detail(request, fire_slug):
 
 def embeddable(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
-    #calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:15]
-    #wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
-    #auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
-    #auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
-    #api = tweepy.API(auth1)
-    #result_list = api.search(calwildfire.twitter_hashtag)
-    #kpcc_articles = search_kpcc_article_api('%s %s' % (calwildfire.fire_name, calwildfire.county))
-
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
         kpcc_image = None
-
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
-        #'calwildfires': calwildfires,
-        #'wildfire_updates': wildfire_updates,
-        #'result_list': result_list,
-        #'kpcc_articles': kpcc_articles,
         'kpcc_image': kpcc_image,
     }, context_instance=RequestContext(request))
 
