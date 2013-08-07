@@ -1,5 +1,6 @@
 from django.template import Library
 from django.conf import settings
+from django.utils.timezone import utc
 from dateutil import parser
 from datetime import datetime, time, date, timedelta
 from pytz import timezone
@@ -153,11 +154,7 @@ def format_for_timezone(value):
     ''' working some crazy datetime magic that might be working '''
     ''' based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est '''
     utc = timezone('UTC')
-    #pacific = pytz.timezone('US/Pacific')
-
     utc_created_at = utc.localize(value)
-    #pacific_created_at = utc_created_at.astimezone(pacific)
-
     return utc_created_at
 
 def search_assethost(assethost_id):

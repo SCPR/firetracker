@@ -59,7 +59,7 @@ def save_tweepy_results_to_db(list_of_result_dicts):
                             'tweet_id': result.id,
                             'tweet_screen_name': result.user.screen_name,
                             'tweet_text': smart_unicode(result.text),
-                            'tweet_created_at': result.created_at,
+                            'tweet_created_at': result.created_at.replace(tzinfo=utc),
                             'tweet_profile_image_url': result.user.profile_image_url,
                         }
                     )
