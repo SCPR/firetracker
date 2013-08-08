@@ -19,155 +19,87 @@
 {% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
 
-
-<!--
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
-    ________________________________________________________________________________________________
-    CHRIS:
-    ________________________________________________________________________________________________
-    1.) Please blow away all old markup/inline-styles that we no longer need
-    2.) Please add a reference to display-card.css in this just-this-template's <head>
-    ________________________________________________________________________________________________
-
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
-    ################################################################################################
--->
-
-<!--
 {% block css_overrides %}
-<style type="text/css">
-    .bound {max-width: 740px;}
-    .masthead {margin-bottom: 0px;}
-    .page-cols > .primary {float: none; width: 100%;}
-    .fire-dashboard {margin-bottom: 0px;}
-    .fire-dashboard .context {height: auto; padding: 0px 0px 10px 0px;}
-    .fire-dashboard .summary {width: inherit; height: auto; float: none; overflow: hidden;}
-    .fire-dashboard .photo img {height: auto; width: 100%;}
-    .fire-dashboard .context {width: inherit; float: none;}
-    .fire-dashboard .location {background: none; border-bottom: 0px solid #0f1620;}
-    .epilogue {display: none;}
-
-
-    @media screen and (max-width: 730px) {
-        .masthead .brief h1 {width: 100%; float: none;}
-        .masthead .brief h2 {width: 100%; float: none; text-align: right;}
-    }
-    </style>
+    <link href="{% static 'css/display-card.css' %}" media="screen" rel="stylesheet" />
 {% endblock %}
 
 {% block extended_page_header %}
-
-    <div class="embeddable-card">
-    <header class="masthead">
+    <section class="masthead">
         <div class="masthead-inner bound">
-            <div class="brief clearfix">
-                <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
-                <h2>
-                    <mark>{{ calwildfire.county }}</mark>
-                    <span>Last Update: {{ calwildfire.last_updated|date:"F j, Y g:i a T" }}</span>
-                </h2>
+            <div class="brief">
+                <header class="title">
+                    <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
+                    <h2>{{ calwildfire.county }}</h2>
+                </header>
+                <aside class="evangelize">
+                    <button>Get this embed code</button>
+                </aside>
             </div>
-            <aside class="brand">
+            <div class="brand">
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
-            </aside>
-        </div>
-    </header>
+                <h4>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a T" }}</h4>
+            </div>
+        </div><!--/ .masthead-inner -->
+    </section><!--/ .masthead -->
 {% endblock %}
 
 {% block extended_page_content %}
-    <div class="page-cols clearfix bound">
-        <div class="primary">
-            <div class="fire-dashboard clearfix">
-                <div class="context">
-                    <section class="damages">
-                        <figure>
-                            {% if calwildfire.containment_percent %}
-                                <span>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</span>
-                            {% else %}
-                                <span>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a" }}</span>
-                            {% endif %}
-                            <figcaption>Contained</figcaption>
-                        </figure>
-                        <figure>
-                            <span>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
-                            <figcaption>Acres burned</figcaption>
-                        </figure>
-                        <figure>
-                            <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
-                            <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
-                        </figure>
-                        <aside class="location no-map">
-                            <dl>
-                                <dt>Location</dt>
-                                <dd>{{ calwildfire.location }}</dd>
-                            </dl>
-                        </aside>
-                        <h4><a href="#">Embed This</a></h4>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
--->
-
-
-<section class="masthead">
-    <div class="masthead-inner bound">
-        <div class="brief">
-            <header class="title">
-                <h1>Sonoma-Lake-Napa Unit Lightning Fires</h1>
-                <h2>Los Angeles County</h2>
-            </header>
-            <aside class="evangelize">
-                <button>Get this embed code</button>
+    <div class="fire-leaflet clearfix">
+        <!-- begin hooks for map or no -->
+        {% if calwildfire.location_latitude and calwildfire.location_longitude %}
+            <figure class="location">
+                <b class="map"><a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=8&amp;size=602x212&amp;maptype=roadmap
+&amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a></b>
+                <figcaption><span>{{ calwildfire.location }}</span></figcaption>
+            </figure>
+        {% else %}
+            <aside class="location no-map">
+                <dl>
+                    <dt>Location</dt>
+                    <dd>{{ calwildfire.location }}</dd>
+                </dl>
             </aside>
-        </div>
-        <div class="brand">
-            <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
-            <h4>Last Updated: Jun 5, 2013 10:47 PM PDT</h4>
-        </div>
-    </div><!--/ .masthead-inner -->
-</section><!--/ .masthead -->
+        {% endif %}
+        <!-- end hooks for map or no -->
+        <section class="facts">
+            <div class="clearfix">
+                <dl class="contained">
+                    <dt>Contained</dt>
+                    {% if calwildfire.containment_percent %}
+                        <dd>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
+                    {% else %}
+                        <dd>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
+                    {% endif %}
+                </dl>
+                <dl class="acres">
+                    <dt>Acres burned</dt>
+                    {% if calwildfire.acres_burned %}
+                        <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                    {% else %}
+                        <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                    {% endif %}
+                </dl>
+                <dl class="started">
+                    <dt>Started ({{ calwildfire.date_time_started|date:"Y" }})</dt>
+                    {% if calwildfire.date_time_started %}
+                        <dd>{{ calwildfire.date_time_started|date:"M j" }}</dd>
+                    {% else %}
+                        <dd></dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </section><!--/ .facts -->
+    </div><!--/ .fire-leaflet -->
 
-<div class="fire-leaflet clearfix">
-    <figure class="location">
-        <b class="map"><img src="http://placekitten.com/807/240" alt="Map of fire" /></b>
-        <figcaption><span>Off San Francisquito Canyon Rd, northeast of Santa Clarita</span></figcaption>
-    </figure>
-    <section class="facts">
-        <div class="clearfix">
-            <dl class="contained">
-                <dt>Contained</dt>
-                <dd>85%</dd>
-            </dl>
-            <dl class="acres">
-                <dt>Acres burned</dt>
-                <dd>595</dd>
-            </dl>
-            <dl class="started">
-                <dt>Started (2013)</dt>
-                <dd>Aug 29</dd>
-            </dl>
+    <footer class="outbound">
+        <a href="{{ calwildfire.get_absolute_url }}">See the full fire incident page at KPCC.org</a>
+    </footer>
+
+    <aside class="broadcast">
+        <div class="pane">
+            <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+            <textarea><p><iframe width="100%" height="500" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+            <button>OK, thanks!</button>
         </div>
-    </section><!--/ .facts -->
-</div><!--/ .fire-leaflet -->
-
-<footer class="outbound">
-    <a href="#">See the full fire incident page at KPCC.org</a>
-</footer>
-
-<aside class="broadcast">
-    <div class="pane">
-        <p>Copy the code below, and paste it into your page to share this KPCC fire card.</p>
-        <textarea>Fusce a scelerisque turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec semper urna a dolor cursus hendrerit. Suspendisse potenti. Donec consectetur felis ac sapien scelerisque cursus. Vestibulum eget commodo lectus. Donec velit nibh, mollis id venenatis sit amet, auctor quis tellus. Aenean sed purus posuere, volutpat turpis eget, laoreet magna. Nulla aliquam sem non tristique egestas. Etiam sed quam vehicula, tincidunt nunc a, congue ipsum.</textarea>
-        <button>OK, thanks!</button>
-    </div>
-</aside>
+    </aside>
+{% endblock %}
