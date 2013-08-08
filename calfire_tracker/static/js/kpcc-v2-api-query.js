@@ -34,7 +34,8 @@ var kpccApiArticleDisplay = {
     },
 
     takeTime: function (dateInput){
-        var dateFormat = 'MMMM D, h:mm a';
+        //var dateFormat = 'MMMM D, h:mm a';
+        var dateFormat = 'MMMM D';
         var dateOutput = moment(dateInput).format(dateFormat);
         return dateOutput;
     },
@@ -77,7 +78,7 @@ var kpccApiArticleDisplay = {
                     jqueryNoConflict('#article-list-content').append(
                         '<li><a href=\"' + permalink + '\" target="_blank">' +
                             '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                            '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                            '<span>' + kpccApiArticleDisplay.takeTime(published_at) + ' PDT</span>' +
                             '<mark>' + short_title + '</mark></a>' +
                         '</li>'
                     );
@@ -117,7 +118,7 @@ var kpccApiArticleDisplay = {
                 jqueryNoConflict('#article-list-content').append(
                     '<li><a href=\"' + permalink + '\" target="_blank">' +
                         '<b class="img"><img src="' + article_image_asset + '" /></b>' +
-                        '<span>' + kpccApiArticleDisplay.takeTime(published_at).toUpperCase() + ' PDT</span>' +
+                        '<span>' + kpccApiArticleDisplay.takeTime(published_at) + ' PDT</span>' +
                         '<mark>' + short_title + '</mark></a>' +
                     '</li>'
                 );
