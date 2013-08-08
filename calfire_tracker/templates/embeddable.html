@@ -19,6 +19,28 @@
 {% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
 
+
+<!--
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+    ________________________________________________________________________________________________
+    CHRIS:
+    ________________________________________________________________________________________________
+    1.) Please blow away all old markup/inline-styles that we no longer need
+    2.) Please add a reference to display-card.css in this just-this-template's <head>
+    ________________________________________________________________________________________________
+
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+    ################################################################################################
+-->
+
+<!--
 {% block css_overrides %}
 <style type="text/css">
     .bound {max-width: 740px;}
@@ -94,3 +116,58 @@
         </div>
     </div>
 {% endblock %}
+-->
+
+
+<section class="masthead">
+    <div class="masthead-inner bound">
+        <div class="brief">
+            <header class="title">
+                <h1>Sonoma-Lake-Napa Unit Lightning Fires</h1>
+                <h2>Los Angeles County</h2>
+            </header>
+            <aside class="evangelize">
+                <button>Get this embed code</button>
+            </aside>
+        </div>
+        <div class="brand">
+            <h3><span class="parent"><a href="http://kpcc.org">89.3 KPCC</a></span> <span class="title"><a href="#">Fire Tracker</a></span></h3>
+            <h4>Last Updated: Jun 5, 2013 10:47 PM PDT</h4>
+        </div>
+    </div><!--/ .masthead-inner -->
+</section><!--/ .masthead -->
+
+<div class="fire-leaflet clearfix">
+    <figure class="location">
+        <b class="map"><img src="http://placekitten.com/807/240" alt="Map of fire" /></b>
+        <figcaption><span>Off San Francisquito Canyon Rd, northeast of Santa Clarita</span></figcaption>
+    </figure>
+    <section class="facts">
+        <div class="clearfix">
+            <dl class="contained">
+                <dt>Contained</dt>
+                <dd>85%</dd>
+            </dl>
+            <dl class="acres">
+                <dt>Acres burned</dt>
+                <dd>595</dd>
+            </dl>
+            <dl class="started">
+                <dt>Started (2013)</dt>
+                <dd>Aug 29</dd>
+            </dl>
+        </div>
+    </section><!--/ .facts -->
+</div><!--/ .fire-leaflet -->
+
+<footer class="outbound">
+    <a href="#">See the full fire incident page at KPCC.org</a>
+</footer>
+
+<aside class="broadcast">
+    <div class="pane">
+        <p>Copy the code below, and paste it into your page to share this KPCC fire card.</p>
+        <textarea>Fusce a scelerisque turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec semper urna a dolor cursus hendrerit. Suspendisse potenti. Donec consectetur felis ac sapien scelerisque cursus. Vestibulum eget commodo lectus. Donec velit nibh, mollis id venenatis sit amet, auctor quis tellus. Aenean sed purus posuere, volutpat turpis eget, laoreet magna. Nulla aliquam sem non tristique egestas. Etiam sed quam vehicula, tincidunt nunc a, congue ipsum.</textarea>
+        <button>OK, thanks!</button>
+    </div>
+</aside>

@@ -1,0 +1,465 @@
+
+
+/*	====================================
+	Resetting reset.css
+	==================================== */
+
+	.bound {
+		width: 97%;
+		max-width: none;
+	}
+
+
+/*	====================================
+	Resetting basics
+	==================================== */
+
+	body {
+		background: white;
+	}
+
+
+
+/*	====================================
+	Masthead
+	==================================== */
+
+	.masthead {
+		background: #0F1620;
+		margin-bottom: 0;
+		box-shadow:
+			inset 0 40px 0 #0F1620,
+			inset 0 41px 0 #97ABC9;
+	}
+			.masthead-inner {
+				padding: 41px 0 0 0;
+			}
+			.masthead .brief {
+				position: relative;
+				padding: 20px 0 15px;
+				min-height: 60px;
+				box-shadow:
+					inset -84px 0 0 #0F1620,
+					inset -85px 0 0 #455264;
+			}
+					.masthead .evangelize {
+						position: absolute;
+						top: 17px;
+						right: 0;
+					}
+							.masthead .evangelize button {
+								display: block;
+								width: 72px;
+								height: 62px;
+								cursor: pointer;
+								background: #0F1620 url(i/icon-download-cloud.png) no-repeat center top;
+								background-size: 32px 30px;
+								border: none;
+								text-transform: uppercase;
+								line-height: 1.05;
+								padding-top: 30px;
+								font-family: "proxima-nova", Arial, sans-serif;
+								font-weight: 400;
+								color: #768fb3;
+								font-size: 0.625em; /* 10 / 16 */
+							}
+									.masthead .evangelize button:hover {
+										color: #c0d4f0;
+									}
+
+					.masthead .brief .title {
+						margin-right: 100px;
+					}
+							.masthead .brief h1 {
+								float: none;
+								width: auto;
+								margin: 0 0 7px 0;
+							}
+							.masthead .brief h2 {
+								float: none;
+								text-align: left;
+								width: auto;
+								margin: 0 0 0 0;
+								padding: 0 0 0 0;
+							}
+
+
+			.masthead .brand {
+			}
+					.masthead .brand h3 {
+						top: 10px;
+					}
+					.masthead .brand h4 {
+						top: 16px;
+						right: 0px;
+						left: auto;
+						text-transform: uppercase;
+						font-size: 0.75em;
+						margin: 0 0 0 0;
+						padding: 0 0 0 0;
+						float: none;
+						position: absolute;
+						text-align: right;
+						color: rgba(255,255,255,0.35);
+					}
+
+
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 730px) {
+
+									.masthead {
+										box-shadow:
+											inset 0 55px 0 #0F1620,
+											inset 0 56px 0 #97ABC9;
+									}
+									.masthead-inner {
+										padding: 56px 0 0 0;
+									}
+									.masthead .brief h1 {
+										font-size: 3em;
+									}
+									.masthead .brand {
+										box-shadow: none;
+									}
+											.masthead .brand h4 {
+												font-size: 0.7; /* still */
+												padding: 0 0 0 0;
+												text-align: right; /* still */
+												margin: 0 0 0 0;
+												left: auto;
+												float: none;
+												display: block;
+												right: 1.5%;
+												top: 13px;
+												position: absolute; /* still */
+												line-height: 0.9;
+												margin-left: 120px;
+												color: #587094;
+											}
+								
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 480px) {
+
+										.masthead .brief h1 {
+											font-size: 2.25em;
+										}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 350px) {
+
+										.masthead .brief h1 {
+											font-size: 1.8em;
+										}
+										
+								}
+
+							/*	=================================================================================== */
+
+
+
+
+
+
+
+/*	====================================
+	Fire-Leaflet
+	==================================== */
+
+	.fire-leaflet {
+		height: 160px; /* fungible */
+		color: white;
+		border-bottom: 2px solid #0F1620;
+	}
+			.fire-leaflet .location,
+			.fire-leaflet .facts {
+				height: 100%;
+			}
+			.fire-leaflet .location {
+				background: black;
+				width: 65%;
+				float: right;
+				position: relative;
+				z-index: 1;
+			}
+					.fire-leaflet figcaption {
+						width: 100%;
+						background: rgba(0,0,0,0.5);
+						color: white;
+						position: relative;
+						z-index: 3;
+						font-size: 0.75em;
+						text-align: right;
+					}
+							.fire-leaflet figcaption span {
+								display: block;
+								padding: 7px 11px;
+							}
+
+					.fire-leaflet .location .map {
+						width: 100%;
+						height: 100%;
+						position: absolute;
+						top: 0;
+						left: 0;
+						overflow: hidden;
+						z-index: 2;
+					}
+							.fire-leaflet .location .map img {
+								display: block;
+								width: 100%;
+								height: auto;
+							}
+
+			.fire-leaflet .facts {
+				background: #787e88;
+				width: 35%;
+				float: left;
+			}
+					.fire-leaflet .facts > div {
+						margin: 20px 3.5% 20px;
+					}
+					.fire-leaflet dl {
+						width: 33.3%;
+						float: left;
+						text-align: center;
+						text-transform: uppercase;
+						background: url(i/vitals-icons.png) no-repeat;
+						background-size: 48px 600px;
+						position: relative;
+						padding: 90px 0 12px;
+					}
+							.fire-leaflet .contained,
+							.fire-leaflet .acres {
+								box-shadow: inset -1px 0 0 rgba(255,255,255,0.2);
+							}
+							.fire-leaflet .started {
+								float: right;
+							}
+
+							.fire-leaflet .contained	{ background-position: center 9px;	}
+							.fire-leaflet .acres		{ background-position: center -181px;	}
+							.fire-leaflet .started		{ background-position: center -373px;	}
+
+							.fire-leaflet dd {
+								color: white;
+								font-family: "proxima-nova-condensed", Arial, sans-serif;
+								font-weight: 200;
+								line-height: 0.9;
+								font-size: 2.25em;
+								letter-spacing: -0.04em;
+								margin-bottom: 10px;
+								position: absolute;
+								top: 50px;
+								width: 100%;
+							}
+							.fire-leaflet dt {
+								font-size: 0.5625em; /* 9 / 16 */
+								margin: 0 10% 0;
+								line-height: 1;
+							}
+
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 1000px) {
+
+										.fire-leaflet dd {
+											font-size: 1.8em;
+										}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 820px) {
+
+									.fire-leaflet .location .map img {
+										width: auto;
+										height: 100%;
+									}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 800px) {
+
+										.fire-leaflet .facts > div {
+											margin: 20px 0 20px;
+										}
+										.fire-leaflet dd {
+											font-size: 1.5em;
+										}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 660px) {
+
+									.fire-leaflet .location {
+										width: 50%;
+									}
+									.fire-leaflet .facts {
+										width: 50%;
+									}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 470px) {
+
+									.fire-leaflet dd {
+										font-size: 1.25em;
+										font-weight: 300;
+									}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (max-width: 420px) {
+
+									.fire-leaflet {
+										height: auto;
+										border-top: 1px solid #97abc9;
+									}
+									.fire-leaflet .location,
+									.fire-leaflet .facts {
+										width: 100%;
+										float: none;
+										height: auto;
+									}
+											.fire-leaflet .location {
+												height: 128px;
+												border-bottom: 1px solid white;
+											}
+
+											.fire-leaflet .facts {
+												padding: 5px 0;
+											}
+													.fire-leaflet .facts > div {
+														margin: 0 0 0 0;
+													}
+													.fire-leaflet dl {
+														padding-top: 70px;
+													}
+													.fire-leaflet dd {
+														top: 45px;
+													}
+										
+								}
+
+							/*	=================================================================================== */
+
+
+
+
+
+
+
+
+/*	====================================
+	Footer (outbound link)
+	==================================== */
+	
+	.outbound {
+		text-align: right;
+		padding: 6px 0 10px;
+		background: #0f1620;
+		color: white;
+	}
+			.outbound a {
+				display: inline-block;
+				font-weight: 800;
+				line-height: 0.9;
+				background: url(i/rightward-triangle.png) no-repeat right 0.15em;
+				font-size: 0.8125em;
+				background-size: 6px 8px;
+				padding-right: 0.75em;
+				color: rgba(255,255,255,0.8);
+				margin: 0 1.5%;
+			}
+			.outbound a:hover {
+				color: white;
+				text-decoration: underline;
+			}
+
+
+
+
+/*	====================================
+	Broadcast
+	==================================== */
+
+	.broadcast {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 5;
+		background: rgba(0,0,0,0.3);
+		display: none;
+	}
+			.broadcast.visible {
+				display: block;
+			}
+			.broadcast .pane {
+				width: 70%;
+				margin: 23px auto 0;
+				padding: 15px 15px 20px;
+				background: white;
+				border-radius: 5px;
+				box-shadow: 0 0 10px black;
+			}
+					.broadcast p {
+						max-width: 400px;
+						text-align: center;
+						margin: 0 auto 13px;
+					}
+					.broadcast textarea {
+						display: block;
+						width: 90%;
+						margin: 0 auto 15px;
+						border: none;
+						border-radius: 3px;
+						background: #bfcde2;
+						color: black;
+						resize: none;
+						padding: 7px;
+						font-family: Courier New, Courier, monospace;
+						font-weight: normal;
+						font-size: 0.8125em;
+						line-height: 1.15;
+						height: 6.5em;
+						overflow: auto;
+						box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+					}
+					.broadcast textarea::selection {
+						background: #fab125;
+					}
+					.broadcast textarea::-moz-selection {
+						background: #fab125;
+					}
+					.broadcast button {
+						display: block;
+						margin: 0 auto;
+						padding: 5px;
+					}
+
+
+
+
+
+
+
