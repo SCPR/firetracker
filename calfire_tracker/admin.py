@@ -24,7 +24,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
         list_per_page = 10
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
-
         save_on_top = True
         prepopulated_fields = {
             'fire_slug': ('fire_name',),
