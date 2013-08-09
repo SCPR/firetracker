@@ -351,11 +351,6 @@ def save_data_from_dict_to_model(fire):
     else:
         phone_numbers = None
 
-    if fire.has_key('notes'):
-        notes = fire['notes']
-    else:
-        notes = None
-
     last_scraped = datetime.datetime.now()
 
     if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
@@ -399,7 +394,6 @@ def save_data_from_dict_to_model(fire):
             'conditions': conditions,
             'current_situation': current_situation,
             'phone_numbers': phone_numbers,
-            'notes': notes,
         }
     )
 
@@ -430,7 +424,6 @@ def save_data_from_dict_to_model(fire):
         obj.conditions = conditions
         obj.current_situation = current_situation
         obj.phone_numbers = phone_numbers
-        obj.notes = notes
         obj.save()
 
 ### begin helper and formatting functions ###
