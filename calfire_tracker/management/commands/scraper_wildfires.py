@@ -452,9 +452,13 @@ def determine_if_details_link_present(table, individual_fire):
         details_source = 'CalFire'
         details_link = None
     elif len(details_links) == 1:
-        test_match = re.search('inciweb', details_links[0]['href'])
-        if test_match:
+        inciweb_match = re.search('inciweb', details_links[0]['href'])
+        riverside_fd_match = re.search('rvcfire.org/_Layouts/Incident', details_links[0]['href'])
+        if inciweb_match:
             details_source = 'Inciweb'
+            details_link = details_links[0]['href']
+        elif riverside_fd_match:
+            details_source = 'Riverside County Fire Department'
             details_link = details_links[0]['href']
         else:
             details_source = 'Other'
