@@ -81,6 +81,8 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
             does_fire_exist_and_is_info_new(fire)
+        elif fire['details_source'] == 'Riverside County Fire Department':
+            does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'Other':
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'Inciweb':
@@ -431,7 +433,6 @@ def save_data_from_dict_to_model(fire):
         obj.notes = notes
         obj.save()
 
-#                                           #
 ### begin helper and formatting functions ###
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
