@@ -16,14 +16,14 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'data_source', 'notes', 'promoted_fire', 'asset_host_image_id', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped',)
+	list_display = ('fire_name', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent',
+	    'county', 'last_updated', 'last_scraped', 'notes',)
 	list_filter = ['data_source', 'county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
         list_per_page = 10
         ordering = ('-date_time_started',)
         date_hierarchy = 'date_time_started'
-
         save_on_top = True
         prepopulated_fields = {
             'fire_slug': ('fire_name',),
@@ -32,6 +32,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
         fieldsets = [
             ('Management & Curation', {
                 'fields': [
+                    'update_lockout',
                     'promoted_fire',
                     'asset_host_image_id',
                     'twitter_hashtag',
@@ -105,6 +106,8 @@ class CalWildfireAdmin(admin.ModelAdmin):
         actions = [
             'featured',
             'unfeature',
+            'lock_fire_data',
+            'unlock_fire_data',
         ]
 
         def featured(self, request, queryset):
@@ -114,6 +117,14 @@ class CalWildfireAdmin(admin.ModelAdmin):
         def unfeature(self, request, queryset):
             queryset.update(promoted_fire = False)
         unfeature.short_description = "Remove Fire to Featured Section"
+
+        def lock_fire_data(self, request, queryset):
+            queryset.update(update_lockout = True)
+        lock_fire_data.short_description = "Lock From Auto Updates"
+
+        def unlock_fire_data(self, request, queryset):
+            queryset.update(update_lockout = False)
+        unlock_fire_data.short_description = "Allow Auto Updates"
 
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
