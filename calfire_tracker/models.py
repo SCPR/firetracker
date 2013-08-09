@@ -11,9 +11,9 @@ class CalWildfire(models.Model):
 
     # management & curation
     created_fire_id = models.CharField('Fire Unique ID', max_length=500, null=True, blank=True)
-    update_lockout = models.BooleanField('Lock Data From Updates?', default=False)
-    promoted_fire = models.BooleanField('Feature This Fire?', default=False)
-    asset_host_image_id = models.CharField('Image ID from Asset Host', max_length=140, null=True, blank=True)
+    update_lockout = models.BooleanField('Lock Data?', default=False)
+    promoted_fire = models.BooleanField('Feature This?', default=False)
+    asset_host_image_id = models.CharField('Asset Host Image ID', max_length=140, null=True, blank=True)
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)

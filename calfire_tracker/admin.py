@@ -35,10 +35,15 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'update_lockout',
                     'promoted_fire',
                     'asset_host_image_id',
-                    'twitter_hashtag',
                     'air_quality_rating',
-                    'last_scraped',
+                    'twitter_hashtag',
                     'data_source',
+                    'more_info',
+                    'notes',
+                    'last_scraped',
+                    'fire_slug',
+                    'county_slug',
+                    'created_fire_id',
                 ]
             }),
             ('General Details', {
@@ -50,9 +55,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'date_time_started',
                     'last_updated',
                     'administrative_unit',
-                    'more_info',
-                    'fire_slug',
-                    'county_slug',
                 ]
             }),
             ('Location Information', {
@@ -98,8 +100,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'damage_assessment',
                     'training',
                     'phone_numbers',
-                    'notes',
-                    'created_fire_id',
                 ]
             }),
         ]
