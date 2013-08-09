@@ -81,6 +81,8 @@ def evaluate_whether_to_follow_details_link(list_of_fires):
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'CalFire' and fire['details_link'] == None:
             does_fire_exist_and_is_info_new(fire)
+        elif fire['details_source'] == 'Riverside County Fire Department':
+            does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'Other':
             does_fire_exist_and_is_info_new(fire)
         elif fire['details_source'] == 'Inciweb':
@@ -349,11 +351,6 @@ def save_data_from_dict_to_model(fire):
     else:
         phone_numbers = None
 
-    if fire.has_key('notes'):
-        notes = fire['notes']
-    else:
-        notes = None
-
     last_scraped = datetime.datetime.now()
 
     if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
@@ -397,7 +394,6 @@ def save_data_from_dict_to_model(fire):
             'conditions': conditions,
             'current_situation': current_situation,
             'phone_numbers': phone_numbers,
-            'notes': notes,
         }
     )
 
@@ -428,10 +424,8 @@ def save_data_from_dict_to_model(fire):
         obj.conditions = conditions
         obj.current_situation = current_situation
         obj.phone_numbers = phone_numbers
-        obj.notes = notes
         obj.save()
 
-#                                           #
 ### begin helper and formatting functions ###
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
@@ -452,9 +446,13 @@ def determine_if_details_link_present(table, individual_fire):
         details_source = 'CalFire'
         details_link = None
     elif len(details_links) == 1:
-        test_match = re.search('inciweb', details_links[0]['href'])
-        if test_match:
+        inciweb_match = re.search('inciweb', details_links[0]['href'])
+        riverside_fd_match = re.search('rvcfire.org/_Layouts/Incident', details_links[0]['href'])
+        if inciweb_match:
             details_source = 'Inciweb'
+            details_link = details_links[0]['href']
+        elif riverside_fd_match:
+            details_source = 'Riverside County Fire Department'
             details_link = details_links[0]['href']
         else:
             details_source = 'Other'
