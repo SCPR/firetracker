@@ -99,6 +99,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'training',
                     'phone_numbers',
                     'notes',
+                    'created_fire_id',
                 ]
             }),
         ]
