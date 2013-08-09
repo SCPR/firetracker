@@ -107,6 +107,8 @@ class CalWildfireAdmin(admin.ModelAdmin):
         actions = [
             'featured',
             'unfeature',
+            'lock_fire_data',
+            'unlock_fire_data',
         ]
 
         def featured(self, request, queryset):
@@ -116,6 +118,14 @@ class CalWildfireAdmin(admin.ModelAdmin):
         def unfeature(self, request, queryset):
             queryset.update(promoted_fire = False)
         unfeature.short_description = "Remove Fire to Featured Section"
+
+        def lock_fire_data(self, request, queryset):
+            queryset.update(update_lockout = True)
+        lock_fire_data.short_description = "Lock From Auto Updates"
+
+        def unlock_fire_data(self, request, queryset):
+            queryset.update(update_lockout = False)
+        unlock_fire_data.short_description = "Allow Auto Updates"
 
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
