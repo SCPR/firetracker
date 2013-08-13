@@ -1,5 +1,6 @@
 
-.bound															{ width: 1100px;															}
+.bound															{ width: 1100px;	}
+body.card .bound												{ width: 95%;		}
 
 
 
@@ -17,14 +18,18 @@
 .fire-dashboard .damages dl,
 .epilogue .parent												{ background-image: url(i/1x/fire-icons.png);							}
 .facade .pledge a												{ background-image: url(i/1x/heart-icon-orange.png);					}
+.fire-leaflet .facts dl,
 .landing-row .following .scenes .vitals dl						{ background-image: url(i/1x/vitals-icons.png);							}
 .landing-row .following article .jump a,
 .landing-row article.jump h1									{ background-image: url(i/1x/ephemera-caret.png);						}
 .all-fires article.jump											{ background: none;														}
+.fire-leaflet .location.no-map dl,
 .fire-dashboard .location.no-map dl								{ background-image: url(i/1x/blue-location-pin.png);					}
 .fire-message dl												{ background-image: url(i/1x/blue-evacuee.png);							}
 .fire-supplemental .deployed dl									{ background-image: url(i/1x/fire-deployables.png);						}
 .fire-supplemental .dispatches > header h1						{ background-image: url(i/1x/twitter.png);								}
+.masthead .evangelize button									{ background-image: url(i/1x/icon-download-cloud.png);					}
+.outbound a														{ background-image: url(i/1x/rightward-triangle.png);					}
 
 
 
@@ -68,8 +73,6 @@
 			top: auto;
 			display: static;
 		}
-		.landing-row .following article .scenes .imagery {
-		}
 
 
 
@@ -83,3 +86,103 @@
 
 
 
+
+
+/*	#################################################################################################################################
+	Embeddable Card: Basics
+	################################################################################################################################# */
+
+	.card .masthead-inner {
+		padding-top: 65px;
+	}
+	.card .masthead .brief {
+		border-top: 1px solid #768fb3;
+		padding-top: 10px;
+	}
+	.card .masthead .brief h1 {
+		font-size: 1.8em;
+	}
+	.card .masthead .brand h4,
+	.card .masthead .brand h3 {
+		position: relative;
+		text-align: left;
+	}
+	.card .masthead .brand h4 {
+		border-top: 1px solid #768fb3;
+		padding-top: 6px;
+	}
+	.card .masthead .brand h3 {
+		padding-bottom: 5px;
+	}
+	.card .masthead .evangelize {
+		top: 10px;
+	}
+	.card .fire-leaflet figcaption {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 100%;
+		background: transparent;
+		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
+		    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000);   /* IE6 & 7 */
+		      zoom: 1;
+	}
+	.card .fire-leaflet {
+		height: auto;
+	}
+	.card .fire-leaflet .location {
+		height: auto;
+	}
+	.card .fire-leaflet .location .map {
+		position: relative;
+		overflow: visible;
+		height: auto;
+	}
+
+
+
+
+/*	#################################################################################################################################
+	Embeddable Card: Structure
+	(These are basically just copied over from the "smallest width" media query in ( display-card.css ).
+	################################################################################################################################# */
+	
+	.fire-leaflet {
+		height: auto;
+		border-top: 1px solid #97abc9;
+	}
+	.fire-leaflet .location,
+	.fire-leaflet .facts {
+		width: 100%;
+		float: none;
+		height: auto;
+	}
+			.fire-leaflet .location {
+				height: 128px;
+				border-bottom: 1px solid white;
+			}
+			.fire-leaflet .location.no-map {
+				height: auto;
+				min-height: 6em;
+			}
+					.fire-leaflet .location.no-map dt {
+						margin-bottom: 5px; /* not 13 */
+					}
+					.fire-leaflet .location.no-map dd {
+						padding-top: 6px;
+						border-top: 1px solid #415c76;
+					}
+
+			.fire-leaflet .facts {
+				padding: 5px 0;
+			}
+					.fire-leaflet .facts > div {
+						margin: 0 0 0 0;
+					}
+					.fire-leaflet .facts dl {
+						padding-top: 80px;
+					}
+					.fire-leaflet .facts dd {
+						top: 45px;
+						font-size: 1.7em;
+					}

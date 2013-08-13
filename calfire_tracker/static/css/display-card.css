@@ -189,6 +189,32 @@
 				position: relative;
 				z-index: 1;
 			}
+					.fire-leaflet .location.no-map {
+					    background: #1E2C39;
+					    box-shadow:
+							inset 0 32px 0 #1E2C39,
+							inset 0 33px 0 #5C87AF;
+					    font-family: "proxima-nova-condensed",Arial,sans-serif;
+						color: #768FB3;
+					}
+							.fire-leaflet .location.no-map dl {
+								background: url(i/blue-location-pin.png) no-repeat 0 16px;
+								background-size: 25px 39px;
+							    margin: 0 6% 14px;
+							    padding-left: 44px;
+							    padding-top: 16px;
+							}
+									.fire-leaflet .location.no-map dt {
+									    font-family: "proxima-nova",Arial,sans-serif;
+									    font-size: 0.6125em;
+									    font-weight: 600;
+									    margin-bottom: 13px;
+									    text-transform: uppercase;
+									}
+									.fire-leaflet .location.no-map dd {
+										line-height: 1.0;
+									}
+
 					.fire-leaflet figcaption {
 						width: 100%;
 						background: rgba(0,0,0,0.5);
@@ -226,7 +252,7 @@
 					.fire-leaflet .facts > div {
 						margin: 20px 3.5% 20px;
 					}
-					.fire-leaflet dl {
+					.fire-leaflet .facts dl {
 						width: 33.3%;
 						float: left;
 						text-align: center;
@@ -244,11 +270,11 @@
 								float: right;
 							}
 
-							.fire-leaflet .contained	{ background-position: center 9px;	}
-							.fire-leaflet .acres		{ background-position: center -181px;	}
-							.fire-leaflet .started		{ background-position: center -373px;	}
+							.fire-leaflet .facts .contained	{ background-position: center 9px;	}
+							.fire-leaflet .facts .acres		{ background-position: center -181px;	}
+							.fire-leaflet .facts .started		{ background-position: center -373px;	}
 
-							.fire-leaflet dd {
+							.fire-leaflet .facts dd {
 								color: white;
 								font-family: "proxima-nova-condensed", Arial, sans-serif;
 								font-weight: 200;
@@ -260,7 +286,7 @@
 								top: 50px;
 								width: 100%;
 							}
-							.fire-leaflet dt {
+							.fire-leaflet .facts dt {
 								font-size: 0.5625em; /* 9 / 16 */
 								margin: 0 10% 0;
 								line-height: 1;
@@ -271,7 +297,7 @@
 
 							    @media screen and (max-width: 1000px) {
 
-										.fire-leaflet dd {
+										.fire-leaflet .facts dd {
 											font-size: 1.8em;
 										}
 										
@@ -295,9 +321,19 @@
 										.fire-leaflet .facts > div {
 											margin: 20px 0 20px;
 										}
-										.fire-leaflet dd {
+										.fire-leaflet .facts dd {
 											font-size: 1.5em;
 										}
+										
+								}
+
+							/*	=================================================================================== */
+
+							    @media screen and (min-width: 421px) and (max-width: 800px) {
+
+									.fire-leaflet .location.no-map dd {
+										font-size: 0.9em;
+									}
 										
 								}
 
@@ -318,7 +354,7 @@
 
 							    @media screen and (max-width: 470px) {
 
-									.fire-leaflet dd {
+									.fire-leaflet .facts dd {
 										font-size: 1.25em;
 										font-weight: 300;
 									}
@@ -343,6 +379,10 @@
 												height: 128px;
 												border-bottom: 1px solid white;
 											}
+											.fire-leaflet .location.no-map {
+												height: auto;
+												min-height: 6em;
+											}
 
 											.fire-leaflet .facts {
 												padding: 5px 0;
@@ -350,10 +390,10 @@
 													.fire-leaflet .facts > div {
 														margin: 0 0 0 0;
 													}
-													.fire-leaflet dl {
+													.fire-leaflet .facts dl {
 														padding-top: 70px;
 													}
-													.fire-leaflet dd {
+													.fire-leaflet .facts dd {
 														top: 45px;
 													}
 										
