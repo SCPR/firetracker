@@ -442,7 +442,7 @@ def send_new_fire_email(fire_name, acres_burned, county, containment_percent):
     email_subject = '%s in %s has been added to Fire Tracker on %s' % (fire_name, county, email_date)
     email_message = '%s has burned %s acres in %s and is at %s%% containment.' % (fire_name, acres_burned, county, containment_percent)
     #mail_admins(email_subject, email_message, fail_silently=True)
-    send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', ['ckeller@scpr.org', 'Ezassenhaus@scpr.org', 'mroe@scpr.org', 'brian.frank@scpr.org',], fail_silently=True)
+    send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', ['ckeller@scpr.org'], fail_silently=True)
 
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
