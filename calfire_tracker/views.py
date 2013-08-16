@@ -26,8 +26,8 @@ def index(request):
     #total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
     #total_2013_injuries = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_injuries=Sum('injuries'))
 
-    total_2013_fires = 4177
-    total_2013_acreage = 70060
+    total_2013_fires = 4514
+    total_2013_acreage = 92353
     total_2013_injuries = None
 
     #total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
