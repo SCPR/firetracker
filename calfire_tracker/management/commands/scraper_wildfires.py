@@ -400,6 +400,9 @@ def save_data_from_dict_to_model(fire):
     if not created and obj.update_lockout == True:
         pass
 
+    if created:
+        send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+
     if not created:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
@@ -427,9 +430,18 @@ def save_data_from_dict_to_model(fire):
         obj.conditions = conditions
         obj.current_situation = current_situation
         obj.phone_numbers = phone_numbers
+        #send_new_fire_email(fire_name, acres_burned, county, containment_percent)
         obj.save()
 
 ### begin helper and formatting functions ###
+def send_new_fire_email(fire_name, acres_burned, county, containment_percent):
+    ''' send email to list when a new fire is added to the database '''
+    email_date = datetime.datetime.now().strftime("%A, %b %d, %Y at %I:%M %p")
+    email_subject = '%s in %s has been added to Fire Tracker on %s' % (fire_name, county, email_date)
+    email_message = '%s has burned %s acres in %s and is at %s%% containment.' % (fire_name, acres_burned, county, containment_percent)
+    #mail_admins(email_subject, email_message, fail_silently=True)
+    send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', ['ckeller@scpr.org', 'Ezassenhaus@scpr.org', 'mroe@scpr.org', 'brian.frank@scpr.org',], fail_silently=True)
+
 def lowercase_remove_colon_and_replace_space_with_underscore(string):
     ''' lowercase_remove_colon_and_replace_space_with_underscore '''
     formatted_data = string.lower().replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
