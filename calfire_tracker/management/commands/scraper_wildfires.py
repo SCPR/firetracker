@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
+from django.core.mail import send_mail, mail_admins, send_mass_mail, EmailMessage
 from calfire_tracker.models import CalWildfire
 import csv, time, datetime, logging, re, types
 from datetime import tzinfo
@@ -8,6 +9,7 @@ import pytz
 from pytz import timezone
 from dateutil import parser
 from titlecase import titlecase
+from django.conf import settings
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
 from scraper_configs import V2Scraper
 
