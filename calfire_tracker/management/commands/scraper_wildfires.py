@@ -397,6 +397,9 @@ def save_data_from_dict_to_model(fire):
         }
     )
 
+    if not created and obj.update_lockout == True:
+        pass
+
     if not created:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
