@@ -141,7 +141,7 @@ def columns(thelist, n):
     return [thelist[i::split] for i in range(split)]
 
 def percentify(value):
-    if value == 0
+    if value == 0:
         return str(value) + '%'
     elif value == None:
         return 'n/a'
