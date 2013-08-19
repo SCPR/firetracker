@@ -67,11 +67,7 @@
             <div class="clearfix">
                 <dl class="contained">
                     <dt>Contained</dt>
-                    {% if calwildfire.containment_percent %}
-                        <dd>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
-                    {% else %}
-                        <dd>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
-                    {% endif %}
+                        <dd>{{ calwildfire.containment_percent|percentify }}</dd>
                 </dl>
                 <dl class="acres">
                     <dt>Acres burned</dt>
