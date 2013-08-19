@@ -96,11 +96,7 @@
                 <section class="summary">
                     <div class="stats">
                         <figure>
-                            {% if calwildfire.containment_percent %}
-                                <span>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</span>
-                            {% else %}
-                                <span>{{ calwildfire.containment_percent|default:"n/a"|default_if_none:"n/a" }}</span>
-                            {% endif %}
+                            <span>{{ calwildfire.containment_percent|percentify }}</span>
                             <figcaption>Contained</figcaption>
                         </figure>
                         <figure>
