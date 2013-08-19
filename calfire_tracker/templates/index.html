@@ -177,11 +177,7 @@
                             <aside class="vitals clearfix">
                                 <dl class="contained">
                                     <dt>Contained</dt>
-                                    {% if featured.containment_percent %}
-                                        <dd>{{ featured.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
-                                    {% else %}
-                                        <dd>{{ featured.containment_percent|default:"n/a"|default_if_none:"n/a" }}</dd>
-                                    {% endif %}
+                                    <dd>{{ featured.containment_percent|default:"n/a"|default_if_none:"n/a"|percentify }}</dd>
                                 </dl>
                                 <dl class="acres">
                                     <dt>Acres burned</dt>
