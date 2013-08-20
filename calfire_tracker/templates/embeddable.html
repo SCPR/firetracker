@@ -30,7 +30,7 @@
         <div class="masthead-inner bound">
             <div class="brief">
                 <header class="title">
-                    <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
+                    <h1><a href="{{ calwildfire.get_absolute_url }}" target="_blank">{{ calwildfire.fire_name }}</a></h1>
                     <h2>{{ calwildfire.county }}</h2>
                 </header>
                 <aside class="evangelize">
@@ -38,7 +38,7 @@
                 </aside>
             </div>
             <div class="brand">
-                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
+                <h3><span class="parent"><a href="http://www.scpr.org/" target="_blank">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}" target="_blank">Fire Tracker</a></span></h3>
                 <h4>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a T" }}</h4>
             </div>
         </div><!--/ .masthead-inner -->
@@ -90,7 +90,7 @@
     </div><!--/ .fire-leaflet -->
 
     <footer class="outbound">
-        <a href="{{ calwildfire.get_absolute_url }}">See the full fire incident page at KPCC.org</a>
+        <a href="{{ calwildfire.get_absolute_url }}" target="_blank">See the full fire incident page at KPCC.org</a>
     </footer>
 
     <aside class="broadcast">
