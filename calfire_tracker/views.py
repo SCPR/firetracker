@@ -8,7 +8,6 @@ from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.conf import settings
-import tweepy
 from dateutil import parser
 from kpccapi import *
 
