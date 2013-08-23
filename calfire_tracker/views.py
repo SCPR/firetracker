@@ -83,7 +83,8 @@ def embeddable(request, fire_slug):
     }, context_instance=RequestContext(request))
 
 def archives(request):
-    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
+    current_year = date.today().year
+    calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
     })
