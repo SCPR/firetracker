@@ -43,6 +43,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'last_scraped',
                     'fire_slug',
                     'county_slug',
+                    'year',
                     'created_fire_id',
                 ]
             }),

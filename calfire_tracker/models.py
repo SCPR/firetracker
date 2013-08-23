@@ -30,6 +30,7 @@ class CalWildfire(models.Model):
     more_info = models.URLField('URL To More Info', max_length=1024, null=True, blank=True)
     fire_slug = models.SlugField('Fire Slug', max_length=140, null=True, blank=True)
     county_slug = models.SlugField('County Slug', max_length=140, null=True, blank=True)
+    year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
 
     # location information
     location = models.TextField('Location from Cal Fire', null=True, blank=True)
