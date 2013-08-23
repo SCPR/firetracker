@@ -74,7 +74,7 @@ def dumpdata():
     """
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
-            run("%s manage.py dumpdata calfire_tracker.calwildfire --indent=2 > fires.json" % env.python_exe)
+            run("%s manage.py dumpdata calfire_tracker.calwildfire --indent=2 > bak_fires.json" % env.python_exe)
 
 # development functions
 def localrun():
@@ -94,8 +94,20 @@ def localload():
     Pulls live data down to local environment and loads as fixtures
     """
     dumpdata()
-    local("scp archive@media:/web/archive/apps/firetracker/firetracker/fires.json ~/Programming/2kpcc/django-projects/firetracker")
-    local("python manage.py loaddata fires.json")
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json ~/Programming/2kpcc/django-projects/firetracker")
+    local("python manage.py loaddata bak_fires.json")
+
+def load_data_to_server():
+    """
+    Pulls data for older fires from development, uploads to server, runs management command to backup, runs runs management command to load
+    """
+    dumpdata()
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json ~/Programming/2kpcc/django-projects/firetracker")
+    local("python manage.py dumpdata calfire_tracker.calwildfire --indent=2 > new_fires.json")
+    local("scp ~/Programming/2kpcc/django-projects/firetracker/new_fires.json archive@media:/web/archive/apps/firetracker/firetracker")
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py loaddata new_fires.json" % env.python_exe)
 
 def localfunctions():
     """
