@@ -19,14 +19,12 @@ def update_code():
     with cd(env.project_root):
         run('git pull')
 
-
 def restart():
     """
     Production function to restart the server
     """
     with cd(env.project_root):
         run('mkdir -p tmp/ && touch tmp/restart.txt')
-
 
 def collectstatic():
     """
@@ -35,7 +33,6 @@ def collectstatic():
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py collectstatic --noinput" % env.python_exe)
-
 
 def deploy():
     """
@@ -46,7 +43,6 @@ def deploy():
         collectstatic()
         restart()
 
-
 def migrate(*args):
     """
     Production function to execute south migrations (takes arguments)
@@ -54,7 +50,6 @@ def migrate(*args):
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py migrate " % env.python_exe) + " ".join(args)
-
 
 def revert():
     """
@@ -65,7 +60,6 @@ def revert():
         collectstatic()
         restart()
 
-
 def scrape():
     """
     Production function to manually run the scraper on the remote server
@@ -73,7 +67,6 @@ def scrape():
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
-
 
 def dumpdata():
     """
@@ -98,8 +91,10 @@ def localscrape():
 
 def localload():
     """
-    Runs scraper for local database
+    Pulls live data down to local environment and loads as fixtures
     """
+    dumpdata()
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/fires.json ~/Programming/2kpcc/django-projects/firetracker")
     local("python manage.py loaddata fires.json")
 
 def localfunctions():
