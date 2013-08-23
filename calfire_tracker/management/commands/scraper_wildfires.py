@@ -396,8 +396,8 @@ def save_data_from_dict_to_model(fire):
     if not created and obj.update_lockout == True:
         pass
 
-    #if created:
-        #send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+    if created:
+        send_new_fire_email(fire_name, acres_burned, county, containment_percent)
 
     else:
         obj.last_scraped = last_scraped
