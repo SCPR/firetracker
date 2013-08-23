@@ -26,12 +26,6 @@ class Command(BaseCommand):
         open_and_build_list_of_raw_fire_data()
         self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
-def retrieve_data_from_page():
-    ''' save raw html from a web page locally '''
-    scraper_instance =V2Scraper()
-    raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
-    local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
-
 def open_and_build_list_of_raw_fire_data():
     ''' open local file, convert data table to dictionary & append to list '''
 
@@ -402,10 +396,10 @@ def save_data_from_dict_to_model(fire):
     if not created and obj.update_lockout == True:
         pass
 
-    if created:
-        send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+    #if created:
+        #send_new_fire_email(fire_name, acres_burned, county, containment_percent)
 
-    if not created:
+    else:
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
@@ -589,3 +583,9 @@ def extract_containment_amount(string_to_match):
 
     #print target_number
     return target_number
+
+def retrieve_data_from_page():
+    ''' save raw html from a web page locally '''
+    scraper_instance =V2Scraper()
+    raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
+    local_file = scraper_instance.save_source_html_to_file('incidents_current.html', raw_html)
