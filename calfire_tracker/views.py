@@ -13,9 +13,6 @@ from dateutil import parser
 from kpccapi import *
 
 def index(request):
-    startdate = date.today()
-    enddate = timedelta(days=90)
-    displaydate = startdate - enddate
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
