@@ -16,9 +16,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="format-detection" content="telephone=no"/>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <!--
-            <meta name="robots" content="noindex, nofollow, noarchive">
-        -->
+        {% block robots %}{% endblock %}
         <meta name="description" content="{% block description %}{% endblock %}" />
         <meta name="keywords" content="{% block keywords %}{% endblock %}" />
         <meta name="author" content="89.3 KPCC" />

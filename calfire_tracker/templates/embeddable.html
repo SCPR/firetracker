@@ -7,6 +7,7 @@
 
 <!-- begin meta -->
 {% block title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow, noarchive">{% endblock %}
 {% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.date_time_started|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.date_time_started|date:"l, F j, Y" }}.{% endif %}{% endblock %}
 {% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
