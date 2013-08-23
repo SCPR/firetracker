@@ -34,7 +34,7 @@ def open_and_build_list_of_raw_fire_data():
         target_data = BeautifulSoup(open('incidents_current.html'), convertEntities=BeautifulSoup.HTML_ENTITIES)
     else:
         scraper_instance =V2Scraper()
-        raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=1&cp=0')
+        raw_html = scraper_instance.retrieve_source_html_with_mechanize('http://cdfdata.fire.ca.gov/incidents/incidents_current?pc=500')
         target_data = BeautifulSoup(raw_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     ''' for local testing from raw html file '''
 
