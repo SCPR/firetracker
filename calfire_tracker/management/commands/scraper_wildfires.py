@@ -228,10 +228,13 @@ def save_data_from_dict_to_model(fire):
 
     if fire.has_key('date_time_started'):
         date_time_started = convert_time_to_nicey_format(fire['date_time_started'])
+        year = date_time_started.year
     elif fire.has_key('date_started'):
         date_time_started = convert_time_to_nicey_format(fire['date_started'])
+        year = date_time_started.year
     else:
         date_time_started = None
+        year = None
 
     if fire.has_key('last_updated'):
         last_updated = convert_time_to_nicey_format(fire['last_updated'])
@@ -371,6 +374,7 @@ def save_data_from_dict_to_model(fire):
             'more_info': more_info,
             'fire_slug': fire_slug,
             'county_slug': county_slug,
+            'year': year,
             'location': location,
             'injuries': injuries,
             'evacuations': evacuations,
