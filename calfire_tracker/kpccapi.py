@@ -1,5 +1,8 @@
 import simplejson as json
 import urllib
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 # search assethost for an image
 def search_assethost(kpcc_image_token, assethost_id):
