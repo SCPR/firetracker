@@ -17,7 +17,6 @@ logging.basicConfig(level=logging.DEBUG)
 def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
-    featured_fires_with_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, featuredfires)
 
     #so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
     #so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
