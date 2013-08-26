@@ -10,13 +10,18 @@ from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.conf import settings
 from dateutil import parser
 from kpccapi import *
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
-    so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
-    so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
-    so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
+    featured_fires_with_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, featuredfires)
+
+    #so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
+    #so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
+    #so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
 
     #total_2013_fires = CalWildfire.objects.filter(date_time_started__year='2013').count()
     #total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
@@ -37,8 +42,8 @@ def index(request):
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
-        'so_cal_fires': so_cal_fires,
-        'so_cal_acreage': so_cal_acreage,
+        #'so_cal_fires': so_cal_fires,
+        #'so_cal_acreage': so_cal_acreage,
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
