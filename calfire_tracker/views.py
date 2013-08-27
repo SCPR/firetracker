@@ -81,9 +81,16 @@ def embeddable(request, fire_slug):
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
         kpcc_image = None
+
+    #cache_expire = (60*60*24)
+    cache_expire = (60*15)
+    cache_key = "%s:%s" % (calwildfire.fire_slug, calwildfire.last_scraped)
+
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
         'kpcc_image': kpcc_image,
+        'cache_expire': cache_expire,
+        'cache_key': cache_key,
     }, context_instance=RequestContext(request))
 
 def archives(request):
