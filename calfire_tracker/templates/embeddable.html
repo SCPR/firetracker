@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cache %}
 {% load humanize %}
 {% load tz %}
 {% load l10n %}
@@ -47,58 +48,61 @@
 {% endblock %}
 
 {% block extended_page_content %}
-    <div class="fire-leaflet clearfix">
-        <!-- begin hooks for map or no -->
-        {% if calwildfire.location_latitude and calwildfire.location_longitude %}
-            <figure class="location">
-                <b class="map"><a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=8&amp;size=807x240&amp;maptype=roadmap
-&amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a></b>
-                <figcaption><span>{{ calwildfire.location }}</span></figcaption>
-            </figure>
-        {% else %}
-            <aside class="location no-map">
-                <dl>
-                    <dt>Location</dt>
-                    <dd>{{ calwildfire.location }}</dd>
-                </dl>
-            </aside>
-        {% endif %}
-        <!-- end hooks for map or no -->
-        <section class="facts">
-            <div class="clearfix">
-                <dl class="contained">
-                    <dt>Contained</dt>
-                        <dd>{{ calwildfire.containment_percent|percentify }}</dd>
-                </dl>
-                <dl class="acres">
-                    <dt>Acres burned</dt>
-                    {% if calwildfire.acres_burned %}
-                        <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                    {% else %}
-                        <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                    {% endif %}
-                </dl>
-                <dl class="started">
-                    <dt>Started ({{ calwildfire.date_time_started|date:"Y" }})</dt>
-                    {% if calwildfire.date_time_started %}
-                        <dd>{{ calwildfire.date_time_started|date:"M j" }}</dd>
-                    {% else %}
-                        <dd></dd>
-                    {% endif %}
-                </dl>
+    {% cache cache_expire embeddable calwildfire.created_fire_id calwildfire.last_saved %}
+
+        <div class="fire-leaflet clearfix">
+            <!-- begin hooks for map or no -->
+            {% if calwildfire.location_latitude and calwildfire.location_longitude %}
+                <figure class="location">
+                    <b class="map"><a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&amp;z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=8&amp;size=807x240&amp;maptype=roadmap
+    &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a></b>
+                    <figcaption><span>{{ calwildfire.location }}</span></figcaption>
+                </figure>
+            {% else %}
+                <aside class="location no-map">
+                    <dl>
+                        <dt>Location</dt>
+                        <dd>{{ calwildfire.location }}</dd>
+                    </dl>
+                </aside>
+            {% endif %}
+            <!-- end hooks for map or no -->
+            <section class="facts">
+                <div class="clearfix">
+                    <dl class="contained">
+                        <dt>Contained</dt>
+                            <dd>{{ calwildfire.containment_percent|percentify }}</dd>
+                    </dl>
+                    <dl class="acres">
+                        <dt>Acres burned</dt>
+                        {% if calwildfire.acres_burned %}
+                            <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                        {% else %}
+                            <dd>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                        {% endif %}
+                    </dl>
+                    <dl class="started">
+                        <dt>Started ({{ calwildfire.date_time_started|date:"Y" }})</dt>
+                        {% if calwildfire.date_time_started %}
+                            <dd>{{ calwildfire.date_time_started|date:"M j" }}</dd>
+                        {% else %}
+                            <dd></dd>
+                        {% endif %}
+                    </dl>
+                </div>
+            </section><!--/ .facts -->
+        </div><!--/ .fire-leaflet -->
+
+        <footer class="outbound">
+            <a href="{{ calwildfire.get_absolute_url }}" target="_blank">See the full fire incident page at KPCC.org</a>
+        </footer>
+
+        <aside class="broadcast">
+            <div class="pane">
+                <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+                <button>OK, thanks!</button>
             </div>
-        </section><!--/ .facts -->
-    </div><!--/ .fire-leaflet -->
-
-    <footer class="outbound">
-        <a href="{{ calwildfire.get_absolute_url }}" target="_blank">See the full fire incident page at KPCC.org</a>
-    </footer>
-
-    <aside class="broadcast">
-        <div class="pane">
-            <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
-            <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
-            <button>OK, thanks!</button>
-        </div>
-    </aside>
+        </aside>
+    {% endcache %}
 {% endblock %}

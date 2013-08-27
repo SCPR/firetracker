@@ -94,7 +94,7 @@ def localload():
     Pulls live data down to local environment and loads as fixtures
     """
     dumpdata()
-    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json ~/Programming/2kpcc/django-projects/firetracker")
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json .")
     local("python manage.py loaddata bak_fires.json")
 
 def load_data_to_server():

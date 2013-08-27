@@ -18,6 +18,15 @@ DATABASES = {
     }
 }
 
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': 'localhost:6379:6'
+    }
+}
+
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'pg4j+xce0qm2dmcz%fv_#7u&amp;_qu^fyng7nnbg-ccus6r!b&amp;q#%'
 

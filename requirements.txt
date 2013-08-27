@@ -1,6 +1,6 @@
 BeautifulSoup==3.2.1
 Django==1.4.6
-Django-commander==0.0.1
+-e git+git://github.com/MichalMaM/django-commander#egg=commander
 Fabric==1.6.1
 MySQL-python==1.2.4
 PyYAML==3.10
@@ -17,6 +17,7 @@ django-data-exports==0.3
 django-debug-toolbar==0.9.4
 django-inspect-model==0.4
 django-mass-edit==1.2
+django-redis==3.3
 django-storages==1.1.4
 django-tastypie==0.9.11
 django-yamlfield==0.4
@@ -31,6 +32,7 @@ pycrypto==2.6
 python-dateutil==1.5
 python-ptrace==0.6.4
 pytz==2012c
+redis==2.8.0
 simplejson==3.3.0
 titlecase==0.5.1
 tweepy==2.1
