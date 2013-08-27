@@ -39,7 +39,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'data_source',
                     'more_info',
                     'notes',
-                    #'last_scraped',
+                    'last_scraped',
                     'fire_slug',
                     'county_slug',
                     'year',
