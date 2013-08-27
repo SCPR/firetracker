@@ -79,7 +79,7 @@
 {% endblock %}
 
 {% block extended_page_content %}
-    {% cache cache_expire index %}
+    {% cache cache_expire index cache_timestamp %}
         <div class="lobby">
             <div class="lobby-inner bound clearfix">
                 <figure class="foreword">

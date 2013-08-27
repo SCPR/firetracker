@@ -18,6 +18,7 @@ def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
 
+
     #so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
     #so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
     #so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
@@ -40,6 +41,7 @@ def index(request):
 
     #cache_expire = (60*60*24)
     cache_expire = (60*15)
+    cache_timestamp = calwildfires[0].last_saved
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
@@ -53,6 +55,7 @@ def index(request):
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
         'cache_expire': cache_expire,
+        'cache_timestamp': cache_timestamp
     })
 
 def detail(request, fire_slug):
@@ -66,7 +69,7 @@ def detail(request, fire_slug):
         kpcc_image = None
 
     #cache_expire = (60*60*24)
-    cache_expire = (60*15)
+    cache_expire = (60*60*24)
 
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,

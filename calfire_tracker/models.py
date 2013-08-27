@@ -67,6 +67,8 @@ class CalWildfire(models.Model):
     phone_numbers = models.TextField('Phone Numbers', null=True, blank=True)
     notes = models.TextField('Notes', null=True, blank=True)
 
+    last_saved = models.DateTimeField(auto_now=True)
+
     def __unicode__(self):
         return self.fire_name
 
