@@ -83,7 +83,7 @@
                     <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker&amp;u=http%3A%2F%2Fprojects.scpr.org{{ calwildfire.get_absolute_url|urlencode }}">Share on Tumblr</a></li>
                     <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker:%20http%3A%2F%2Fprojects.scpr.org{{ calwildfire.get_absolute_url|urlencode }}">Share on Twitter</a></li>
                     <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fprojects.scpr.org{{ calwildfire.get_absolute_url|urlencode }}&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share on Facebook</a></li>
-                    <!--<li class="card"><button class="share-this-fire">Share this fire</button></li>-->
+                    <li class="card"><button class="share-this-fire">Share this fire</button></li>
                 </ul>
             </aside>
         </div><!--/ .masthead-inner -->
@@ -320,5 +320,14 @@
         </div><!--/ .page-cols -->
 
         {% include "footer.html" %}
+
+        <aside class="broadcast">
+            <div class="pane">
+                <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+                <button>OK, thanks!</button>
+            </div>
+        </aside>
+
     {% endcache %}
 {% endblock %}

@@ -24,9 +24,9 @@ jQuery(document).ready(function($) {
 			$(".tertiaries").addClass("just-the-facts").removeClass("clearfix");
 		}
 	}
-	
-	
-	
+
+
+
 	// Sometimes, "evacuations" text can just be too damn long.
 	// ============================================================
 	$(".fire-dashboard .damages .evacuations").each(function(){
@@ -47,22 +47,19 @@ jQuery(document).ready(function($) {
 	// Toggle EMBED CARD's shareable code block.
 	// (Also, make said code block selectable on focus.)
 	// ============================================================
+	$(".share button").click(function(){
+		$(".broadcast").addClass("visible");
+		$(".broadcast textarea").select();
+	});
+
 	$(".evangelize button").click(function(){
 		$(".broadcast").addClass("visible");
 		$(".broadcast textarea").select();
 	});
-	
 
 	$(".broadcast button").click(function(){
 		$(".broadcast").removeClass("visible");
 	});
-
-
-
-
-    
-
-
 
 
 }); // end doc ready
