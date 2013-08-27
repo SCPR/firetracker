@@ -14,6 +14,10 @@ class CalWildfire(models.Model):
     update_lockout = models.BooleanField('Lock Data?', default=False)
     promoted_fire = models.BooleanField('Feature This?', default=False)
     asset_host_image_id = models.CharField('Asset Host Image ID', max_length=140, null=True, blank=True)
+
+    asset_url_link = models.URLField('Image Source URL', max_length=1024, null=True, blank=True)
+    asset_photo_credit = models.CharField('Image Credit', max_length=1024, null=True, blank=True)
+
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
@@ -85,6 +89,17 @@ class CalWildfire(models.Model):
                 self.location_geocode_error = False
             except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
                 self.location_geocode_error = True
+
+
+
+
+
+
+
+
+
+
+
 
     def save(self, *args, **kwargs):
         #if not self.id:
