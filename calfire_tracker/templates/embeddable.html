@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block extended_page_content %}
-    {% cache cache_expire embeddable calwildfire.created_fire_id calwildfire.last_updated %}
+    {% cache cache_expire embeddable calwildfire.created_fire_id calwildfire.last_saved %}
 
         <div class="fire-leaflet clearfix">
             <!-- begin hooks for map or no -->
