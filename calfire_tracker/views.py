@@ -1,6 +1,7 @@
 from datetime import datetime, date, time, timedelta
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from django.template import RequestContext
@@ -14,6 +15,7 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
+@xframe_options_sameorigin
 def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
@@ -42,6 +44,7 @@ def index(request):
         'cache_timestamp': cache_timestamp
     })
 
+@xframe_options_sameorigin
 def detail(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:15]
@@ -64,6 +67,7 @@ def detail(request, fire_slug):
         'cache_expire': cache_expire,
     }, context_instance=RequestContext(request))
 
+@xframe_options_exempt
 def embeddable(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     if calwildfire.asset_host_image_id:
@@ -79,6 +83,7 @@ def embeddable(request, fire_slug):
         'cache_expire': cache_expire,
     }, context_instance=RequestContext(request))
 
+@xframe_options_sameorigin
 def archives(request):
     current_year = date.today().year
     calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
