@@ -13,15 +13,9 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=datetime.datetime(2013, 8, 27, 0, 0), blank=True),
                       keep_default=False)
 
-        for fire in CalWildfire.objects.all():
-            fire.last_saved = fire.last_updated
-            fire.save
-
-
     def backwards(self, orm):
         # Deleting field 'CalWildfire.last_saved'
         db.delete_column('calfire_tracker_calwildfire', 'last_saved')
-
 
     models = {
         'calfire_tracker.calwildfire': {
