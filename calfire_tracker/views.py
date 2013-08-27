@@ -14,10 +14,6 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-def create_cache_expire():
-    cache_expire = (60*60*24)
-    return cache_expire
-
 def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
@@ -30,7 +26,7 @@ def index(request):
     total_2012_acreage = 141154
     total_2012_injuries = None
 
-    cache_expire = create_cache_expire()
+    cache_expire = (60*60*24)
     cache_timestamp = calwildfires[0].last_saved
 
     return render_to_response('index.html', {
@@ -51,12 +47,13 @@ def detail(request, fire_slug):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')
+
     if calwildfire.asset_host_image_id:
         kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
     else:
         kpcc_image = None
 
-    cache_expire = create_cache_expire()
+    cache_expire = (60*60*24)
 
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
@@ -74,7 +71,7 @@ def embeddable(request, fire_slug):
     else:
         kpcc_image = None
 
-    cache_expire = create_cache_expire()
+    cache_expire = (60*60*24)
 
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
@@ -86,7 +83,7 @@ def archives(request):
     current_year = date.today().year
     calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
 
-    cache_expire = create_cache_expire()
+    cache_expire = (60*60*24)
 
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
