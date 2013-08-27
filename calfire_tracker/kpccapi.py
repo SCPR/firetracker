@@ -6,6 +6,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 # search assethost for an image
 def search_assethost(kpcc_image_token, assethost_id):
+    if cache = get_cache('asset/%s' % assethost_id):
+        return cache
+
     url_prefix = 'http://a.scpr.org/api/assets/'
     url_suffix = '.json?auth_token='
     search_url = '%s%s%s%s' % (url_prefix, assethost_id, url_suffix, kpcc_image_token)
@@ -15,6 +18,8 @@ def search_assethost(kpcc_image_token, assethost_id):
     asset_url_link = js_object['urls']['full']
     asset_photo_credit = js_object['owner']
     images_dict = {'asset_url_link': asset_url_link, 'asset_photo_credit': asset_photo_credit}
+
+    set_cache('asset/%s' % assethost_id, images_dict)
     return images_dict
 
 class kpcc_api_article():
