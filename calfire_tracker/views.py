@@ -14,40 +14,28 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
+def create_cache_expire():
+    cache_expire = (60*60*24)
+    return cache_expire
+
 def index(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
-
-
-    #so_cal_counties = CalWildfire.objects.filter(Q(county='Los Angeles County') | Q(county='Orange County') | Q(county='Riverside County') | Q(county='San Bernardino County') | Q(county='Ventura County'))
-    #so_cal_fires = so_cal_counties.filter(date_time_started__year='2013').count()
-    #so_cal_acreage = so_cal_counties.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
-
-    #total_2013_fires = CalWildfire.objects.filter(date_time_started__year='2013').count()
-    #total_2013_acreage = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_acres=Sum('acres_burned'))
-    #total_2013_injuries = CalWildfire.objects.filter(date_time_started__year='2013').aggregate(total_injuries=Sum('injuries'))
 
     total_2013_fires = 4715
     total_2013_acreage = 94855
     total_2013_injuries = None
 
-    #total_2012_fires = CalWildfire.objects.filter(date_time_started__year='2012').count()
-    #total_2012_acreage = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_acres=Sum('acres_burned'))
-    #total_2012_injuries = CalWildfire.objects.filter(date_time_started__year='2012').aggregate(total_injuries=Sum('injuries'))
-
     total_2012_fires = 5809
     total_2012_acreage = 141154
     total_2012_injuries = None
 
-    #cache_expire = (60*60*24)
-    cache_expire = (60*15)
+    cache_expire = create_cache_expire()
     cache_timestamp = calwildfires[0].last_saved
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
-        #'so_cal_fires': so_cal_fires,
-        #'so_cal_acreage': so_cal_acreage,
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
@@ -68,8 +56,7 @@ def detail(request, fire_slug):
     else:
         kpcc_image = None
 
-    #cache_expire = (60*60*24)
-    cache_expire = (60*60*24)
+    cache_expire = create_cache_expire()
 
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
@@ -87,8 +74,7 @@ def embeddable(request, fire_slug):
     else:
         kpcc_image = None
 
-    #cache_expire = (60*60*24)
-    cache_expire = (60*15)
+    cache_expire = create_cache_expire()
 
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
@@ -99,6 +85,10 @@ def embeddable(request, fire_slug):
 def archives(request):
     current_year = date.today().year
     calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
+
+    cache_expire = create_cache_expire()
+
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
+        'cache_expire': cache_expire,
     })
