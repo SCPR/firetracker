@@ -110,12 +110,17 @@ class CalWildfireAdmin(admin.ModelAdmin):
         ]
 
         actions = [
+            'update_last_saved_time',
             'featured',
             'unfeature',
             'lock_fire_data',
             'unlock_fire_data',
-            'update_last_saved_time',
         ]
+
+        def update_last_saved_time(self, request, queryset):
+            date = datetime.datetime.now()
+            queryset.update(last_saved = date)
+        update_last_saved_time.short_description = "Update Last Saved Time"
 
         def featured(self, request, queryset):
             queryset.update(promoted_fire = True)
@@ -132,11 +137,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
         def unlock_fire_data(self, request, queryset):
             queryset.update(update_lockout = False)
         unlock_fire_data.short_description = "Allow Auto Updates"
-
-        def update_last_saved_time(self, request, queryset):
-            date = datetime.datetime.now()
-            queryset.update(last_saved = date)
-        update_last_saved_time.short_description = "Update Last Saved Time"
 
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
