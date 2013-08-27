@@ -38,8 +38,8 @@ def index(request):
     total_2012_acreage = 141154
     total_2012_injuries = None
 
+    #cache_expire = (60*60*24)
     cache_expire = (60*15)
-    cache_key = '%s:%s' % (calwildfires[0].fire_slug, calwildfires[0].last_scraped)
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
@@ -53,7 +53,6 @@ def index(request):
         'total_2012_acreage': total_2012_acreage,
         'total_2012_injuries': total_2012_injuries,
         'cache_expire': cache_expire,
-        'cache_key': cache_key,
     })
 
 def detail(request, fire_slug):
@@ -68,7 +67,6 @@ def detail(request, fire_slug):
 
     #cache_expire = (60*60*24)
     cache_expire = (60*15)
-    cache_key = '%s:%s' % (calwildfire.fire_slug, calwildfire.last_scraped)
 
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
@@ -77,7 +75,6 @@ def detail(request, fire_slug):
         'result_list': result_list,
         'kpcc_image': kpcc_image,
         'cache_expire': cache_expire,
-        'cache_key': cache_key,
     }, context_instance=RequestContext(request))
 
 def embeddable(request, fire_slug):
@@ -89,13 +86,11 @@ def embeddable(request, fire_slug):
 
     #cache_expire = (60*60*24)
     cache_expire = (60*15)
-    cache_key = '%s:%s' % (calwildfire.fire_slug, calwildfire.last_scraped)
 
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
         'kpcc_image': kpcc_image,
         'cache_expire': cache_expire,
-        'cache_key': cache_key,
     }, context_instance=RequestContext(request))
 
 def archives(request):

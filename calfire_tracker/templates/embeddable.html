@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load cache %}
 {% load humanize %}
 {% load tz %}
 {% load l10n %}
@@ -47,7 +48,8 @@
 {% endblock %}
 
 {% block extended_page_content %}
-    {% cache cache_expire cache_key %}
+    {% cache cache_expire embeddable calwildfire.created_fire_id calwildfire.last_updated %}
+
         <div class="fire-leaflet clearfix">
             <!-- begin hooks for map or no -->
             {% if calwildfire.location_latitude and calwildfire.location_longitude %}
