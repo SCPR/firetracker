@@ -10,6 +10,15 @@ TEMPLATE_DEBUG = DEBUG
 
 execfile(expanduser('~/apps/firetracker/.production_settings'))
 
+CACHES = {
+    "default": {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '10.226.4.234:6379:5',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
+        }
+    }
+}
 
 ADMIN_MEDIA_PREFIX = '/firetracker/media/'
 

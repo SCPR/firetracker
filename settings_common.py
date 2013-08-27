@@ -73,17 +73,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
 )
 
-CACHES = {
-    "default": {
-        'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '127.0.0.1:6379:5',
-        #'LOCATION': '10.226.4.234:6379:5',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
-        }
-    }
-}
-
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = (60 * 5)
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
