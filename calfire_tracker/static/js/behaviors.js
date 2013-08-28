@@ -47,12 +47,7 @@ jQuery(document).ready(function($) {
 	// Toggle EMBED CARD's shareable code block.
 	// (Also, make said code block selectable on focus.)
 	// ============================================================
-	$(".share button").click(function(){
-		$(".broadcast").addClass("visible");
-		$(".broadcast textarea").select();
-	});
-
-	$(".evangelize button").click(function(){
+	$(".share button, .evangelize button").click(function(){
 		$(".broadcast").addClass("visible");
 		$(".broadcast textarea").select();
 	});
