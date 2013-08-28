@@ -117,10 +117,10 @@
                         </div><!--/ .stats -->
                         {% if calwildfire.asset_host_image_id %}
                             <div class="photo">
-                                <img src="{{ kpcc_image.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
+                                <img src="{{ calwildfire.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
                             </div>
                             <aside class="credit">
-                                <p>{{ kpcc_image.asset_photo_credit }}</p>
+                                <p>{{ calwildfire.asset_photo_credit }}</p>
                             </aside>
                         {% else %}
                             <div class="photo">
