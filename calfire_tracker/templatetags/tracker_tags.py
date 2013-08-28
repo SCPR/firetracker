@@ -159,25 +159,12 @@ def format_for_timezone(value):
     utc_created_at = utc.localize(value)
     return utc_created_at
 
-def search_assethost(assethost_id):
-    url_prefix = 'http://a.scpr.org/api/assets/'
-    url_suffix = '.json?auth_token='
-    search_url = '%s%s%s%s' % (url_prefix, assethost_id, url_suffix, settings.ASSETHOST_TOKEN_SECRET)
-    json_response = urllib.urlopen(search_url)
-    json_response = json_response.readlines()
-    js_object = json.loads(json_response[0])
-    asset_url_link = js_object['urls']['full']
-    asset_photo_credit = js_object['owner']
-    images_list = [asset_url_link, asset_photo_credit]
-    return images_list
-
 register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
 register.filter(percentify)
 register.filter(create_date)
 register.filter(format_for_timezone)
-register.filter(search_assethost)
 
 def _test():
     import doctest

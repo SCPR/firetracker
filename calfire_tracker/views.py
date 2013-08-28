@@ -51,11 +51,6 @@ def detail(request, fire_slug):
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')
 
-    if calwildfire.asset_host_image_id:
-        kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
-    else:
-        kpcc_image = None
-
     cache_expire = (60*60*24)
 
     return render_to_response('detail.html', {
@@ -63,7 +58,6 @@ def detail(request, fire_slug):
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
         'result_list': result_list,
-        'kpcc_image': kpcc_image,
         'cache_expire': cache_expire,
     }, context_instance=RequestContext(request))
 

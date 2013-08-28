@@ -170,10 +170,8 @@
                                     </figure>
                                     <figure class="photo">
                                         {% if featured.asset_host_image_id %}
-                                            {% with featured.asset_host_image_id|search_assethost as image %}
-                                                <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{image.0}}" alt="{{ featured.fire_name }}" /></a></b>
-                                                <figcaption><span>{{image.1}}</span></figcaption>
-                                            {% endwith %}
+                                            <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{ featured.asset_url_link }}" alt="{{ featured.fire_name }}" /></a></b>
+                                                <figcaption><span>{{ featured.asset_photo_credit }}</span></figcaption>
                                         {% else %}
                                             <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ featured.fire_name }}" /></a></b>
                                             <figcaption><span>KPCC</span></figcaption>
@@ -237,9 +235,7 @@
                                     </ul>
                                 </div>
                                 {% if item.asset_host_image_id %}
-                                    {% with item.asset_host_image_id|search_assethost as image %}
-                                        <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{image.0}}" alt="{{ item.fire_name }}" /></a></b>
-                                    {% endwith %}
+                                    <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ item.asset_url_link }}" alt="{{ item.fire_name }}" /></a></b>
                                 {% else %}
                                     <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ item.fire_name }}" /></a></b>
                                 {% endif %}
