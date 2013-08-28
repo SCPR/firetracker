@@ -20,7 +20,7 @@ class V2Scraper():
         mech.set_handle_referer(True)
 
         # tell mechanize browser to ignore robots.txt
-        mech.set_handle_robots(False)
+        mech.set_handle_robots(True)
 
         # follows refresh 0 but not hangs on refresh > 0
         mech.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
