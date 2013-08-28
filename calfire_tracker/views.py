@@ -64,16 +64,11 @@ def detail(request, fire_slug):
 @xframe_options_exempt
 def embeddable(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
-    if calwildfire.asset_host_image_id:
-        kpcc_image = search_assethost(settings.ASSETHOST_TOKEN_SECRET, calwildfire.asset_host_image_id)
-    else:
-        kpcc_image = None
 
     cache_expire = (60*60*24)
 
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
-        'kpcc_image': kpcc_image,
         'cache_expire': cache_expire,
     }, context_instance=RequestContext(request))
 
