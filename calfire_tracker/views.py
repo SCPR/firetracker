@@ -31,7 +31,8 @@ def index(request):
     total_2012_acreage = 141154
     total_2012_injuries = None
 
-    cache_expire = (60*60*24)
+    #cache_expire = (60*60*24)
+    cache_expire = (60*10)
     cache_timestamp = cache_timestamp[0].last_saved
 
     return render_to_response('index.html', {
