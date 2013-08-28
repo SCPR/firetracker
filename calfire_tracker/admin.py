@@ -21,7 +21,7 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped', 'notes', 'last_saved',)
+	list_display = ('fire_name', 'update_lockout', 'promoted_fire', 'asset_url_link', 'asset_photo_credit', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'county', 'last_updated', 'last_scraped', 'notes', 'last_saved',)
 	list_filter = ['data_source', 'county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
@@ -107,20 +107,29 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'phone_numbers',
                 ]
             }),
+            ('Image Resources', {
+                'classes': ('collapse', 'wide', 'extrapretty',),
+                'fields': [
+                    'asset_url_link',
+                    'asset_photo_credit',
+                ]
+            })
         ]
 
         actions = [
-            'update_last_saved_time',
             'featured',
             'unfeature',
             'lock_fire_data',
             'unlock_fire_data',
+            'update_last_saved_time_and_image',
         ]
 
-        def update_last_saved_time(self, request, queryset):
+        def update_last_saved_time_and_image(self, request, queryset):
             date = datetime.datetime.now()
             queryset.update(last_saved = date)
-        update_last_saved_time.short_description = "Update Last Saved Time"
+            for object in queryset:
+                object.save()
+        update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
 
         def featured(self, request, queryset):
             queryset.update(promoted_fire = True)

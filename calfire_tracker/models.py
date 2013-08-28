@@ -6,6 +6,11 @@ from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz
 import time, datetime
+import simplejson as json
+import urllib
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 class CalWildfire(models.Model):
 
@@ -14,10 +19,8 @@ class CalWildfire(models.Model):
     update_lockout = models.BooleanField('Lock Data?', default=False)
     promoted_fire = models.BooleanField('Feature This?', default=False)
     asset_host_image_id = models.CharField('Asset Host Image ID', max_length=140, null=True, blank=True)
-
     asset_url_link = models.URLField('Image Source URL', max_length=1024, null=True, blank=True)
     asset_photo_credit = models.CharField('Image Credit', max_length=1024, null=True, blank=True)
-
     twitter_hashtag = models.CharField('Twitter Hashtag', max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField('Air Quality Rating from http://airnow.gov/', max_length=3, null=True, blank=True)
     last_scraped = models.DateTimeField('Last Scraped', null=True, blank=True)
@@ -90,16 +93,20 @@ class CalWildfire(models.Model):
             except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
                 self.location_geocode_error = True
 
-
-
-
-
-
-
-
-
-
-
+    def search_assethost_for_image(self, kpcc_image_token):
+        url_prefix = 'http://a.scpr.org/api/assets/'
+        url_suffix = '.json?auth_token='
+        search_url = '%s%s%s%s' % (url_prefix, self.asset_host_image_id, url_suffix, kpcc_image_token)
+        json_response = urllib.urlopen(search_url)
+        json_response = json_response.readlines()
+        js_object = json.loads(json_response[0])
+        try:
+            self.asset_url_link = js_object['urls']['full']
+            self.asset_photo_credit = js_object['owner']
+        except:
+            self.asset_host_image_id = 'Could Not Find That ID'
+            self.asset_url_link = None
+            self.asset_photo_credit = None
 
     def save(self, *args, **kwargs):
         #if not self.id:
@@ -108,6 +115,8 @@ class CalWildfire(models.Model):
         	self.created_fire_id = self.created_fire_id
         if (self.location_latitude is None) or (self.location_longitude is None):
             self.fill_geocode_data()
+        if self.asset_host_image_id:
+            self.search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET)
         super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):
