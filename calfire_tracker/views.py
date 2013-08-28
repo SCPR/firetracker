@@ -17,8 +17,11 @@ logging.basicConfig(level=logging.DEBUG)
 
 @xframe_options_sameorigin
 def index(request):
-    calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
-    featuredfires = CalWildfire.objects.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
+
+    wildfires = CalWildfire.objects.all()
+    calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
+    featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
+    cache_timestamp = wildfires.all().order_by('-last_saved')
 
     total_2013_fires = 4715
     total_2013_acreage = 94855
@@ -29,7 +32,7 @@ def index(request):
     total_2012_injuries = None
 
     cache_expire = (60*60*24)
-    cache_timestamp = calwildfires[0].last_saved
+    cache_timestamp = cache_timestamp[0].last_saved
 
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
