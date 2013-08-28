@@ -19,6 +19,7 @@ logging.basicConfig(level=logging.DEBUG)
 def index(request):
 
     wildfires = CalWildfire.objects.all()
+    lead_fire = CalWildfire.objects.filter(fire_name='Rim Fire')
     calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     cache_timestamp = wildfires.all().order_by('-last_saved')
@@ -38,6 +39,7 @@ def index(request):
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
+        'lead_fire': lead_fire,
         'total_2013_fires': total_2013_fires,
         'total_2013_acreage': total_2013_acreage,
         'total_2013_injuries': total_2013_injuries,
