@@ -1,6 +1,7 @@
-from django.template import Library
+from django.template import Library, Context
 from django.conf import settings
 from django.utils.timezone import utc
+from calfire_tracker.models import CalWildfire
 from dateutil import parser
 from datetime import datetime, time, date, timedelta
 from pytz import timezone
@@ -9,6 +10,8 @@ import logging
 import simplejson as json
 import urllib
 register = Library()
+
+logging.basicConfig(level=logging.DEBUG)
 
 def rows(thelist, n):
     """
