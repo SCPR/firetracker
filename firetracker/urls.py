@@ -26,19 +26,17 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
 	# batch edit
-	(r'^admin/', include('massadmin.urls')),
+	url(r'^admin/', include('massadmin.urls')),
 
 	# tastypie API
 	url(r'^api/', include(v1_api.urls)),
 
 	# csv importer
-    (r'^import/', include('csvimporter.urls')),
+    url(r'^import/', include('csvimporter.urls')),
 
     # data_exports
     url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
-	# app urls
     # url pattern to kick root to index of firetracker application
-    (r'', include('calfire_tracker.urls')),
-    #(r'^wildfires/', include('calfire_tracker.urls')),
+    url(r'', include('calfire_tracker.urls')),
 )
