@@ -68,6 +68,14 @@ def scrape():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
+def pull_tweets():
+    """
+    Production function to manually run the scraper on the remote server
+    """
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py tweepy_to_db" % env.python_exe)
+
 def dumpdata():
     """
     Production function to manually run the scraper on the remote server
