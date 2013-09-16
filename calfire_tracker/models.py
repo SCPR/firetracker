@@ -117,6 +117,9 @@ class CalWildfire(models.Model):
             self.fill_geocode_data()
         if self.asset_host_image_id:
             self.search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET)
+        if not self.asset_host_image_id:
+            self.asset_url_link = None
+            self.asset_photo_credit = None
         super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):
