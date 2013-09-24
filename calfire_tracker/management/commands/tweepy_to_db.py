@@ -3,7 +3,7 @@ from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
 from calfire_tracker.models import CalWildfire, WildfireTweet
 import csv, time, datetime, logging, re, types
-from datetime import tzinfo
+from datetime import tzinfo, datetime, date, time, timedelta
 import pytz
 from pytz import timezone
 from dateutil import parser
@@ -43,14 +43,19 @@ def search_tweepy_for_hashtags(list_of_hashtags):
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
     container_of_tweets = []
+    delete_older_tweets_from_database()
     for hashtag in list_of_hashtags:
-
         logging.debug(hashtag)
-
         for tweet in tweepy.Cursor(api.search, q=hashtag, count=20, result_type='recent', lang='en').items():
             this_single_tweet = a_single_tweet(hashtag, tweet.id, tweet.user.screen_name, tweet.text, tweet.created_at, tweet.user.profile_image_url)
             container_of_tweets.append(this_single_tweet)
         write_tweets_to_database(container_of_tweets)
+
+def delete_older_tweets_from_database():
+    startdate = date.today()
+    enddate = timedelta(days=10)
+    displaydate = startdate - enddate
+    WildfireTweet.objects.filter(tweet_created_at__lte=displaydate).delete()
 
 def write_tweets_to_database(container_of_tweets):
     ''' connects to database and writes tweet instance '''
