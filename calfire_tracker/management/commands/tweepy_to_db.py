@@ -19,10 +19,20 @@ class Command(BaseCommand):
         create_list_of_fire_hashtags()
         self.stdout.write('\nFinished Saving Tweets To Database at %s\n' % str(datetime.datetime.now()))
 
+class a_single_tweet():
+    ''' describes and gives structure to a single tweet '''
+    def __init__(self, tweet_hashtag, tweet_id, tweet_screen_name, tweet_text, tweet_created_at, tweet_profile_image_url):
+        self.tweet_hashtag = tweet_hashtag
+        self.tweet_id = tweet_id
+        self.tweet_screen_name = tweet_screen_name
+        self.tweet_text = tweet_text
+        self.tweet_created_at = tweet_created_at
+        self.tweet_profile_image_url = tweet_profile_image_url
+
 def create_list_of_fire_hashtags():
     ''' pull the list of twitter hashtags from the database '''
     list_of_hashtags = []
-    query_for_hashtags = CalWildfire.objects.values_list('twitter_hashtag', flat=True)
+    query_for_hashtags = CalWildfire.objects.values_list('twitter_hashtag', flat=True).order_by('-date_time_started', 'fire_name')[0:20]
     for hashtag in query_for_hashtags:
         list_of_hashtags.append(hashtag)
     search_tweepy_for_hashtags(list_of_hashtags)
@@ -32,36 +42,31 @@ def search_tweepy_for_hashtags(list_of_hashtags):
     auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
     auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth1)
-    list_of_result_dicts = []
+    container_of_tweets = []
     for hashtag in list_of_hashtags:
-        try:
-            result_list = api.search(hashtag)
-        except:
-            result_list = None
-        if result_list is not None:
-            dict = {}
-            dict['hashtag_key'] = hashtag
-            dict['result_key'] = result_list
-            list_of_result_dicts.append(dict)
-        else:
-            pass
-    WildfireTweet.objects.all().delete()
-    save_tweepy_results_to_db(list_of_result_dicts)
 
-def save_tweepy_results_to_db(list_of_result_dicts):
-    for items in list_of_result_dicts:
-        for result in items['result_key']:
-            try:
-                obj, created = WildfireTweet.objects.get_or_create(
-                    tweet_id = result.id,
-                        defaults={
-                            'tweet_hashtag': items['hashtag_key'],
-                            'tweet_id': result.id,
-                            'tweet_screen_name': result.user.screen_name,
-                            'tweet_text': smart_unicode(result.text),
-                            'tweet_created_at': result.created_at.replace(tzinfo=utc),
-                            'tweet_profile_image_url': result.user.profile_image_url,
-                        }
-                    )
-            except:
-                pass
+        logging.debug(hashtag)
+
+        for tweet in tweepy.Cursor(api.search, q=hashtag, count=20, result_type='recent', lang='en').items():
+            this_single_tweet = a_single_tweet(hashtag, tweet.id, tweet.user.screen_name, tweet.text, tweet.created_at, tweet.user.profile_image_url)
+            container_of_tweets.append(this_single_tweet)
+        write_tweets_to_database(container_of_tweets)
+
+def write_tweets_to_database(container_of_tweets):
+    ''' connects to database and writes tweet instance '''
+    for tweet in container_of_tweets:
+        try:
+            obj, created = WildfireTweet.objects.get_or_create(
+                tweet_id = tweet.tweet_id,
+                defaults={
+                    'tweet_hashtag': tweet.tweet_hashtag,
+                    'tweet_id': tweet.tweet_id,
+                    'tweet_screen_name': tweet.tweet_screen_name.encode('ascii', 'ignore'),
+                    'tweet_text': tweet.tweet_text.encode('ascii', 'ignore'),
+                    'tweet_created_at': tweet.tweet_created_at,
+                    'tweet_profile_image_url': tweet.tweet_profile_image_url,
+                }
+            )
+        except Exception, err:
+            logging.debug('ERROR: %s\n' % str(err))
+            return 1
