@@ -69,7 +69,7 @@ def write_tweets_to_database(container_of_tweets):
                     'tweet_id': tweet.tweet_id,
                     'tweet_screen_name': tweet.tweet_screen_name.encode('ascii', 'ignore'),
                     'tweet_text': tweet.tweet_text.encode('ascii', 'ignore'),
-                    'tweet_created_at': tweet.tweet_created_at,
+                    'tweet_created_at': tweet.tweet_created_at.replace(tzinfo=utc),
                     'tweet_profile_image_url': tweet.tweet_profile_image_url,
                 }
             )
