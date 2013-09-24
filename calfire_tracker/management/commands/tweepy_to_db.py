@@ -46,7 +46,7 @@ def search_tweepy_for_hashtags(list_of_hashtags):
     delete_older_tweets_from_database()
     for hashtag in list_of_hashtags:
         logging.debug(hashtag)
-        for tweet in tweepy.Cursor(api.search, q=hashtag, count=20, result_type='recent', lang='en').items():
+        for tweet in tweepy.Cursor(api.search, q=hashtag, count=15, result_type='recent', lang='en').items():
             this_single_tweet = a_single_tweet(hashtag, tweet.id, tweet.user.screen_name, tweet.text, tweet.created_at, tweet.user.profile_image_url)
             container_of_tweets.append(this_single_tweet)
         write_tweets_to_database(container_of_tweets)
