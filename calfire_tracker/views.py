@@ -54,8 +54,8 @@ def index(request):
 def detail(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:15]
-    wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')[0:15]
-    result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')
+    wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
+    result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
 
     cache_expire = (60*60*24)
 
