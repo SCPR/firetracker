@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
-from calfire_tracker.models import CalWildfire
+from django.conf import settings
+from calfire_tracker.models import *
 import csv, time, datetime, logging, re, types
 from datetime import tzinfo
 import pytz
@@ -13,18 +14,90 @@ from scraper_configs import V2Scraper
 
 logging.basicConfig(level=logging.DEBUG)
 
-def test_management_command():
-    obj, created = CalWildfire.objects.get_or_create(
-        created_fire_id = '111_fire',
-        defaults={
-            'fire_name': '111 fire',
-        }
-    )
-
 class Command(BaseCommand):
     help = 'looping through dict for numbers'
     def handle(self, *args, **options):
-        test_management_command()
+        replace_time_zone_info()
+
+def replace_time_zone_info():
+    query_for_tweets = WildfireTweet.objects.all()
+    LOCAL_TIMEZONE = pytz.timezone('US/Pacific')
+    startdatetime = LOCAL_TIMEZONE.localize(datetime.datetime.now())
+    logging.debug(startdatetime.tzinfo)
+    for tweet in query_for_tweets:
+        if tweet.tweet_created_at > startdatetime:
+            tweet.delete()
+        else:
+            pass
+
+''' learning how the date come back with time zone info '''
+
+date_time_parse = 'July 18, 2013 9:45 am'
+
+def convert_time_to_nicey_format(date_time_parse):
+    ''' work crazy datetime magic that might be working '''
+    ''' based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est '''
+    utc = timezone('UTC')
+    pacific = pytz.timezone('US/Pacific')
+
+    # check the date being pulled
+    logging.debug(date_time_parse)
+
+    # parse the date to datetime.datetime
+    date_time_parse = parser.parse(date_time_parse)
+    logging.debug(date_time_parse)
+
+    # register it as pacific time zone
+    pacificizd_date_time_parse = pacific.localize(date_time_parse)
+    logging.debug(pacificizd_date_time_parse)
+    logging.debug('%s - %s' % (pacificizd_date_time_parse.strftime("%A, %d, %B %Y %I:%M%p"), pacificizd_date_time_parse.tzinfo))
+
+    #logging.debug(date_time_parse.tzinfo)
+    #logging.debug('%s %s' % (utc_izd_datetime.strftime("%A, %d. %B %Y %I:%M%p"), utc_izd_datetime.tzinfo))
+    #logging.debug('%s %s' % (pacific_izd_datetime.strftime("%A, %d. %B %Y %I:%M%p"), pacific_izd_datetime.tzinfo))
+
+    #date_time_object = datetime.datetime(2013, 7, 18, 9, 45)
+    #logging.debug(date_time_object.strftime("%A, %d. %B %Y %I:%M%p"))
+
+    #target_datetime = utc.localize(parser.parse(date_to_parse))
+    #target_datetime = utc_datetime.astimezone(pacific)
+
+    #los_angeles = pytz.timezone('US/Pacific')
+    #target_datetime = los_angeles.localize(parser.parse(date_to_parse))
+
+    return pacificizd_date_time_parse
+
+def evaluate_for_initial_digit(string_to_match):
+    ''' runs regex on string to see it begins with a digit '''
+    initial_digit_check = re.compile('^\d+')
+    match = re.search(initial_digit_check, string_to_match)
+    try:
+        if match:
+            target_number = string_to_match.replace(',', '')
+            target_figure = evaluate_for_acres_and_extract(target_number)
+        else:
+            target_figure = None
+    except:
+        target_figure = 'exception'
+    logging.debug(target_figure)
+    return target_figure
+
+def evaluate_for_acres_and_extract(string_to_match):
+    ''' runs regex on string to see it contains acreage figures, and if so extracts figure '''
+    word_to_evaluate = 'acres'
+    acres_check = re.compile(r'\d+\s\b%s\b' % (word_to_evaluate), re.I)
+    extract_number = re.compile('\d+')
+    acres_match = re.search(acres_check, string_to_match)
+    try:
+        if acres_match:
+            target_number = re.search(extract_number, string_to_match)
+            target_number = target_number.group()
+            target_number = int(target_number)
+        else:
+            target_number = None
+    except:
+        target_number = 'exception'
+    return target_number
 
 data_dict_to_scan = [
     {'estimated_containment': '406 lightning strikes, for a total of 73 confirmed fires.'},
@@ -73,87 +146,3 @@ def evaluate_for_percent_sign(dictionary_key, dictionary_value):
 
     logging.debug(message)
     return target_value
-
-''' old functions I am building off of '''
-
-def evaluate_for_initial_digit(string_to_match):
-    ''' runs regex on string to see it begins with a digit '''
-    initial_digit_check = re.compile('^\d+')
-    match = re.search(initial_digit_check, string_to_match)
-    try:
-        if match:
-            target_number = string_to_match.replace(',', '')
-            target_figure = evaluate_for_acres_and_extract(target_number)
-        else:
-            target_figure = None
-    except:
-        target_figure = 'exception'
-    logging.debug(target_figure)
-    return target_figure
-
-def evaluate_for_acres_and_extract(string_to_match):
-    ''' runs regex on string to see it contains acreage figures, and if so extracts figure '''
-    word_to_evaluate = 'acres'
-    acres_check = re.compile(r'\d+\s\b%s\b' % (word_to_evaluate), re.I)
-    extract_number = re.compile('\d+')
-    acres_match = re.search(acres_check, string_to_match)
-    try:
-        if acres_match:
-            target_number = re.search(extract_number, string_to_match)
-            target_number = target_number.group()
-            target_number = int(target_number)
-        else:
-            target_number = None
-    except:
-        target_number = 'exception'
-    return target_number
-
-class Command(BaseCommand):
-    help = 'looping through dict for numbers'
-    def handle(self, *args, **options):
-        loop_through_dict(data_dict_to_scan)
-
-
-''' learning how the date come back with time zone info '''
-
-date_time_parse = 'July 18, 2013 9:45 am'
-
-def convert_time_to_nicey_format(date_time_parse):
-    ''' work crazy datetime magic that might be working '''
-    ''' based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est '''
-    utc = timezone('UTC')
-    pacific = pytz.timezone('US/Pacific')
-
-    # check the date being pulled
-    logging.debug(date_time_parse)
-
-    # parse the date to datetime.datetime
-    date_time_parse = parser.parse(date_time_parse)
-    logging.debug(date_time_parse)
-
-    # register it as pacific time zone
-    pacificizd_date_time_parse = pacific.localize(date_time_parse)
-    logging.debug(pacificizd_date_time_parse)
-    logging.debug('%s - %s' % (pacificizd_date_time_parse.strftime("%A, %d, %B %Y %I:%M%p"), pacificizd_date_time_parse.tzinfo))
-
-    #logging.debug(date_time_parse.tzinfo)
-    #logging.debug('%s %s' % (utc_izd_datetime.strftime("%A, %d. %B %Y %I:%M%p"), utc_izd_datetime.tzinfo))
-    #logging.debug('%s %s' % (pacific_izd_datetime.strftime("%A, %d. %B %Y %I:%M%p"), pacific_izd_datetime.tzinfo))
-
-    #date_time_object = datetime.datetime(2013, 7, 18, 9, 45)
-    #logging.debug(date_time_object.strftime("%A, %d. %B %Y %I:%M%p"))
-
-    #target_datetime = utc.localize(parser.parse(date_to_parse))
-    #target_datetime = utc_datetime.astimezone(pacific)
-
-    #los_angeles = pytz.timezone('US/Pacific')
-    #target_datetime = los_angeles.localize(parser.parse(date_to_parse))
-
-    return pacificizd_date_time_parse
-
-'''
-class Command(BaseCommand):
-    help = 'tests dates'
-    def handle(self, *args, **options):
-        convert_time_to_nicey_format(date_time_parse)
-'''

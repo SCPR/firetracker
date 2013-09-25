@@ -138,7 +138,7 @@ def load_data_to_server():
             run("%s manage.py loaddata new_fires.json" % env.python_exe)
             run("%s manage.py loaddata new_tweets.json" % env.python_exe)
 
-def localfunctions():
+def local_functions():
     """
     Runs scraper for local database
     """
