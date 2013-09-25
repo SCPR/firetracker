@@ -60,7 +60,7 @@ def revert():
         collectstatic()
         restart()
 
-def scrape():
+def server_scrape():
     """
     Production function to manually run the scraper on the remote server
     """
@@ -68,21 +68,29 @@ def scrape():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
-def pull_tweets():
+def server_tweets():
     """
-    Production function to manually run the scraper on the remote server
+    Production function to manually poll twitter on the remote server
     """
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py tweepy_to_db" % env.python_exe)
 
-def dumpdata():
+def dump_server_fires():
     """
-    Production function to manually run the scraper on the remote server
+    dumps fixtures file of wildfires in the database
     """
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py dumpdata calfire_tracker.calwildfire --indent=2 > bak_fires.json" % env.python_exe)
+
+def dump_server_tweets():
+    """
+    dumps fixtures file of tweets in the database
+    """
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py dumpdata calfire_tracker.wildfiretweet --indent=2 > bak_tweets.json" % env.python_exe)
 
 # development functions
 def localrun():
@@ -91,31 +99,44 @@ def localrun():
     """
     local("python manage.py runserver")
 
-def localscrape():
+def local_scrape():
     """
-    Runs scraper for local database
+    Production function to manually run the scraper in local environment
     """
     local("python manage.py scraper_wildfires")
 
-def localload():
+def local_tweets():
     """
-    Pulls live data down to local environment and loads as fixtures
+    Production function to manually poll twitter in local environment
     """
-    dumpdata()
+    local("python manage.py scraper_wildfires")
+
+def local_load():
+    """
+    Pulls live wildfires data down to local environment and loads as fixtures
+    """
+    dump_server_fires()
     local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json .")
     local("python manage.py loaddata bak_fires.json")
+
+    dump_server_tweets()
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_tweets.json .")
+    local("python manage.py loaddata bak_tweets.json")
 
 def load_data_to_server():
     """
     Pulls data for older fires from development, uploads to server, runs management command to backup, runs runs management command to load
     """
-    dumpdata()
-    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_fires.json ~/Programming/2kpcc/django-projects/firetracker")
     local("python manage.py dumpdata calfire_tracker.calwildfire --indent=2 > new_fires.json")
+    local("python manage.py dumpdata calfire_tracker.wildfiretweet --indent=2 > new_tweets.json")
+
     local("scp ~/Programming/2kpcc/django-projects/firetracker/new_fires.json archive@media:/web/archive/apps/firetracker/firetracker")
+    local("scp ~/Programming/2kpcc/django-projects/firetracker/new_tweets.json archive@media:/web/archive/apps/firetracker/firetracker")
+
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py loaddata new_fires.json" % env.python_exe)
+            run("%s manage.py loaddata new_tweets.json" % env.python_exe)
 
 def localfunctions():
     """
