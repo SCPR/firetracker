@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from calfire_tracker.views import index, detail, embeddable, archives
+from calfire_tracker.views import index, detail, embeddable, archives, oembed
 
 urlpatterns = patterns('',
     url(
@@ -7,6 +7,11 @@ urlpatterns = patterns('',
         view    = index,
         kwargs  = {},
         name    = 'index',
+    ),
+
+    url(
+        regex   = r'^oembed/?$',
+        view    = oembed,
     ),
 
     url(
