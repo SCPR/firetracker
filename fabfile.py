@@ -93,10 +93,11 @@ def dump_server_tweets():
             run("%s manage.py dumpdata calfire_tracker.wildfiretweet --indent=2 > bak_tweets.json" % env.python_exe)
 
 # development functions
-def localrun():
+def local_run():
     """
     Runs local dev server
     """
+    local_load()
     local("python manage.py runserver")
 
 def local_scrape():
