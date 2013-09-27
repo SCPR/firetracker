@@ -51,6 +51,8 @@ STATIC_ROOT = os.path.join(SITE_ROOT, 'public', 'static')
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+SITE_URL = 'http://localhost:8000'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
 
@@ -66,7 +68,8 @@ DEBUG_TOOLBAR_CONFIG = {
 
 INTERNAL_IPS = ('127.0.0.1', )
 
-TWEEPY_CONSUMER_KEY = ''
-TWEEPY_CONSUMER_SECRET = ''
-TWEEPY_ACCESS_TOKEN = ''
-TWEEPY_ACCESS_TOKEN_SECRET = ''
+TWEEPY_CONSUMER_KEY         = ''
+TWEEPY_CONSUMER_SECRET      = ''
+TWEEPY_ACCESS_TOKEN         = ''
+TWEEPY_ACCESS_TOKEN_SECRET  = ''
+ASSETHOST_TOKEN_SECRET      = ''
