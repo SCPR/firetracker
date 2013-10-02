@@ -41,7 +41,7 @@ STATIC_ROOT = '/web/archive/apps/firetracker/firetracker/public/static/'
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/firetracker/static/'
 
-SITE_URL = 'http://projects.scpr.org/firetracker'
+SITE_URL = 'http://projects.scpr.org'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
