@@ -70,7 +70,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'calfire_tracker.middleware.XsSharing'
 )
 
 CACHE_MIDDLEWARE_ALIAS = 'default'
@@ -142,3 +143,6 @@ AUTH_PROFILE_MODULE = 'create_user.UserProfile'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+XS_SHARING_ALLOWED_ORIGINS = "*"
+XS_SHARING_ALLOWED_METHODS = "GET"
