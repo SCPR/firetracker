@@ -32,8 +32,8 @@ def index(request):
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     cache_timestamp = wildfires.all().order_by('-last_saved')
 
-    total_2013_fires = 5329
-    total_2013_acreage = 123241
+    total_2013_fires = 5611
+    total_2013_acreage = 146329
     total_2013_injuries = None
 
     total_2012_fires = 5809
