@@ -33,7 +33,7 @@ def index(request):
     cache_timestamp = wildfires.all().order_by('-last_saved')
 
     total_2013_fires = 5611
-    total_2013_acreage = 146,329
+    total_2013_acreage = 146329
     total_2013_injuries = None
 
     total_2012_fires = 5809
