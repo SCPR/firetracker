@@ -85,10 +85,11 @@
                 <figure class="foreword">
                     <div class="photo"><img src="{% static 'media/green-valley-scene.jpg' %}" alt="" /></div>
                     <figcaption>
+                        <!--
+                        <mark>Forecasters are warning of gusty, dry conditions through the weekend that will raise the danger of wildfire across Southern California. <a href="http://www.scpr.org/news/2013/10/03/39634/extreme-fire-danger-damaging-winds-expected-throug/" target="_blank">Read more</a></mark>
                         {% for lead in lead_fire %}
                         <mark>On <em>Sept. 6</em>, the <em><a href="{{ lead.get_absolute_url }}">{{ lead.fire_name }}</a></em> became the <em>3rd largest</em> wildfire in state history, burning at least <em>{{ lead.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }} acres</em>.</mark>
                         {% endfor %}
-                        <!--
                         <mark>So far during <em>{% now "Y" %}</em>, at least <em>4,715 wildfires</em> have consumed more than <em>94,855 acres</em> throughout <em>California</em>.<a href="{% url index %}about/the-data/">*</a></mark>
                         -->
                     </figcaption>
