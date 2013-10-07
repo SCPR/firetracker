@@ -2796,17 +2796,51 @@ body {
 				display: block;
 			}
 			.broadcast .pane {
+				position: relative;
 				width: 70%;
+				height: 255px;
 				margin: 23px auto 0;
 				padding: 15px 15px 20px;
 				background: white;
 				border-radius: 5px;
 				box-shadow: 0 0 10px black;
+				clear: both;
 			}
+                .pane .tab {
+                    float: left;
+                }
+                .pane .tab label {
+                    background: #eee;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    margin-left: -1px;
+                    position: relative;
+                    left: 1px;
+                }
+                .pane .tab [type=radio] {
+                    display: none;
+                }
+                .pane .tab .content {
+                    position: absolute;
+                    top: 44px;
+                    left: 0;
+                    background: white;
+                    right: 0;
+                    bottom: 0;
+                    border: 1px solid #ccc;
+                }
+                [type=radio]:checked ~ label {
+                    background: white;
+                    border-bottom: 1px solid white;
+                    z-index: 2;
+                }
+                [type=radio]:checked ~ label ~ .content {
+                    z-index: 1;
+                }
 					.broadcast p {
 						max-width: 400px;
 						text-align: center;
-						margin: 0 auto 13px;
+						margin: 15px auto 13px;
 					}
 					.broadcast textarea {
 						display: block;
