@@ -323,9 +323,24 @@
 
         <aside class="broadcast">
             <div class="pane">
-                <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
-                <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
-                <button>OK, thanks!</button>
+                <div class="tab">
+                    <input type="radio" id="tab-1" name="tab-group-1" checked>
+                    <label for="tab-1">iFrame Embed</label>
+                    <div class="content">
+                        <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" id="tab-2" name="tab-group-1">
+                    <label for="tab-2">oEmbed</label>
+                    <div class="content">
+                        <p>Access an <a href="http://oembed.com/">oEmbed</a> endpoint to embed this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea>http://projects.scpr.org/firetracker/oembed?url=http://projects.scpr.org/firetracker/rim-fire/</textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
             </div>
         </aside>
 

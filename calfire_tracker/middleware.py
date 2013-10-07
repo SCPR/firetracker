@@ -1,9 +1,9 @@
 import re
- 
+
 from django.utils.text import compress_string
 from django.utils.cache import patch_vary_headers
- 
-from django import http 
+
+from django import http
 from django.conf import settings
 
 XS_SHARING_ALLOWED_ORIGINS = settings.XS_SHARING_ALLOWED_ORIGINS
