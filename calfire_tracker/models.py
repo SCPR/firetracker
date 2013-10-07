@@ -109,10 +109,12 @@ class CalWildfire(models.Model):
             self.asset_photo_credit = None
 
     def save(self, *args, **kwargs):
-        #if not self.id:
-            #self.fire_slug = slugify(self.fire_name)
         if not self.created_fire_id:
-        	self.created_fire_id = self.created_fire_id
+        	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
+        if not self.last_updated:
+            self.last_updated = datetime.datetime.now()
+        if not self.year:
+            self.year = self.date_time_started.year
         if (self.location_latitude is None) or (self.location_longitude is None):
             self.fill_geocode_data()
         if self.asset_host_image_id:
