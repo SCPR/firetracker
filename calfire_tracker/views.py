@@ -15,7 +15,6 @@ import logging, re
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 OEMBED_AUTHOR_NAME      = "Fire Tracker, KPCC"
 OEMBED_AUTHOR_URL       = "http://www.scpr.org"
 EMBED_DEFAULT_WIDTH     = 510
@@ -92,12 +91,10 @@ def archives(request):
         'cache_expire': FIRE_MAX_CACHE_AGE,
     })
 
-@xframe_options_sameorigin
-def topTwenty(request):
-    calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-acres_burned', 'fire_name')[0:20]
-    return render_to_response('top-twenty-largest.html', {
+def largest_ca_fires(request):
+    calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-acres_burned', 'fire_name')[0:10]
+    return render_to_response('largest_ca_fires.html', {
         'calwildfires': calwildfires,
-        'cache_expire': FIRE_MAX_CACHE_AGE,
     })
 
 def oembed(request):

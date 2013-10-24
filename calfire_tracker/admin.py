@@ -71,6 +71,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'location_latitude',
                     'location_longitude',
                     'location_geocode_error',
+                    'perimeters_image',
                 ]
             }),
             ('Fire Stats', {

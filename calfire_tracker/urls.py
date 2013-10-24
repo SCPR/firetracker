@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from calfire_tracker.views import oembed, index, detail, embeddable, archives, topTwenty
+from calfire_tracker.views import oembed, index, detail, embeddable, archives, largest_ca_fires
 
 urlpatterns = patterns('',
     url(
@@ -36,10 +36,10 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = r'^wildfires/top-twenty-largest-ca-wildfires/$',
-        view    =  topTwenty,
+        regex   = r'^wildfires/largest-ca-wildfires/$',
+        view    =  largest_ca_fires,
         kwargs  = {},
-        name    = 'topTwenty',
+        name    = 'largest_ca_fires',
     ),
 
 )

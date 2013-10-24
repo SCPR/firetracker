@@ -46,6 +46,7 @@ class CalWildfire(models.Model):
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
     location_geocode_error = models.BooleanField('Needs Geocoded Location', default=True)
+    perimeters_image = models.URLField('Image Source URL', max_length=1024, null=True, blank=True)
 
     # fire stats
     injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
