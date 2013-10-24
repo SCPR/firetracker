@@ -52,6 +52,7 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="{% static 'js/modernizr-2.5.3.min.js' %}"></script>
         <script src="{% static 'js/behaviors.js' %}"></script>
+        {% block additional_scripts %}{% endblock %}
         {% block kpcc_api_query_script %}{% endblock %}
         {% block kpcc_api_query_config %}{% endblock %}
         <script src="{% static 'js/moment.min.js' %}"></script>
