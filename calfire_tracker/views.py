@@ -93,9 +93,9 @@ def archives(request):
     })
 
 @xframe_options_sameorigin
-def topTwenty(request):
+def largest_ca_fires(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-acres_burned', 'fire_name')[0:20]
-    return render_to_response('top-twenty-largest.html', {
+    return render_to_response('largest_ca_fires.html', {
         'calwildfires': calwildfires,
         'cache_expire': FIRE_MAX_CACHE_AGE,
     })
