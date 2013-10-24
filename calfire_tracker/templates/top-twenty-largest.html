@@ -61,11 +61,32 @@
                         <div class="scenes clearfix">
                             <div class="imagery clearfix">
                                 <figure class="location">
-                                    <b class="img">
-                                        <div style="width: 222px; height: 146px;" id="map-canvas"></div>
-                                    </b>
-                                    <figcaption><span>{{ featured.location }}</span></figcaption>
+
+
+
+                                    <!-- begin hooks for map or no -->
+                                    {% if featured.perimeters_image %}
+                                        <b class="img">
+                                            <a href="{{ featured.get_absolute_url }}"><img src="{{ featured.perimeters_image }}" alt="{{ wildfire.fire_name }}" /></a>
+                                        </b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% elif featured.location_latitude and featured.location_longitude %}
+                                        <b class="img">
+                                            <a href="{{ featured.get_absolute_url }}"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                                        &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></a>
+                                        </b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% else %}
+                                        <b class="location no-map"></b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% endif %}
+                                    <!-- end hooks for map or no -->
+
+
+
+
                                 </figure>
+
                                 <figure class="photo">
                                     {% if featured.asset_host_image_id %}
                                         <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{ featured.asset_url_link }}" alt="{{ featured.fire_name }}" /></a></b>
@@ -102,40 +123,4 @@
         </div><!--/ .landing-row-inner -->
     </div><!--/ .landing-row -->
     {% include "footer.html" %}
-
-
-    <script src="{% static 'js/perimeters-map-script.js' %}"></script>
-
-    <script type="text/javascript">
-        map = new L.map('map-canvas', {
-            scrollWheelZoom: false,
-            zoomControl:false
-        });
-
-        var center = new L.LatLng(32.899191,-116.795869);
-        map.setView(center, 8);
-        map.dragging.disable();
-
-        googleLayer = L.tileLayer("http://{s}.google.com/vt/?hl=en&x={x}&y={y}&z={z}&s={s}", {
-            attribution: "Map data: Copyright Google, 2013",
-            subdomains: ['mt0','mt1','mt2','mt3']
-        });
-
-        map.addLayer(googleLayer);
-
-        //var myLayer = L.geoJson().addTo(map);
-
-        L.geoJson(cedarFireJson, {
-            style: function (feature) {
-                return {
-                    color: 'black',
-                    weight: 5,
-                    fillColor: 'black',
-                    opacity: 0.5,
-                    fillOpacity: 0.5
-                }
-            },
-        }).addTo(map);
-    </script>
-
 {% endblock %}
