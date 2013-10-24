@@ -73,6 +73,7 @@ class CalWildfire(models.Model):
     training = models.TextField('Training', null=True, blank=True)
     phone_numbers = models.TextField('Phone Numbers', null=True, blank=True)
     notes = models.TextField('Notes', null=True, blank=True)
+    historical_narrative = models.TextField('Historical Narrative', null=True, blank=True)
 
     def __unicode__(self):
         return self.fire_name
