@@ -480,6 +480,12 @@ body {
 								color: white;
 								background: #787e88;
 							}
+
+							.landing-row .following .scenes .vitals p {
+								color: white;
+								margin: 10px 5px 10px 5px;
+								font-size: 14px;
+							}
 									.landing-row .following .scenes .vitals dl {
 										box-shadow: inset 1px 0 0 #606368;
 										float: left;

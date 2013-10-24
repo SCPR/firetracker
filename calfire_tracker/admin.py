@@ -43,6 +43,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'twitter_hashtag',
                     'data_source',
                     'more_info',
+                    'historical_narrative',
                     'notes',
                     'last_scraped',
                     'fire_slug',
