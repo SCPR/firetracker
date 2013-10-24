@@ -1,17 +1,17 @@
 from django.conf.urls.defaults import *
-from calfire_tracker.views import index, detail, embeddable, archives, oembed
+from calfire_tracker.views import oembed, index, detail, embeddable, archives, topTwenty
 
 urlpatterns = patterns('',
+    url(
+        regex   = r'^oembed/?$',
+        view    = oembed,
+    ),
+
     url(
         regex   = r'^$',
         view    = index,
         kwargs  = {},
         name    = 'index',
-    ),
-
-    url(
-        regex   = r'^oembed/?$',
-        view    = oembed,
     ),
 
     url(
@@ -34,4 +34,12 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'archives',
     ),
+
+    url(
+        regex   = r'^wildfires/top-twenty-largest-ca-wildfires/$',
+        view    =  topTwenty,
+        kwargs  = {},
+        name    = 'topTwenty',
+    ),
+
 )
