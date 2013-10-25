@@ -88,7 +88,11 @@
                                     <dt>Acres burned</dt>
                                     <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
-                                <p>{{ featured.historical_narrative|truncatewords:55|default_if_none:" " }}</p>
+                                {% if featured.historical_narrative %}
+                                    <p>{{ featured.historical_narrative|truncatewords:55|default_if_none:" " }}</p>
+                                {% else %}
+                                    <p>The {{ featured.fire_name }} began on {{ featured.date_time_started|date:"F d, Y" }} in {{ featured.location }} in {{ featured.county }}.</p>
+                                {% endif %}
                             </aside>
                         </div>
                     </article>
