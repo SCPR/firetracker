@@ -88,7 +88,7 @@
                                     <dt>Acres burned</dt>
                                     <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
-                                <p>{{ featured.historical_narrative|default_if_none:" " }}</p>
+                                <p>{{ featured.historical_narrative|truncatewords:55|default_if_none:" " }}</p>
                             </aside>
                         </div>
                     </article>
