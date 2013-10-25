@@ -482,9 +482,10 @@ body {
 							}
 
 							.landing-row .following .scenes .vitals p {
+                                margin: 10px 3px 10px 3px;
+								overflow: hidden;
 								color: white;
-								margin: 10px 5px 10px 5px;
-								font-size: 14px;
+								font-size: .9em;
 							}
 									.landing-row .following .scenes .vitals dl {
 										box-shadow: inset 1px 0 0 #606368;
@@ -602,6 +603,14 @@ body {
 												font-size: 1.75em; /* 28 / 16 */
 											}
 
+
+                							.landing-row .following .scenes .vitals p {
+                                                margin: 10px 3px 10px 3px;
+                								overflow: hidden;
+                								color: white;
+                								font-size: .8em;
+                							}
+
 									    }
 
 
@@ -681,6 +690,7 @@ body {
 
 									    }
 
+
 									/*	=================================================================================== */
 
 
@@ -741,6 +751,13 @@ body {
 									/*	=================================================================================== */
 									    @media screen and (max-width: 700px) {
 
+                							.landing-row .following .scenes .vitals p {
+                								overflow: hidden;
+                								color: white;
+                								margin: 25px 3px 10px 3px;
+                								font-size: 1em;
+                							}
+
 											.landing-row .following .scenes .vitals dd {
 												font-size: 1.5em;
 												top: 48px;
@@ -751,8 +768,19 @@ body {
 									/*	=================================================================================== */
 
 
+									/*	=================================================================================== */
+									    @media screen and (max-width: 530px) {
 
+                							.landing-row .following .scenes .vitals p {
+                								overflow: hidden;
+                								color: white;
+                								margin: 25px 3px 10px 3px;
+                								font-size: .8em;
+                							}
 
+									    }
+
+									/*	=================================================================================== */
 
 
 /*	#################################################################

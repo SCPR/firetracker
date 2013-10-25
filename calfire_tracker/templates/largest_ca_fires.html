@@ -5,29 +5,23 @@
 {% load static %}
 
 <!-- begin meta -->
-{% block title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
-{% block description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
+{% block title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
 {% block keywords %}wildfire data, historic, archives, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
-{% block og_title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block og_title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
 {% block og_type %}website{% endblock %}
 {% block og_url %}http://projects.scpr.org/firetracker/wildfires/archives/{% endblock %}
-{% block og_description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
+{% block og_description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
 {% block twitter_url %}http://projects.scpr.org/firetracker/wildfires/archives/{% endblock %}
-{% block twitter_title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
-{% block twitter_description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
+{% block twitter_title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block twitter_description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
 <!-- end meta -->
 
 {% block css_overrides %}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.6.4/leaflet.min.css" media="all" rel="stylesheet" type="text/css" />
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.6.4/leaflet.ie.min.css" />
-    <![endif]-->
 {% endblock %}
 
 {% block additional_scripts %}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.6.4/leaflet.js" type="text/javascript"></script>
-    <script src="{% static 'data/cedar-fire.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block extended_page_header %}
@@ -60,9 +54,6 @@
                         </header>
                         <div class="scenes clearfix">
                             <div class="imagery clearfix">
-
-
-
                                 <figure class="location">
                                     <!-- begin hooks for map or no -->
                                     {% if featured.perimeters_image %}
@@ -72,7 +63,7 @@
                                         <figcaption><span>{{ featured.location }}</span></figcaption>
                                     {% elif featured.location_latitude and featured.location_longitude %}
                                         <b class="img">
-                                            <a href="{{ featured.get_absolute_url }}"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=9&amp;size=222x146&amp;maptype=roadmap
+                                            <a href="{{ featured.get_absolute_url }}"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=7&amp;size=222x146&amp;maptype=roadmap
                                                         &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></a>
                                         </b>
                                         <figcaption><span>{{ featured.location }}</span></figcaption>
@@ -82,9 +73,6 @@
                                     {% endif %}
                                     <!-- end hooks for map or no -->
                                 </figure>
-
-
-
                                 <figure class="photo">
                                     {% if featured.asset_host_image_id %}
                                         <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{ featured.asset_url_link }}" alt="{{ featured.fire_name }}" /></a></b>
@@ -100,7 +88,7 @@
                                     <dt>Acres burned</dt>
                                     <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                 </dl>
-                                <p>{{ featured.historical_narrative|default_if_none:" " }}</p>
+                                <p>{{ featured.historical_narrative|truncatewords:55|default_if_none:" " }}</p>
                             </aside>
                         </div>
                     </article>
