@@ -19,6 +19,12 @@
 {% block twitter_description %}Fire Tracker, KPCC's tool for following & researching California wildfires, contains fire information displayed by the California Department of Forestry and Fire Protection.{% endblock %}
 <!-- end meta -->
 
+{% block css_overrides %}
+<style type="text/css">
+    .primary p {font-size: 100%; line-height: 1.2; margin: 1em 0 1em 0;}
+</style>
+{% endblock %}
+
 {% block extended_page_header %}
     <header class="masthead">
         <div class="masthead-inner bound">
