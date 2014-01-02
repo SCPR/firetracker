@@ -14,7 +14,7 @@ import random
 from kpccapi import *
 import logging, re
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 OEMBED_AUTHOR_NAME      = "Fire Tracker, KPCC"
 OEMBED_AUTHOR_URL       = "http://www.scpr.org"
@@ -98,6 +98,13 @@ def archives(request):
         'calwildfires': calwildfires,
         'cache_expire': FIRE_MAX_CACHE_AGE,
     })
+
+
+
+
+
+
+
 
 def largest_ca_fires(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-acres_burned', 'fire_name')[0:10]
