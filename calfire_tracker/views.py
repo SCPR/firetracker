@@ -91,20 +91,20 @@ def embeddable(request, fire_slug):
 
 @xframe_options_sameorigin
 def archives(request):
-    current_year = date.today().year
-    calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
 
+    # get unique values for years that are in the database
+    #list_of_wildfire_years = CalWildfire.objects.values('year').distinct().order_by('-year')
+    #for year in list_of_wildfire_years:
+        #year['queryset'] = CalWildfire.objects.filter(date_time_started__year=year['year']).order_by('-date_time_started', 'fire_name')
+    #for fire in list_of_wildfire_years:
+        #logging.debug(fire)
+
+    # pulls rev chron of all the fires in the database
+    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
         'cache_expire': FIRE_MAX_CACHE_AGE,
     })
-
-
-
-
-
-
-
 
 def largest_ca_fires(request):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-acres_burned', 'fire_name')[0:10]
