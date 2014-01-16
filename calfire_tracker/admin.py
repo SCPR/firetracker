@@ -64,7 +64,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
             ('Location Information', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
                     'location',
                     'computed_location',
@@ -75,7 +75,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
             ('Fire Stats', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
                     'injuries',
                     'evacuations',
@@ -84,7 +84,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
             ('Resources Deployed', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
                     'total_dozers',
                     'total_helicopters',
@@ -96,7 +96,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
             ('Situation On The Ground', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
                     'cause',
                     'cooperating_agencies',
@@ -110,7 +110,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 ]
             }),
             ('Image Resources', {
-                'classes': ('collapse', 'wide', 'extrapretty',),
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
                     'asset_url_link',
                     'asset_photo_credit',
