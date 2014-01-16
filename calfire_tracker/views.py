@@ -14,7 +14,7 @@ import random
 from kpccapi import *
 import logging, re
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 OEMBED_AUTHOR_NAME      = "Fire Tracker, KPCC"
 OEMBED_AUTHOR_URL       = "http://www.scpr.org"
@@ -32,8 +32,12 @@ def index(request):
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     cache_timestamp = wildfires.all().order_by('-last_saved')
 
-    total_2013_fires = 7009
-    total_2013_acreage = 120207
+    total_2014_fires = 150
+    total_2014_acreage = 600
+    total_2014_injuries = None
+
+    total_2013_fires = 7175
+    total_2013_acreage = 120240
     total_2013_injuries = None
 
     total_2012_fires = 5809
@@ -87,9 +91,16 @@ def embeddable(request, fire_slug):
 
 @xframe_options_sameorigin
 def archives(request):
-    current_year = date.today().year
-    calwildfires = CalWildfire.objects.filter(date_time_started__year=current_year).order_by('-date_time_started', 'fire_name')
 
+    # get unique values for years that are in the database
+    #list_of_wildfire_years = CalWildfire.objects.values('year').distinct().order_by('-year')
+    #for year in list_of_wildfire_years:
+        #year['queryset'] = CalWildfire.objects.filter(date_time_started__year=year['year']).order_by('-date_time_started', 'fire_name')
+    #for fire in list_of_wildfire_years:
+        #logging.debug(fire)
+
+    # pulls rev chron of all the fires in the database
+    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
     return render_to_response('archives.html', {
         'calwildfires': calwildfires,
         'cache_expire': FIRE_MAX_CACHE_AGE,
