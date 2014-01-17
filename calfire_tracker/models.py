@@ -113,6 +113,8 @@ class CalWildfire(models.Model):
     def save(self, *args, **kwargs):
         if not self.created_fire_id:
         	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
+        if not self.county_slug:
+        	self.county_slug = self.county.replace(' ', '-').lower()
         if not self.twitter_hashtag:
         	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
         self.last_updated = datetime.datetime.now()
