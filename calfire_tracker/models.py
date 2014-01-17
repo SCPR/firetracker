@@ -111,13 +111,19 @@ class CalWildfire(models.Model):
             self.asset_photo_credit = None
 
     def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.now()
         if not self.created_fire_id:
         	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
         if not self.county_slug:
-        	self.county_slug = self.county.replace(' ', '-').lower()
+            try:
+                self.county_slug = self.county.replace(' ', '-').lower()
+            except:
+                pass
         if not self.twitter_hashtag:
-        	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
-        self.last_updated = datetime.datetime.now()
+            try:
+            	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
+            except:
+                pass
         if not self.year:
             try:
                 self.year = self.date_time_started.year

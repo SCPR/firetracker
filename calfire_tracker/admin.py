@@ -56,15 +56,20 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'notes',
                 ]
             }),
-            ('General Details', {
+            ('Fire Stats', {
+                'classes': ('wide', 'extrapretty',),
                 'fields': [
+                    'injuries',
+                    'evacuations',
+                    'structures_threatened',
+                    'structures_destroyed',
                     'administrative_unit',
                     'data_source',
                     'more_info',
                 ]
             }),
             ('Location Information', {
-                'classes': ('wide', 'extrapretty',),
+                'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
                     'location',
                     'computed_location',
@@ -74,13 +79,11 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'perimeters_image',
                 ]
             }),
-            ('Fire Stats', {
-                'classes': ('wide', 'extrapretty',),
+            ('Image Resources', {
+                'classes': ('collapse', 'wide', 'extrapretty',),
                 'fields': [
-                    'injuries',
-                    'evacuations',
-                    'structures_threatened',
-                    'structures_destroyed',
+                    'asset_url_link',
+                    'asset_photo_credit',
                 ]
             }),
             ('Resources Deployed', {
@@ -107,13 +110,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'damage_assessment',
                     'training',
                     'phone_numbers',
-                ]
-            }),
-            ('Image Resources', {
-                'classes': ('wide', 'extrapretty',),
-                'fields': [
-                    'asset_url_link',
-                    'asset_photo_credit',
                 ]
             })
         ]
