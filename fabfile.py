@@ -97,7 +97,6 @@ def local_run():
     """
     Runs local dev server
     """
-    local_load()
     local("python manage.py runserver")
 
 def local_scrape():
