@@ -39,28 +39,28 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'update_lockout',
                     'promoted_fire',
                     'asset_host_image_id',
-                    'air_quality_rating',
-                    'twitter_hashtag',
-                    'data_source',
-                    'more_info',
-                    'historical_narrative',
-                    'notes',
-                    'last_scraped',
-                    'fire_slug',
-                    'county_slug',
-                    'year',
-                    'created_fire_id',
-                ]
-            }),
-            ('General Details', {
-                'fields': [
                     'fire_name',
                     'county',
                     'acres_burned',
                     'containment_percent',
                     'date_time_started',
+                    'twitter_hashtag',
+                    'air_quality_rating',
+                    'year',
+                    'fire_slug',
+                    'county_slug',
+                    'created_fire_id',
                     'last_updated',
+                    'last_scraped',
+                    'historical_narrative',
+                    'notes',
+                ]
+            }),
+            ('General Details', {
+                'fields': [
                     'administrative_unit',
+                    'data_source',
+                    'more_info',
                 ]
             }),
             ('Location Information', {
