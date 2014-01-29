@@ -147,10 +147,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
             queryset.update(update_lockout = False)
         unlock_fire_data.short_description = "Allow Auto Updates"
 
-        #def query_for_air_quality(self, request, queryset):
-            #queryset.update(update_lockout = False)
-        #query_for_air_quality.short_description = "Update Air Quality"
-
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(CalWildfire, CalWildfireAdmin)
