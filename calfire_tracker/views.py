@@ -30,7 +30,9 @@ def index(request):
     calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     cache_timestamp = wildfires.all().order_by('-last_saved')
-    year_over_year_comparison = WildfireAnnualReview.objects.filter(Q(year=2014) | Q(year=2013))
+    current_year = date.today().year
+    last_year = date.today().year-1
+    year_over_year_comparison = WildfireAnnualReview.objects.filter(Q(year=current_year) | Q(year=last_year))
 
     display_content = ['On the anniversary of the Cedar Fire in San Diego County we look back at the 10 largest wildfires in the state\'s history. <a href="http://projects.scpr.org/firetracker/wildfires/largest-ca-wildfires/" target="_blank"><strong>View the list</strong></a>', 'Learn the terms used by those fighting wildland fires. <a href="http://projects.scpr.org/firetracker/resources/wildland-firefighting-terms/" target="_blank"><strong>Read More</strong></a>', 'How should you care for and protect your pets during a fire? <a href="http://www.humanesociety.org/issues/animal_rescue/tips/pets-disaster.html" target="_blank"><strong>Read More</strong></a>', '2003 wildfires: Memories linger, firefighting techniques evolve after the largest fire in California history. <a href="http://www.scpr.org/news/2013/10/25/39939/2003-wildfires-10-years-after-the-largest-fire-in/" target="_blank"><strong>Read More</strong></a>']
 
