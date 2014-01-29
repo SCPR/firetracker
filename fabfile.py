@@ -137,9 +137,3 @@ def load_data_to_server():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py loaddata new_fires.json" % env.python_exe)
             run("%s manage.py loaddata new_tweets.json" % env.python_exe)
-
-def local_functions():
-    """
-    Runs scraper for local database
-    """
-    local("python manage.py functions_playground")
