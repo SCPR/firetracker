@@ -6,9 +6,12 @@ from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz
 import time, datetime, requests, urllib, logging
+from datetime import datetime
 import simplejson as json
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+
+default_datetime_value = datetime.now()
 
 class CalWildfire(models.Model):
 
@@ -184,8 +187,8 @@ class WildfireTweet(models.Model):
 
 class WildfireAnnualReview(models.Model):
     year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
-    date_range_beginning = models.DateTimeField('Beginning Date Range', null=True, blank=True)
-    date_range_end = models.DateTimeField('Ending Date Range', null=True, blank=True)
+    date_range_beginning = models.DateTimeField('Beginning Date Range', null=False)
+    date_range_end = models.DateTimeField('Ending Date Range', null=False)
     acres_burned = models.IntegerField('Acres Burned', max_length=8, null=True, blank=True)
     number_of_fires = models.IntegerField('Number of Fires', max_length=10, null=True, blank=True)
     dollar_damage = models.DecimalField('Dollar Damage', max_digits=15, decimal_places=2, null=True, blank=True)
