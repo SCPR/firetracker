@@ -166,3 +166,9 @@ def custom_404(request):
     return render_to_response('404.html', {
         'calwildfires': calwildfires,
     })
+
+def custom_500(request):
+    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
+    return render_to_response('500.html', {
+        'calwildfires': calwildfires,
+    })
