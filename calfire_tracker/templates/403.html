@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load tz %}
+{% load tracker_tags %}
+{% load static %}
+
+<!-- begin meta -->
+{% block title %}403: Forbidden | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+{% block keywords %}KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}Fire Tracker | 89.3 KPCC{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_url %}http://projects.scpr.org/firetracker{% endblock %}
+{% block og_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+{% block twitter_url %}http://projects.scpr.org/firetracker{% endblock %}
+{% block twitter_title %}Fire Tracker | 89.3 KPCC{% endblock %}
+{% block twitter_description %}89.3 KPCC's Fire Tracker is a tool for following and researching California wildfires.{% endblock %}
+<!-- end meta -->
+
+{% block extended_page_header %}
+    <header class="masthead">
+        <div class="masthead-inner bound">
+            <div class="brief">
+                <h1>403: Forbidden</h1>
+            </div>
+            <aside class="brand">
+                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
+                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
+            </aside>
+        </div><!--/ .masthead-inner -->
+    </header><!--/ .masthead -->
+{% endblock %}
+
+{% block extended_page_content %}
+    <div class="page-cols page-cols-archive bound">
+        <section class="all-fires clearfix">
+        <h1>Sorry, you don't have permission to access this page. You might try starting over at <a href="{% url index %}">Fire Tracker's home page</a> or viewing one of the fires below.</h1>
+        {% for wildfire in calwildfires|rows:3 %}
+            {% for item in wildfire %}
+                <article>
+                    <div>
+                        <h1><a href="{{ item.get_absolute_url }}">{{ item|truncatewords:2 }}</a></h1>
+                        <ul>
+                            <li class="date">{{ item.date_time_started|date:"M j, Y" }}</li>
+                            <li class="location">{{ item.county }}</li>
+                            <li class="acreage">{{ item.acres_burned|default_if_none:"n/a"|intcomma }} acres</li>
+                            <li class="contained">{{ item.containment_percent|percentify }} contained</li>
+                        </ul>
+                    </div>
+                    {% if item.asset_host_image_id %}
+                        <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ item.asset_url_link }}" alt="{{ item.fire_name }}" /></a></b>
+                    {% else %}
+                        <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ item.fire_name }}" /></a></b>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        {% endfor %}
+        </section><!--/ .all-fires -->
+    </div><!--/ .page-cols -->
+{% endblock %}
