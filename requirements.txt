@@ -12,8 +12,6 @@ dateutils==0.6.6
 distribute==0.6.31
 dj-database-url==0.2.1
 django-admin-bootstrapped==0.3.2
-django-csvimport==0.9
-django-data-exports==0.3
 django-debug-toolbar==0.9.4
 django-inspect-model==0.4
 django-mass-edit==1.2
