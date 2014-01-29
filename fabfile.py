@@ -109,7 +109,7 @@ def local_tweets():
     """
     Production function to manually poll twitter in local environment
     """
-    local("python manage.py scraper_wildfires")
+    local("python manage.py tweepy_to_db")
 
 def local_load():
     """
