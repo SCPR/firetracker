@@ -184,8 +184,8 @@ class WildfireTweet(models.Model):
 
 class WildfireAnnualReview(models.Model):
     year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
-    date_range_beginning = models.DateTimeField('Last Saved', auto_now=True)
-    date_range_end = models.DateTimeField('Last Saved', auto_now=True)
+    date_range_beginning = models.DateTimeField('Beginning Date Range', null=True, blank=True)
+    date_range_end = models.DateTimeField('Ending Date Range', null=True, blank=True)
     acres_burned = models.IntegerField('Acres Burned', max_length=8, null=True, blank=True)
     number_of_fires = models.IntegerField('Number of Fires', max_length=10, null=True, blank=True)
     dollar_damage = models.DecimalField('Dollar Damage', max_digits=15, decimal_places=2, null=True, blank=True)
@@ -197,7 +197,7 @@ class WildfireAnnualReview(models.Model):
     last_saved = models.DateTimeField('Last Saved', auto_now=True)
 
     def __unicode__(self):
-        return self.year
+        return self.jurisdiction
 
     def save(self, *args, **kwargs):
         if not self.id:

@@ -1,4 +1,4 @@
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
 from django.contrib import admin
 from django.utils.timezone import utc, localtime
 import time, datetime, logging, requests
@@ -7,6 +7,12 @@ import pytz
 from pytz import timezone
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+
+class WildfireAnnualReviewAdmin(admin.ModelAdmin):
+	list_display = ('year', 'acres_burned', 'number_of_fires', 'last_saved')
+        list_per_page = 10
+        search_fields = ['tweet_text']
+    	list_filter = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
 
 class WildfireTweetAdmin(admin.ModelAdmin):
 	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
@@ -147,6 +153,8 @@ class CalWildfireAdmin(admin.ModelAdmin):
             queryset.update(update_lockout = False)
         unlock_fire_data.short_description = "Allow Auto Updates"
 
+
+admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(CalWildfire, CalWildfireAdmin)
