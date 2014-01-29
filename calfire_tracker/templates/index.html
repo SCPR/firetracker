@@ -103,6 +103,12 @@
                     </figcaption>
                 </figure><!--/ .foreward -->
 
+
+
+
+
+
+
                 <aside class="comparison">
                     <header>
                         <h1>Year-Over-Year Comparison</h1>
@@ -118,20 +124,23 @@
                         <thead>
                             <tr>
                                 <th>Attribute</th>
-                                <th><span>2013</span></th>
-                                <th><span>{% now "Y" %}**</span></th>
+                                {% for year in year_over_year_comparison %}
+                                    <th><span>{{ year.year }}</span></th>
+                                {% endfor %}
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>Fires</th>
-                                <td>{{ total_2013_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2014_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.number_of_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             <tr>
                                 <th>Acres</th>
-                                <td>{{ total_2013_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2014_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             <!--
                             <tr>
@@ -150,6 +159,15 @@
                     <h2 class="disclaimer"><a href="{% url index %}about/the-data/">* Read more about the data and methodology.</a></h2>
                     <h2 class="disclaimer"><a href="{% url index %}about/the-data/">** Current as of Jan. 2 2014.</a></h2>
                 </aside>
+
+
+
+
+
+
+
+
+
             </div><!--/ .lobby-inner -->
         </div><!--/ .lobby -->
         <div class="landing-row welcome">
