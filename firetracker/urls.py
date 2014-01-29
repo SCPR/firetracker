@@ -31,12 +31,6 @@ urlpatterns = patterns('',
 	# tastypie API
 	url(r'^api/', include(v1_api.urls)),
 
-	# csv importer
-    url(r'^import/', include('csvimporter.urls')),
-
-    # data_exports
-    url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
-
     # url pattern to kick root to index of firetracker application
     url(r'', include('calfire_tracker.urls')),
 )
