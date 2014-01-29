@@ -5,12 +5,10 @@ from django.utils import timezone
 from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz
-import time, datetime
+import time, datetime, requests, urllib, logging
 import simplejson as json
-import urllib
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 class CalWildfire(models.Model):
 
@@ -95,6 +93,15 @@ class CalWildfire(models.Model):
             except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
                 self.location_geocode_error = True
 
+    def fill_air_quality_data(self):
+        if (self.location_latitude is None) or (self.location_longitude is None):
+            pass
+        else:
+            air_quality_url = 'http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=%s&longitude=%s&distance=15&API_KEY=AABE5F75-6C5A-47C2-AB74-2D138C9055B2' % (self.location_latitude, self.location_longitude)
+            air_quality_query = requests.get(air_quality_url, headers= {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
+            air_quality_json = air_quality_query.json()
+            self.air_quality_rating = air_quality_json[0]['AQI']
+
     def search_assethost_for_image(self, kpcc_image_token):
         url_prefix = 'http://a.scpr.org/api/assets/'
         url_suffix = '.json?auth_token='
@@ -136,6 +143,8 @@ class CalWildfire(models.Model):
         if not self.asset_host_image_id:
             self.asset_url_link = None
             self.asset_photo_credit = None
+        if not self.air_quality_rating:
+            self.fill_air_quality_data()
         super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):

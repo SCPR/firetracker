@@ -1,10 +1,12 @@
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
 from django.contrib import admin
 from django.utils.timezone import utc, localtime
-import time, datetime, logging
+import time, datetime, logging, requests
 from datetime import tzinfo
 import pytz
 from pytz import timezone
+
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 class WildfireTweetAdmin(admin.ModelAdmin):
 	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
