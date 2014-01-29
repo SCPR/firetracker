@@ -102,22 +102,17 @@
                         -->
                     </figcaption>
                 </figure><!--/ .foreward -->
-
-
-
-
-
-
-
                 <aside class="comparison">
                     <header>
                         <h1>Year-Over-Year Comparison</h1>
                         <ul>
-                            <!--
-                            <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2012"><span>2012:</span> Based on CalFire archived data</a>.</li>
-                            -->
-                            <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2013"><span>2013:</span> Based on CalFire data through Dec. 28, 2013</a>.</li>
-                            <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2014"><span>2014:</span> Based on CalFire data through Jan. 25, 2014</a>.</li>
+                            {% for year in year_over_year_comparison %}
+                                {% if year.year == 2013 %}
+                                    <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2013"><span>{{ year.year }}:</span> Based on {{ year.administrative_unit }} data through {{ year.date_range_end|date:"M d, Y" }}</a>.</li>
+                                {% elif year.year == 2014 %}
+                                    <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2014"><span>{{ year.year }}:</span> Based on {{ year.administrative_unit }} data through {{ year.date_range_end|date:"M d, Y" }}</a>.</li>
+                                {% endif %}
+                            {% endfor %}
                         </ul>
                     </header>
                     <table>
@@ -145,13 +140,15 @@
                             <!--
                             <tr>
                                 <th>Injuries</th>
-                                <td>{{ total_2013_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2014_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             <tr>
                                 <th>Cost</th>
-                                <td><span></span></td>
-                                <td><span></span></td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.dollar_damage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             -->
                         </tbody>
