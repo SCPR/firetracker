@@ -105,7 +105,7 @@ class CalWildfire(models.Model):
                 air_quality_json = air_quality_query.json()
                 self.air_quality_rating = air_quality_json[0]['AQI']
             except:
-                self.air_quality_rating = 0
+                self.air_quality_rating = None
 
     def search_assethost_for_image(self, kpcc_image_token):
         url_prefix = 'http://a.scpr.org/api/assets/'
