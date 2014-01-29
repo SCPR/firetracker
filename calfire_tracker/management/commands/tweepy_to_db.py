@@ -31,7 +31,7 @@ def create_list_of_hashtags():
     ''' pull a queryset of 30 latest twitter hashtags from the database '''
     hashtag_queryset = CalWildfire.objects.values_list('twitter_hashtag', flat=True).order_by('-date_time_started', 'fire_name')[0:30]
     hashtag_list = list(hashtag_queryset)
-    delete_older_tweets_from_database(25)
+    delete_older_tweets_from_database(10)
     for hashtag in hashtag_list:
         tweepy_search_for(hashtag)
 
@@ -45,8 +45,7 @@ def tweepy_search_for(hashtag):
         api.search,
         q=hashtag,
         result_type='recent',
-        lang='en').items(20):
-
+        lang='en').items(15):
         this_single_tweet = a_single_tweet(hashtag, tweet.id, tweet.user.screen_name, tweet.text, tweet.created_at.replace(tzinfo=pytz.UTC), tweet.user.profile_image_url)
         write_to_database(this_single_tweet)
 
