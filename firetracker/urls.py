@@ -17,6 +17,8 @@ admin.autodiscover()
 v1_api = Api(api_name='v1')
 v1_api.register(CalWildfireResource())
 
+handler404 = 'calfire_tracker.views.custom_404'
+
 urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below to enable admin documentation:
