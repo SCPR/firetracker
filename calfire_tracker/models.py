@@ -6,9 +6,12 @@ from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz
 import time, datetime, requests, urllib, logging
+from datetime import datetime
 import simplejson as json
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+
+default_datetime_value = datetime.now()
 
 class CalWildfire(models.Model):
 
@@ -181,3 +184,26 @@ class WildfireTweet(models.Model):
         if not self.tweet_id:
         	self.tweet_id = self.tweet_id
         super(WildfireTweet, self).save()
+
+class WildfireAnnualReview(models.Model):
+    year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
+    date_range_beginning = models.DateTimeField('Beginning Date Range', null=False)
+    date_range_end = models.DateTimeField('Ending Date Range', null=False)
+    acres_burned = models.IntegerField('Acres Burned', max_length=8, null=True, blank=True)
+    number_of_fires = models.IntegerField('Number of Fires', max_length=10, null=True, blank=True)
+    dollar_damage = models.DecimalField('Dollar Damage', max_digits=15, decimal_places=2, null=True, blank=True)
+    injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
+    structures_threatened = models.CharField('Reported Structures Threatened', max_length=1024, null=True, blank=True)
+    structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
+    administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
+    jurisdiction = models.CharField('Jurisdiction', max_length=1024, null=True, blank=True)
+    data_source = models.URLField('URL to data source', max_length=1024, null=True, blank=True)
+    last_saved = models.DateTimeField('Last Saved', auto_now=True)
+
+    def __unicode__(self):
+        return self.jurisdiction
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.last_saved = datetime.datetime.now()
+        super(WildfireAnnualReview, self).save()

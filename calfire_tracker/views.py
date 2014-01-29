@@ -7,7 +7,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
 from django.conf import settings
 from dateutil import parser
 import random
@@ -27,22 +27,14 @@ FIRE_MAX_CACHE_AGE = (60*60*24)
 def index(request):
 
     wildfires = CalWildfire.objects.all()
-    #lead_fire = CalWildfire.objects.filter(fire_name='Rim Fire')
     calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
     cache_timestamp = wildfires.all().order_by('-last_saved')
-
-    total_2014_fires = 406
-    total_2014_acreage = 1002
-    total_2014_injuries = None
-
-    total_2013_fires = 7175
-    total_2013_acreage = 120240
-    total_2013_injuries = None
-
-    total_2012_fires = 5809
-    total_2012_acreage = 141154
-    total_2012_injuries = None
+    current_year = date.today().year
+    last_year = date.today().year-1
+    year_over_year_comparison = WildfireAnnualReview.objects.filter(
+        Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
+    )
 
     display_content = ['On the anniversary of the Cedar Fire in San Diego County we look back at the 10 largest wildfires in the state\'s history. <a href="http://projects.scpr.org/firetracker/wildfires/largest-ca-wildfires/" target="_blank"><strong>View the list</strong></a>', 'Learn the terms used by those fighting wildland fires. <a href="http://projects.scpr.org/firetracker/resources/wildland-firefighting-terms/" target="_blank"><strong>Read More</strong></a>', 'How should you care for and protect your pets during a fire? <a href="http://www.humanesociety.org/issues/animal_rescue/tips/pets-disaster.html" target="_blank"><strong>Read More</strong></a>', '2003 wildfires: Memories linger, firefighting techniques evolve after the largest fire in California history. <a href="http://www.scpr.org/news/2013/10/25/39939/2003-wildfires-10-years-after-the-largest-fire-in/" target="_blank"><strong>Read More</strong></a>']
 
@@ -54,16 +46,7 @@ def index(request):
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
         'display_content': display_content,
-        #'lead_fire': lead_fire,
-        'total_2014_fires': total_2014_fires,
-        'total_2014_acreage': total_2014_acreage,
-        'total_2014_injuries': total_2014_injuries,
-        'total_2013_fires': total_2013_fires,
-        'total_2013_acreage': total_2013_acreage,
-        'total_2013_injuries': total_2013_injuries,
-        'total_2012_fires': total_2012_fires,
-        'total_2012_acreage': total_2012_acreage,
-        'total_2012_injuries': total_2012_injuries,
+        'year_over_year_comparison': year_over_year_comparison,
         'cache_expire': cache_expire,
         'cache_timestamp': cache_timestamp
     })
