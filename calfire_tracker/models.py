@@ -94,13 +94,18 @@ class CalWildfire(models.Model):
                 self.location_geocode_error = True
 
     def fill_air_quality_data(self):
-        if (self.location_latitude is None) or (self.location_longitude is None):
+        if self.location_geocode_error == True:
+            pass
+        elif (self.location_latitude is None) or (self.location_longitude is None):
             pass
         else:
-            air_quality_url = 'http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=%s&longitude=%s&distance=15&API_KEY=AABE5F75-6C5A-47C2-AB74-2D138C9055B2' % (self.location_latitude, self.location_longitude)
-            air_quality_query = requests.get(air_quality_url, headers= {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
-            air_quality_json = air_quality_query.json()
-            self.air_quality_rating = air_quality_json[0]['AQI']
+            try:
+                air_quality_url = 'http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=%s&longitude=%s&distance=15&API_KEY=AABE5F75-6C5A-47C2-AB74-2D138C9055B2' % (self.location_latitude, self.location_longitude)
+                air_quality_query = requests.get(air_quality_url, headers= {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
+                air_quality_json = air_quality_query.json()
+                self.air_quality_rating = air_quality_json[0]['AQI']
+            except:
+                self.air_quality_rating = 0
 
     def search_assethost_for_image(self, kpcc_image_token):
         url_prefix = 'http://a.scpr.org/api/assets/'
