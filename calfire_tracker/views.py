@@ -154,3 +154,24 @@ def oembed(request):
     }
 
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+def custom_403(request):
+    wildfires = CalWildfire.objects.all()
+    calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
+    return render_to_response('403.html', {
+        'calwildfires': calwildfires,
+    })
+
+def custom_404(request):
+    wildfires = CalWildfire.objects.all()
+    calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
+    return render_to_response('404.html', {
+        'calwildfires': calwildfires,
+    })
+
+def custom_500(request):
+    wildfires = CalWildfire.objects.all()
+    calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
+    return render_to_response('500.html', {
+        'calwildfires': calwildfires,
+    })

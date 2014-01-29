@@ -17,6 +17,10 @@ admin.autodiscover()
 v1_api = Api(api_name='v1')
 v1_api.register(CalWildfireResource())
 
+handler403 = 'calfire_tracker.views.custom_403'
+handler404 = 'calfire_tracker.views.custom_404'
+handler500 = 'calfire_tracker.views.custom_500'
+
 urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -30,12 +34,6 @@ urlpatterns = patterns('',
 
 	# tastypie API
 	url(r'^api/', include(v1_api.urls)),
-
-	# csv importer
-    url(r'^import/', include('csvimporter.urls')),
-
-    # data_exports
-    url(r'^exports/', include('data_exports.urls', namespace='data_exports')),
 
     # url pattern to kick root to index of firetracker application
     url(r'', include('calfire_tracker.urls')),

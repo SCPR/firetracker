@@ -100,14 +100,11 @@ INSTALLED_APPS = (
     'massadmin',
     'debug_toolbar',
     'tastypie',
-    'csvimporter',
-    'data_exports',
     'commander',
 
     # admin
     'django.contrib.admin',
     'django.contrib.admindocs',
-
 )
 
 # A sample logging configuration. The only tangible logging
