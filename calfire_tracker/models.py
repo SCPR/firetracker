@@ -194,6 +194,7 @@ class WildfireAnnualReview(models.Model):
     structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
     administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
     jurisdiction = models.CharField('Jurisdiction', max_length=1024, null=True, blank=True)
+    data_source = models.URLField('URL to data source', max_length=1024, null=True, blank=True)
     last_saved = models.DateTimeField('Last Saved', auto_now=True)
 
     def __unicode__(self):
