@@ -34,7 +34,7 @@
 {% block extended_page_content %}
     <div class="page-cols page-cols-archive bound">
         <section class="all-fires clearfix">
-        <h1>Sorry, we couldn't find the page you're looking for. You might try starting over at <a href="{% url index %}">Fire Tracker's home page</a> or viewing one of the fires below.</h1>
+        <h1>Sorry, we couldn't find the page you're looking for. You might try starting over at <a href="{% url index %}">Fire Tracker's home page</a> or viewing one of the recent fires below.</h1>
         {% for wildfire in calwildfires|rows:3 %}
             {% for item in wildfire %}
                 <article>
