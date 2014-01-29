@@ -181,3 +181,25 @@ class WildfireTweet(models.Model):
         if not self.tweet_id:
         	self.tweet_id = self.tweet_id
         super(WildfireTweet, self).save()
+
+class WildfireAnnualReview(models.Model):
+    year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
+    date_range_beginning = models.DateTimeField('Last Saved', auto_now=True)
+    date_range_end = models.DateTimeField('Last Saved', auto_now=True)
+    acres_burned = models.IntegerField('Acres Burned', max_length=8, null=True, blank=True)
+    number_of_fires = models.IntegerField('Number of Fires', max_length=10, null=True, blank=True)
+    dollar_damage = models.DecimalField('Dollar Damage', max_digits=15, decimal_places=2, null=True, blank=True)
+    injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
+    structures_threatened = models.CharField('Reported Structures Threatened', max_length=1024, null=True, blank=True)
+    structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
+    administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
+    jurisdiction = models.CharField('Jurisdiction', max_length=1024, null=True, blank=True)
+    last_saved = models.DateTimeField('Last Saved', auto_now=True)
+
+    def __unicode__(self):
+        return self.year
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.last_saved = datetime.datetime.now()
+        super(WildfireAnnualReview, self).save()
