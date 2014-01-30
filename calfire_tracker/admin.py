@@ -125,12 +125,13 @@ class CalWildfireAdmin(admin.ModelAdmin):
         ]
 
         actions = [
-            'tweet_fire_details_from_admin',
             'featured',
             'unfeature',
             'lock_fire_data',
             'unlock_fire_data',
             'update_last_saved_time_and_image',
+            'update_air_quality_data',
+            #'tweet_fire_details_from_admin',
         ]
 
         def tweet_fire_details_from_admin(self, request, queryset):
@@ -165,6 +166,11 @@ class CalWildfireAdmin(admin.ModelAdmin):
             for object in queryset:
                 object.save()
         update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
+
+        def update_air_quality_data(self, request, queryset):
+            for object in queryset:
+                object.save()
+        update_air_quality_data.short_description = "Update Air Quality"
 
 admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
