@@ -210,15 +210,11 @@ class WildfireAnnualReview(models.Model):
         super(WildfireAnnualReview, self).save()
 
 class WildfireDisplayContent(models.Model):
-    display = 'Display Content'
-    resource = 'Resource Content'
     content_type_choices = (
-        (display, 'Display Content'),
-        (resource, 'Resource Content'),
+        ('Resource Content', 'Resource Content'),
+        ('Display Content', 'Display Content'),
     )
-    content_type = models.CharField(max_length=2,
-        choices=content_type_choices,
-        default=resource)
+    content_type = models.CharField(max_length=1024, null=True, choices=content_type_choices, default=content_type_choices[0][0])
     content_headline = models.TextField('Display Text', null=True, blank=True)
     content_link = models.URLField('Display Link', max_length=1024, null=True, blank=True)
     last_saved = models.DateTimeField('Last Saved', auto_now=True)
