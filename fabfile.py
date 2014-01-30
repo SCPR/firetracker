@@ -69,7 +69,7 @@ def server_fixture_dump(model=''):
         # fab server_fixture_dump:'wildfireupdate'
         # fab server_fixture_dump:'wildfiretweet'
         # fab server_fixture_dump:'wildfireannualreview'
-
+        # fab server_fixture_dump:'wildfiredisplaycontent'
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py dumpdata calfire_tracker.%s --indent=2 > bak_%s.json" % (env.python_exe, model, model))
@@ -81,7 +81,7 @@ def server_fixture_load(model=''):
         # fab server_fixture_load:'wildfireupdate'
         # fab server_fixture_load:'wildfiretweet'
         # fab server_fixture_load:'wildfireannualreview'
-
+        # fab server_fixture_load:'wildfiredisplaycontent'
     with cd(env.project_root):
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py loaddata bak_%s.json" % (env.python_exe, model))
@@ -94,7 +94,7 @@ def server_sync_data_with_local(model=''):
         # fab server_sync_data_with_local:'wildfireupdate'
         # fab server_sync_data_with_local:'wildfiretweet'
         # fab server_sync_data_with_local:'wildfireannualreview'
-
+        # fab server_sync_data_with_local:'wildfiredisplaycontent'
     local("python manage.py dumpdata calfire_tracker.%s --indent=2 > bak_%s.json" % (model, model))
     local("scp ~/Programming/2kpcc/django-projects/firetracker/bak_%s.json archive@media:/web/archive/apps/firetracker/firetracker" % (model))
     with cd(env.project_root):
@@ -123,7 +123,7 @@ def local_fixture_dump(model=''):
         # fab local_fixture_dump:'wildfireupdate'
         # fab local_fixture_dump:'wildfiretweet'
         # fab local_fixture_dump:'wildfireannualreview'
-
+        # fab local_fixture_dump:'wildfiredisplaycontent'
     local("python manage.py dumpdata calfire_tracker.%s --indent=2 > bak_%s.json" % (model, model))
 
 def local_fixture_load(model=''):
@@ -133,7 +133,7 @@ def local_fixture_load(model=''):
         # fab local_fixture_load:'wildfireupdate'
         # fab local_fixture_load:'wildfiretweet'
         # fab local_fixture_load:'wildfireannualreview'
-
+        # fab local_fixture_load:'wildfiredisplaycontent'
     local("python manage.py loaddata bak_%s.json" % (model))
 
 def local_sync_data_with_server():
@@ -153,3 +153,7 @@ def local_sync_data_with_server():
     server_fixture_dump('wildfireannualreview')
     local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_wildfireannualreview.json .")
     local("python manage.py loaddata bak_wildfireannualreview.json")
+
+    server_fixture_dump('wildfiredisplaycontent')
+    local("scp archive@media:/web/archive/apps/firetracker/firetracker/bak_wildfiredisplaycontent.json .")
+    local("python manage.py loaddata bak_wildfiredisplaycontent.json")
