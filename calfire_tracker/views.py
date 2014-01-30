@@ -1,10 +1,10 @@
 from datetime import datetime, date, time, timedelta
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, Http404
 from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 from django.core.urlresolvers import reverse
 from django.core import serializers
-from django.template import RequestContext
+from django.template import RequestContext, Context, loader
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
@@ -145,17 +145,23 @@ def custom_403(request):
     calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
     template = loader.get_template('403.html')
     context = Context({'calwildfires': calwildfires})
-    return HttpResponse(
-        content=template.render(context),
-        content_type='text/html; charset=utf-8',
-        status=403
-    )
+
+    #return HttpResponse(
+        #content=template.render(context),
+        #content_type='text/html; charset=utf-8',
+        #status=403
+    #)
+
+    return render_to_response('404.html', {
+        'calwildfires': calwildfires,
+    })
 
 def custom_404(request):
     wildfires = CalWildfire.objects.all()
     calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
     template = loader.get_template('404.html')
     context = Context({'calwildfires': calwildfires})
+
     return HttpResponse(
         content=template.render(context),
         content_type='text/html; charset=utf-8',
