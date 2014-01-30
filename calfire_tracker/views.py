@@ -143,16 +143,28 @@ def oembed(request):
 def custom_403(request):
     wildfires = CalWildfire.objects.all()
     calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
-    return render_to_response('403.html', {
-        'calwildfires': calwildfires,
-    })
+    template = loader.get_template('403.html')
+    context = Context({'calwildfires': calwildfires})
+    return HttpResponse(
+        content=template.render(context),
+        content_type='text/html; charset=utf-8',
+        status=403
+    )
 
 def custom_404(request):
     wildfires = CalWildfire.objects.all()
     calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
-    return render_to_response('404.html', {
-        'calwildfires': calwildfires,
-    })
+    template = loader.get_template('404.html')
+    context = Context({'calwildfires': calwildfires})
+    return HttpResponse(
+        content=template.render(context),
+        content_type='text/html; charset=utf-8',
+        status=404
+    )
+
+    #return render_to_response('404.html', {
+        #'calwildfires': calwildfires,
+    #})
 
 def custom_500(request):
     wildfires = CalWildfire.objects.all()
