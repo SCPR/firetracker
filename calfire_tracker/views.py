@@ -34,9 +34,10 @@ def index(request):
     year_over_year_comparison = WildfireAnnualReview.objects.filter(
         Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
     )
-    count = WildfireDisplayContent.objects.all().count()
+    count = WildfireDisplayContent.objects.filter(display_content_type=True).count()
     random_index = randint(0, count-1)
-    display_content = WildfireDisplayContent.objects.all()[random_index]
+    display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
+    resource_content = WildfireDisplayContent.objects.filter(Q(resource_content_type=True) & Q(display_content_type=True) | Q(resource_content_type=True)).order_by('content_headline')
     cache_expire = (60*5)
     cache_timestamp = cache_timestamp[0].last_saved
 
@@ -44,6 +45,7 @@ def index(request):
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
         'display_content': display_content,
+        'resource_content': resource_content,
         'year_over_year_comparison': year_over_year_comparison,
         'cache_expire': cache_expire,
         'cache_timestamp': cache_timestamp
