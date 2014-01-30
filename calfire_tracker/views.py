@@ -10,8 +10,8 @@ from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 from django.conf import settings
 from dateutil import parser
-import random
 from kpccapi import *
+from random import randint
 import logging, re
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
@@ -25,7 +25,6 @@ FIRE_MAX_CACHE_AGE = (60*60*24)
 
 @xframe_options_sameorigin
 def index(request):
-
     wildfires = CalWildfire.objects.all()
     calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
@@ -35,11 +34,10 @@ def index(request):
     year_over_year_comparison = WildfireAnnualReview.objects.filter(
         Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
     )
-
-    display_content = WildfireDisplayContent.objects.all()
-
-    #cache_expire = (60*60*24)
-    cache_expire = (60*15)
+    count = WildfireDisplayContent.objects.all().count()
+    random_index = randint(0, count-1)
+    display_content = WildfireDisplayContent.objects.all()[random_index]
+    cache_expire = (60*5)
     cache_timestamp = cache_timestamp[0].last_saved
 
     return render_to_response('index.html', {
