@@ -220,7 +220,7 @@ class WildfireDisplayContent(models.Model):
     '''
 
     resource_content_type = models.BooleanField('Resource Content', default=True)
-    display_content_type = models.BooleanField('Resource Content', default=False)
+    display_content_type = models.BooleanField('Display Content', default=False)
     content_headline = models.TextField('Display Text', null=True, blank=True)
     content_link = models.URLField('Display Link', max_length=1024, null=True, blank=True)
     last_saved = models.DateTimeField('Last Saved', auto_now=True)

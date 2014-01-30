@@ -17,7 +17,7 @@ class WildfireAnnualReviewAdmin(admin.ModelAdmin):
         ordering = ('-year', 'administrative_unit')
 
 class WildfireDisplayContentAdmin(admin.ModelAdmin):
-    list_display = ('content_headline', 'content_link', 'content_type', 'last_saved',)
+    list_display = ('content_headline', 'content_link', 'resource_content_type', 'display_content_type', 'last_saved',)
     list_per_page = 10
     search_fields = ['content_headline']
     list_filter = ['resource_content_type', 'display_content_type']
