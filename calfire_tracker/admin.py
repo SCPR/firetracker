@@ -1,7 +1,8 @@
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
+from django.conf import settings
 from django.contrib import admin
 from django.utils.timezone import utc, localtime
-import time, datetime, logging, requests
+import time, datetime, logging, requests, tweepy
 from datetime import tzinfo
 import pytz
 from pytz import timezone
@@ -124,6 +125,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
         ]
 
         actions = [
+            'tweet_fire_details_from_admin',
             'featured',
             'unfeature',
             'lock_fire_data',
@@ -131,12 +133,15 @@ class CalWildfireAdmin(admin.ModelAdmin):
             'update_last_saved_time_and_image',
         ]
 
-        def update_last_saved_time_and_image(self, request, queryset):
-            date = datetime.datetime.now()
-            queryset.update(last_saved = date)
+        def tweet_fire_details_from_admin(self, request, queryset):
+            auth1 = tweepy.auth.OAuthHandler(settings.TWEEPY_CONSUMER_KEY, settings.TWEEPY_CONSUMER_SECRET)
+            auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
+            api = tweepy.API(auth1)
             for object in queryset:
-                object.save()
-        update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
+                tweet_text = '%s is at %s%% containment. View details on @KPCC\'s FireTracker: http://projects.scpr.org/firetracker/%s/' % (object.twitter_hashtag, object.containment_percent, object.fire_slug)
+                logging.debug(tweet_text)
+                api.update_status(tweet_text)
+        tweet_fire_details_from_admin.short_description = "Tweet details of the selected fire"
 
         def featured(self, request, queryset):
             queryset.update(promoted_fire = True)
@@ -154,6 +159,12 @@ class CalWildfireAdmin(admin.ModelAdmin):
             queryset.update(update_lockout = False)
         unlock_fire_data.short_description = "Allow Auto Updates"
 
+        def update_last_saved_time_and_image(self, request, queryset):
+            date = datetime.datetime.now()
+            queryset.update(last_saved = date)
+            for object in queryset:
+                object.save()
+        update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
 
 admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
