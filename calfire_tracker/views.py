@@ -37,7 +37,6 @@ def index(request):
     count = WildfireDisplayContent.objects.filter(display_content_type=True).count()
     random_index = randint(0, count-1)
     display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
-    resource_content = WildfireDisplayContent.objects.filter(Q(resource_content_type=True) & Q(display_content_type=True) | Q(resource_content_type=True)).order_by('content_headline')
     cache_expire = (60*5)
     cache_timestamp = cache_timestamp[0].last_saved
 
@@ -45,7 +44,6 @@ def index(request):
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
         'display_content': display_content,
-        'resource_content': resource_content,
         'year_over_year_comparison': year_over_year_comparison,
         'cache_expire': cache_expire,
         'cache_timestamp': cache_timestamp
@@ -57,13 +55,11 @@ def detail(request, fire_slug):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
-    resource_content = WildfireDisplayContent.objects.filter(Q(resource_content_type=True) & Q(display_content_type=True) | Q(resource_content_type=True)).order_by('content_headline')
 
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
         'wildfire_updates': wildfire_updates,
-        'resource_content': resource_content,
         'result_list': result_list,
         'cache_expire': FIRE_MAX_CACHE_AGE,
     }, context_instance=RequestContext(request))
