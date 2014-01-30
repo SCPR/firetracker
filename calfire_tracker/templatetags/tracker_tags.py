@@ -1,17 +1,16 @@
 from django.template import Library, Context
 from django.conf import settings
 from django.utils.timezone import utc
-from calfire_tracker.models import CalWildfire
+from django.db.models import Q, Avg, Max, Min, Sum, Count
+from calfire_tracker.models import CalWildfire, WildfireDisplayContent
 from dateutil import parser
-from datetime import datetime, time, date, timedelta
+from datetime import datetime, date, time, timedelta
+import pytz, logging, re
 from pytz import timezone
-import pytz
-import logging
-import simplejson as json
-import urllib
-register = Library()
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+
+register = Library()
 
 def rows(thelist, n):
     """
@@ -162,12 +161,24 @@ def format_for_timezone(value):
     utc_created_at = utc.localize(value)
     return utc_created_at
 
+def resource_content_to_include(value):
+    ''' returns the resource list queryset to the default flatpage template '''
+    resource_content = WildfireDisplayContent.objects.filter(Q(resource_content_type=True) & Q(display_content_type=True) | Q(resource_content_type=True)).order_by('content_headline')
+    return resource_content
+
+def all_fires_to_include(value):
+    ''' returns the 15 recent fire list queryset to the default flatpage template '''
+    result_list = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
+    return result_list
+
 register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
 register.filter(percentify)
 register.filter(create_date)
 register.filter(format_for_timezone)
+register.filter(resource_content_to_include)
+register.filter(all_fires_to_include)
 
 def _test():
     import doctest

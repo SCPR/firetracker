@@ -47,8 +47,12 @@
                 {{ flatpage.content }}
             </div><!--/ .primary -->
             <div class="secondary single-evergreen">
-                <aside class="resources"></aside>
-                <aside class="recent"></aside>
+                <aside class="resources">
+                    {% include 'fire_resources_list.html' %}
+                </aside>
+                <aside class="recent">
+                    {% include 'all_fires_list.html' %}
+                </aside>
             </div><!--/ .secondary -->
         </div><!--/ .page-cols -->
         {% include "footer.html" %}
