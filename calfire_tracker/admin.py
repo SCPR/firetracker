@@ -20,7 +20,7 @@ class WildfireDisplayContentAdmin(admin.ModelAdmin):
     list_display = ('content_headline', 'content_link', 'content_type', 'last_saved',)
     list_per_page = 10
     search_fields = ['content_headline']
-    list_filter = ['content_type']
+    list_filter = ['resource_content_type', 'display_content_type']
 
 class WildfireTweetAdmin(admin.ModelAdmin):
 	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
