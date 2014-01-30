@@ -48,14 +48,11 @@
             </div><!--/ .primary -->
             <div class="secondary single-evergreen">
                 <aside class="resources">
-                    <h2>California Fire Resources</h2>
-                    <ul>
-                        {% for content in resource_content|return_queryset_to_flatpage %}
-                            <li><a href="{{ content.content_link }}">{{ content.content_headline }}</a></li>
-                        {% endfor %}
-                    </ul>
+                    {% include 'fire_resources_list.html' %}
                 </aside>
-                <aside class="recent"></aside>
+                <aside class="recent">
+                    {% include 'all_fires_list.html' %}
+                </aside>
             </div><!--/ .secondary -->
         </div><!--/ .page-cols -->
         {% include "footer.html" %}

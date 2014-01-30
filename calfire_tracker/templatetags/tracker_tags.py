@@ -161,9 +161,15 @@ def format_for_timezone(value):
     utc_created_at = utc.localize(value)
     return utc_created_at
 
-def return_queryset_to_flatpage(value):
+def resource_content_to_include(value):
+    ''' returns the resource list queryset to the default flatpage template '''
     resource_content = WildfireDisplayContent.objects.filter(Q(resource_content_type=True) & Q(display_content_type=True) | Q(resource_content_type=True)).order_by('content_headline')
     return resource_content
+
+def all_fires_to_include(value):
+    ''' returns the 15 recent fire list queryset to the default flatpage template '''
+    result_list = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
+    return result_list
 
 register.filter(rows)
 register.filter(rows_distributed)
@@ -171,7 +177,8 @@ register.filter(columns)
 register.filter(percentify)
 register.filter(create_date)
 register.filter(format_for_timezone)
-register.filter(return_queryset_to_flatpage)
+register.filter(resource_content_to_include)
+register.filter(all_fires_to_include)
 
 def _test():
     import doctest
