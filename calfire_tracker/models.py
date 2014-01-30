@@ -208,3 +208,11 @@ class WildfireAnnualReview(models.Model):
         if not self.id:
             self.last_saved = datetime.datetime.now()
         super(WildfireAnnualReview, self).save()
+
+class WildfireDisplayContent(models.Model):
+    content_headline = models.TextField('Display Text', null=True, blank=True)
+    content_link = models.URLField('Display Link', max_length=1024, null=True, blank=True)
+    last_saved = models.DateTimeField('Last Saved', auto_now=True)
+
+    def __unicode__(self):
+        return self.content_headline

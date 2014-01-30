@@ -7,11 +7,11 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 from django.conf import settings
 from dateutil import parser
-import random
 from kpccapi import *
+from random import randint
 import logging, re
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
@@ -25,7 +25,6 @@ FIRE_MAX_CACHE_AGE = (60*60*24)
 
 @xframe_options_sameorigin
 def index(request):
-
     wildfires = CalWildfire.objects.all()
     calwildfires = wildfires.exclude(containment_percent=None).order_by('containment_percent', '-date_time_started', 'fire_name')[0:20]
     featuredfires = wildfires.filter(promoted_fire=True).order_by('containment_percent', '-date_time_started', 'fire_name')[0:3]
@@ -35,11 +34,10 @@ def index(request):
     year_over_year_comparison = WildfireAnnualReview.objects.filter(
         Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
     )
-
-    display_content = ['On the anniversary of the Cedar Fire in San Diego County we look back at the 10 largest wildfires in the state\'s history. <a href="http://projects.scpr.org/firetracker/wildfires/largest-ca-wildfires/" target="_blank"><strong>View the list</strong></a>', 'Learn the terms used by those fighting wildland fires. <a href="http://projects.scpr.org/firetracker/resources/wildland-firefighting-terms/" target="_blank"><strong>Read More</strong></a>', 'How should you care for and protect your pets during a fire? <a href="http://www.humanesociety.org/issues/animal_rescue/tips/pets-disaster.html" target="_blank"><strong>Read More</strong></a>', '2003 wildfires: Memories linger, firefighting techniques evolve after the largest fire in California history. <a href="http://www.scpr.org/news/2013/10/25/39939/2003-wildfires-10-years-after-the-largest-fire-in/" target="_blank"><strong>Read More</strong></a>']
-
-    #cache_expire = (60*60*24)
-    cache_expire = (60*15)
+    count = WildfireDisplayContent.objects.all().count()
+    random_index = randint(0, count-1)
+    display_content = WildfireDisplayContent.objects.all()[random_index]
+    cache_expire = (60*5)
     cache_timestamp = cache_timestamp[0].last_saved
 
     return render_to_response('index.html', {
