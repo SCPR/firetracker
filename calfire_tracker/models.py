@@ -4,9 +4,7 @@ from django.utils.encoding import smart_str
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 from geopy import geocoders
-import pytz
-import time, datetime, requests, urllib, logging
-import simplejson as json
+import pytz, time, datetime, requests, logging
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
@@ -116,12 +114,11 @@ class CalWildfire(models.Model):
         url_prefix = 'http://a.scpr.org/api/assets/'
         url_suffix = '.json?auth_token='
         search_url = '%s%s%s%s' % (url_prefix, self.asset_host_image_id, url_suffix, kpcc_image_token)
-        json_response = urllib.urlopen(search_url)
-        json_response = json_response.readlines()
-        js_object = json.loads(json_response[0])
+        kpcc_query_api = requests.get(search_url, headers={"From": "ckeller@scpr.org","User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
+        kpcc_image_data = kpcc_query_api.json()
         try:
-            self.asset_url_link = js_object['urls']['full']
-            self.asset_photo_credit = js_object['owner']
+            self.asset_url_link = kpcc_image_data['urls']['full']
+            self.asset_photo_credit = kpcc_image_data['owner']
         except:
             self.asset_host_image_id = 'Could Not Find That ID'
             self.asset_url_link = None
