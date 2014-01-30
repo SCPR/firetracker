@@ -6,12 +6,9 @@ from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz
 import time, datetime, requests, urllib, logging
-from datetime import datetime
 import simplejson as json
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
-
-default_datetime_value = datetime.now()
 
 class CalWildfire(models.Model):
 
