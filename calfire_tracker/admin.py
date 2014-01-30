@@ -1,4 +1,4 @@
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 from django.conf import settings
 from django.contrib import admin
 from django.utils.timezone import utc, localtime
@@ -15,6 +15,11 @@ class WildfireAnnualReviewAdmin(admin.ModelAdmin):
         search_fields = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
     	list_filter = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
         ordering = ('-year', 'administrative_unit')
+
+class WildfireDisplayContentAdmin(admin.ModelAdmin):
+    list_display = ('content_headline', 'content_link', 'last_saved',)
+    list_per_page = 10
+    search_fields = ['content_headline']
 
 class WildfireTweetAdmin(admin.ModelAdmin):
 	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
@@ -172,7 +177,8 @@ class CalWildfireAdmin(admin.ModelAdmin):
                 object.save()
         update_air_quality_data.short_description = "Update Air Quality"
 
-admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
+admin.site.register(CalWildfire, CalWildfireAdmin)
 admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
-admin.site.register(CalWildfire, CalWildfireAdmin)
+admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
+admin.site.register(WildfireDisplayContent, WildfireDisplayContentAdmin)

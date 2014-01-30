@@ -7,7 +7,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.db.models import Q, Avg, Max, Min, Sum, Count
 from django.utils import simplejson
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview
+from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 from django.conf import settings
 from dateutil import parser
 import random
@@ -36,7 +36,7 @@ def index(request):
         Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
     )
 
-    display_content = ['On the anniversary of the Cedar Fire in San Diego County we look back at the 10 largest wildfires in the state\'s history. <a href="http://projects.scpr.org/firetracker/wildfires/largest-ca-wildfires/" target="_blank"><strong>View the list</strong></a>', 'Learn the terms used by those fighting wildland fires. <a href="http://projects.scpr.org/firetracker/resources/wildland-firefighting-terms/" target="_blank"><strong>Read More</strong></a>', 'How should you care for and protect your pets during a fire? <a href="http://www.humanesociety.org/issues/animal_rescue/tips/pets-disaster.html" target="_blank"><strong>Read More</strong></a>', '2003 wildfires: Memories linger, firefighting techniques evolve after the largest fire in California history. <a href="http://www.scpr.org/news/2013/10/25/39939/2003-wildfires-10-years-after-the-largest-fire-in/" target="_blank"><strong>Read More</strong></a>']
+    display_content = WildfireDisplayContent.objects.all()
 
     #cache_expire = (60*60*24)
     cache_expire = (60*15)
