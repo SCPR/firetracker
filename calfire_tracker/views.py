@@ -39,7 +39,6 @@ def index(request):
     display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
     cache_expire = (60*5)
     cache_timestamp = cache_timestamp[0].last_saved
-
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
         'featuredfires': featuredfires,
@@ -55,7 +54,6 @@ def detail(request, fire_slug):
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
-
     return render_to_response('detail.html', {
         'calwildfire': calwildfire,
         'calwildfires': calwildfires,
@@ -67,7 +65,6 @@ def detail(request, fire_slug):
 @xframe_options_exempt
 def embeddable(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
-
     return render_to_response('embeddable.html', {
         'calwildfire': calwildfire,
         'cache_expire': FIRE_MAX_CACHE_AGE,
