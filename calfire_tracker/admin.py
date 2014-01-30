@@ -11,7 +11,7 @@ logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', lev
 class WildfireAnnualReviewAdmin(admin.ModelAdmin):
 	list_display = ('year', 'acres_burned', 'number_of_fires', 'jurisdiction', 'last_saved')
         list_per_page = 10
-        search_fields = ['tweet_text']
+        search_fields = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
     	list_filter = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
         ordering = ('-year', 'administrative_unit')
 
