@@ -9,10 +9,11 @@ from pytz import timezone
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 class WildfireAnnualReviewAdmin(admin.ModelAdmin):
-	list_display = ('year', 'acres_burned', 'number_of_fires', 'last_saved')
+	list_display = ('year', 'acres_burned', 'number_of_fires', 'jurisdiction', 'last_saved')
         list_per_page = 10
         search_fields = ['tweet_text']
     	list_filter = ['year', 'acres_burned', 'number_of_fires', 'administrative_unit']
+        ordering = ('-year', 'administrative_unit')
 
 class WildfireTweetAdmin(admin.ModelAdmin):
 	list_display = ('tweet_screen_name', 'tweet_hashtag', 'tweet_created_at', 'tweet_text')
