@@ -30,11 +30,8 @@ body.card .bound												{ width: 95%;		}
 .fire-supplemental .dispatches > header h1						{ background-image: url(i/1x/twitter.png);								}
 .masthead .evangelize button									{ background-image: url(i/1x/icon-download-cloud.png);					}
 .outbound a														{ background-image: url(i/1x/rightward-triangle.png);					}
-.share .share-this-fire											{ background-image: url(i/1x/share-this-fire.png); }
-
-
-
-
+.share .share-this-fire											{ background-image: url(i/1x/share-this-fire.png);                      }
+.hide-from-ie8                                                  { display: none;                                                        }
 
 .lobby-inner .comparison thead th {
 	height: 50px;
@@ -149,7 +146,7 @@ body.card .bound												{ width: 95%;		}
 	Embeddable Card: Structure
 	(These are basically just copied over from the "smallest width" media query in ( display-card.css ).
 	################################################################################################################################# */
-	
+
 	.fire-leaflet {
 		height: auto;
 		border-top: 1px solid #97abc9;

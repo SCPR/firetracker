@@ -85,58 +85,66 @@
                 <figure class="foreword">
                     <div class="photo"><img src="{% static 'media/green-valley-scene.jpg' %}" alt="" /></div>
                     <figcaption>
-                        {% for lead in lead_fire %}
-                        <mark>On <em>Aug. 26</em>, the <em><a href="{{ lead.get_absolute_url }}">{{ lead.fire_name }}</a></em> became the <em>7th largest</em> wildfire in state history, burning at least <em>{{ lead.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }} acres</em>.</mark>
-                        {% endfor %}
-                        <!--
-                        <mark>So far during <em>{% now "Y" %}</em>, at least <em>4,715 wildfires</em> have consumed more than <em>94,855 acres</em> throughout <em>California</em>.<a href="{% url index %}about/the-data/">*</a></mark>
-                        -->
+                        <mark>{{ display_content.content_headline }} <a href="{{ display_content.content_link }}"> ... <strong>Read More</strong></mark>
                     </figcaption>
                 </figure><!--/ .foreward -->
-
                 <aside class="comparison">
                     <header>
                         <h1>Year-Over-Year Comparison</h1>
                         <ul>
-                            <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2012"><span>2012:</span> Based on CalFire archived data</a>.</li>
-                            <li><a href="http://cdfdata.fire.ca.gov/incidents/incidents_stats?year=2013"><span>2013:</span> Based on CalFire data through Aug. 17, 2013</a>.</li>
+                            {% for year in year_over_year_comparison %}
+                                <li><a href="{{ year.data_source }}"><span>{{ year.year }}:</span> Based on {{ year.administrative_unit }} data through {{ year.date_range_end|date:"M d, Y" }}</a>.</li>
+                            {% endfor %}
                         </ul>
                     </header>
                     <table>
                         <thead>
                             <tr>
                                 <th>Attribute</th>
-                                <th><span>2012</span></th>
-                                <th><span>{% now "Y" %}**</span></th>
+                                {% for year in year_over_year_comparison %}
+                                    {% if year.year == 2013 %}
+                                        <th><span>{{ year.year }}</span></th>
+                                    {% elif year.year == 2014 %}
+                                        <th><span>{{ year.year }}**</span></th>
+                                    {% endif %}
+                                {% endfor %}
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>Fires</th>
-                                <td>{{ total_2012_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2013_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.number_of_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             <tr>
                                 <th>Acres</th>
-                                <td>{{ total_2012_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2013_acreage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                            </tr>
-                            <tr>
-                                <th>Injuries</th>
-                                <td>{{ total_2012_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                <td>{{ total_2013_injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             <!--
                             <tr>
+                                <th>Injuries</th>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.injuries|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
                                 <th>Cost</th>
-                                <td><span></span></td>
-                                <td><span></span></td>
+                                {% for year in year_over_year_comparison %}
+                                    <td>{{ year.dollar_damage|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                {% endfor %}
                             </tr>
                             -->
                         </tbody>
                     </table>
                     <h2 class="disclaimer"><a href="{% url index %}about/the-data/">* Read more about the data and methodology.</a></h2>
-                    <h2 class="disclaimer"><a href="{% url index %}about/the-data/">** Current as of Aug. 17, 2013.</a></h2>
+                    {% for year in year_over_year_comparison %}
+                        {% if year.year == 2014 %}
+                            <h2 class="disclaimer"><a href="{% url index %}about/the-data/">** Current as of {{ year.date_range_end|date:"M d, Y" }}.</a></h2>
+                        {% endif %}
+                    {% endfor %}
                 </aside>
             </div><!--/ .lobby-inner -->
         </div><!--/ .lobby -->
@@ -204,14 +212,7 @@
                 </section><!--/ .following -->
                 <div class="evergreen">
                     <aside class="resources">
-                        <h2>California Fire Resources</h2>
-                        <ul>
-                            <li><a href="http://www.fire.ca.gov/">Cal Fire</a></li>
-                            <li><a href="http://www.inciweb.org/state/5/">California Incident Information System</a></li>
-                            <li><a href="http://www.humanesociety.org/issues/animal_rescue/tips/pets-disaster.html">How to care for and protect pets during a fire</a></li>
-                            <li><a href="http://frap.fire.ca.gov/">California Fire and Resource Assessment Program (FRAP)</a></li>
-                            <li><a href="http://gacc.nifc.gov/oncc/">Northern California Geographic Area Coordination Center (ONCC)</a></li>
-                        </ul>
+                        {% include 'fire_resources_list.html' %}
                     </aside>
                     <aside class="coverage">
                         <h2>Recent KPCC Coverage</h2>
@@ -246,7 +247,7 @@
                     {% endfor %}
                     <article class="jump">
                         <div>
-                            <h1><a href="{% url index %}wildfires/archives/">See more 2013 fires</a></h1>
+                            <h1><a href="{% url index %}wildfires/archives/">View the archives</a></h1>
                         </div>
                     </article>
                 </section><!--/ .all-fires -->

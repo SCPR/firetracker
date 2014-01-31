@@ -1,10 +1,12 @@
 {% load humanize %}
 {% load tz %}
+{% load l10n %}
+{% load tracker_tags %}
 
 <h2>Recent Fires</h2>
 <nav>
     <ul>
-        {% for wildfire in calwildfires %}
+        {% for wildfire in calwildfires|all_fires_to_include %}
         <li>
             <a href="{{ wildfire.get_absolute_url }}"><h1>{{ wildfire.fire_name }}</h1><h2>{{ wildfire.date_time_started|date:"M j" }}</h2>
             <div class="area"><mark>{{ wildfire.acres_burned|default_if_none:"n/a"|intcomma }}</mark> <b>Acres</b></div></a>

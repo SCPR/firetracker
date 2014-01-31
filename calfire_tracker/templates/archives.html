@@ -26,7 +26,7 @@
             </div>
             <aside class="brand">
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
-                <h4><span>KPCC’s up-to-the-minute tool for following &amp; researching Southern California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
+                <h4><span>KPCC's tool for following &amp; researching California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
             </aside>
         </div><!--/ .masthead-inner -->
     </header><!--/ .masthead -->
@@ -35,7 +35,7 @@
 {% block extended_page_content %}
     <div class="page-cols page-cols-archive bound">
         <section class="all-fires clearfix">
-        <h1>Currently showing all fires from {% now "Y" %}.</h1>
+        <h1>Displaying {{calwildfires|length}} wildfires from the archives.</h1>
         {% for wildfire in calwildfires|rows:3 %}
             {% for item in wildfire %}
                 <article>

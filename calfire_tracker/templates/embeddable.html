@@ -9,16 +9,16 @@
 <!-- begin meta -->
 {% block title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow, noarchive">{% endblock %}
-{% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.date_time_started|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.date_time_started|date:"l, F j, Y" }}.{% endif %}{% endblock %}
+{% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.last_updated|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.last_updated|date:"l, F j, Y" }}.{% endif %}{% endblock %}
 {% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
 {% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_url %}http://projects.scpr.org{{ calwildfire.get_absolute_url }}{% endblock %}
-{% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+{% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 {% block twitter_url %}http://projects.scpr.org{{ calwildfire.get_absolute_url }}{% endblock %}
 {% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
-{% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.last_updated|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+{% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
 <!-- end meta -->
 
 {% block css_overrides %}
@@ -99,9 +99,24 @@
 
         <aside class="broadcast">
             <div class="pane">
-                <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
-                <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
-                <button>OK, thanks!</button>
+                <div class="tab">
+                    <input type="radio" id="tab-1" name="tab-group-1" checked>
+                    <label for="tab-1">iFrame Embed</label>
+                    <div class="content">
+                        <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://projects.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
+                <div class="tab hide-from-ie8">
+                    <input type="radio" id="tab-2" name="tab-group-1">
+                    <label for="tab-2">oEmbed</label>
+                    <div class="content">
+                        <p>Access an <a href="http://oembed.com/">oEmbed</a> endpoint to embed this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea>http://projects.scpr.org/firetracker/oembed?url=http://projects.scpr.org{{ calwildfire.get_absolute_url }}</textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
             </div>
         </aside>
     {% endcache %}

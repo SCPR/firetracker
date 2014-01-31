@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load tz %}
+{% load l10n %}
 {% load tracker_tags %}
 {% load static %}
 
@@ -18,6 +19,14 @@
 {% block twitter_description %}Fire Tracker, KPCC's tool for following & researching California wildfires, contains fire information displayed by the California Department of Forestry and Fire Protection.{% endblock %}
 <!-- end meta -->
 
+{% block css_overrides %}
+<style type="text/css">
+    .masthead {margin-bottom: 0px;}
+  	.page-cols > .primary {margin-bottom: 25px;}
+    .primary p {font-size: 100%; line-height: 1.2; margin: 1em 0 1em 0;}
+    .primary ul li {list-style-type: disc; list-style-position: inside; display: list-item; margin: 0 0 0 1em;}
+</style>{% endblock %}
+
 {% block extended_page_header %}
     <header class="masthead">
         <div class="masthead-inner bound">
@@ -33,10 +42,18 @@
 {% endblock %}
 
 {% block extended_page_content %}
-    <div class="page-cols page-cols-simple bound">
-        {{ flatpage.content }}
-    </div><!--/ .page-cols -->
-
-    {% include "footer.html" %}
-
+        <div class="page-cols clearfix bound">
+            <div class="primary">
+                {{ flatpage.content }}
+            </div><!--/ .primary -->
+            <div class="secondary single-evergreen">
+                <aside class="resources">
+                    {% include 'fire_resources_list.html' %}
+                </aside>
+                <aside class="recent">
+                    {% include 'all_fires_list.html' %}
+                </aside>
+            </div><!--/ .secondary -->
+        </div><!--/ .page-cols -->
+        {% include "footer.html" %}
 {% endblock %}

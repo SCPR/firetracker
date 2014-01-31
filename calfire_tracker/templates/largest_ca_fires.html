@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load tz %}
+{% load tracker_tags %}
+{% load static %}
+
+<!-- begin meta -->
+{% block title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
+{% block keywords %}wildfire data, historic, archives, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_type %}website{% endblock %}
+{% block og_url %}http://projects.scpr.org/firetracker/wildfires/archives/{% endblock %}
+{% block og_description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
+{% block twitter_url %}http://projects.scpr.org/firetracker/wildfires/archives/{% endblock %}
+{% block twitter_title %}Largest California Wildfires | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block twitter_description %}Based on historical data, these wildfires consumed the most acreage in California history.{% endblock %}
+<!-- end meta -->
+
+{% block css_overrides %}
+{% endblock %}
+
+{% block additional_scripts %}
+{% endblock %}
+
+{% block extended_page_header %}
+    <header class="masthead">
+        <div class="masthead-inner bound">
+            <div class="brief">
+                <h1><a href="{% url index %}wildfires/archives/">Largest California wildfires</a></h1>
+            </div>
+            <aside class="brand">
+                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
+                <h4><span>KPCC's tool for following &amp; researching California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
+            </aside>
+        </div><!--/ .masthead-inner -->
+    </header><!--/ .masthead -->
+{% endblock %}
+
+{% block extended_page_content %}
+    <div class="landing-row welcome">
+        <div class="landing-row-inner bound clearfix">
+            <section class="following">
+                {% for featured in calwildfires %}
+                    <article>
+                        <header class="clearfix">
+                            <h1><a href="{{ featured.get_absolute_url }}">{{ featured.fire_name }}</a></h1>
+                            <div class="meta">
+                                <h2>{{ featured.county }}</h2>
+                                <h3>Started: {{ featured.date_time_started|date:"D, M d, Y" }}</h3>
+                            </div>
+                            <h4 class="jump"><a href="{{ featured.get_absolute_url }}">Full Details</a></h4>
+                        </header>
+                        <div class="scenes clearfix">
+                            <div class="imagery clearfix">
+                                <figure class="location">
+                                    <!-- begin hooks for map or no -->
+                                    {% if featured.perimeters_image %}
+                                        <b class="img">
+                                            <a href="{{ featured.get_absolute_url }}"><img src="{{ featured.perimeters_image }}" alt="{{ wildfire.fire_name }}" /></a>
+                                        </b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% elif featured.location_latitude and featured.location_longitude %}
+                                        <b class="img">
+                                            <a href="{{ featured.get_absolute_url }}"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ featured.location_latitude }},{{ featured.location_longitude }}&amp;zoom=7&amp;size=222x146&amp;maptype=roadmap
+                                                        &amp;markers=color:blue%7C{{ featured.location_latitude }},{{ featured.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></a>
+                                        </b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% else %}
+                                        <b class="location no-map"></b>
+                                        <figcaption><span>{{ featured.location }}</span></figcaption>
+                                    {% endif %}
+                                    <!-- end hooks for map or no -->
+                                </figure>
+                                <figure class="photo">
+                                    {% if featured.asset_host_image_id %}
+                                        <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{ featured.asset_url_link }}" alt="{{ featured.fire_name }}" /></a></b>
+                                            <figcaption><span>{{ featured.asset_photo_credit }}</span></figcaption>
+                                    {% else %}
+                                        <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ featured.fire_name }}" /></a></b>
+                                        <figcaption><span>KPCC</span></figcaption>
+                                    {% endif %}
+                                </figure>
+                            </div>
+                            <aside class="vitals clearfix">
+                                <dl class="acres">
+                                    <dt>Acres burned</dt>
+                                    <dd>{{ featured.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                </dl>
+                                {% if featured.historical_narrative %}
+                                    <p>{{ featured.historical_narrative|truncatewords:55|default_if_none:" " }}</p>
+                                {% else %}
+                                    <p>The {{ featured.fire_name }} began on {{ featured.date_time_started|date:"F d, Y" }} in {{ featured.location }} in {{ featured.county }}.</p>
+                                {% endif %}
+                            </aside>
+                        </div>
+                    </article>
+                {% endfor %}
+
+                <p><strong>About the GIS data</strong>: The fire perimeters that accompany some of these fires are approximate, and are from the <a href="http://www.geomac.gov/index.shtml" target="blank">Geospatial Multi-Agency Coordination Group</a>, or GeoMAC.</p>
+
+            </section><!--/ .following -->
+            <div class="evergreen">
+                <aside class="resources">
+                    {% include 'fire_resources_list.html' %}
+                </aside>
+            </div><!--/ .evergreen -->
+        </div><!--/ .landing-row-inner -->
+    </div><!--/ .landing-row -->
+    {% include "footer.html" %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load humanize %}
+{% load tz %}
+{% load l10n %}
+{% load tracker_tags %}
+
+<h2>California Fire Resources</h2>
+<ul>
+    {% for content in resource_content|resource_content_to_include %}
+        <li><a href="{{ content.content_link }}">{{ content.content_headline }}</a></li>
+    {% endfor %}
+</ul>

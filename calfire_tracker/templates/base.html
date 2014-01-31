@@ -24,6 +24,8 @@
         <meta property="og:site_name" content="{% block og_site_name %}{% endblock %}" />
         <meta property="og:type" content="{% block og_type %}{% endblock %}" />
         <meta property="og:image" content="http://projects.scpr.org{% static 'meta/firetracker-opengraph.jpg' %}" />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
         <meta property="og:url" content="{% block og_url %}{% endblock %}" />
         <meta property="og:description" content="{% block og_description %}{% endblock %}" />
         <meta name="twitter:card" content="summary"/>
@@ -52,12 +54,12 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="{% static 'js/modernizr-2.5.3.min.js' %}"></script>
         <script src="{% static 'js/behaviors.js' %}"></script>
+        {% block additional_scripts %}{% endblock %}
         {% block kpcc_api_query_script %}{% endblock %}
         {% block kpcc_api_query_config %}{% endblock %}
         <script src="{% static 'js/moment.min.js' %}"></script>
         <script type="text/javascript" src="//use.typekit.net/mos4lel.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-        <script async="" src="http://www.google-analytics.com/ga.js"></script>
         <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
         <!-- end base scripts -->
 
@@ -76,31 +78,13 @@
 
         <!-- begin analytics -->
         <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-624724-5']);
-            _gaq.push(['_trackPageview']);
-
             (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-
-        <script type="text/javascript">
-            var _sf_async_config={uid:2825,domain:"projects.scpr.org"};
-            (function(){
-                function loadChartbeat() {
-                    window._sf_endpt=(new Date()).getTime();
-                    var e = document.createElement('script');
-                    e.setAttribute('language', 'javascript');
-                    e.setAttribute('type', 'text/javascript');
-                    e.setAttribute('src',
-                        (("https:" == document.location.protocol) ? "https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/" : "http://static.chartbeat.com/") + "js/chartbeat.js");
-                    document.body.appendChild(e);
-                };
-                var oldonload = window.onload;
-                window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = '//stream.publicbroadcasting.net/analytics/abf7.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
             })();
         </script>
         <!-- end analytics -->

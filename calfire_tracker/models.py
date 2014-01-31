@@ -4,13 +4,10 @@ from django.utils.encoding import smart_str
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 from geopy import geocoders
-import pytz
-import time, datetime
-import simplejson as json
-import urllib
-import logging
+import pytz, time, datetime, requests, logging
+from utilities import *
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
 class CalWildfire(models.Model):
 
@@ -46,6 +43,7 @@ class CalWildfire(models.Model):
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
     location_geocode_error = models.BooleanField('Needs Geocoded Location', default=True)
+    perimeters_image = models.URLField('Url to Perimeter Image', max_length=1024, null=True, blank=True)
 
     # fire stats
     injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
@@ -73,6 +71,7 @@ class CalWildfire(models.Model):
     training = models.TextField('Training', null=True, blank=True)
     phone_numbers = models.TextField('Phone Numbers', null=True, blank=True)
     notes = models.TextField('Notes', null=True, blank=True)
+    historical_narrative = models.TextField('Historical Narrative', null=True, blank=True)
 
     def __unicode__(self):
         return self.fire_name
@@ -81,42 +80,56 @@ class CalWildfire(models.Model):
     def get_absolute_url(self):
         return ('detail', [self.fire_slug,])
 
-    def fill_geocode_data(self):
-        if not self.computed_location:
-            self.location_geocode_error = True
-        else:
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.now()
+        if self.created_fire_id is None:
+        	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
+        if self.county_slug is None:
             try:
-                g = geocoders.GoogleV3()
-                address = smart_str(self.computed_location)
-                self.computed_location, (self.location_latitude, self.location_longitude,) = g.geocode(address)
-                self.location_geocode_error = False
-            except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
+                self.county_slug = self.county.replace(' ', '-').lower()
+            except:
+                pass
+        if self.twitter_hashtag is None:
+            try:
+            	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
+            except:
+                pass
+        if self.year is None:
+            try:
+                self.year = self.date_time_started.year
+            except:
+                self.year = datetime.date.today().year
+
+        # geocoding functions
+        if (self.location_latitude is None) or (self.location_longitude is None):
+            if self.computed_location:
+                geolocation_data = fill_geocode_data(self.computed_location)
+                self.computed_location = geolocation_data['computed_location']
+                self.location_latitude = geolocation_data['location_latitude']
+                self.location_longitude = geolocation_data['location_longitude']
+                self.location_geocode_error = geolocation_data['location_geocode_error']
+            else:
                 self.location_geocode_error = True
 
-    def search_assethost_for_image(self, kpcc_image_token):
-        url_prefix = 'http://a.scpr.org/api/assets/'
-        url_suffix = '.json?auth_token='
-        search_url = '%s%s%s%s' % (url_prefix, self.asset_host_image_id, url_suffix, kpcc_image_token)
-        json_response = urllib.urlopen(search_url)
-        json_response = json_response.readlines()
-        js_object = json.loads(json_response[0])
-        try:
-            self.asset_url_link = js_object['urls']['full']
-            self.asset_photo_credit = js_object['owner']
-        except:
-            self.asset_host_image_id = 'Could Not Find That ID'
-            self.asset_url_link = None
-            self.asset_photo_credit = None
+        # query for asset host image
+        if not self.asset_host_image_id:
+            asset_host_image_id = None
+        else:
+            asset_host_image_id = self.asset_host_image_id
+        kpcc_image_data = search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET, image_id = asset_host_image_id)
+        self.asset_host_image_id = kpcc_image_data['asset_host_image_id']
+        self.asset_url_link = kpcc_image_data['asset_url_link']
+        self.asset_photo_credit = kpcc_image_data['asset_photo_credit']
 
-    def save(self, *args, **kwargs):
-        #if not self.id:
-            #self.fire_slug = slugify(self.fire_name)
-        if not self.created_fire_id:
-        	self.created_fire_id = self.created_fire_id
-        if (self.location_latitude is None) or (self.location_longitude is None):
-            self.fill_geocode_data()
-        if self.asset_host_image_id:
-            self.search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET)
+        # populate air quality rating from api
+        if self.location_geocode_error == True:
+            pass
+        elif (self.location_latitude is None) or (self.location_longitude is None):
+            pass
+        else:
+            self.air_quality_rating = fill_air_quality_data(self.location_latitude, self.location_longitude)
+
+        # run the save function
         super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):
@@ -148,3 +161,45 @@ class WildfireTweet(models.Model):
         if not self.tweet_id:
         	self.tweet_id = self.tweet_id
         super(WildfireTweet, self).save()
+
+class WildfireAnnualReview(models.Model):
+    year = models.IntegerField('Fire Year', max_length=4, null=True, blank=True)
+    date_range_beginning = models.DateTimeField('Beginning Date Range', null=False)
+    date_range_end = models.DateTimeField('Ending Date Range', null=False)
+    acres_burned = models.IntegerField('Acres Burned', max_length=8, null=True, blank=True)
+    number_of_fires = models.IntegerField('Number of Fires', max_length=10, null=True, blank=True)
+    dollar_damage = models.DecimalField('Dollar Damage', max_digits=15, decimal_places=2, null=True, blank=True)
+    injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
+    structures_threatened = models.CharField('Reported Structures Threatened', max_length=1024, null=True, blank=True)
+    structures_destroyed = models.CharField('Reported Structures Destroyed', max_length=1024, null=True, blank=True)
+    administrative_unit = models.CharField('Administrative Unit', max_length=1024, null=True, blank=True)
+    jurisdiction = models.CharField('Jurisdiction', max_length=1024, null=True, blank=True)
+    data_source = models.URLField('URL to data source', max_length=1024, null=True, blank=True)
+    last_saved = models.DateTimeField('Last Saved', auto_now=True)
+
+    def __unicode__(self):
+        return self.jurisdiction
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.last_saved = datetime.datetime.now()
+        super(WildfireAnnualReview, self).save()
+
+class WildfireDisplayContent(models.Model):
+
+    '''
+    content_type_choices = (
+        ('Resource Content', 'Resource Content'),
+        ('Display Content', 'Display Content'),
+    )
+    content_type = models.MultipleChoiceField(null=True, choices=content_type_choices, default=content_type_choices[0][0])
+    '''
+
+    resource_content_type = models.BooleanField('Resource Content', default=True)
+    display_content_type = models.BooleanField('Display Content', default=False)
+    content_headline = models.TextField('Display Text', null=True, blank=True)
+    content_link = models.URLField('Display Link', max_length=1024, null=True, blank=True)
+    last_saved = models.DateTimeField('Last Saved', auto_now=True)
+
+    def __unicode__(self):
+        return self.content_headline
