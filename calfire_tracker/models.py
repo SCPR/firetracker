@@ -43,7 +43,7 @@ class CalWildfire(models.Model):
     location_latitude = models.FloatField('Geocoded Latitude', null=True, blank=True)
     location_longitude = models.FloatField('Geocoded Longitude', null=True, blank=True)
     location_geocode_error = models.BooleanField('Needs Geocoded Location', default=True)
-    perimeters_image = models.URLField('Image Source URL', max_length=1024, null=True, blank=True)
+    perimeters_image = models.URLField('Url to Perimeter Image', max_length=1024, null=True, blank=True)
 
     # fire stats
     injuries = models.CharField('Reported Injuries', max_length=2024, null=True, blank=True)
@@ -108,6 +108,8 @@ class CalWildfire(models.Model):
                 self.location_latitude = geolocation_data['location_latitude']
                 self.location_longitude = geolocation_data['location_longitude']
                 self.location_geocode_error = geolocation_data['location_geocode_error']
+            else:
+                self.location_geocode_error = True
 
         # query for asset host image
         if not self.asset_host_image_id:
