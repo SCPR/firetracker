@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.template.defaultfilters import slugify
 from geopy import geocoders
 import pytz, time, datetime, requests, logging
+from utilities import *
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
@@ -79,78 +80,54 @@ class CalWildfire(models.Model):
     def get_absolute_url(self):
         return ('detail', [self.fire_slug,])
 
-    def fill_geocode_data(self):
-        if not self.computed_location:
-            self.location_geocode_error = True
-        else:
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.now()
+        if self.created_fire_id is None:
+        	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
+        if self.county_slug is None:
             try:
-                g = geocoders.GoogleV3()
-                address = smart_str(self.computed_location)
-                self.computed_location, (self.location_latitude, self.location_longitude,) = g.geocode(address)
-                self.location_geocode_error = False
-            except (UnboundLocalError, ValueError,geocoders.google.GQueryError):
-                self.location_geocode_error = True
+                self.county_slug = self.county.replace(' ', '-').lower()
+            except:
+                pass
+        if self.twitter_hashtag is None:
+            try:
+            	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
+            except:
+                pass
+        if self.year is None:
+            try:
+                self.year = self.date_time_started.year
+            except:
+                self.year = datetime.date.today().year
 
-    def fill_air_quality_data(self):
+        # geocoding functions
+        if (self.location_latitude is None) or (self.location_longitude is None):
+            if self.computed_location:
+                geolocation_data = fill_geocode_data(self.computed_location)
+                self.computed_location = geolocation_data['computed_location']
+                self.location_latitude = geolocation_data['location_latitude']
+                self.location_longitude = geolocation_data['location_longitude']
+                self.location_geocode_error = geolocation_data['location_geocode_error']
+
+        # query for asset host image
+        if not self.asset_host_image_id:
+            asset_host_image_id = None
+        else:
+            asset_host_image_id = self.asset_host_image_id
+        kpcc_image_data = search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET, image_id = asset_host_image_id)
+        self.asset_host_image_id = kpcc_image_data['asset_host_image_id']
+        self.asset_url_link = kpcc_image_data['asset_url_link']
+        self.asset_photo_credit = kpcc_image_data['asset_photo_credit']
+
+        # populate air quality rating from api
         if self.location_geocode_error == True:
             pass
         elif (self.location_latitude is None) or (self.location_longitude is None):
             pass
         else:
-            try:
-                air_quality_url = 'http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=%s&longitude=%s&distance=30&API_KEY=AABE5F75-6C5A-47C2-AB74-2D138C9055B2' % (self.location_latitude, self.location_longitude)
-                air_quality_query = requests.get(air_quality_url, headers= {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
-                air_quality_json = air_quality_query.json()
-                if len(air_quality_json) == 0:
-                    pass
-                elif len(air_quality_json) == 2:
-                    self.air_quality_rating = air_quality_json[1]['AQI']
-                else:
-                    self.air_quality_rating = air_quality_json[0]['AQI']
-            except:
-                self.air_quality_rating = 0
+            self.air_quality_rating = fill_air_quality_data(self.location_latitude, self.location_longitude)
 
-    def search_assethost_for_image(self, kpcc_image_token):
-        url_prefix = 'http://a.scpr.org/api/assets/'
-        url_suffix = '.json?auth_token='
-        search_url = '%s%s%s%s' % (url_prefix, self.asset_host_image_id, url_suffix, kpcc_image_token)
-        kpcc_query_api = requests.get(search_url, headers={"From": "ckeller@scpr.org","User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
-        kpcc_image_data = kpcc_query_api.json()
-        try:
-            self.asset_url_link = kpcc_image_data['urls']['full']
-            self.asset_photo_credit = kpcc_image_data['owner']
-        except:
-            self.asset_host_image_id = 'Could Not Find That ID'
-            self.asset_url_link = None
-            self.asset_photo_credit = None
-
-    def save(self, *args, **kwargs):
-        self.last_updated = datetime.datetime.now()
-        if not self.created_fire_id:
-        	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
-        if not self.county_slug:
-            try:
-                self.county_slug = self.county.replace(' ', '-').lower()
-            except:
-                pass
-        if not self.twitter_hashtag:
-            try:
-            	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
-            except:
-                pass
-        if not self.year:
-            try:
-                self.year = self.date_time_started.year
-            except:
-                self.year = datetime.date.today().year
-        if (self.location_latitude is None) or (self.location_longitude is None):
-            self.fill_geocode_data()
-        if self.asset_host_image_id:
-            self.search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET)
-        if not self.asset_host_image_id:
-            self.asset_url_link = None
-            self.asset_photo_credit = None
-        self.fill_air_quality_data()
+        # run the save function
         super(CalWildfire, self).save(*args, **kwargs)
 
 class WildfireUpdate(models.Model):
