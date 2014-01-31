@@ -10,7 +10,6 @@ from django.utils import simplejson
 from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 from django.conf import settings
 from dateutil import parser
-from kpccapi import *
 from random import randint
 import logging, re
 

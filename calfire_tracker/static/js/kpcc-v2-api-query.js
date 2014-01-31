@@ -95,8 +95,6 @@ var kpccApiArticleDisplay = {
                 kpccApiArticleDisplay.noArticlesFound(kpccApiArticleConfig.contentContainer);
             }
         } else {
-
-            console.log(data);
             jqueryNoConflict(kpccApiArticleConfig.contentContainer).append('<ul id="article-list-content"></ul>');
 
             // begin loop
