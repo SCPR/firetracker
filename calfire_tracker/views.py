@@ -11,7 +11,7 @@ from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, W
 from django.conf import settings
 from dateutil import parser
 from random import randint
-import logging, re
+import logging, re, json
 
 logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
 
