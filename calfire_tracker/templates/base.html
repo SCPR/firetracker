@@ -76,38 +76,9 @@
 
         <!-- footer included where needed -->
 
-        <!-- begin google analytics -->
+        <!-- begin chartbeat -->
         <script type="text/javascript">
-            var currentPath = window.location.pathname;
-
-            var pageType = _.find(scpr.GA_PAGE_MAPPING, function(v, k) {
-                return currentPath.match(new RegExp(k)) !== null;
-            });
-
-            var _gaq = _gaq || [];
-            _gaq.push(
-                ['_setAccount', 'UA-624724-1'],
-                ['_setDomainName', 'scpr.org'],
-                ['_setCustomVar', 6, 'Station', 'Southern California Public Radio', 2],
-                ['_setCustomVar', 7, 'PageType', 'Story', 3],
-                ['_trackPageview'],
-                ['b._setAccount', 'UA-18188937-11'],
-                ['b._setDomainName', 'scpr.org'],
-                ['b._setCustomVar', 6, 'Station', 'Southern California Public Radio', 2],
-                ['b._setCustomVar', 7, 'PageType', 'Story', 3],
-                ['b._trackPageview']
-            );
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        <!-- end google analytics -->
-
-        <!-- begin chartbeat analytics -->
-        <script type="text/javascript">
-            var _sf_async_config = { uid: 33583, domain: 'scpr.org', useCanonical:true };
+            var _sf_async_config = { uid: 33583, domain: 'projects.scpr.org', useCanonical:true };
             (function() {
                 function loadChartbeat() {
                     window._sf_endpt = (new Date()).getTime();
@@ -121,7 +92,68 @@
                 window.onload = (typeof window.onload != 'function') ? loadChartbeat : function() { oldonload(); loadChartbeat(); };
             })();
         </script>
-        <!-- end chartbeat analytics -->
+        <!-- end chartbeat -->
+
+        <!-- begin google analytics -->
+        <script type="text/javascript">
+            var hostName = 'projects.scpr.org';
+            var _gaq = _gaq || [];
+            _gaq.push(
+                ['_setAccount', 'UA-624724-1'],
+                ['_setDomainName', hostName],
+                ['_setCustomVar', 6, 'Station', 'Southern California Public Radio', 2],
+                ['_setCustomVar', 7, 'PageType', 'Story', 3],
+                ['_trackPageview'],
+                ['b._setAccount', 'UA-18188937-11'],
+                ['b._setDomainName', hostName],
+                ['b._setCustomVar', 6, 'Station', 'Southern California Public Radio', 2],
+                ['b._setCustomVar', 7, 'PageType', 'Story', 3],
+                ['b._trackPageview']
+            );
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- end google analytics -->
+
+        <!-- begin webtrends stats -->
+        <script src="http://media.scpr.org/assets/scripts/webtrends.v2.js"></script>
+        <script>
+            //<![CDATA[
+                var _tag=new WebTrends();
+                _tag.dcsGetId();
+            //]]>
+        </script>
+        <script>
+            //<![CDATA[
+                _tag.dcsCustom=function(){
+                    // Add custom parameters here.
+                    //_tag.DCSext.param_name=param_value;
+                }
+            _tag.dcsCollect();
+            //]]>
+        </script>
+        <noscript>
+            <div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://statse.webtrendslive.com/dcsyqctzwuz5bdsebpmwhwe8w_2p8d/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.3.0&amp;WT.dcssip=www.scpr.org"/></div>
+        </noscript>
+        <!-- end webtrends stats -->
+
+        <!-- begin comscore stats -->
+        <script>
+            var _comscore = _comscore || [];
+            _comscore.push({ c1: "2", c2: "6035974", c3: "", c4: "" });
+            (function() {
+            var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+            s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+            el.parentNode.insertBefore(s, el);
+            })();
+        </script>
+        <noscript>
+            <img src="http://b.scorecardresearch.com/p?c1=2&c2=6035974&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" />
+        </noscript>
+        <!-- end comscore stats -->
 
     </body>
     <!-- end body -->
