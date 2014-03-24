@@ -74,8 +74,6 @@ MIDDLEWARE_CLASSES = (
     'calfire_tracker.middleware.XsSharing'
 )
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = (60 * 5)
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
