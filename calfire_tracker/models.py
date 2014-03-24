@@ -103,11 +103,15 @@ class CalWildfire(models.Model):
         # geocoding functions
         if (self.location_latitude is None) or (self.location_longitude is None):
             if self.computed_location:
-                geolocation_data = fill_geocode_data(self.computed_location)
-                self.computed_location = geolocation_data['computed_location']
-                self.location_latitude = geolocation_data['location_latitude']
-                self.location_longitude = geolocation_data['location_longitude']
-                self.location_geocode_error = geolocation_data['location_geocode_error']
+                try:
+                    geolocation_data = fill_geocode_data(self.computed_location)
+                    self.computed_location = geolocation_data['computed_location']
+                    self.location_latitude = geolocation_data['location_latitude']
+                    self.location_longitude = geolocation_data['location_longitude']
+                    self.location_geocode_error = geolocation_data['location_geocode_error']
+                except:
+                    self.computed_location = None
+                    self.location_geocode_error = True
             else:
                 self.location_geocode_error = True
 
