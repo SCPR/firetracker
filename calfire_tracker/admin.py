@@ -46,7 +46,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
         date_hierarchy = 'date_time_started'
         save_on_top = True
         prepopulated_fields = {
-            'fire_slug': ('fire_name',),
             'county_slug': ('county',)
         }
         fieldsets = [
@@ -63,11 +62,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'twitter_hashtag',
                     'air_quality_rating',
                     'year',
-                    'fire_slug',
-                    'county_slug',
-                    'created_fire_id',
                     'last_updated',
-                    'last_scraped',
                     'historical_narrative',
                     'notes',
                 ]
@@ -82,6 +77,15 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'administrative_unit',
                     'data_source',
                     'more_info',
+                ]
+            }),
+            ('MetaData', {
+                'classes': ('collapse', 'wide', 'extrapretty',),
+                'fields': [
+                    'fire_slug',
+                    'county_slug',
+                    'created_fire_id',
+                    'last_scraped',
                 ]
             }),
             ('Location Information', {
