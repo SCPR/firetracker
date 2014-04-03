@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.encoding import smart_str
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+from django.shortcuts import get_object_or_404
 from geopy import geocoders
 import pytz, time, datetime, requests, logging
 from utilities import *
@@ -82,19 +83,24 @@ class CalWildfire(models.Model):
 
     def save(self, *args, **kwargs):
         self.last_updated = datetime.datetime.now()
-        if self.created_fire_id is None:
-        	self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
-        if self.county_slug is None:
+        if not self.created_fire_id:
+            self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
+        if not self.county_slug:
             try:
                 self.county_slug = self.county.replace(' ', '-').lower()
             except:
                 pass
-        if self.twitter_hashtag is None:
+        if not self.fire_slug:
+            try:
+                self.fire_slug = self.created_fire_id.replace(' ', '-').lower()
+            except:
+                pass
+        if not self.twitter_hashtag:
             try:
             	self.twitter_hashtag = '#%s' % (self.fire_name.replace(' ', ''))
             except:
                 pass
-        if self.year is None:
+        if not self.year:
             try:
                 self.year = self.date_time_started.year
             except:
