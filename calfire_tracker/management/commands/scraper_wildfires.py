@@ -198,9 +198,6 @@ def save_data_from_dict_to_model(fire):
     else:
         county = None
 
-    county_slug = '%s' % (slugifyFireName(county))
-    scraped_fire_slug = '%s' % (slugifyFireName(fire_name))
-
     if fire.has_key('created_fire_id'):
         created_fire_id = fire['created_fire_id']
     else:
@@ -351,6 +348,10 @@ def save_data_from_dict_to_model(fire):
         phone_numbers = None
 
     last_scraped = datetime.datetime.now()
+
+    county_slug = '%s' % (slugifyFireName(county))
+
+    scraped_fire_slug = '%s' % (slugifyFireName(fire_name))
 
     if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
         fire_slug = scraped_fire_slug
