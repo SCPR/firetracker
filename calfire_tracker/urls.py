@@ -22,6 +22,13 @@ urlpatterns = patterns('',
     ),
 
     url(
+        regex   = r'^(?P<fire_slug>[-\w]+)/trackback/$',
+        view    = detail,
+        kwargs  = {},
+        name    = 'detail',
+    ),
+
+    url(
         regex   = r'^(?P<fire_slug>[-\w]+)/embed/$',
         view    = embeddable,
         kwargs  = {},
