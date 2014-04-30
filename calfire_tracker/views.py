@@ -36,7 +36,7 @@ def index(request):
     count = WildfireDisplayContent.objects.filter(display_content_type=True).count()
     random_index = randint(0, count-1)
     display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
-    cache_expire = (60*30)
+    cache_expire = (60*20)
     cache_timestamp = cache_timestamp[0].last_saved
     return render_to_response('index.html', {
         'calwildfires': calwildfires,
