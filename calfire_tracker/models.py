@@ -136,6 +136,8 @@ class CalWildfire(models.Model):
             pass
         elif (self.location_latitude is None) or (self.location_longitude is None):
             pass
+        elif (self.air_quality_rating is not None):
+            pass
         else:
             self.air_quality_rating = fill_air_quality_data(self.location_latitude, self.location_longitude)
 
