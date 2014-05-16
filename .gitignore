@@ -16,7 +16,8 @@ v3_scraper_wildfires.py
 v4_scraper_wildfires.py
 v5_scraper_wildfires.py
 v6_scraper_wildfires.py
-bak_fires.json
-bak_tweets.json
-new_fires.json
-new_tweets.json
+bak_calwildfire.json
+bak_wildfireannualreview.json
+bak_wildfiredisplaycontent.json
+bak_wildfiretweet.json
+bak_wildfireupdate.json
