@@ -82,7 +82,7 @@ class CalWildfire(models.Model):
         return ('detail', [self.fire_slug,])
 
     def save(self, *args, **kwargs):
-        self.last_updated = datetime.datetime.now()
+        #self.last_updated = datetime.datetime.now()
         if not self.created_fire_id:
             self.created_fire_id = '%s-%s' % (self.fire_name, self.county)
         if not self.county_slug:
