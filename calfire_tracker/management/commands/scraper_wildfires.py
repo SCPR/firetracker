@@ -43,26 +43,26 @@ class Command(BaseCommand):
     help = 'Scrapes California Wildfires data'
     def handle(self, *args, **options):
         if scraper_variables["status"] == "testing":
-            raw_html = make_request_to(scraper_variables["request_url"], scraper_variables["request_headers"])
+            raw_html = make_request_to(scraper_variables["request_url"])
             with open("wildfire_test.html", "wb", buffering=0) as new_file:
                 new_file.write(raw_html)
             new_file.close()
             process("wildfire_test.html")
         elif scraper_variables["status"] == "live":
-            raw_html = make_request_to(scraper_variables["request_url"], scraper_variables["request_headers"])
+            raw_html = make_request_to(scraper_variables["request_url"])
             process(raw_html)
         else:
             pass
         self.stdout.write('\nScraping finished at %s\n' % str(datetime.datetime.now()))
 
 
-def make_request_to(url, header_params):
+def make_request_to(url):
     """
     make request to url and return response content
     """
     while True:
         try:
-            request = requests.get(url, headers=header_params)
+            request = requests.get(url, headers=scraper_variables["request_headers"])
             if request.status_code == 200:
                 raw_html = request.content
             else:
