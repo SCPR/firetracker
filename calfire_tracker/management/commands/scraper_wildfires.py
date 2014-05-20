@@ -172,7 +172,6 @@ def follow_details_link(list_of_fires):
             time.sleep(20)
             calfire_data = make_request_to(fire['details_link'])
             raw_html_content = BeautifulSoup(calfire_data)
-            logging.debug(raw_html_content)
             table_instances = raw_html_content.findAll('table', {'class': 'incident_table'})
             for table in table_instances:
                 fire["details_link"] = details_link_present(table)
