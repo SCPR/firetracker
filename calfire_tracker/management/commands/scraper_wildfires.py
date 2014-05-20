@@ -570,9 +570,9 @@ def send_new_fire_email(fire_name, acres_burned, county, containment_percent):
     email_message = 'The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s' % (fire_name, acres_burned, county, containment_percent, email_date)
     send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', [
         'ckeller@scpr.org',
-        #'Ezassenhaus@scpr.org',
-        #'mroe@scpr.org',
-        #'brian.frank@scpr.org',
+        'Ezassenhaus@scpr.org',
+        'mroe@scpr.org',
+        'brian.frank@scpr.org',
     ], fail_silently=True)
 
 
@@ -598,7 +598,6 @@ def convert_time_to_nicey_format(date_time_parse):
     based on http://stackoverflow.com/questions/17193228/python-twitter-api-tweet-timestamp-convert-from-utc-to-est
     """
     date_time_parse = date_time_parse.strip("&nbsp;")
-    logging.debug(date_time_parse)
     utc = timezone("UTC")
     pacific = pytz.timezone("US/Pacific")
     date_time_parse = parser.parse(date_time_parse)
@@ -611,7 +610,6 @@ def compare_webpage_to_database(date_from_webpage, date_from_database):
     convert date to datetime, set tzinfo to pacific and compare it as UTC
     """
     date_from_webpage = date_from_webpage.strip("&nbsp;")
-    logging.debug(date_from_webpage)
     utc = timezone("UTC")
     pacific = pytz.timezone("US/Pacific")
     parsed_date_from_webpage = parser.parse(date_from_webpage)
