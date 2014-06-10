@@ -530,7 +530,7 @@ def save_data_from_dict_to_model(fire):
         obj.last_scraped = last_scraped
         obj.acres_burned = acres_burned
         obj.containment_percent = containment_percent
-        obj.date_time_started = date_time_started
+        #obj.date_time_started = date_time_started
         obj.last_updated = last_updated
         obj.administrative_unit = administrative_unit
         obj.more_info = more_info
