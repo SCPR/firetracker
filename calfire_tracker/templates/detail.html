@@ -110,10 +110,13 @@
                                 <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
                                 <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
                             </figure>
-                            <figure>
-                                <span>{{ calwildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
-                                <figcaption>Air Quality Index (500: most hazardous)</figcaption>
-                            </figure>
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <figure>
+                                    <span>{{ calwildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
+                                    <figcaption>Air Quality Index (500: most hazardous)</figcaption>
+                                </figure>
+                            {% else %}
+                            {% endif %}
                         </div><!--/ .stats -->
                         {% if calwildfire.asset_host_image_id %}
                             <div class="photo">
@@ -149,18 +152,22 @@
                         {% endif %}
                         <!-- end hooks for map or no -->
                         <section class="damages">
-                            <dl class="threatened">
-                                <dt>Structures Threatened</dt>
-                                <dd>{{ calwildfire.structures_threatened|default:"n/a"|default_if_none:"n/a" }}</dd>
-                            </dl>
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <dl class="threatened">
+                                    <dt>Structures Threatened</dt>
+                                    <dd>{{ calwildfire.structures_threatened|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                </dl>
+                            {% endif %}
                             <dl class="destroyed">
                                 <dt>Structures Destroyed</dt>
                                 <dd>{{ calwildfire.structures_destroyed|default:"n/a"|default_if_none:"n/a" }}</dd>
                             </dl>
-                            <dl class="evacuations">
-                                <dt>Evacuations</dt>
-                                <dd>{{ calwildfire.evacuations|default:"n/a"|default_if_none:"n/a" }}</dd>
-                            </dl>
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <dl class="evacuations">
+                                    <dt>Evacuations</dt>
+                                    <dd>{{ calwildfire.evacuations|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                </dl>
+                            {% endif %}
                             <dl class="injuries">
                                 <dt>Injuries</dt>
                                 <dd>{{ calwildfire.injuries|default:"n/a"|default_if_none:"n/a" }}</dd>
@@ -174,41 +181,43 @@
                         <section class="coverage">
                             <h2>Recent KPCC Coverage</h2>
                         </section>
-                        <section class="deployed">
-                            <h2>Resources Deployed</h2>
-                            <div class="row clearfix">
-                                <dl class="personnel">
-                                    <dt>Fire Personnel</dt>
-                                    <dd>{{ calwildfire.total_fire_personnel|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                                <dl class="engines">
-                                    <dt>Fire Engines</dt>
-                                    <dd>{{ calwildfire.total_fire_engines|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                                <dl class="crews">
-                                    <dt>Fire Crews</dt>
-                                    <dd>{{ calwildfire.total_fire_crews|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                                <dl class="tankers">
-                                    <dt>Air Tankers</dt>
-                                    <dd>{{ calwildfire.total_airtankers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            </div>
-                            <div class="row clearfix">
-                                <dl class="helicopters">
-                                    <dt>Helicopters</dt>
-                                    <dd>{{ calwildfire.total_helicopters|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                                <dl class="dozers">
-                                    <dt>Dozers</dt>
-                                    <dd>{{ calwildfire.total_dozers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                                <dl class="tenders">
-                                    <dt>Water Tenders</dt>
-                                    <dd>{{ calwildfire.total_water_tenders|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
-                                </dl>
-                            </div>
-                        </section><!--/ .deployed -->
+                        {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                            <section class="deployed">
+                                <h2>Resources Deployed</h2>
+                                <div class="row clearfix">
+                                    <dl class="personnel">
+                                        <dt>Fire Personnel</dt>
+                                        <dd>{{ calwildfire.total_fire_personnel|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="engines">
+                                        <dt>Fire Engines</dt>
+                                        <dd>{{ calwildfire.total_fire_engines|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="crews">
+                                        <dt>Fire Crews</dt>
+                                        <dd>{{ calwildfire.total_fire_crews|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="tankers">
+                                        <dt>Air Tankers</dt>
+                                        <dd>{{ calwildfire.total_airtankers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="row clearfix">
+                                    <dl class="helicopters">
+                                        <dt>Helicopters</dt>
+                                        <dd>{{ calwildfire.total_helicopters|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="dozers">
+                                        <dt>Dozers</dt>
+                                        <dd>{{ calwildfire.total_dozers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="tenders">
+                                        <dt>Water Tenders</dt>
+                                        <dd>{{ calwildfire.total_water_tenders|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                </div>
+                            </section><!--/ .deployed -->
+                        {% endif %}
                         <div class="tertiaries clearfix">
                             <section class="updates">
                                 <h2>Updates Tracker</h2>
@@ -223,27 +232,6 @@
                             <section class="details">
                                 <h2>More Details</h2>
                                 <dl>
-                                    <dt>Administrative Unit</dt>
-                                    <dd>{{ calwildfire.administrative_unit|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Road Closures</dt>
-                                    <dd>{{ calwildfire.road_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Cause</dt>
-                                    <dd>{{ calwildfire.cause|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>School Closures</dt>
-                                    <dd>{{ calwildfire.school_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Cooperating Agencies</dt>
-                                    <dd>{{ calwildfire.cooperating_agencies|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Conditions</dt>
-                                    <dd>{{ calwildfire.conditions|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Phone Numbers</dt>
-                                    <dd>{{ calwildfire.phone_numbers|default:"n/a"|default_if_none:"n/a" }}</dd>
-
                                     {% if calwildfire.data_source and calwildfire.more_info %}
                                         <dt>Additional Details</dt>
                                         <dd><a href="{{ calwildfire.more_info }}">Information from {{ calwildfire.data_source }}</a></dd>
@@ -256,25 +244,38 @@
                                                <dd>n/a</dd>
                                         {% endif %}
                                     {% endif %}
-
-                                    {% if calwildfire.data_source == 'Inciweb' %}
-                                        <dt>Current Situation</dt>
-                                        <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
-                                    {% else %}
-                                        {% if calwildfire.data_source == 'CalFire' %}
+                                    <dt>Administrative Unit</dt>
+                                    <dd>{{ calwildfire.administrative_unit|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    <dt>Cause</dt>
+                                    <dd>{{ calwildfire.cause|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                        <dt>Road Closures</dt>
+                                        <dd>{{ calwildfire.road_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        {% if calwildfire.data_source == 'Inciweb' %}
                                             <dt>Current Situation</dt>
                                             <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
                                         {% else %}
-                                            <dt>Current Situation</dt>
-                                            <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                            {% if calwildfire.data_source == 'CalFire' %}
+                                                <dt>Current Situation</dt>
+                                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                            {% else %}
+                                                <dt>Current Situation</dt>
+                                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                            {% endif %}
                                         {% endif %}
+                                        <dt>School Closures</dt>
+                                        <dd>{{ calwildfire.school_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Cooperating Agencies</dt>
+                                        <dd>{{ calwildfire.cooperating_agencies|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Conditions</dt>
+                                        <dd>{{ calwildfire.conditions|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Phone Numbers</dt>
+                                        <dd>{{ calwildfire.phone_numbers|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Damage Assessment</dt>
+                                        <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Training</dt>
+                                        <dd>{{ calwildfire.training|default:"n/a"|default_if_none:"n/a" }}</dd>
                                     {% endif %}
-
-                                    <dt>Damage Assessment</dt>
-                                    <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
-
-                                    <dt>Training</dt>
-                                    <dd>{{ calwildfire.training|default:"n/a"|default_if_none:"n/a" }}</dd>
                                 </dl>
                             </section><!--/ .details -->
                         </div><!--/ .tertiaries -->

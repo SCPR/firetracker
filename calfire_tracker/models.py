@@ -15,7 +15,7 @@ class CalWildfire(models.Model):
     # management & curation
     created_fire_id = models.CharField("Fire Unique ID", max_length=500, null=True, blank=True)
     update_lockout = models.BooleanField("Lock Data?", default=False)
-    fire_closeout_toggle = models.NullBooleanField("Close This Fire?", null=True, default=False)
+    fire_closeout_toggle = models.BooleanField("Close This Fire?", default=False)
     promoted_fire = models.BooleanField("Feature This?", default=False)
     asset_host_image_id = models.CharField("Asset Host Image ID", max_length=140, null=True, blank=True)
     asset_url_link = models.URLField("Image Source URL", max_length=1024, null=True, blank=True)

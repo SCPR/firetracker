@@ -171,6 +171,12 @@ def all_fires_to_include(value):
     result_list = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
     return result_list
 
+def eval_closeout(value):
+    if value == True:
+        return "close-me"
+    else:
+        return "display-me"
+
 register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
@@ -179,6 +185,7 @@ register.filter(create_date)
 register.filter(format_for_timezone)
 register.filter(resource_content_to_include)
 register.filter(all_fires_to_include)
+register.filter(eval_closeout)
 
 def _test():
     import doctest
