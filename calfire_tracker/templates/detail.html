@@ -248,6 +248,8 @@
                                     <dd>{{ calwildfire.administrative_unit|default:"n/a"|default_if_none:"n/a" }}</dd>
                                     <dt>Cause</dt>
                                     <dd>{{ calwildfire.cause|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    <dt>Damage Assessment</dt>
+                                    <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
                                     {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
                                         <dt>Road Closures</dt>
                                         <dd>{{ calwildfire.road_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
@@ -271,8 +273,6 @@
                                         <dd>{{ calwildfire.conditions|default:"n/a"|default_if_none:"n/a" }}</dd>
                                         <dt>Phone Numbers</dt>
                                         <dd>{{ calwildfire.phone_numbers|default:"n/a"|default_if_none:"n/a" }}</dd>
-                                        <dt>Damage Assessment</dt>
-                                        <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
                                         <dt>Training</dt>
                                         <dd>{{ calwildfire.training|default:"n/a"|default_if_none:"n/a" }}</dd>
                                     {% endif %}
