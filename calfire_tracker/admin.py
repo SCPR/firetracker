@@ -174,11 +174,11 @@ class CalWildfireAdmin(admin.ModelAdmin):
         unlock_fire_data.short_description = "Allow Auto Updates"
 
         def close_fire(self, request, queryset):
-            queryset.update(fire_closeout_toggle = "Yes")
+            queryset.update(fire_closeout_toggle = True)
         close_fire.short_description = "Close out this fire"
 
         def unclose_fire(self, request, queryset):
-            queryset.update(fire_closeout_toggle = "No")
+            queryset.update(fire_closeout_toggle = False)
         unclose_fire.short_description = "Unclose out this fire"
 
         def update_last_saved_time_and_image(self, request, queryset):
