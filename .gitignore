@@ -21,3 +21,4 @@ bak_wildfireannualreview.json
 bak_wildfiredisplaycontent.json
 bak_wildfiretweet.json
 bak_wildfireupdate.json
+migrations/__init__.py
