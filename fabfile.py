@@ -112,6 +112,14 @@ def localscrape():
     # production function to manually run the scraper in local environment
     local("python manage.py scraper_wildfires")
 
+def localschema():
+    # production function to manually run the scraper in local environment
+    local("python manage.py schemamigration calfire_tracker --auto")
+
+def localmigrate():
+    # production function to manually run the scraper in local environment
+    local("python manage.py migrate calfire_tracker")
+
 def localtweets():
     # production function to manually poll twitter in local environment
     local("python manage.py tweepy_to_db")
