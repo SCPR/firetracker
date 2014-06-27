@@ -37,7 +37,7 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'air_quality_rating', 'county', 'last_updated', 'last_scraped', 'notes', 'last_saved',)
+	list_display = ('fire_name', 'fire_closeout_toggle', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'air_quality_rating', 'county', 'last_updated', 'last_scraped', 'notes', 'last_saved',)
 	list_filter = ['data_source', 'county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
@@ -51,6 +51,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
         fieldsets = [
             ('Management & Curation', {
                 'fields': [
+                    'fire_closeout_toggle',
                     'update_lockout',
                     'promoted_fire',
                     'asset_host_image_id',
@@ -139,6 +140,8 @@ class CalWildfireAdmin(admin.ModelAdmin):
             'unfeature',
             'lock_fire_data',
             'unlock_fire_data',
+            'close_fire',
+            'unclose_fire',
             'update_last_saved_time_and_image',
             'update_air_quality_data',
             #'tweet_fire_details_from_admin',
@@ -169,6 +172,14 @@ class CalWildfireAdmin(admin.ModelAdmin):
         def unlock_fire_data(self, request, queryset):
             queryset.update(update_lockout = False)
         unlock_fire_data.short_description = "Allow Auto Updates"
+
+        def close_fire(self, request, queryset):
+            queryset.update(fire_closeout_toggle = "Yes")
+        close_fire.short_description = "Close out this fire"
+
+        def unclose_fire(self, request, queryset):
+            queryset.update(fire_closeout_toggle = "No")
+        unclose_fire.short_description = "Unclose out this fire"
 
         def update_last_saved_time_and_image(self, request, queryset):
             date = datetime.datetime.now()
