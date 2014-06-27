@@ -104,19 +104,19 @@ def server_sync_data_with_local(model=''):
 #### ####
 
 # development functions
-def local_run():
+def localrun():
     # runs local dev server
     local("python manage.py runserver")
 
-def local_scrape():
+def localscrape():
     # production function to manually run the scraper in local environment
     local("python manage.py scraper_wildfires")
 
-def local_tweets():
+def localtweets():
     # production function to manually poll twitter in local environment
     local("python manage.py tweepy_to_db")
 
-def local_fixture_dump(model=''):
+def localfixture_dump(model=''):
     # dumps fixtures file of wildfires in the database
     # ex usage:
         # fab local_fixture_dump:'calwildfire'
@@ -126,7 +126,7 @@ def local_fixture_dump(model=''):
         # fab local_fixture_dump:'wildfiredisplaycontent'
     local("python manage.py dumpdata calfire_tracker.%s --indent=2 > bak_%s.json" % (model, model))
 
-def local_fixture_load(model=''):
+def localfixture_load(model=''):
     # dumps fixtures file of wildfires in the database
     # ex usage:
         # fab local_fixture_load:'calwildfire'
