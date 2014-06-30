@@ -40,7 +40,7 @@ def fill_air_quality_data(location_latitude, location_longitude):
                     air_quality_parameter = "Fine particles (PM2.5)"
                 elif data["ParameterName"] == "O3":
                     air_quality_rating = data["AQI"]
-                    air_quality_parameter = "Ozone"
+                    air_quality_parameter = "Ozone (O3)"
                 else:
                     air_quality_rating = None
                     air_quality_parameter = None

@@ -202,7 +202,11 @@
                                         <dd>{{ featured.date_time_started|date:"M j" }}</dd>
                                     </dl>
                                     <dl class="air">
-                                        <dt>Air Quality Index (Worst: 500)</dt>
+                                        {% if featured.air_quality_parameter %}
+                                            <dt>{{ featured.air_quality_parameter}}</dt>
+                                        {% else %}
+                                            <dt>Air Quality Index (Worst: 500)</dt>
+                                        {% endif %}
                                         <dd>{{ featured.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
                                     </dl>
                                 </aside>
