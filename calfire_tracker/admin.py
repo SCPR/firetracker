@@ -62,6 +62,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
                     'date_time_started',
                     'twitter_hashtag',
                     'air_quality_rating',
+                    'air_quality_parameter',
                     'year',
                     'last_updated',
                     'historical_narrative',

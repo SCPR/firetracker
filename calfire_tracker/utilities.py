@@ -24,21 +24,35 @@ def search_assethost_for_image(kpcc_image_token, **kwargs):
         kpcc_image_data = {'asset_url_link': None, 'asset_photo_credit': None, 'asset_host_image_id': None}
     return kpcc_image_data
 
+
 def fill_air_quality_data(location_latitude, location_longitude):
-    logging.debug(location_latitude)
     try:
         air_quality_url = 'http://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=%s&longitude=%s&distance=30&API_KEY=AABE5F75-6C5A-47C2-AB74-2D138C9055B2' % (location_latitude, location_longitude)
         air_quality_query = requests.get(air_quality_url, headers= {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
         air_quality_json = air_quality_query.json()
         if len(air_quality_json) == 0:
-            pass
-        elif len(air_quality_json) == 2:
-            air_quality_rating = air_quality_json[1]['AQI']
+            air_quality_rating = None
+            air_quality_parameter = None
+        elif len(air_quality_json) >= 1:
+            for data in air_quality_json:
+                if data["ParameterName"] == "PM2.5":
+                    air_quality_rating = data["AQI"]
+                    air_quality_parameter = "Fine particles (PM2.5)"
+                elif data["ParameterName"] == "O3":
+                    air_quality_rating = data["AQI"]
+                    air_quality_parameter = "Ozone (O3)"
+                else:
+                    air_quality_rating = None
+                    air_quality_parameter = None
         else:
-            air_quality_rating = air_quality_json[0]['AQI']
+            air_quality_rating = None
+            air_quality_parameter = None
     except:
         air_quality_rating = None
-    return air_quality_rating
+        air_quality_parameter = None
+        print "exception for %s, %s\n" % (location_latitude, location_longitude)
+    return {"air_quality_rating": air_quality_rating, "air_quality_parameter": air_quality_parameter}
+
 
 def fill_geocode_data(computed_location):
     if computed_location is not None:
