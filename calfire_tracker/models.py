@@ -22,6 +22,7 @@ class CalWildfire(models.Model):
     asset_photo_credit = models.CharField("Image Credit", max_length=1024, null=True, blank=True)
     twitter_hashtag = models.CharField("Twitter Hashtag", max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField("Air Quality Rating from http://airnow.gov/", max_length=3, null=True, blank=True)
+    air_quality_parameter = models.CharField("Air Quality Description", max_length=200, null=True, blank=True)
     last_scraped = models.DateTimeField("Last Scraped", null=True, blank=True)
     last_saved = models.DateTimeField("Last Saved", auto_now=True)
     data_source = models.CharField("Data Source", max_length=1024, null=True, blank=True)
@@ -116,11 +117,23 @@ class CalWildfire(models.Model):
                     self.location_latitude = geolocation_data["location_latitude"]
                     self.location_longitude = geolocation_data["location_longitude"]
                     self.location_geocode_error = geolocation_data["location_geocode_error"]
+                    air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
+                    self.air_quality_rating = air_quality_data["air_quality_rating"]
+                    self.air_quality_parameter = air_quality_data["air_quality_parameter"]
                 except:
                     self.computed_location = None
                     self.location_geocode_error = True
+                    self.air_quality_rating = None
+                    self.air_quality_parameter = None
             else:
                 self.location_geocode_error = True
+                self.air_quality_rating = None
+                self.air_quality_parameter = None
+
+        if self.air_quality_rating:
+            air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
+            self.air_quality_rating = air_quality_data["air_quality_rating"]
+            self.air_quality_parameter = air_quality_data["air_quality_parameter"]
 
         # query for asset host image
         if not self.asset_host_image_id:
@@ -131,16 +144,6 @@ class CalWildfire(models.Model):
         self.asset_host_image_id = kpcc_image_data["asset_host_image_id"]
         self.asset_url_link = kpcc_image_data["asset_url_link"]
         self.asset_photo_credit = kpcc_image_data["asset_photo_credit"]
-
-        # populate air quality rating from api
-        if self.location_geocode_error == True:
-            pass
-        elif (self.location_latitude is None) or (self.location_longitude is None):
-            pass
-        elif (self.air_quality_rating is not None):
-            pass
-        else:
-            self.air_quality_rating = fill_air_quality_data(self.location_latitude, self.location_longitude)
 
         # run the save function
         super(CalWildfire, self).save(*args, **kwargs)
