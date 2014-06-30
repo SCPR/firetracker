@@ -113,7 +113,13 @@
                             {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
                                 <figure>
                                     <span>{{ calwildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
-                                    <figcaption>Air Quality Index (500: most hazardous)</figcaption>
+                                    <figcaption>
+                                        {% if calwildfire.air_quality_parameter %}
+                                            Pollutant: {{ calwildfire.air_quality_parameter}}
+                                        {% else %}
+                                            Air Quality Index (500: most hazardous)
+                                        {% endif %}
+                                    </figcaption>
                                 </figure>
                             {% else %}
                             {% endif %}
