@@ -129,6 +129,10 @@ class CalWildfire(models.Model):
                 self.location_geocode_error = True
                 self.air_quality_rating = None
                 self.air_quality_parameter = None
+        else:
+            air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
+            self.air_quality_rating = air_quality_data["air_quality_rating"]
+            self.air_quality_parameter = air_quality_data["air_quality_parameter"]
 
         if self.air_quality_rating:
             air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
