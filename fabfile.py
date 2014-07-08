@@ -56,6 +56,12 @@ def server_scrape():
         with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
             run("%s manage.py scraper_wildfires" % env.python_exe)
 
+def server_update_ids():
+    # production function to manually run the scraper on the remote server
+    with cd(env.project_root):
+        with shell_env(DJANGO_SETTINGS_MODULE='settings_production'):
+            run("%s manage.py update_fire_ids" % env.python_exe)
+
 def server_tweets():
     # production function to manually poll twitter on the remote server
     with cd(env.project_root):
@@ -111,6 +117,10 @@ def localrun():
 def localscrape():
     # production function to manually run the scraper in local environment
     local("python manage.py scraper_wildfires")
+
+def localupdateids():
+    # production function to manually run the scraper in local environment
+    local("python manage.py update_fire_ids")
 
 def localschema():
     # production function to manually run the scraper in local environment
