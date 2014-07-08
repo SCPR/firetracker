@@ -168,6 +168,18 @@ def follow_details_link(list_of_fires):
     pull indepth details from page
     """
     for fire in list_of_fires:
+
+        """
+        """
+        ## outlier issue I need to fix
+        if fire["name"] == "Shirley Fire" and fire["last_update"] == "June 20, 2014 8:30 am":
+            fire["details_source"] = "Inciweb"
+            fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
+            print fire["name"], fire["details_source"], fire["details_link"]
+            inciweb_details_scraper(fire)
+        """
+        """
+
         if fire["details_source"] == "CalFire" and fire["details_link"] is not None:
             time.sleep(20)
             calfire_data = make_request_to(fire['details_link'])
