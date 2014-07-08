@@ -367,9 +367,15 @@ def save_data_from_dict_to_model(fire):
         location = None
 
     if fire.has_key("long_lat"):
-        location_latitude = 33.1137
-        location_longitude = -117.1599
-        location_geocode_error = False
+        try:
+            location_list = split_lat_lng_pairs(fire["long_lat"])
+            location_latitude = location_list[0]
+            location_longitude = location_list[1]
+            location_geocode_error = False
+        except:
+            location_latitude = None
+            location_longitude = None
+            location_geocode_error = True
     else:
         location_latitude = None
         location_longitude = None
@@ -672,6 +678,15 @@ def extract_initial_integer(string_to_match):
         logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         target_number = "exception"
     return target_number
+
+
+def split_lat_lng_pairs(string):
+    """
+    splits a latitude/longitude pair and returns a list
+    """
+    string = string.split("/")
+    string = string[::-1]
+    return string
 
 
 def extract_containment_amount(string_to_match):
