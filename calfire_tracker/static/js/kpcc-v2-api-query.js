@@ -62,7 +62,7 @@ var kpccApiArticleDisplay = {
             // begin loop
             for (var i=0; i<data.length; i++) {
                 if (data[i].assets.length === 0) {
-                    article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
+                    article_image_asset = 'http://firetracker.scpr.org/static/media/archive-fire-photo-fallback.jpg'
                 } else {
                     article_image_asset = data[i].assets[0].small.url;
                 }
@@ -101,7 +101,7 @@ var kpccApiArticleDisplay = {
             for (var i = 0; i<data.length; i++) {
 
                 if (data[i].assets.length === 0) {
-                    article_image_asset = 'http://projects.scpr.org/firetracker/static/media/archive-fire-photo-fallback.jpg'
+                    article_image_asset = 'http://firetracker.scpr.org/static/media/archive-fire-photo-fallback.jpg'
                 } else {
                     article_image_asset = data[i].assets[0].small.url;
                 }
