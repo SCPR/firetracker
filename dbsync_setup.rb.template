@@ -1,0 +1,17 @@
+# Copy this file into dbsync_setup.rb and update the information.
+
+Dbsync.file_config = {
+  :strategy => :curl,
+  :bin_opts => "--netrc",
+  :local => "~/dbdumps/dbsync-firetracker.sql",
+  :remote => "ftp://backups-server.scpr.org/database/firetracker-latest.sql.gz"
+}
+
+# If you haven't set a password (or if dbsync is asking for your
+# database password), remove the :password line.
+Dbsync.db_config = {
+  :adapter  => "mysql2",
+  :database => "yourdb",
+  :username => "youruser",
+  :password => "yourpassword"
+}

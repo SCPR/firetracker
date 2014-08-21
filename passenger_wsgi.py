@@ -1,19 +1,16 @@
-import os, sys, site
+import os, sys, site, yaml
 
-#REMOTE_APP_ROOT = "/Users/bryan/projects/firetracker"
+env = os.environ.setdefault("DJANGO_ENV", "production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings_%s" % env)
 
+app_config = yaml.load(open("config/app.yml", 'r'))[env]
 
-REMOTE_APP_ROOT = "/web/archive/apps/firetracker"
-INTERP = "%s/virtualenvs/firetracker/bin/python" % REMOTE_APP_ROOT
+INTERP = os.path.join(app_config['bin_root'], 'python')
 
-if sys.executable != INTERP: os.execl(INTERP, INTERP, *sys.argv)
+if sys.executable != INTERP:
+    os.execl(INTERP, INTERP, *sys.argv)
 
-sys.path.append(REMOTE_APP_ROOT)
-sys.path.append('%s/firetracker' % REMOTE_APP_ROOT)
-
-
-sys.path.append(REMOTE_APP_ROOT)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings_production")
+sys.path.append(os.getcwd())
 
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()
