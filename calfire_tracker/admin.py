@@ -153,7 +153,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
             auth1.set_access_token(settings.TWEEPY_ACCESS_TOKEN, settings.TWEEPY_ACCESS_TOKEN_SECRET)
             api = tweepy.API(auth1)
             for object in queryset:
-                tweet_text = '%s is at %s%% containment. View details on @KPCC\'s FireTracker: http://projects.scpr.org/firetracker/%s/' % (object.twitter_hashtag, object.containment_percent, object.fire_slug)
+                tweet_text = '%s is at %s%% containment. View details on @KPCC\'s FireTracker: http://firetracker.scpr.org/%s/' % (object.twitter_hashtag, object.containment_percent, object.fire_slug)
                 logging.debug(tweet_text)
                 api.update_status(tweet_text)
         tweet_fire_details_from_admin.short_description = "Tweet details of the selected fire"
