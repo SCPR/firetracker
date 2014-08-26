@@ -19,11 +19,13 @@ from titlecase import titlecase
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
 
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
-)
+#logger = logging.getLogger("root")
+#logging.basicConfig(
+    #format = "\033[1;36m%(levelname)s: %(filename)s (def %(funcName)s %(lineno)s): \033[1;37m %(message)s",
+    #level=logging.DEBUG
+#)
 
+logger = logging.getLogger('calfire_tracker')
 
 scraper_variables = {
     "status": "live",
@@ -62,6 +64,7 @@ def make_request_to(url):
     """
     while True:
         try:
+            #time.sleep(60*1)
             request = requests.get(url, headers=scraper_variables["request_headers"])
             if request.status_code == 200:
                 raw_html = request.content
@@ -69,7 +72,7 @@ def make_request_to(url):
                 raw_html = None
             return raw_html
         except Exception, exception:
-            logging.error("(%s) %s - %s" % (str(datetime.datetime.now()), url, exception))
+            logger.error("(%s) %s - %s" % (str(datetime.datetime.now()), url, exception))
             time.sleep(60*10)
 
 
@@ -100,7 +103,7 @@ def process(raw_html):
         ## round back around to check on last update
         """
 
-        logging.debug(individual_fire)
+        logger.debug(individual_fire)
         list_of_fires.append(individual_fire)
     follow_details_link(list_of_fires)
 
@@ -256,7 +259,7 @@ def construct_inciweb_narrative(fire):
         terrain = 'Terrain difficulty is %s.' % (fire['terrain_difficulty'])
 
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         remarks = None
         events = None
         behavior = None
@@ -273,8 +276,10 @@ def construct_inciweb_narrative(fire):
         fire['remarks'] = remarks
 
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         pass
+
+    logger.debug(fire)
     does_fire_exist_and_is_info_new(fire)
 
 
@@ -294,7 +299,7 @@ def does_fire_exist_and_is_info_new(fire):
             fire["update_this_fire"] = True
             save_data_from_dict_to_model(fire)
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         save_data_from_dict_to_model(fire)
 
 def decide_to_save_or_not(fire):
@@ -665,7 +670,7 @@ def extract_acres_integer(string_to_match):
         else:
             target_number = None
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         target_number = "exception"
     return target_number
 
@@ -687,7 +692,7 @@ def extract_initial_integer(string_to_match):
         else:
             target_number = None
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         target_number = "exception"
     return target_number
 
@@ -721,6 +726,6 @@ def extract_containment_amount(string_to_match):
         else:
             target_number = None
     except Exception, exception:
-        logging.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+        logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
         target_number = "exception"
     return target_number
