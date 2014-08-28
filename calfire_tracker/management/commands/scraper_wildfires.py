@@ -36,7 +36,6 @@ scraper_variables = {
     },
 }
 
-
 class Command(BaseCommand):
     """
     If testing, we'll store html locally
@@ -215,6 +214,8 @@ def inciweb_details_scraper(fire):
     pull details from inciweb details page
     """
 
+    # should implement this elsewhere - trim whitespace from strings
+    fire['details_link'] = fire['details_link'].strip()
     inciweb_data = make_request_to(fire['details_link'])
     raw_html_content = BeautifulSoup(inciweb_data)
 
@@ -501,85 +502,88 @@ def save_data_from_dict_to_model(fire):
     else:
         fire_slug = "%s-%s" % (scraped_fire_slug, county_slug)
 
-    obj, created = CalWildfire.objects.get_or_create(
-        created_fire_id = created_fire_id,
-        defaults={
-            "twitter_hashtag": twitter_hashtag,
-            "last_scraped": last_scraped,
-            "data_source": data_source,
-            "fire_name": fire_name,
-            "county": county,
-            "acres_burned": acres_burned,
-            "containment_percent": containment_percent,
-            "date_time_started": date_time_started,
-            "last_updated": last_updated,
-            "administrative_unit": administrative_unit,
-            "more_info": more_info,
-            "fire_slug": fire_slug,
-            "county_slug": county_slug,
-            "year": year,
-            "location": location,
-            "location_latitude": location_latitude,
-            "location_longitude": location_longitude,
-            "location_geocode_error": location_geocode_error,
-            "injuries": injuries,
-            "evacuations": evacuations,
-            "structures_threatened": structures_threatened,
-            "structures_destroyed": structures_destroyed,
-            "total_dozers": total_dozers,
-            "total_helicopters": total_helicopters,
-            "total_fire_engines": total_fire_engines,
-            "total_fire_personnel": total_fire_personnel,
-            "total_water_tenders": total_water_tenders,
-            "total_airtankers": total_airtankers,
-            "total_fire_crews": total_fire_crews,
-            "cause": cause,
-            "cooperating_agencies": cooperating_agencies,
-            "road_closures": road_closures,
-            "school_closures": school_closures,
-            "conditions": conditions,
-            "current_situation": current_situation,
-            "phone_numbers": phone_numbers,
-        }
-    )
-
-    if not created and obj.update_lockout == True:
+    if created_fire_id == "South Napa Earthquake-Napa County":
         pass
-
-    elif created:
-        send_new_fire_email(fire_name, acres_burned, county, containment_percent)
-
     else:
-        obj.last_scraped = last_scraped
-        obj.acres_burned = acres_burned
-        obj.containment_percent = containment_percent
-        #obj.date_time_started = date_time_started
-        obj.last_updated = last_updated
-        obj.administrative_unit = administrative_unit
-        obj.more_info = more_info
-        obj.location = location
-        obj.location_latitude = location_latitude
-        obj.location_longitude = location_longitude
-        obj.location_geocode_error = location_geocode_error
-        obj.injuries = injuries
-        obj.evacuations = evacuations
-        obj.structures_threatened = structures_threatened
-        obj.structures_destroyed = structures_destroyed
-        obj.total_dozers = total_dozers
-        obj.total_helicopters = total_helicopters
-        obj.total_fire_engines = total_fire_engines
-        obj.total_fire_personnel = total_fire_personnel
-        obj.total_water_tenders = total_water_tenders
-        obj.total_airtankers = total_airtankers
-        obj.total_fire_crews =  total_fire_crews
-        obj.cause = cause
-        obj.cooperating_agencies = cooperating_agencies
-        obj.road_closures = road_closures
-        obj.school_closures = school_closures
-        obj.conditions = conditions
-        obj.current_situation = current_situation
-        obj.phone_numbers = phone_numbers
-        obj.save()
+        obj, created = CalWildfire.objects.get_or_create(
+            created_fire_id = created_fire_id,
+            defaults={
+                "twitter_hashtag": twitter_hashtag,
+                "last_scraped": last_scraped,
+                "data_source": data_source,
+                "fire_name": fire_name,
+                "county": county,
+                "acres_burned": acres_burned,
+                "containment_percent": containment_percent,
+                "date_time_started": date_time_started,
+                "last_updated": last_updated,
+                "administrative_unit": administrative_unit,
+                "more_info": more_info,
+                "fire_slug": fire_slug,
+                "county_slug": county_slug,
+                "year": year,
+                "location": location,
+                "location_latitude": location_latitude,
+                "location_longitude": location_longitude,
+                "location_geocode_error": location_geocode_error,
+                "injuries": injuries,
+                "evacuations": evacuations,
+                "structures_threatened": structures_threatened,
+                "structures_destroyed": structures_destroyed,
+                "total_dozers": total_dozers,
+                "total_helicopters": total_helicopters,
+                "total_fire_engines": total_fire_engines,
+                "total_fire_personnel": total_fire_personnel,
+                "total_water_tenders": total_water_tenders,
+                "total_airtankers": total_airtankers,
+                "total_fire_crews": total_fire_crews,
+                "cause": cause,
+                "cooperating_agencies": cooperating_agencies,
+                "road_closures": road_closures,
+                "school_closures": school_closures,
+                "conditions": conditions,
+                "current_situation": current_situation,
+                "phone_numbers": phone_numbers,
+            }
+        )
+
+        if not created and obj.update_lockout == True:
+            pass
+
+        elif created:
+            send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+
+        else:
+            obj.last_scraped = last_scraped
+            obj.acres_burned = acres_burned
+            obj.containment_percent = containment_percent
+            #obj.date_time_started = date_time_started
+            obj.last_updated = last_updated
+            obj.administrative_unit = administrative_unit
+            obj.more_info = more_info
+            obj.location = location
+            obj.location_latitude = location_latitude
+            obj.location_longitude = location_longitude
+            obj.location_geocode_error = location_geocode_error
+            obj.injuries = injuries
+            obj.evacuations = evacuations
+            obj.structures_threatened = structures_threatened
+            obj.structures_destroyed = structures_destroyed
+            obj.total_dozers = total_dozers
+            obj.total_helicopters = total_helicopters
+            obj.total_fire_engines = total_fire_engines
+            obj.total_fire_personnel = total_fire_personnel
+            obj.total_water_tenders = total_water_tenders
+            obj.total_airtankers = total_airtankers
+            obj.total_fire_crews =  total_fire_crews
+            obj.cause = cause
+            obj.cooperating_agencies = cooperating_agencies
+            obj.road_closures = road_closures
+            obj.school_closures = school_closures
+            obj.conditions = conditions
+            obj.current_situation = current_situation
+            obj.phone_numbers = phone_numbers
+            obj.save()
 
 
 ### begin helper and formatting functions
@@ -592,9 +596,9 @@ def send_new_fire_email(fire_name, acres_burned, county, containment_percent):
     email_message = 'The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s' % (fire_name, acres_burned, county, containment_percent, email_date)
     send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', [
         'ckeller@scpr.org',
-        'Ezassenhaus@scpr.org',
-        'mroe@scpr.org',
-        'brian.frank@scpr.org',
+        #'Ezassenhaus@scpr.org',
+        #'mroe@scpr.org',
+        #'brian.frank@scpr.org',
     ], fail_silently=True)
 
 
