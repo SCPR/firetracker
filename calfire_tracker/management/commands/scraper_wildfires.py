@@ -596,9 +596,9 @@ def send_new_fire_email(fire_name, acres_burned, county, containment_percent):
     email_message = 'The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s' % (fire_name, acres_burned, county, containment_percent, email_date)
     send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', [
         'ckeller@scpr.org',
-        #'Ezassenhaus@scpr.org',
-        #'mroe@scpr.org',
-        #'brian.frank@scpr.org',
+        'Ezassenhaus@scpr.org',
+        'mroe@scpr.org',
+        'brian.frank@scpr.org',
     ], fail_silently=True)
 
 
