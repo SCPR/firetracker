@@ -22,5 +22,6 @@ bak_wildfiredisplaycontent.json
 bak_wildfiretweet.json
 bak_wildfireupdate.json
 
-config/*.yml
+config.yml
+development.yml
 dbsync_setup.rb
