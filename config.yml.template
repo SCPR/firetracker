@@ -1,0 +1,12 @@
+---
+secret_key:
+database:
+  host:
+  port:
+  database:
+  username:
+  password:
+cache:
+  host:
+  port:
+  db:
