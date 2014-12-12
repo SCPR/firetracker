@@ -6,52 +6,49 @@ from os.path import expanduser
 from settings_common import *
 import yaml
 
-DEBUG = False
+CONFIG_FILE     = os.environ.setdefault("FIRETRACKER_CONFIG_PATH","./development.yml")
+CONFIG = yaml.load(open(CONFIG_FILE))
+
+DEBUG = CONFIG.get('debug',False)
 TEMPLATE_DEBUG = DEBUG
-
-env = 'production'
-
-CONFIG_DB       = yaml.load(open("config/database.yml", 'r'))[env]
-CONFIG_CACHE    = yaml.load(open("config/cache.yml", 'r'))[env]
-CONFIG_APP      = yaml.load(open("config/app.yml", 'r'))[env]
-CONFIG_API      = yaml.load(open("config/api.yml", 'r'))[env]
-CONFIG_EMAIL    = yaml.load(open("config/email.yml", 'r'))[env]
 
 DATABASES = {
     'default': {
         'ENGINE'    : 'django.db.backends.mysql',
-        'NAME'      : CONFIG_DB['database'],
-        'USER'      : CONFIG_DB['username'],
-        'PASSWORD'  : CONFIG_DB['password'],
-        'HOST'      : CONFIG_DB['host'],
-        'PORT'      : CONFIG_DB['port']
+        'NAME'      : CONFIG['database']['database'],
+        'USER'      : CONFIG['database']['username'],
+        'PASSWORD'  : CONFIG['database']['password'],
+        'HOST'      : CONFIG['database']['host'],
+        'PORT'      : CONFIG['database']['port']
     }
 }
 
-SECRET_KEY = CONFIG_APP['secret_key']
+SECRET_KEY = CONFIG['secret_key']
 
-TWEEPY_CONSUMER_KEY         = CONFIG_API['tweepy']['consumer_key']
-TWEEPY_CONSUMER_SECRET      = CONFIG_API['tweepy']['consumer_secret']
-TWEEPY_ACCESS_TOKEN         = CONFIG_API['tweepy']['access_token']
-TWEEPY_ACCESS_TOKEN_SECRET  = CONFIG_API['tweepy']['access_token_secret']
+TWEEPY_CONSUMER_KEY         = CONFIG['api']['tweepy']['consumer_key']
+TWEEPY_CONSUMER_SECRET      = CONFIG['api']['tweepy']['consumer_secret']
+TWEEPY_ACCESS_TOKEN         = CONFIG['api']['tweepy']['access_token']
+TWEEPY_ACCESS_TOKEN_SECRET  = CONFIG['api']['tweepy']['access_token_secret']
 
-ASSETHOST_TOKEN_SECRET = CONFIG_API['assethost']['token_secret']
+ASSETHOST_TOKEN_SECRET = CONFIG['api']['assethost']['token_secret']
 
 # auth to send out emails when models change
-EMAIL_HOST              = CONFIG_EMAIL['host']
-EMAIL_HOST_USER         = CONFIG_EMAIL['user']
-EMAIL_HOST_PASSWORD     = CONFIG_EMAIL['password']
-EMAIL_PORT              = CONFIG_EMAIL['port']
-EMAIL_USE_TLS           = CONFIG_EMAIL['use_tls']
+
+if 'email' in CONFIG:
+    EMAIL_HOST              = CONFIG['email']['host']
+    EMAIL_HOST_USER         = CONFIG['email']['user']
+    EMAIL_HOST_PASSWORD     = CONFIG['email']['password']
+    EMAIL_PORT              = CONFIG['email']['port']
+    EMAIL_USE_TLS           = CONFIG['email']['use_tls']
 
 
 CACHES = {
     "default": {
         'BACKEND': 'redis_cache.cache.RedisCache',
         'LOCATION': '%s:%s:%s' % (
-            CONFIG_CACHE['host'],
-            CONFIG_CACHE['port'],
-            CONFIG_CACHE['db']
+            CONFIG['cache']['host'],
+            CONFIG['cache']['port'],
+            CONFIG['cache']['db']
         ),
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
