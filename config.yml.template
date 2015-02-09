@@ -1,12 +1,48 @@
 ---
-secret_key:
+debug: True
+
+# generate a secret key https://docs.djangoproject.com/en/dev/ref/settings/#secret-key>
+secret_key: ""
+
+# default is generally 127.0.0.1
+internal_ips: "127.0.0.1"
+
+# default is mysql. is set in firetracker/settings_production.py
 database:
-  host:
-  port:
-  database:
-  username:
-  password:
+  host: # "<localhost>"
+  port: # default for local environment is usually 3306
+  database: # "<name of your database>"
+  username: # "<name of your database user>"
+  password: # "<password of your database user>"
+
+# optional if you intend to generate emails from an application
+email:
+  host: ""
+  user: ""
+  password: ""
+  port: # set to port number
+  use_tls: # generally set this to True
+
 cache:
-  host:
-  port:
-  db:
+  host: "localhost"
+  port: # set to port number
+  db: # set to database id
+
+# api settings and keys for the application
+api:
+
+  # key to access twitter api
+  tweepy:
+    consumer_key: ""
+    consumer_secret: ""
+    access_token: ""
+    access_token_secret: ""
+
+  # key for kpcc's assethost API
+  assethost:
+    token_secret: ""
+
+  # headers to use for api requests
+  headers:
+    from: ""
+    user_agent: "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"
