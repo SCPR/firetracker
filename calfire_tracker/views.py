@@ -11,7 +11,9 @@ from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, W
 from django.conf import settings
 from dateutil import parser
 from random import randint
-import logging, re, json
+import logging
+import re
+import json
 
 logger = logging.getLogger("firetracker")
 

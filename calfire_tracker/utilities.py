@@ -4,9 +4,13 @@ from django.utils.encoding import smart_str
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 from geopy import geocoders
-import pytz, time, datetime, requests, logging
+import pytz
+import time
+import datetime
+import requests
+import logging
 
-logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+logger = logging.getLogger("firetracker")
 
 def search_assethost_for_image(kpcc_image_token, **kwargs):
     ''' model save function to query kpcc image api given an asset_host_id '''
