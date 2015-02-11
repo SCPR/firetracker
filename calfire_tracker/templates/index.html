@@ -20,12 +20,12 @@
 <!-- end meta -->
 
 {% block kpcc_api_query_script %}
-    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
+    <script src="{% static 'js/kpcc-v3-api-query.js' %}"></script>
 {% endblock %}
 
 {% block kpcc_api_query_config %}
     <script>
-        var kpccApiArticleConfig = {
+        var kpcc_api_article_config = {
 
             // config to help script know which page data should be displayed on
             display: 'index-page',
@@ -46,7 +46,7 @@
             page: 1,
 
             // the div on the page in which you want the content to appear
-            contentContainer: '#article-list-content'
+            content_container: '#article-list-content'
         };
     </script>
 {% endblock %}
