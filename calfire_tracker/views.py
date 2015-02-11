@@ -13,7 +13,7 @@ from dateutil import parser
 from random import randint
 import logging, re, json
 
-logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+logger = logging.getLogger("firetracker")
 
 OEMBED_AUTHOR_NAME      = "Fire Tracker, KPCC"
 OEMBED_AUTHOR_URL       = "http://www.scpr.org"
@@ -30,9 +30,7 @@ def index(request):
     cache_timestamp = wildfires.all().order_by('-last_saved')
     current_year = date.today().year
     last_year = date.today().year-1
-    year_over_year_comparison = WildfireAnnualReview.objects.filter(
-        Q(year=current_year, jurisdiction='CalFire') | Q(year=last_year, jurisdiction='CalFire')
-    )
+    year_over_year_comparison = WildfireAnnualReview.objects.filter(jurisdiction="CalFire").order_by("-year")[:2]
     count = WildfireDisplayContent.objects.filter(display_content_type=True).count()
     random_index = randint(0, count-1)
     display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
