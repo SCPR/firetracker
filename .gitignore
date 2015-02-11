@@ -1,27 +1,69 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# added by me
 .DS_Store
 venv
 *.pyc
 *.sqlite
 *.csv
 *.txt
-SCRATCHPAD.md
-incidents_current.html
-settings_development.py
-tmp/*
-public/static/*
-functions_playground.py
-v1_scraper_wildfires.py
-v2_scraper_wildfires.py
-v3_scraper_wildfires.py
-v4_scraper_wildfires.py
-v5_scraper_wildfires.py
-v6_scraper_wildfires.py
-bak_calwildfire.json
-bak_wildfireannualreview.json
-bak_wildfiredisplaycontent.json
-bak_wildfiretweet.json
-bak_wildfireupdate.json
-
+*.json
 config.yml
 development.yml
 dbsync_setup.rb
+tmp/*
+public/static/*
+
+project_notes

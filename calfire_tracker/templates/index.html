@@ -20,12 +20,12 @@
 <!-- end meta -->
 
 {% block kpcc_api_query_script %}
-    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
+    <script src="{% static 'js/kpcc-v3-api-query.js' %}"></script>
 {% endblock %}
 
 {% block kpcc_api_query_config %}
     <script>
-        var kpccApiArticleConfig = {
+        var kpcc_api_article_config = {
 
             // config to help script know which page data should be displayed on
             display: 'index-page',
@@ -35,10 +35,6 @@
             // options are news, blogs, segments, episodes, video
             types: 'news,blogs,segments',
 
-            // string of what you want to query Outpost for
-            // the script will outmatically convert spaces to a + sign
-            query: 'wildfire&burning',
-
             // integer showing the number of items to return
             limit: 5,
 
@@ -46,7 +42,7 @@
             page: 1,
 
             // the div on the page in which you want the content to appear
-            contentContainer: '#article-list-content'
+            content_container: '#article-list-content'
         };
     </script>
 {% endblock %}
@@ -101,27 +97,20 @@
                         <thead>
                             <tr>
                                 <th>Attribute</th>
-                                {% for year in year_over_year_comparison %}
-                                    {% if year.year == 2013 %}
-                                        <th><span>{{ year.year }}</span></th>
-                                    {% elif year.year == 2014 %}
-                                        <th><span>{{ year.year }}**</span></th>
-                                    {% endif %}
-                                {% endfor %}
+                                <th><span>{{ year_over_year_comparison.0.year }}**</span></th>
+                                <th><span>{{ year_over_year_comparison.1.year }}</span></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>Fires</th>
-                                {% for year in year_over_year_comparison %}
-                                    <td>{{ year.number_of_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                {% endfor %}
+                                <td>{{ year_over_year_comparison.0.number_of_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                <td>{{ year_over_year_comparison.1.number_of_fires|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                             </tr>
                             <tr>
                                 <th>Acres</th>
-                                {% for year in year_over_year_comparison %}
-                                    <td>{{ year.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
-                                {% endfor %}
+                                <td>{{ year_over_year_comparison.0.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
+                                <td>{{ year_over_year_comparison.1.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</td>
                             </tr>
                             <!--
                             <tr>
@@ -142,7 +131,7 @@
                     <h2 class="disclaimer"><a href="{% url index %}about/the-data/">* Read more about the data and methodology.</a></h2>
                     {% for year in year_over_year_comparison %}
                         {% if year.year == 2014 %}
-                            <h2 class="disclaimer"><a href="{% url index %}about/the-data/">** Current as of {{ year.date_range_end|date:"M d, Y" }}.</a></h2>
+                            <h2 class="disclaimer"><a href="{% url index %}about/the-data/">** Current as of {{ year_over_year_comparison.0.date_range_end|date:"M d, Y" }}.</a></h2>
                         {% endif %}
                     {% endfor %}
                 </aside>

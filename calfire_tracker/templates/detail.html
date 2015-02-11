@@ -21,12 +21,12 @@
 <!-- end meta -->
 
 {% block kpcc_api_query_script %}
-    <script src="{% static 'js/kpcc-v2-api-query.js' %}"></script>
+    <script src="{% static 'js/kpcc-v3-api-query.js' %}"></script>
 {% endblock %}
 
 {% block kpcc_api_query_config %}
     <script>
-        var kpccApiArticleConfig = {
+        var kpcc_api_article_config = {
 
             // config to help script know which page data should be displayed on
             display: 'detail-page',
@@ -47,15 +47,15 @@
             page: 1,
 
             // the div on the page in which you want the content to appear
-            contentContainer: '.coverage',
+            content_container: '.coverage',
 
-            // contextual variable for script of no articles present
+            // contextual variable for script if no articles present
             fire_display_name: '{{ calwildfire.fire_name }}',
 
-            // contextual variable for script of no articles present
+            // contextual variable for script if no articles present
             fire_county_name: '{{ calwildfire.county }}',
 
-            // contextual variable for script of no articles present
+            // contextual variable for script if no articles present
             fire_start_date: '{{ calwildfire.date_time_started|date:"Y-m-d" }}'
 
         };
