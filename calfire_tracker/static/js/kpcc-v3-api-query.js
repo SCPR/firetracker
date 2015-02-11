@@ -15,10 +15,17 @@ var kpcc_api_article_display = {
 
     // construct the url to query for data
     construct_query_url: function(){
-        var fire_name = kpcc_api_article_config.fire_display_name.toLowerCase();
-        var county_name = kpcc_api_article_config.fire_county_name.toLowerCase();
-        county_name = county_name.replace("county", "").replace("and", "")
-        var query = fire_name + " " + county_name
+        var param_1;
+        var param_2;
+        if (kpcc_api_article_config.display === "detail-page") {
+            param_1 = kpcc_api_article_config.fire_display_name.toLowerCase();
+            param_2 = kpcc_api_article_config.fire_county_name.toLowerCase();
+            param_2 = param_2.replace("county", "").replace("and", "");
+        } else {
+            param_1 = "wildfire"
+            param_2 = "burning"
+        }
+        var query = param_1 + " " + param_2
         var url_prefix = "http://www.scpr.org/api/v3/articles/?";
         var url_types = "types=" + kpcc_api_article_display.replace_spaces_with(kpcc_api_article_config.types, "");
         var url_query = "&query=" + kpcc_api_article_display.replace_spaces_with(query, "+");
