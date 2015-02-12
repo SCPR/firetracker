@@ -9,7 +9,6 @@ argparse==1.2.1
 boto==2.2.1
 chardet==2.1.1
 dateutils==0.6.6
-distribute==0.6.31
 dj-database-url==0.2.1
 django-admin-bootstrapped==0.3.2
 django-csvimport==0.9
