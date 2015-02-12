@@ -8,7 +8,7 @@ import pytz
 from pytz import timezone
 import yaml
 
-CONFIG_FILE = os.environ.setdefault("FIRETRACKER_CONFIG_PATH","./development.yml")
+CONFIG_FILE = os.environ.setdefault("CONFIG_PATH","./development.yml")
 CONFIG = yaml.load(open(CONFIG_FILE))
 
 DEBUG = CONFIG.get("debug", False)
