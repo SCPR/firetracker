@@ -15,7 +15,7 @@ DEBUG = CONFIG.get("debug", False)
 TEMPLATE_DEBUG = DEBUG
 DEBUG_TOOLBAR = DEBUG
 
-INTERNAL_IPS = CONFIG.get("internal_ips", None)
+INTERNAL_IPS = CONFIG.get("internal_ips", [])
 
 DATABASES = {
     "default": {
