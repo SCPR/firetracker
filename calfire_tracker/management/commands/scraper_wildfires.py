@@ -15,15 +15,7 @@ import requests
 from datetime import tzinfo
 from pytz import timezone
 from dateutil import parser
-from titlecase import titlecase
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
-
-
-#logger = logging.getLogger("root")
-#logging.basicConfig(
-    #format = "\033[1;36m%(levelname)s: %(filename)s (def %(funcName)s %(lineno)s): \033[1;37m %(message)s",
-    #level=logging.DEBUG
-#)
 
 logger = logging.getLogger('calfire_tracker')
 
@@ -380,7 +372,7 @@ def save_data_from_dict_to_model(fire):
         more_info = None
 
     if fire.has_key("location"):
-        location = titlecase(fire["location"])
+        location = fire["location"].title()
     else:
         location = None
 
@@ -614,7 +606,7 @@ def hashtagifyFireName(string):
     """
     lowercase_and_replace_space_with_dash
     """
-    formatted_data = titlecase(string).replace(" ", "")
+    formatted_data = string.title().replace(" ", "")
     return formatted_data
 
 

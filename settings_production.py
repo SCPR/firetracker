@@ -84,7 +84,7 @@ if DEBUG_TOOLBAR:
     # Debug toolbar app
     INSTALLED_APPS += ("debug_toolbar",)
 
-    CONFIG_DEFAULTS = {
+    DEBUG_TOOLBAR_CONFIG = {
         "SHOW_COLLAPSED": False,
         "SQL_WARNING_THRESHOLD": 500,
         "INTERCEPT_REDIRECTS": False,
