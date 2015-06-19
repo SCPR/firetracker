@@ -22,7 +22,7 @@ class CalWildfire(models.Model):
     asset_photo_credit = models.CharField("Image Credit", max_length=1024, null=True, blank=True)
     twitter_hashtag = models.CharField("Twitter Hashtag", max_length=140, null=True, blank=True)
     air_quality_rating = models.IntegerField("Air Quality Rating from http://airnow.gov/", max_length=3, null=True, blank=True)
-    air_quality_parameter = models.CharField("Air Quality Description", max_length=200, null=True, blank=True)
+    air_quality_parameter = models.CharField("Air Quality Description - Fine particles (PM2.5) or Ozone (O3)", max_length=200, null=True, blank=True)
     last_scraped = models.DateTimeField("Last Scraped", null=True, blank=True)
     last_saved = models.DateTimeField("Last Saved", auto_now=True)
     data_source = models.CharField("Data Source", max_length=1024, null=True, blank=True)
@@ -84,7 +84,7 @@ class CalWildfire(models.Model):
         return ("detail", [self.fire_slug,])
 
     def save(self, *args, **kwargs):
-        #self.last_updated = datetime.datetime.now()
+        self.last_saved = datetime.datetime.now()
         if not self.created_fire_id:
             self.created_fire_id = "%s-%s" % (self.fire_name, self.county)
         if not self.county_slug:
@@ -117,27 +117,28 @@ class CalWildfire(models.Model):
                     self.location_latitude = geolocation_data["location_latitude"]
                     self.location_longitude = geolocation_data["location_longitude"]
                     self.location_geocode_error = geolocation_data["location_geocode_error"]
-                    air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
-                    self.air_quality_rating = air_quality_data["air_quality_rating"]
-                    self.air_quality_parameter = air_quality_data["air_quality_parameter"]
                 except:
                     self.computed_location = None
                     self.location_geocode_error = True
-                    self.air_quality_rating = None
-                    self.air_quality_parameter = None
             else:
                 self.location_geocode_error = True
-                self.air_quality_rating = None
-                self.air_quality_parameter = None
-        else:
-            air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
-            self.air_quality_rating = air_quality_data["air_quality_rating"]
-            self.air_quality_parameter = air_quality_data["air_quality_parameter"]
 
-        if self.air_quality_rating:
-            air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
-            self.air_quality_rating = air_quality_data["air_quality_rating"]
-            self.air_quality_parameter = air_quality_data["air_quality_parameter"]
+        if self.air_quality_rating == None:
+            if (self.location_latitude != None) or (self.location_longitude != None):
+                air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
+                self.air_quality_rating = air_quality_data["air_quality_rating"]
+                self.air_quality_parameter = air_quality_data["air_quality_parameter"]
+        elif self.air_quality_rating != None:
+            current_air_quality_rating = self.air_quality_rating
+            current_air_quality_parameter = self.air_quality_parameter
+            if (self.location_latitude != None) or (self.location_longitude != None):
+                air_quality_data = fill_air_quality_data(self.location_latitude, self.location_longitude)
+                if air_quality_data["air_quality_rating"] == None:
+                    self.air_quality_rating = current_air_quality_rating
+                    self.air_quality_parameter = current_air_quality_parameter
+                else:
+                    self.air_quality_rating = air_quality_data["air_quality_rating"]
+                    self.air_quality_parameter = air_quality_data["air_quality_parameter"]
 
         # query for asset host image
         if not self.asset_host_image_id:
