@@ -26,8 +26,11 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
+    # uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # redirect to favicon
+    url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': 'http://projects.scpr.org/static-files/images/template-icons/favicon.ico'}),
 
 	# batch edit
 	url(r'^admin/', include('massadmin.urls')),
