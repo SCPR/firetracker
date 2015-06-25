@@ -316,6 +316,11 @@ def save_data_from_dict_to_model(fire):
 
     if fire.has_key("county"):
         county = fire["county"]
+
+        if county == "Los Angele":
+            logger.debug(county)
+            county = "Los Angeles County"
+            logger.debug(county)
     else:
         county = None
 
