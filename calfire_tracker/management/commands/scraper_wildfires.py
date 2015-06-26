@@ -315,14 +315,14 @@ def save_data_from_dict_to_model(fire):
         fire_name = "fire_name"
 
     if fire.has_key("county"):
-        county = fire["county"]
-
-        if county == "Los Angele":
-            logger.debug(county)
+        if fire["county"] == "Los Angele":
             county = "Los Angeles County"
-            logger.debug(county)
+        else:
+            county = fire["county"]
     else:
         county = None
+
+    logger.debug(county)
 
     if fire.has_key("created_fire_id"):
         created_fire_id = fire["created_fire_id"]
