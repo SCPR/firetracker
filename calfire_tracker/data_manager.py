@@ -3,6 +3,7 @@ from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
 from django.core.mail import send_mail, mail_admins, send_mass_mail, EmailMessage
 from calfire_tracker.models import CalWildfire
+from django.contrib.auth.models import User
 import csv
 import time
 import datetime
@@ -114,16 +115,16 @@ class WildfireDataUtilities(object):
         """
         send email to list when a new fire is added to the database
         """
+        user_email_alert_list = []
+        all_users = User.objects.all()
+        for user in all_users:
+            if user.username != "sdillingham":
+                if user.is_active == True:
+                    user_email_alert_list.append(user.email)
         email_date = datetime.datetime.now().strftime("%A, %b %d, %Y at %I:%M %p")
         email_subject = "%s in %s has been added to Fire Tracker" % (fire_name, county)
         email_message = "The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s" % (fire_name, acres_burned, county, containment_percent, email_date)
-        send_mail(email_subject, email_message, "kpccdatadesk@gmail.com", [
-            "ckeller@scpr.org",
-            "Ezassenhaus@scpr.org",
-            "mroe@scpr.org",
-            "brian.frank@scpr.org",
-            "SCPRWeb@marketplace.org",
-        ], fail_silently=True)
+        send_mail(email_subject, email_message, "kpccdatadesk@gmail.com", user_email_alert_list, fail_silently=True)
 
     def slugifyFireName(self, string):
         """
@@ -253,7 +254,6 @@ class WildfireDataClient(object):
             fire = self.build_fire_dict_from(table, individual_fire)
             fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
             if fire["update_this_fire"] == True:
-
                 logger.debug("Attempting to update %s" % (fire["name"]))
 
                 if fire["name"] == "Shirley Fire" and fire["last_update"] == "June 20, 2014 8:30 am":
