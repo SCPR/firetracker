@@ -115,15 +115,15 @@ class WildfireDataUtilities(object):
         send email to list when a new fire is added to the database
         """
         email_date = datetime.datetime.now().strftime("%A, %b %d, %Y at %I:%M %p")
-        email_subject = '%s in %s has been added to Fire Tracker' % (fire_name, county)
-        email_message = 'The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s' % (fire_name, acres_burned, county, containment_percent, email_date)
-        send_mail(email_subject, email_message, 'kpccdatadesk@gmail.com', [
-            'ckeller@scpr.org',
-            'Ezassenhaus@scpr.org',
-            'mroe@scpr.org',
-            'brian.frank@scpr.org',
+        email_subject = "%s in %s has been added to Fire Tracker" % (fire_name, county)
+        email_message = "The %s has burned %s acres in %s and is at %s%% containment.\n\nThis fire was added to Fire Tracker on %s" % (fire_name, acres_burned, county, containment_percent, email_date)
+        send_mail(email_subject, email_message, "kpccdatadesk@gmail.com", [
+            "ckeller@scpr.org",
+            "Ezassenhaus@scpr.org",
+            "mroe@scpr.org",
+            "brian.frank@scpr.org",
+            "SCPRWeb@marketplace.org",
         ], fail_silently=True)
-
 
     def slugifyFireName(self, string):
         """
@@ -131,7 +131,6 @@ class WildfireDataUtilities(object):
         """
         formatted_data = string.lower().replace(":", "-").replace(" ", "-").replace("_", "-").replace("_-_", "-").replace("/", "-")
         return formatted_data
-
 
     def hashtagifyFireName(self, string):
         """
@@ -622,8 +621,7 @@ class WildfireDataClient(object):
                 pass
 
             elif created:
-                #send_new_fire_email(fire_name, acres_burned, county, containment_percent)
-                pass
+                self.UTIL.send_new_fire_email(fire_name, acres_burned, county, containment_percent)
 
             else:
                 obj.last_scraped = last_scraped
