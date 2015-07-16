@@ -186,7 +186,6 @@ class WildfireDataUtilities(object):
         """
         runs regex on acres cell to return acres burned as int
         """
-        print string_to_match
         number_check = re.compile("^\d+")
         extract_number = re.compile("\d+")
         match = re.search(number_check, string_to_match)
@@ -321,7 +320,6 @@ class WildfireDataClient(object):
         _inciweb_soup = BeautifulSoup(_inciweb_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
         table_instances = _inciweb_soup.findAll('table', {'class': 'data'})
         for table in table_instances:
-            logger.debug(table)
             instance_of_data_rows = {}
             data_rows = table.findAll('tr')[1:]
             for row in data_rows:
