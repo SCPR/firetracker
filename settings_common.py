@@ -126,12 +126,18 @@ LOGGING = {
             "formatter": "simple"
         },
 
+        "null": {
+            "level": "DEBUG",
+            "class":"django.utils.log.NullHandler",
+        },
+
         #"file": {
             #"level": "DEBUG",
             #"class": "logging.FileHandler",
             #"filename": "mysite.log",
             #"formatter": "verbose"
         #},
+
     },
 
     "loggers": {
@@ -140,6 +146,13 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": False,
         },
+
+        "django.db.backends": {
+            "handlers": ["null"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+
     }
 }
 
