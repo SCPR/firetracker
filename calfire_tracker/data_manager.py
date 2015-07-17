@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils.encoding import smart_str, smart_unicode
 from django.utils.timezone import utc, localtime
 from django.core.mail import send_mail, mail_admins, send_mass_mail, EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 from calfire_tracker.models import CalWildfire
 from django.contrib.auth.models import User
 import csv
@@ -140,7 +141,6 @@ class WildfireDataUtilities(object):
         formatted_data = string.title().replace(" ", "")
         return "#%s" %(formatted_data)
 
-
     def convert_time_to_nicey_format(self, date_time_parse):
         """
         work crazy datetime magic that might be working.
@@ -253,6 +253,7 @@ class WildfireDataClient(object):
             fire = self.build_fire_dict_from(table, individual_fire)
             fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
             if fire["update_this_fire"] == True:
+
                 logger.debug("Attempting to update %s" % (fire["name"]))
 
                 if fire["name"] == "Shirley Fire" and fire["last_update"] == "June 20, 2014 8:30 am":
@@ -372,9 +373,11 @@ class WildfireDataClient(object):
                 return self.UTIL.compare_webpage_to_database(fire["last_updated"], query_date_from_database.last_updated)
             else:
                 return True
+        except ObjectDoesNotExist, exception:
+            logger.error("%s - %s" % (exception, fire))
+            return True
         except Exception, exception:
-            logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
-            return False
+            logger.error("%s - %s" % (exception, fire))
             raise
 
     def save_data_from_dict_to_model(self, fire):
@@ -572,6 +575,7 @@ class WildfireDataClient(object):
 
         if created_fire_id == "South Napa Earthquake-Napa County":
             pass
+
         else:
             obj, created = CalWildfire.objects.get_or_create(
                 created_fire_id = created_fire_id,
@@ -622,10 +626,11 @@ class WildfireDataClient(object):
                 self.UTIL.send_new_fire_email(fire_name, acres_burned, county, containment_percent)
 
             else:
+                #prev_obj = obj
+                #self.UTIL.send_new_fire_email(prev_obj, fire)
                 obj.last_scraped = last_scraped
                 obj.acres_burned = acres_burned
                 obj.containment_percent = containment_percent
-                #obj.date_time_started = date_time_started
                 obj.last_updated = last_updated
                 obj.administrative_unit = administrative_unit
                 obj.more_info = more_info
