@@ -207,31 +207,28 @@ class WildfireDataUtilities(object):
         splits a latitude/longitude pair and returns a list
         """
         string = string.split("/")
-        string = string[::-1]
-        return string
+        lat_lng_list = string[::-1]
+        return lat_lng_list
 
-    def extract_containment_amount(self, string_to_match):
-        """
-        runs regex on acres cell to return containment as int
-        """
-        extract_number = re.compile("\d+")
-        determine_hyphen = re.compile("-")
-        percent_match = re.search("%", string_to_match)
-        try:
-            if percent_match:
-                hyphen_match = re.search(determine_hyphen, string_to_match)
-                if hyphen_match:
-                    target_number = re.split("-", string_to_match)
-                    target_number = re.search(extract_number, target_number[1])
-                    target_number = target_number.group()
+    def extract_containment_amount(self, string):
+        extract_surrounded_number = re.compile("(\d+.)")
+        string = string.replace(",", "").replace("-", "").strip()
+        logger.debug(string)
+        percent_match = re.search("%", string)
+        if percent_match:
+            try:
+                this_match = re.findall(extract_surrounded_number, string)
+                if len(this_match) == 2:
+                    target_number = this_match[1].strip("%")
                     target_number = int(target_number)
+                    logger.debug(target_number)
                 else:
-                    target_number = 100
-            else:
+                    target_number = None
+            except Exception, exception:
+                logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
                 target_number = None
-        except Exception, exception:
-            logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
-            target_number = "exception"
+        else:
+            target_number = None
         return target_number
 
 
