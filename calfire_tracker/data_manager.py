@@ -443,9 +443,14 @@ class WildfireDataClient(object):
         if fire.has_key("long_lat"):
             try:
                 location_list = self.UTIL.split_lat_lng_pairs(fire["long_lat"])
-                location_latitude = location_list[0]
-                location_longitude = location_list[1]
-                location_geocode_error = False
+                try:
+                    location_latitude = location_list[0].replace("latitude", "").strip()
+                    location_longitude = location_list[1].replace("longitude", "").strip()
+                    location_geocode_error = False
+                except:
+                    location_latitude = location_list[0]
+                    location_longitude = location_list[1]
+                    location_geocode_error = False
             except:
                 location_latitude = None
                 location_longitude = None
