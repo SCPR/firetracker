@@ -37,12 +37,12 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
-	list_display = ('fire_name', 'fire_closeout_toggle', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'air_quality_rating', 'county', 'last_updated', 'last_scraped', 'notes', 'last_saved',)
+	list_display = ('fire_name', 'fire_closeout_toggle', 'update_lockout', 'promoted_fire', 'asset_host_image_id', 'county', 'data_source', 'date_time_started', 'location_geocode_error', 'injuries', 'acres_burned', 'containment_percent', 'air_quality_rating', 'last_updated', 'last_scraped', 'last_saved',)
 	list_filter = ['data_source', 'county', 'date_time_started', 'last_updated']
 	search_fields = ['fire_name', 'county', 'acres_burned']
         inlines = (WildfireUpdateInline,)
         list_per_page = 10
-        ordering = ('-date_time_started',)
+        ordering = ('containment_percent', '-date_time_started',)
         date_hierarchy = 'date_time_started'
         save_on_top = True
         prepopulated_fields = {
@@ -176,11 +176,12 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
         def close_fire(self, request, queryset):
             queryset.update(fire_closeout_toggle = True)
-        close_fire.short_description = "Close out this fire"
+            queryset.update(update_lockout = True)
+        close_fire.short_description = "Close Out & Lock This Fire"
 
         def unclose_fire(self, request, queryset):
             queryset.update(fire_closeout_toggle = False)
-        unclose_fire.short_description = "Unclose out this fire"
+        unclose_fire.short_description = "Unclose Out This Fire"
 
         def update_last_saved_time_and_image(self, request, queryset):
             date = datetime.datetime.now()
