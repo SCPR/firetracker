@@ -257,37 +257,27 @@ class WildfireDataClient(object):
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     self.inciweb_details_scraper(fire)
-                    fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
-                    if fire["update_this_fire"] == True:
-                        self.save_data_from_dict_to_model(fire)
+                    self.save_data_from_dict_to_model(fire)
 
                 elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
                     self.inciweb_details_scraper(fire)
-                    fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
-                    if fire["update_this_fire"] == True:
-                        self.save_data_from_dict_to_model(fire)
+                    self.save_data_from_dict_to_model(fire)
 
                 elif fire["details_source"] == "Inciweb":
                     self.inciweb_details_scraper(fire)
-                    fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
-                    if fire["update_this_fire"] == True:
-                        self.save_data_from_dict_to_model(fire)
+                    self.save_data_from_dict_to_model(fire)
 
                 elif fire["details_source"] == "CalFire" and fire["details_link"] is not None:
                     _raw_html = self.UTIL.make_request_to(fire["details_link"])
                     _table_instances = self.UTIL.make_soup(_raw_html)
                     for _table in _table_instances:
                         self.build_fire_dict_from(_table, fire)
-                    fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
-                    if fire["update_this_fire"] == True:
-                        self.save_data_from_dict_to_model(fire)
+                    self.save_data_from_dict_to_model(fire)
 
                 else:
-                    fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
-                    if fire["update_this_fire"] == True:
-                        self.save_data_from_dict_to_model(fire)
+                    self.save_data_from_dict_to_model(fire)
 
             else:
                 logger.debug("%s doesn't appear to have been updated and I am skipping it" % (fire["name"]))
