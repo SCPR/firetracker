@@ -66,8 +66,9 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
-    "calfire_tracker.middleware.XsSharing"
+    "calfire_tracker.middleware.XsSharing",
 )
 
 ROOT_URLCONF = "firetracker.urls"
