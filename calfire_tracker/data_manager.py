@@ -275,6 +275,7 @@ class WildfireDataClient(object):
                     _table_instances = self.UTIL.make_soup(_raw_html)
                     for _table in _table_instances:
                         self.build_fire_dict_from(_table, fire)
+                    fire["details_link"] = fire["details_link"]
                     self.save_data_from_dict_to_model(fire)
 
                 else:
