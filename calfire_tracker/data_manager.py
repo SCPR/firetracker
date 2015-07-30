@@ -182,6 +182,28 @@ class WildfireDataUtilities(object):
             target_number = "exception"
         return target_number
 
+    def extract_containment_amount(self, string):
+        """
+        runs regex on acres cell to return containment as int
+        """
+        extract_surrounded_number = re.compile("(\d+.)")
+        string = string.replace(",", "").replace("-", "").strip()
+        percent_match = re.search("%", string)
+        if percent_match:
+            try:
+                this_match = re.findall(extract_surrounded_number, string)
+                if len(this_match) == 2:
+                    target_number = this_match[1].strip("%")
+                    target_number = int(target_number)
+                else:
+                    target_number = None
+            except Exception, exception:
+                logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
+                target_number = None
+        else:
+            target_number = None
+        return target_number
+
     def extract_initial_integer(self, string_to_match):
         """
         runs regex on acres cell to return acres burned as int
@@ -209,27 +231,6 @@ class WildfireDataUtilities(object):
         string = string.split("/")
         lat_lng_list = string[::-1]
         return lat_lng_list
-
-    def extract_containment_amount(self, string):
-        extract_surrounded_number = re.compile("(\d+.)")
-        string = string.replace(",", "").replace("-", "").strip()
-        logger.debug(string)
-        percent_match = re.search("%", string)
-        if percent_match:
-            try:
-                this_match = re.findall(extract_surrounded_number, string)
-                if len(this_match) == 2:
-                    target_number = this_match[1].strip("%")
-                    target_number = int(target_number)
-                    logger.debug(target_number)
-                else:
-                    target_number = None
-            except Exception, exception:
-                logger.error("(%s) %s" % (str(datetime.datetime.now()), exception))
-                target_number = None
-        else:
-            target_number = None
-        return target_number
 
 
 class WildfireDataClient(object):
@@ -390,10 +391,10 @@ class WildfireDataClient(object):
 
         twitter_hashtag = self.UTIL.hashtagifyFireName(fire_name)
 
-        if fire.has_key("estimated_containment"):
-            acres_burned = self.UTIL.extract_acres_integer(fire["estimated_containment"])
-            containment_percent = self.UTIL.extract_containment_amount(fire["estimated_containment"])
-        elif fire.has_key("acres_burned_containment"):
+        #if fire.has_key("estimated_containment"):
+            #acres_burned = self.UTIL.extract_acres_integer(fire["estimated_containment"])
+            #containment_percent = self.UTIL.extract_containment_amount(fire["estimated_containment"])
+        if fire.has_key("acres_burned_containment"):
             acres_burned = self.UTIL.extract_acres_integer(fire["acres_burned_containment"])
             containment_percent = self.UTIL.extract_containment_amount(fire["acres_burned_containment"])
         elif fire.has_key("containment"):
