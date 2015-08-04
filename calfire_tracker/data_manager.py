@@ -634,12 +634,18 @@ class WildfireDataClient(object):
                         "phone_numbers": fire["phone_numbers"],
                     }
                 )
+
                 if not created and obj.update_lockout == True:
                     pass
 
                 elif created:
-                    if SCRAPER_VARIABLES["status"] != "testing":
-                        self.UTIL.send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+                    if SCRAPER_VARIABLES["status"] == "live":
+                        self.UTIL.send_new_fire_email(
+                            fire["name"],
+                            fire["acres_burned"],
+                            fire["county"],
+                            fire["containment_percent"]
+                        )
                 else:
                     try:
                         #prev_obj = obj
@@ -691,6 +697,7 @@ class WildfireDataClient(object):
                         obj.save()
                     except Exception, exception:
                         logger.error("%s - %s" % (exception, fire["details_link"]))
+
             except Exception, exception:
                 logger.error("%s - %s" % (exception, fire["details_link"]))
 
