@@ -239,7 +239,7 @@ class WildfireDataClient(object):
 
     def _init(self, *args, **kwargs):
         if SCRAPER_VARIABLES["status"] == "testing":
-            raw_html = "/Users/ckeller/Desktop/target_data.html"
+            raw_html = "/Users/ckeller/Desktop/target.html"
             raw_html_content = BeautifulSoup(open(raw_html), convertEntities=BeautifulSoup.HTML_ENTITIES)
         else:
             request_url = SCRAPER_VARIABLES["request_url"]
@@ -251,36 +251,33 @@ class WildfireDataClient(object):
             fire = self.build_fire_dict_from(table, individual_fire)
             fire["update_this_fire"] = self.does_fire_exist_and_is_info_new(fire)
             if fire["update_this_fire"] == True:
-
-                logger.debug("Attempting to update %s" % (fire["name"]))
-
                 if fire["name"] == "Shirley Fire" and fire["last_update"] == "June 20, 2014 8:30 am":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     self.inciweb_details_scraper(fire)
-                    self.save_data_from_dict_to_model(fire)
-
+                    self.normalize_fire_data(fire)
                 elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
                     self.inciweb_details_scraper(fire)
-                    self.save_data_from_dict_to_model(fire)
-
+                    self.normalize_fire_data(fire)
                 elif fire["details_source"] == "Inciweb":
                     self.inciweb_details_scraper(fire)
-                    self.save_data_from_dict_to_model(fire)
-
-                elif fire["details_source"] == "CalFire" and fire["details_link"] is not None:
+                    self.normalize_fire_data(fire)
+                elif fire["details_source"] == "CalFire" and fire["details_link"] == None:
+                    self.normalize_fire_data(fire)
+                elif fire["details_source"] == "CalFire" and fire["details_link"] != None:
+                    details_link = fire["details_link"]
                     _raw_html = self.UTIL.make_request_to(fire["details_link"])
                     _table_instances = self.UTIL.make_soup(_raw_html)
                     for _table in _table_instances:
                         self.build_fire_dict_from(_table, fire)
                     fire["details_link"] = fire["details_link"]
-                    self.save_data_from_dict_to_model(fire)
-
+                    self.normalize_fire_data(fire)
                 else:
-                    self.save_data_from_dict_to_model(fire)
-
+                    self.normalize_fire_data(fire)
+                logger.debug("Attempting to update %s" % (fire["name"]))
+                self.save_data_from_dict_to_model(fire)
             else:
                 logger.debug("%s doesn't appear to have been updated and I am skipping it" % (fire["name"]))
 
@@ -306,6 +303,7 @@ class WildfireDataClient(object):
         """
         pull details from inciweb details page
         """
+        details_link = fire["details_link"]
         _inciweb_html = self.UTIL.make_request_to(fire["details_link"])
         _inciweb_soup = BeautifulSoup(_inciweb_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
         table_instances = _inciweb_soup.findAll('table', {'class': 'data'})
@@ -318,11 +316,18 @@ class WildfireDataClient(object):
                 target_data = self.UTIL.convert_soup_list_to_data(row.findAll('td'))
                 instance_of_data_rows[target_key] = target_data
             fire.update(instance_of_data_rows)
-        try:
+        long_lat = _inciweb_soup.findAll(text=re.compile("latitude"))
+        if len(long_lat) > 0:
+            fire["long_lat"] = long_lat[0].strip()
+        if fire.has_key("size"):
             acres_burned = fire["size"]
-            percent_contained = fire["percent_contained"]
-        except:
+        else:
             acres_burned = None
+        if fire.has_key("percent_of_perimeter_contained"):
+            percent_contained = fire["percent_of_perimeter_contained"]
+        elif fire.has_key("percent_contained"):
+            percent_contained = fire["percent_contained"]
+        else:
             percent_contained = None
         fire["acres_burned_containment"] = "%s -%scontained" % (acres_burned, percent_contained)
         remarks_list = []
@@ -343,6 +348,7 @@ class WildfireDataClient(object):
         remarks_list.append(behavior)
         remarks_list.append(fuel)
         remarks_list.append(terrain)
+        fire["details_link"] = details_link
         try:
             remarks = " ".join(remarks_list)
             fire["remarks"] = remarks
@@ -369,288 +375,324 @@ class WildfireDataClient(object):
             logger.error("%s - %s" % (exception, fire))
             raise
 
-    def save_data_from_dict_to_model(self, fire):
+    def normalize_fire_data(self, fire):
         """
-        save data stored in dict to models
+        this is a rigorous attempt to normalize scraped data
         """
+
         if fire.has_key("name"):
-            fire_name = fire["name"]
+            if "Fire" in fire["name"]:
+                fire["name"] = fire["name"]
+            elif "fire" in fire["name"]:
+                fire["name"] = fire["name"]
+            else:
+                fire["name"] = "%s Fire" % (fire["name"])
         else:
-            fire_name = "fire_name"
+            fire["name"] = "fire_name"
 
         if fire.has_key("county"):
-            county = fire["county"]
-            if county == "Los Angele":
-                county = "Los Angeles County"
+            fire["county"] = fire["county"]
+            if fire["county"] == "Los Angele":
+                fire["county"] = "Los Angeles County"
         else:
-            county = None
+            fire["county"] = None
 
         if fire.has_key("created_fire_id"):
-            created_fire_id = fire["created_fire_id"]
+            fire["created_fire_id"] = fire["created_fire_id"]
         else:
-            created_fire_id = "%s-%s" % (fire_name, county)
+            fire["created_fire_id"] = "%s-%s" % (fire["name"], fire["county"])
 
-        twitter_hashtag = self.UTIL.hashtagifyFireName(fire_name)
+        fire["twitter_hashtag"] = self.UTIL.hashtagifyFireName(fire["name"])
 
-        #if fire.has_key("estimated_containment"):
-            #acres_burned = self.UTIL.extract_acres_integer(fire["estimated_containment"])
-            #containment_percent = self.UTIL.extract_containment_amount(fire["estimated_containment"])
+        # if fire.has_key("estimated_containment"):
+        #     acres_burned = self.UTIL.extract_acres_integer(fire["estimated_containment"])
+        #     containment_percent = self.UTIL.extract_containment_amount(fire["estimated_containment"])
+
         if fire.has_key("acres_burned_containment"):
-            acres_burned = self.UTIL.extract_acres_integer(fire["acres_burned_containment"])
-            containment_percent = self.UTIL.extract_containment_amount(fire["acres_burned_containment"])
+            fire["acres_burned"] = self.UTIL.extract_acres_integer(fire["acres_burned_containment"])
+            fire["containment_percent"] = self.UTIL.extract_containment_amount(fire["acres_burned_containment"])
         elif fire.has_key("containment"):
-            acres_burned = self.UTIL.extract_acres_integer(fire["containment"])
-            containment_percent = self.UTIL.extract_containment_amount(fire["containment"])
+            fire["acres_burned"] = self.UTIL.extract_acres_integer(fire["containment"])
+            fire["containment_percent"] = self.UTIL.extract_containment_amount(fire["containment"])
         else:
-            acres_burned = None
-            containment_percent = None
+            fire["acres_burned"] = None
+            fire["containment_percent"] = None
 
         if fire.has_key("details_source"):
-            data_source = fire["details_source"]
+            fire["details_source"] = fire["details_source"]
         else:
-            data_source = None
+            fire["details_source"] = None
 
         if fire.has_key("date_time_started"):
-            date_time_started = self.UTIL.convert_time_to_nicey_format(fire["date_time_started"])
-            year = date_time_started.year
+            fire["date_time_started"] = self.UTIL.convert_time_to_nicey_format(fire["date_time_started"])
+            fire["year"] = fire["date_time_started"].year
         elif fire.has_key("date_started"):
-            date_time_started = self.UTIL.convert_time_to_nicey_format(fire["date_started"])
-            year = date_time_started.year
+            fire["date_time_started"] = self.UTIL.convert_time_to_nicey_format(fire["date_started"])
+            fire["year"] = fire["date_time_started"].year
         else:
-            date_time_started = None
-            year = None
+            fire["date_time_started"] = None
+            fire["year"] = None
 
         if fire.has_key("last_updated"):
-            last_updated = self.UTIL.convert_time_to_nicey_format(fire["last_updated"])
+            fire["last_updated"] = self.UTIL.convert_time_to_nicey_format(fire["last_updated"])
         elif fire.has_key("last_update"):
-            last_updated = self.UTIL.convert_time_to_nicey_format(fire["last_update"])
+            fire["last_updated"] = self.UTIL.convert_time_to_nicey_format(fire["last_update"])
         else:
-            last_updated = datetime.datetime.now()
+            fire["last_updated"] = datetime.datetime.now()
 
         if fire.has_key("administrative_unit"):
-            administrative_unit = fire["administrative_unit"]
+            fire["administrative_unit"] = fire["administrative_unit"]
         else:
-            administrative_unit = None
+            fire["administrative_unit"] = None
 
         if fire.has_key("details_link"):
-            more_info = fire["details_link"]
+            fire["details_link"] = fire["details_link"]
         else:
-            more_info = None
+            fire["details_link"] = None
 
         if fire.has_key("location"):
-            location = fire["location"].title()
+            fire["location"] = fire["location"].title()
         else:
-            location = None
+            fire["location"] = None
 
         if fire.has_key("long_lat"):
             try:
                 location_list = self.UTIL.split_lat_lng_pairs(fire["long_lat"])
                 try:
-                    location_latitude = location_list[0].replace("latitude", "").strip()
-                    location_longitude = location_list[1].replace("longitude", "").strip()
-                    location_geocode_error = False
+                    fire["location_latitude"] = location_list[0].replace("latitude", "").strip()
+                    fire["location_longitude"] = location_list[1].replace("longitude", "").strip()
+                    fire["location_geocode_error"] = False
                 except:
-                    location_latitude = location_list[0]
-                    location_longitude = location_list[1]
-                    location_geocode_error = False
+                    fire["location_latitude"] = location_list[0]
+                    fire["location_longitude"] = location_list[1]
+                    fire["location_geocode_error"] = False
             except:
-                location_latitude = None
-                location_longitude = None
-                location_geocode_error = True
+                fire["location_latitude"] = None
+                fire["location_longitude"] = None
+                fire["location_geocode_error"] = True
         else:
-            location_latitude = None
-            location_longitude = None
-            location_geocode_error = True
+            fire["location_latitude"] = None
+            fire["location_longitude"] = None
+            fire["location_geocode_error"] = True
 
         if fire.has_key("injuries"):
-            injuries = self.UTIL.extract_initial_integer(fire["injuries"])
+            fire["injuries"] = self.UTIL.extract_initial_integer(fire["injuries"])
         else:
-            injuries = None
+            fire["injuries"] = None
 
         if fire.has_key("evacuations"):
-            evacuations = fire["evacuations"]
+            fire["evacuations"] = fire["evacuations"]
         else:
-            evacuations = None
+            fire["evacuations"] = None
 
         if fire.has_key("structures_threatened"):
-            structures_threatened = fire["structures_threatened"]
+            fire["structures_threatened"] = fire["structures_threatened"]
         else:
-            structures_threatened = None
+            fire["structures_threatened"] = None
 
         if fire.has_key("structures_destroyed"):
-            structures_destroyed = fire["structures_destroyed"]
+            fire["structures_destroyed"] = fire["structures_destroyed"]
         else:
-            structures_destroyed = None
+            fire["structures_destroyed"] = None
 
         if fire.has_key("total_dozers"):
-            total_dozers = self.UTIL.extract_initial_integer(fire["total_dozers"])
+            fire["total_dozers"] = self.UTIL.extract_initial_integer(fire["total_dozers"])
         else:
-            total_dozers = None
+            fire["total_dozers"] = None
 
         if fire.has_key("total_helicopters"):
-            total_helicopters = self.UTIL.extract_initial_integer(fire["total_helicopters"])
+            fire["total_helicopters"] = self.UTIL.extract_initial_integer(fire["total_helicopters"])
         else:
-            total_helicopters = None
+            fire["total_helicopters"] = None
 
         if fire.has_key("total_fire_engines"):
-            total_fire_engines = self.UTIL.extract_initial_integer(fire["total_fire_engines"])
+            fire["total_fire_engines"] = self.UTIL.extract_initial_integer(fire["total_fire_engines"])
         else:
-            total_fire_engines = None
+            fire["total_fire_engines"] = None
 
         if fire.has_key("total_fire_personnel"):
-            total_fire_personnel = self.UTIL.extract_initial_integer(fire["total_fire_personnel"])
+            fire["total_fire_personnel"] = self.UTIL.extract_initial_integer(fire["total_fire_personnel"])
         else:
-            total_fire_personnel = None
+            fire["total_fire_personnel"] = None
 
         if fire.has_key("total_water_tenders"):
-            total_water_tenders = self.UTIL.extract_initial_integer(fire["total_water_tenders"])
+            fire["total_water_tenders"] = self.UTIL.extract_initial_integer(fire["total_water_tenders"])
         else:
-            total_water_tenders = None
+            fire["total_water_tenders"] = None
 
         if fire.has_key("total_airtankers"):
-            total_airtankers = self.UTIL.extract_initial_integer(fire["total_airtankers"])
+            fire["total_airtankers"] = self.UTIL.extract_initial_integer(fire["total_airtankers"])
         else:
-            total_airtankers = None
+            fire["total_airtankers"] = None
 
         if fire.has_key("total_fire_crews"):
-            total_fire_crews = self.UTIL.extract_initial_integer(fire["total_fire_crews"])
+            fire["total_fire_crews"] = self.UTIL.extract_initial_integer(fire["total_fire_crews"])
         else:
-            total_fire_crews = None
+            fire["total_fire_crews"] = None
 
         if fire.has_key("cause"):
-            cause = fire["cause"]
+            fire["cause"] = fire["cause"]
         else:
-            cause = None
+            fire["cause"] = None
 
         if fire.has_key("cooperating_agencies"):
-            cooperating_agencies = fire["cooperating_agencies"]
+            fire["cooperating_agencies"] = fire["cooperating_agencies"]
         else:
-            cooperating_agencies = None
+            fire["cooperating_agencies"] = None
 
         if fire.has_key("road_closures_"):
-            road_closures = fire["road_closures_"]
+            fire["road_closures_"] = fire["road_closures_"]
         else:
-            road_closures = None
+            fire["road_closures_"] = None
 
         if fire.has_key("school_closures_"):
-            school_closures = fire["school_closures_"]
+            fire["school_closures_"] = fire["school_closures_"]
         else:
-            school_closures = None
+            fire["school_closures_"] = None
 
         if fire.has_key("conditions"):
-            conditions = fire["conditions"]
+            fire["conditions"] = fire["conditions"]
         else:
-            conditions = None
+            fire["conditions"] = None
 
         if fire.has_key("current_situation"):
-            current_situation = fire["current_situation"]
+            fire["current_situation"] = fire["current_situation"]
         elif fire.has_key("remarks"):
-            current_situation = fire["remarks"]
+            fire["current_situation"] = fire["remarks"]
         else:
-            current_situation = None
+            fire["current_situation"] = None
 
         if fire.has_key("phone_numbers"):
-            phone_numbers = fire["phone_numbers"]
+            fire["phone_numbers"] = fire["phone_numbers"]
         else:
-            phone_numbers = None
+            fire["phone_numbers"] = None
 
-        last_scraped = datetime.datetime.now()
+        fire["last_scraped"] = datetime.datetime.now()
 
-        county_slug = self.UTIL.slugifyFireName(county)
+        fire["county_slug"] = self.UTIL.slugifyFireName(fire["county"])
 
-        scraped_fire_slug = self.UTIL.slugifyFireName(fire_name)
+        fire["fire_slug"] = self.UTIL.slugifyFireName(fire["name"])
 
-        logger.debug(fire)
+        fire["naming_slug"] = "%s-%s" % (fire["fire_slug"], fire["county_slug"])
 
-        if not CalWildfire.objects.filter(fire_slug=scraped_fire_slug).exists():
-            fire_slug = scraped_fire_slug
+        return fire
+
+    def save_data_from_dict_to_model(self, fire):
+        """
+        save data stored in dict to models
+        """
+
+        if not CalWildfire.objects.filter(fire_slug = fire["fire_slug"]).exists():
+            fire_slug = fire["naming_slug"]
         else:
-            fire_slug = "%s-%s" % (scraped_fire_slug, county_slug)
+            fire_slug = fire["naming_slug"]
 
-        if created_fire_id == "South Napa Earthquake-Napa County":
+        if fire["created_fire_id"] == "South Napa Earthquake-Napa County":
             pass
 
         else:
-            obj, created = CalWildfire.objects.get_or_create(
-                created_fire_id = created_fire_id,
-                defaults={
-                    "twitter_hashtag": twitter_hashtag,
-                    "last_scraped": last_scraped,
-                    "data_source": data_source,
-                    "fire_name": fire_name,
-                    "county": county,
-                    "acres_burned": acres_burned,
-                    "containment_percent": containment_percent,
-                    "date_time_started": date_time_started,
-                    "last_updated": last_updated,
-                    "administrative_unit": administrative_unit,
-                    "more_info": more_info,
-                    "fire_slug": fire_slug,
-                    "county_slug": county_slug,
-                    "year": year,
-                    "location": location,
-                    "location_latitude": location_latitude,
-                    "location_longitude": location_longitude,
-                    "location_geocode_error": location_geocode_error,
-                    "injuries": injuries,
-                    "evacuations": evacuations,
-                    "structures_threatened": structures_threatened,
-                    "structures_destroyed": structures_destroyed,
-                    "total_dozers": total_dozers,
-                    "total_helicopters": total_helicopters,
-                    "total_fire_engines": total_fire_engines,
-                    "total_fire_personnel": total_fire_personnel,
-                    "total_water_tenders": total_water_tenders,
-                    "total_airtankers": total_airtankers,
-                    "total_fire_crews": total_fire_crews,
-                    "cause": cause,
-                    "cooperating_agencies": cooperating_agencies,
-                    "road_closures": road_closures,
-                    "school_closures": school_closures,
-                    "conditions": conditions,
-                    "current_situation": current_situation,
-                    "phone_numbers": phone_numbers,
-                }
-            )
+            logger.debug(fire)
+            try:
+                obj, created = CalWildfire.objects.get_or_create(
+                    created_fire_id = fire["created_fire_id"],
+                    defaults={
+                        "twitter_hashtag": fire["twitter_hashtag"],
+                        "last_scraped": fire["last_scraped"],
+                        "data_source": fire["details_source"],
+                        "fire_name": fire["name"],
+                        "county": fire["county"],
+                        "acres_burned": fire["acres_burned"],
+                        "containment_percent": fire["containment_percent"],
+                        "date_time_started": fire["date_time_started"],
+                        "last_updated": fire["last_updated"],
+                        "administrative_unit": fire["administrative_unit"],
+                        "more_info": fire["details_link"],
+                        "fire_slug": fire["fire_slug"],
+                        "county_slug": fire["county_slug"],
+                        "year": fire["year"],
+                        "location": fire["location"],
+                        "location_latitude": fire["location_latitude"],
+                        "location_longitude": fire["location_longitude"],
+                        "location_geocode_error": fire["location_geocode_error"],
+                        "injuries": fire["injuries"],
+                        "evacuations": fire["evacuations"],
+                        "structures_threatened": fire["structures_threatened"],
+                        "structures_destroyed": fire["structures_destroyed"],
+                        "total_dozers": fire["total_dozers"],
+                        "total_helicopters": fire["total_helicopters"],
+                        "total_fire_engines": fire["total_fire_engines"],
+                        "total_fire_personnel": fire["total_fire_personnel"],
+                        "total_water_tenders": fire["total_water_tenders"],
+                        "total_airtankers": fire["total_airtankers"],
+                        "total_fire_crews": fire["total_fire_crews"],
+                        "cause": fire["cause"],
+                        "cooperating_agencies": fire["cooperating_agencies"],
+                        "road_closures": fire["road_closures_"],
+                        "school_closures": fire["school_closures_"],
+                        "conditions": fire["conditions"],
+                        "current_situation": fire["current_situation"],
+                        "phone_numbers": fire["phone_numbers"],
+                    }
+                )
+                if not created and obj.update_lockout == True:
+                    pass
 
-            if not created and obj.update_lockout == True:
-                pass
+                elif created:
+                    if SCRAPER_VARIABLES["status"] != "testing":
+                        self.UTIL.send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+                else:
+                    try:
+                        #prev_obj = obj
+                        #self.UTIL.send_new_fire_email(prev_obj, fire)
 
-            elif created:
-                self.UTIL.send_new_fire_email(fire_name, acres_burned, county, containment_percent)
+                        obj.last_scraped = fire["last_scraped"]
 
-            else:
-                #prev_obj = obj
-                #self.UTIL.send_new_fire_email(prev_obj, fire)
-                obj.last_scraped = last_scraped
-                obj.acres_burned = acres_burned
-                obj.containment_percent = containment_percent
-                obj.last_updated = last_updated
-                obj.administrative_unit = administrative_unit
-                obj.more_info = more_info
-                obj.location = location
-                obj.location_latitude = location_latitude
-                obj.location_longitude = location_longitude
-                obj.location_geocode_error = location_geocode_error
-                obj.injuries = injuries
-                obj.evacuations = evacuations
-                obj.structures_threatened = structures_threatened
-                obj.structures_destroyed = structures_destroyed
-                obj.total_dozers = total_dozers
-                obj.total_helicopters = total_helicopters
-                obj.total_fire_engines = total_fire_engines
-                obj.total_fire_personnel = total_fire_personnel
-                obj.total_water_tenders = total_water_tenders
-                obj.total_airtankers = total_airtankers
-                obj.total_fire_crews =  total_fire_crews
-                obj.cause = cause
-                obj.cooperating_agencies = cooperating_agencies
-                obj.road_closures = road_closures
-                obj.school_closures = school_closures
-                obj.conditions = conditions
-                obj.current_situation = current_situation
-                obj.phone_numbers = phone_numbers
-                obj.save()
+                        if fire["acres_burned"] == None:
+                            obj.acres_burned = obj.acres_burned
+                        else:
+                            obj.acres_burned = fire["acres_burned"]
+
+                        if fire["containment_percent"] == None:
+                            obj.containment_percent = obj.containment_percent
+                        else:
+                            obj.containment_percent = fire["containment_percent"]
+
+                        obj.last_updated = fire["last_updated"]
+
+                        obj.administrative_unit = fire["administrative_unit"]
+
+                        if fire["details_link"] == None:
+                            obj.more_info = obj.more_info
+                        else:
+                            obj.more_info = fire["details_link"]
+
+                        obj.location = fire["location"]
+                        obj.location_latitude = fire["location_latitude"]
+                        obj.location_longitude = fire["location_longitude"]
+                        obj.location_geocode_error = fire["location_geocode_error"]
+                        obj.injuries = fire["injuries"]
+                        obj.evacuations = fire["evacuations"]
+                        obj.structures_threatened = fire["structures_threatened"]
+                        obj.structures_destroyed = fire["structures_destroyed"]
+                        obj.total_dozers = fire["total_dozers"]
+                        obj.total_helicopters = fire["total_helicopters"]
+                        obj.total_fire_engines = fire["total_fire_engines"]
+                        obj.total_fire_personnel = fire["total_fire_personnel"]
+                        obj.total_water_tenders = fire["total_water_tenders"]
+                        obj.total_airtankers = fire["total_airtankers"]
+                        obj.total_fire_crews =  fire["total_fire_crews"]
+                        obj.cause = fire["cause"]
+                        obj.cooperating_agencies = fire["cooperating_agencies"]
+                        obj.road_closures = fire["road_closures_"]
+                        obj.school_closures = fire["school_closures_"]
+                        obj.conditions = fire["conditions"]
+                        obj.current_situation = fire["current_situation"]
+                        obj.phone_numbers = fire["phone_numbers"]
+                        obj.save()
+                    except Exception, exception:
+                        logger.error("%s - %s" % (exception, fire["details_link"]))
+            except Exception, exception:
+                logger.error("%s - %s" % (exception, fire["details_link"]))
 
 if __name__ == "__main__":
     task_run = WildfireDataClient()
