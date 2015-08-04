@@ -255,17 +255,17 @@ class WildfireDataClient(object):
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     self.inciweb_details_scraper(fire)
-                    self.normalize_fire_data(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
                     self.inciweb_details_scraper(fire)
-                    self.normalize_fire_data(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "Inciweb":
                     self.inciweb_details_scraper(fire)
-                    self.normalize_fire_data(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "CalFire" and fire["details_link"] == None:
-                    self.normalize_fire_data(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "CalFire" and fire["details_link"] != None:
                     details_link = fire["details_link"]
                     _raw_html = self.UTIL.make_request_to(fire["details_link"])
@@ -273,11 +273,11 @@ class WildfireDataClient(object):
                     for _table in _table_instances:
                         self.build_fire_dict_from(_table, fire)
                     fire["details_link"] = fire["details_link"]
-                    self.normalize_fire_data(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 else:
-                    self.normalize_fire_data(fire)
-                logger.debug("Attempting to update %s" % (fire["name"]))
-                self.save_data_from_dict_to_model(fire)
+                    final_fire = self.normalize_fire_data(fire)
+                logger.debug("Attempting to update %s" % (final_fire["name"]))
+                self.save_data_from_dict_to_model(final_fire)
             else:
                 logger.debug("%s doesn't appear to have been updated and I am skipping it" % (fire["name"]))
 
