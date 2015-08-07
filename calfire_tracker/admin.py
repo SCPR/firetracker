@@ -64,10 +64,10 @@ class CalWildfireAdmin(admin.ModelAdmin):
         "last_updated"
     )
 
-    # list_editable = (
-    #     "acres_burned",
-    #     "containment_percent",
-    # )
+    list_editable = (
+        "acres_burned",
+        "containment_percent",
+    )
 
     search_fields = (
         "fire_name",
