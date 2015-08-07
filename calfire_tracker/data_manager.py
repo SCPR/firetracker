@@ -266,6 +266,11 @@ class WildfireDataClient(object):
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/4444/"
                     self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
+                elif fire["name"] == "Mad River Complex Fire" and fire["details_link"] == "https://www.facebook.com/USFSSixRiversNF?fref=ts":
+                    fire["details_source"] = "Inciweb"
+                    fire["details_link"] = "http://inciweb.nwcg.gov/incident/4436/"
+                    self.inciweb_details_scraper(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "Inciweb":
                     self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
