@@ -41,6 +41,11 @@ class WildfireUpdateInline(admin.StackedInline):
     extra = 1
 
 class CalWildfireAdmin(admin.ModelAdmin):
+
+    def queryset(self, request):
+        qs = super(CalWildfireAdmin, self).queryset(request)
+        return qs
+
     list_display = (
         "fire_name",
         "fire_closeout_toggle",
@@ -48,10 +53,10 @@ class CalWildfireAdmin(admin.ModelAdmin):
         "promoted_fire",
         "asset_host_image_id",
         "county",
-        "data_source",
         "date_time_started",
         "acres_burned",
         "containment_percent",
+        "more_info",
         "last_updated",
         "last_scraped",
         "last_saved",
