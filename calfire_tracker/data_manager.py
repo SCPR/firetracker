@@ -254,35 +254,38 @@ class WildfireDataClient(object):
                 if fire["name"] == "Shirley Fire" and fire["last_update"] == "June 20, 2014 8:30 am":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
-                    self.inciweb_details_scraper(fire)
+                    fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
-                elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
+                elif fire["name"] == "Mason Fire":
+                    details_link = "http://inciweb.nwcg.gov/incident/4275/"
+                    fire = self.inciweb_details_scraper(details_link)
                     fire["details_source"] = "Inciweb"
-                    fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
-                    self.inciweb_details_scraper(fire)
+                    fire["details_link"] = details_link
                     final_fire = self.normalize_fire_data(fire)
-                elif fire["name"] == "Gasquet Complex" and fire["details_link"] == "http://www.fs.usda.gov/detail/srnf/news-events/?cid=STELPRD3848515":
+                elif fire["name"] == "Gasquet Complex":
+                    details_link = "http://inciweb.nwcg.gov/incident/4444/"
+                    fire = self.inciweb_details_scraper(details_link)
                     fire["details_source"] = "Inciweb"
-                    fire["details_link"] = "http://inciweb.nwcg.gov/incident/4444/"
-                    self.inciweb_details_scraper(fire)
+                    fire["details_link"] = details_link
                     final_fire = self.normalize_fire_data(fire)
-                elif fire["name"] == "Mad River Complex" and fire["details_link"] == "https://www.facebook.com/USFSSixRiversNF?fref=ts":
+                elif fire["name"] == "Mad River Complex":
+                    details_link = "http://inciweb.nwcg.gov/incident/4436/"
+                    fire = self.inciweb_details_scraper(details_link)
                     fire["details_source"] = "Inciweb"
-                    fire["details_link"] = "http://inciweb.nwcg.gov/incident/4436/"
-                    self.inciweb_details_scraper(fire)
+                    fire["details_link"] = details_link
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "Inciweb":
-                    self.inciweb_details_scraper(fire)
+                    fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "CalFire" and fire["details_link"] == None:
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["details_source"] == "CalFire" and fire["details_link"] != None:
                     details_link = fire["details_link"]
-                    _raw_html = self.UTIL.make_request_to(fire["details_link"])
+                    _raw_html = self.UTIL.make_request_to(details_link)
                     _table_instances = self.UTIL.make_soup(_raw_html)
                     for _table in _table_instances:
                         self.build_fire_dict_from(_table, fire)
-                    fire["details_link"] = fire["details_link"]
+                    fire["details_link"] = details_link
                     final_fire = self.normalize_fire_data(fire)
                 else:
                     final_fire = self.normalize_fire_data(fire)
