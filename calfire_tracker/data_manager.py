@@ -256,11 +256,10 @@ class WildfireDataClient(object):
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
-                elif fire["name"] == "Mason Fire":
-                    details_link = "http://inciweb.nwcg.gov/incident/4275/"
-                    fire = self.inciweb_details_scraper(details_link)
+                elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
-                    fire["details_link"] = details_link
+                    fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
+                    fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Gasquet Complex":
                     details_link = "http://inciweb.nwcg.gov/incident/4444/"
