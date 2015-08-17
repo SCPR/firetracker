@@ -74,7 +74,7 @@
                                     <!-- end hooks for map or no -->
                                 </figure>
                                 <figure class="photo">
-                                    {% if featured.asset_host_image_id %}
+                                    {% if featured.asset_url_link %}
                                         <b class="img"><a href="{{ featured.get_absolute_url }}"><img src="{{ featured.asset_url_link }}" alt="{{ featured.fire_name }}" /></a></b>
                                             <figcaption><span>{{ featured.asset_photo_credit }}</span></figcaption>
                                     {% else %}

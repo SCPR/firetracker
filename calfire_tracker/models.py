@@ -142,13 +142,16 @@ class CalWildfire(models.Model):
 
         # query for asset host image
         if not self.asset_host_image_id:
-            asset_host_image_id = None
+            if not self.asset_url_link:
+                pass
+            else:
+                self.asset_url_link = "%s&width=1024&&source=firetracker" % (self.asset_url_link)
         else:
             asset_host_image_id = self.asset_host_image_id
-        kpcc_image_data = search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET, image_id = asset_host_image_id)
-        self.asset_host_image_id = kpcc_image_data["asset_host_image_id"]
-        self.asset_url_link = kpcc_image_data["asset_url_link"]
-        self.asset_photo_credit = kpcc_image_data["asset_photo_credit"]
+            kpcc_image_data = search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET, image_id = asset_host_image_id)
+            self.asset_host_image_id = kpcc_image_data["asset_host_image_id"]
+            self.asset_url_link = kpcc_image_data["asset_url_link"]
+            self.asset_photo_credit = kpcc_image_data["asset_photo_credit"]
 
         # run the save function
         super(CalWildfire, self).save(*args, **kwargs)
