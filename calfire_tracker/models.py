@@ -145,8 +145,8 @@ class CalWildfire(models.Model):
             if not self.asset_url_link:
                 pass
             else:
-                asset_url_link = self.asset_url_link.replace("&width=1024&&source=firetracker", "")
-                self.asset_url_link = "%s&width=1024&&source=firetracker" % (asset_url_link)
+                asset_url_link = self.asset_url_link.replace("&width=1024&source=firetracker", "")
+                self.asset_url_link = "%s&width=1024&source=firetracker" % (asset_url_link)
         else:
             asset_host_image_id = self.asset_host_image_id
             kpcc_image_data = search_assethost_for_image(settings.ASSETHOST_TOKEN_SECRET, image_id = asset_host_image_id)
