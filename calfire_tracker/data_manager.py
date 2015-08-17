@@ -381,17 +381,13 @@ class WildfireDataClient(object):
             else:
                 return True
         except ObjectDoesNotExist, exception:
-            logger.error("%s - %s" % (exception, fire))
+            logger.error("%s - Adding %s to the database" % (exception, fire))
             return True
-        except Exception, exception:
-            logger.error("%s - %s" % (exception, fire))
-            raise
 
     def normalize_fire_data(self, fire):
         """
         this is a rigorous attempt to normalize scraped data
         """
-
         if fire.has_key("name"):
             if "Fire" in fire["name"]:
                 fire["name"] = fire["name"]
