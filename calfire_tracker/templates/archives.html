@@ -48,7 +48,7 @@
                             <li class="contained">{{ item.containment_percent|percentify }} contained</li>
                         </ul>
                     </div>
-                    {% if item.asset_host_image_id %}
+                    {% if item.asset_url_link %}
                         <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{{ item.asset_url_link }}" alt="{{ item.fire_name }}" /></a></b>
                     {% else %}
                         <b class="img"><a href="{{ item.get_absolute_url }}"><img src="{% static 'media/archive-fire-photo-fallback.jpg' %}" alt="{{ item.fire_name }}" /></a></b>
