@@ -106,10 +106,13 @@ class WildfireDataUtilities(object):
         parsed_date_from_webpage = parser.parse(date_from_webpage)
         parsed_date_from_webpage = pacific.localize(parsed_date_from_webpage)
         parsed_date_from_webpage = parsed_date_from_webpage.astimezone(utc)
-        if date_from_database < parsed_date_from_webpage:
-            should_i_update = True
+        if date_from_database != None:
+            if date_from_database < parsed_date_from_webpage:
+                should_i_update = True
+            else:
+                should_i_update = False
         else:
-            should_i_update = False
+            should_i_update = True
         return should_i_update
 
     def send_new_fire_email(self, fire_name, acres_burned, county, containment_percent):
