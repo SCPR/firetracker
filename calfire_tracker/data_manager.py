@@ -92,9 +92,10 @@ class WildfireDataUtilities(object):
         """
         string_to_dict_key
         """
-        formatted_data = string.lower()
-        formatted_data = formatted_data.replace(':', '').replace(' ', '_').replace('_-_', '_').replace('/', '_')
-        return formatted_data
+        if string is not None:
+            formatted_data = string.lower()
+            formatted_data = formatted_data.replace(":", "").replace(" ", "_").replace("_-_", "_").replace("/", "_")
+            return formatted_data
 
     def compare_webpage_to_database(self, date_from_webpage, date_from_database):
         """
@@ -319,56 +320,60 @@ class WildfireDataClient(object):
         pull details from inciweb details page
         """
         details_link = fire["details_link"]
-        _inciweb_html = self.UTIL.make_request_to(fire["details_link"])
-        _inciweb_soup = BeautifulSoup(_inciweb_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
-        table_instances = _inciweb_soup.findAll('table', {'class': 'data'})
-        for table in table_instances:
-            instance_of_data_rows = {}
-            data_rows = table.findAll('tr')[1:]
-            for row in data_rows:
-                target_key = self.UTIL.convert_soup_list_to_data(row.findAll('th'))
-                target_key = self.UTIL.string_to_dict_key(target_key)
-                target_data = self.UTIL.convert_soup_list_to_data(row.findAll('td'))
-                instance_of_data_rows[target_key] = target_data
-            fire.update(instance_of_data_rows)
-        long_lat = _inciweb_soup.findAll(text=re.compile("latitude"))
-        if len(long_lat) > 0:
-            fire["long_lat"] = long_lat[0].strip()
-        if fire.has_key("size"):
-            acres_burned = fire["size"]
+
+        if details_link == "http://inciweb.nwcg.gov/state/5/0/":
+            return fire
         else:
-            acres_burned = None
-        if fire.has_key("percent_of_perimeter_contained"):
-            percent_contained = fire["percent_of_perimeter_contained"]
-        elif fire.has_key("percent_contained"):
-            percent_contained = fire["percent_contained"]
-        else:
-            percent_contained = None
-        fire["acres_burned_containment"] = "%s -%scontained" % (acres_burned, percent_contained)
-        remarks_list = []
-        try:
-            remarks = "%s" % (fire["remarks"])
-            events = "%s" % (fire["significant_events"])
-            behavior = "%s" % (fire["fire_behavior"])
-            fuel = "Fuel for the fire includes %s." % (fire["fuels_involved"])
-            terrain = "Terrain difficulty is %s." % (fire["terrain_difficulty"])
-        except Exception, exception:
-            remarks = None
-            events = None
-            behavior = None
-            fuel = None
-            terrain = None
-        remarks_list.append(remarks)
-        remarks_list.append(events)
-        remarks_list.append(behavior)
-        remarks_list.append(fuel)
-        remarks_list.append(terrain)
-        fire["details_link"] = details_link
-        try:
-            remarks = " ".join(remarks_list)
-            fire["remarks"] = remarks
-        except Exception, exception:
-            pass
+            _inciweb_html = self.UTIL.make_request_to(fire["details_link"])
+            _inciweb_soup = BeautifulSoup(_inciweb_html, convertEntities=BeautifulSoup.HTML_ENTITIES)
+            table_instances = _inciweb_soup.findAll('table', {'class': 'data'})
+            for table in table_instances:
+                instance_of_data_rows = {}
+                data_rows = table.findAll('tr')[1:]
+                for row in data_rows:
+                    target_key = self.UTIL.convert_soup_list_to_data(row.findAll('th'))
+                    target_key = self.UTIL.string_to_dict_key(target_key)
+                    target_data = self.UTIL.convert_soup_list_to_data(row.findAll('td'))
+                    instance_of_data_rows[target_key] = target_data
+                fire.update(instance_of_data_rows)
+            long_lat = _inciweb_soup.findAll(text=re.compile("latitude"))
+            if len(long_lat) > 0:
+                fire["long_lat"] = long_lat[0].strip()
+            if fire.has_key("size"):
+                acres_burned = fire["size"]
+            else:
+                acres_burned = None
+            if fire.has_key("percent_of_perimeter_contained"):
+                percent_contained = fire["percent_of_perimeter_contained"]
+            elif fire.has_key("percent_contained"):
+                percent_contained = fire["percent_contained"]
+            else:
+                percent_contained = None
+            fire["acres_burned_containment"] = "%s -%scontained" % (acres_burned, percent_contained)
+            remarks_list = []
+            try:
+                remarks = "%s" % (fire["remarks"])
+                events = "%s" % (fire["significant_events"])
+                behavior = "%s" % (fire["fire_behavior"])
+                fuel = "Fuel for the fire includes %s." % (fire["fuels_involved"])
+                terrain = "Terrain difficulty is %s." % (fire["terrain_difficulty"])
+            except Exception, exception:
+                remarks = None
+                events = None
+                behavior = None
+                fuel = None
+                terrain = None
+            remarks_list.append(remarks)
+            remarks_list.append(events)
+            remarks_list.append(behavior)
+            remarks_list.append(fuel)
+            remarks_list.append(terrain)
+            fire["details_link"] = details_link
+            try:
+                remarks = " ".join(remarks_list)
+                fire["remarks"] = remarks
+            except Exception, exception:
+                pass
         return fire
 
     def does_fire_exist_and_is_info_new(self, fire):
