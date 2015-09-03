@@ -689,9 +689,9 @@ class WildfireDataClient(object):
                             obj.more_info = fire["details_link"]
 
                         obj.location = fire["location"]
-                        obj.location_latitude = fire["location_latitude"]
-                        obj.location_longitude = fire["location_longitude"]
-                        obj.location_geocode_error = fire["location_geocode_error"]
+                        # obj.location_latitude = fire["location_latitude"]
+                        # obj.location_longitude = fire["location_longitude"]
+                        # obj.location_geocode_error = fire["location_geocode_error"]
                         obj.injuries = fire["injuries"]
                         obj.evacuations = fire["evacuations"]
                         obj.structures_threatened = fire["structures_threatened"]
