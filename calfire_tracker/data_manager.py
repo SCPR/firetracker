@@ -260,6 +260,12 @@ class WildfireDataClient(object):
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
+                elif fire["name"] == "Butte Fire" and fire["details_link"] == "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1221":
+                    fire["created_fire_id"] = "Butte Fire-Amador & Calaveras Countie"
+                    fire["details_link"] = "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1221"
+                    fire["county"] = "Amador County & Calaveras County"
+                    fire = self.inciweb_details_scraper(fire)
+                    final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/4275/"
@@ -662,6 +668,7 @@ class WildfireDataClient(object):
                             fire["county"],
                             fire["containment_percent"]
                         )
+
                 else:
                     try:
                         #prev_obj = obj
