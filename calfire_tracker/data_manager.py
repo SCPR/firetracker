@@ -271,6 +271,7 @@ class WildfireDataClient(object):
                     fire["county"] = "Amador County & Calaveras County"
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Valley Fire" and fire["details_link"] == "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1226":
+                    fire["created_fire_id"] = "Valley Fire-Lake, Napa and Sonoma Countie"
                     details_link = fire["details_link"]
                     _raw_html = self.UTIL.make_request_to(details_link)
                     _table_instances = self.UTIL.make_soup(_raw_html)
