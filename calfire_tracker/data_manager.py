@@ -261,10 +261,24 @@ class WildfireDataClient(object):
                     fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Butte Fire" and fire["details_link"] == "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1221":
+                    details_link = fire["details_link"]
+                    _raw_html = self.UTIL.make_request_to(details_link)
+                    _table_instances = self.UTIL.make_soup(_raw_html)
+                    for _table in _table_instances:
+                        self.build_fire_dict_from(_table, fire)
                     fire["created_fire_id"] = "Butte Fire-Amador & Calaveras Countie"
                     fire["details_link"] = "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1221"
                     fire["county"] = "Amador County & Calaveras County"
-                    fire = self.inciweb_details_scraper(fire)
+                    final_fire = self.normalize_fire_data(fire)
+                elif fire["name"] == "Valley Fire" and fire["details_link"] == "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1226":
+                    details_link = fire["details_link"]
+                    _raw_html = self.UTIL.make_request_to(details_link)
+                    _table_instances = self.UTIL.make_soup(_raw_html)
+                    for _table in _table_instances:
+                        self.build_fire_dict_from(_table, fire)
+                    fire["created_fire_id"] = "Valley Fire-Lake, Napa and Sonoma Countie"
+                    fire["details_link"] = "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1226"
+                    fire["county"] = "Lake County"
                     final_fire = self.normalize_fire_data(fire)
                 elif fire["name"] == "Mason Fire" and fire["details_link"] == "http://inciweb.nwcg.gov/incident/4382/":
                     fire["details_source"] = "Inciweb"
@@ -660,14 +674,14 @@ class WildfireDataClient(object):
                 if not created and obj.update_lockout == True:
                     pass
 
-                elif created:
-                    if SCRAPER_VARIABLES["status"] == "live":
-                        self.UTIL.send_new_fire_email(
-                            fire["name"],
-                            fire["acres_burned"],
-                            fire["county"],
-                            fire["containment_percent"]
-                        )
+                # elif created:
+                #     if SCRAPER_VARIABLES["status"] == "live":
+                #         self.UTIL.send_new_fire_email(
+                #             fire["name"],
+                #             fire["acres_burned"],
+                #             fire["county"],
+                #             fire["containment_percent"]
+                #         )
 
                 else:
                     try:
