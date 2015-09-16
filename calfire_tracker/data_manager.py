@@ -674,14 +674,14 @@ class WildfireDataClient(object):
                 if not created and obj.update_lockout == True:
                     pass
 
-                # elif created:
-                #     if SCRAPER_VARIABLES["status"] == "live":
-                #         self.UTIL.send_new_fire_email(
-                #             fire["name"],
-                #             fire["acres_burned"],
-                #             fire["county"],
-                #             fire["containment_percent"]
-                #         )
+                elif created:
+                    if SCRAPER_VARIABLES["status"] == "live":
+                        self.UTIL.send_new_fire_email(
+                            fire["name"],
+                            fire["acres_burned"],
+                            fire["county"],
+                            fire["containment_percent"]
+                        )
 
                 else:
                     try:
