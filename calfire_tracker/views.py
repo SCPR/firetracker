@@ -33,9 +33,12 @@ def index(request):
     current_year = date.today().year
     last_year = date.today().year-1
     year_over_year_comparison = WildfireAnnualReview.objects.filter(jurisdiction="CalFire").order_by("-year")[:2]
-    count = WildfireDisplayContent.objects.filter(display_content_type=True).count()
-    random_index = randint(0, count-1)
-    display_content = WildfireDisplayContent.objects.filter(display_content_type=True)[random_index]
+    display_list = WildfireDisplayContent.objects.filter(display_content_type=True)
+    try:
+        display_count = randint(0, display_list.count() - 1)
+        display_content = display_list[display_count]
+    except ValueError:
+        display_content = display_list[1]
     cache_expire = (60*20)
     cache_timestamp = cache_timestamp[0].last_saved
     return render_to_response('index.html', {
