@@ -158,13 +158,13 @@ def custom_404(request):
         status=404
     )
 
-# def custom_500(request):
-#     wildfires = CalWildfire.objects.all()
-#     calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
-#     template = loader.get_template('500.html')
-#     context = Context({'calwildfires': calwildfires})
-#     return HttpResponse(
-#         content=template.render(context),
-#         content_type='text/html; charset=utf-8',
-#         status=500
-#     )
+def custom_500(request):
+    wildfires = CalWildfire.objects.all()
+    calwildfires = wildfires.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name')[0:20]
+    template = loader.get_template('500.html')
+    context = Context({'calwildfires': calwildfires})
+    return HttpResponse(
+        content=template.render(context),
+        content_type='text/html; charset=utf-8',
+        status=500
+    )
