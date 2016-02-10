@@ -19,7 +19,7 @@ v1_api.register(CalWildfireResource())
 
 handler403 = 'calfire_tracker.views.custom_403'
 handler404 = 'calfire_tracker.views.custom_404'
-handler500 = 'calfire_tracker.views.custom_500'
+# handler500 = 'calfire_tracker.views.custom_500'
 
 urlpatterns = patterns('',
 
