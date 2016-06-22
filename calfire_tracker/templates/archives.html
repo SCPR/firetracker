@@ -5,24 +5,24 @@
 {% load static %}
 
 <!-- begin meta -->
-{% block title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
-{% block description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
-{% block keywords %}wildfire data, historic, archives, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
-{% block og_title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block title %}{{ year }} Archives | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block description %}89.3 KPCC's Fire Tracker {{ year }} archives contains data on {{ calwildfires|length }} historic wildfire data from CalFire and other sources.{% endblock %}
+{% block keywords %}{{ year }} wildfires, wildfire data, historic, archives, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Southern California, Pasadena, Los Angeles, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}{{ year }} Archives | Fire Tracker | 89.3 KPCC{% endblock %}
 {% block og_site_name %}89.3 KPCC{% endblock %}
 {% block og_type %}website{% endblock %}
 {% block og_url %}http://firetracker.scpr.org/wildfires/archives/{% endblock %}
-{% block og_description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
+{% block og_description %}89.3 KPCC's Fire Tracker {{ year }} archives contains data on {{ calwildfires|length }} historic wildfire data from CalFire and other sources.{% endblock %}
 {% block twitter_url %}http://firetracker.scpr.org/wildfires/archives/{% endblock %}
-{% block twitter_title %}Archives | Fire Tracker | 89.3 KPCC{% endblock %}
-{% block twitter_description %}89.3 KPCC's Fire Tracker archives contains historic wildfire data from CalFire and other sources.{% endblock %}
+{% block twitter_title %}{{ year }} Archives | Fire Tracker | 89.3 KPCC{% endblock %}
+{% block twitter_description %}89.3 KPCC's Fire Tracker {{ year }} archives contains data on {{ calwildfires|length }} historic wildfire data from CalFire and other sources.{% endblock %}
 <!-- end meta -->
 
 {% block extended_page_header %}
     <header class="masthead">
         <div class="masthead-inner bound">
             <div class="brief">
-                <h1><a href="{% url index %}wildfires/archives/">Archives</a></h1>
+                <h1><a href="{% url index %}wildfires/archives/">{{ year }} Wildfire Archives</a></h1>
             </div>
             <aside class="brand">
                 <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
@@ -35,7 +35,7 @@
 {% block extended_page_content %}
     <div class="page-cols page-cols-archive bound">
         <section class="all-fires clearfix">
-        <h1>Displaying {{calwildfires|length}} wildfires from the archives.</h1>
+        <h1>Displaying {{calwildfires|length}} wildfires from {{ year }}.</h1>
         {% for wildfire in calwildfires|rows:3 %}
             {% for item in wildfire %}
                 <article>
