@@ -177,6 +177,10 @@ def eval_closeout(value):
     else:
         return "display-me"
 
+def combine_string_with(value):
+    output = value.lower().replace(" ", "+")
+    return output
+
 register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
@@ -186,6 +190,7 @@ register.filter(format_for_timezone)
 register.filter(resource_content_to_include)
 register.filter(all_fires_to_include)
 register.filter(eval_closeout)
+register.filter(combine_string_with)
 
 def _test():
     import doctest
