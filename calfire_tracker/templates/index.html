@@ -162,7 +162,9 @@
                                             </b>
                                             <figcaption><span>{{ featured.location }}</span></figcaption>
                                         {% else %}
-                                            <b class="location no-map"></b>
+                                            <b class="img">
+                                                <a href="{{ featured.get_absolute_url }}"><img src="https://maps.googleapis.com/maps/api/staticmap?center={{ featured.county|combine_string_with }},CA&amp;zoom=7&amp;size=222x146&amp;maptype=roadmap&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="{{ wildfire.fire_name }}" /></a>
+                                            </b>
                                             <figcaption><span>{{ featured.location }}</span></figcaption>
                                         {% endif %}
                                         <!-- end hooks for map or no -->
