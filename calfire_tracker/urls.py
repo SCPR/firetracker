@@ -36,6 +36,13 @@ urlpatterns = patterns('',
     ),
 
     url(
+        regex   = r'^wildfires/archives/?(?P<year>\d+)?/?$',
+        view    = archives,
+        kwargs  = {},
+        name    = 'archives',
+    ),
+
+    url(
         regex   = r'^wildfires/archives/$',
         view    = archives,
         kwargs  = {},
