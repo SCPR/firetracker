@@ -80,8 +80,10 @@ def archives(request, year="all"):
     minyear = calwildfires.aggregate(Min("year"))
     if year == None:
         output = calwildfires
+        year = "the archives"
     else:
         output = calwildfires.filter(year=year)
+        year = year
     return render_to_response("archives.html", {
         "year": year,
         "calwildfires": output,
