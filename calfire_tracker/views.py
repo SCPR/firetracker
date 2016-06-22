@@ -74,20 +74,18 @@ def embeddable(request, fire_slug):
     }, context_instance=RequestContext(request))
 
 @xframe_options_sameorigin
-def archives(request):
-
-    # get unique values for years that are in the database
-    #list_of_wildfire_years = CalWildfire.objects.values('year').distinct().order_by('-year')
-    #for year in list_of_wildfire_years:
-        #year['queryset'] = CalWildfire.objects.filter(date_time_started__year=year['year']).order_by('-date_time_started', 'fire_name')
-    #for fire in list_of_wildfire_years:
-        #logging.debug(fire)
-
-    # pulls rev chron of all the fires in the database
-    calwildfires = CalWildfire.objects.all().order_by('-date_time_started', 'fire_name')
-    return render_to_response('archives.html', {
-        'calwildfires': calwildfires,
-        'cache_expire': FIRE_MAX_CACHE_AGE,
+def archives(request, year="all"):
+    calwildfires = CalWildfire.objects.all().order_by("-date_time_started", "fire_name")
+    maxyear = calwildfires.aggregate(Max("year"))
+    minyear = calwildfires.aggregate(Min("year"))
+    if year == None:
+        output = calwildfires
+    else:
+        output = calwildfires.filter(year=year)
+    return render_to_response("archives.html", {
+        "year": year,
+        "calwildfires": output,
+        "cache_expire": FIRE_MAX_CACHE_AGE,
     })
 
 def largest_ca_fires(request):
