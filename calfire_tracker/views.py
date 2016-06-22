@@ -74,16 +74,14 @@ def embeddable(request, fire_slug):
     }, context_instance=RequestContext(request))
 
 @xframe_options_sameorigin
-def archives(request, year="all"):
+def archives(request, year=None):
     calwildfires = CalWildfire.objects.all().order_by("-date_time_started", "fire_name")
     maxyear = calwildfires.aggregate(Max("year"))
     minyear = calwildfires.aggregate(Min("year"))
     if year == None:
         output = calwildfires
-        year = "the archives"
     else:
         output = calwildfires.filter(year=year)
-        year = year
     return render_to_response("archives.html", {
         "year": year,
         "calwildfires": output,
