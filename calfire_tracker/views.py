@@ -62,6 +62,23 @@ def detail(request, fire_slug):
         'cache_timestamp': cache_timestamp
     }, context_instance=RequestContext(request))
 
+@xframe_options_sameorigin
+def revamp_detail(request, fire_slug):
+    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
+    wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
+    result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
+    cache_expire = (0)
+    cache_timestamp = calwildfire.last_saved
+    return render_to_response('revamp-detail.html', {
+        'calwildfire': calwildfire,
+        'calwildfires': calwildfires,
+        'wildfire_updates': wildfire_updates,
+        'result_list': result_list,
+        'cache_expire': cache_expire,
+        'cache_timestamp': cache_timestamp
+    }, context_instance=RequestContext(request))
+
 @xframe_options_exempt
 def embeddable(request, fire_slug):
     calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)

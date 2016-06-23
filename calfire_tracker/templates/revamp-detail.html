@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+{% load cache %}
+{% load humanize %}
+{% load tz %}
+{% load l10n %}
+{% load tracker_tags %}
+{% load static %}
+
+<!-- begin meta -->
+{% block title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block description %}The {{ calwildfire.fire_name }} in {{ calwildfire.county }} began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}. {% if calwildfire.acres_burned and calwildfire.containment_percent %}As of {{ calwildfire.last_updated|date:"l, F j, Y" }} the fire has burned {{ calwildfire.acres_burned|default_if_none:"n/a"|intcomma }} acres and is at {{ calwildfire.containment_percent|percentify }} containment.{% else %}The details on this page were last updated on {{ calwildfire.last_updated|date:"l, F j, Y" }}.{% endif %}{% endblock %}
+{% block keywords %}{{ calwildfire.fire_name }}, {{ calwildfire.county }}, {{ calwildfire.date_time_started|date:"l, F j, Y" }}, {{ calwildfire.location }}, KPCC, Southern California Public Radio, 89.3, 89.3 KPCC, Fires, Wildfires, Fire Tracker, News{% endblock %}
+{% block og_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block og_site_name %}89.3 KPCC{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_url %}http://firetracker.scpr.org{{ calwildfire.get_absolute_url }}{% endblock %}
+{% block og_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+{% block twitter_url %}http://firetracker.scpr.org{{ calwildfire.get_absolute_url }}{% endblock %}
+{% block twitter_title %}{{ calwildfire.fire_name }} | KPCC's Fire Tracker{% endblock %}
+{% block twitter_description %}Get details about the {{ calwildfire.fire_name }} in {{ calwildfire.county }} that began burning {{ calwildfire.date_time_started|date:"l, F j, Y" }} at {{ calwildfire.date_time_started|date:"g:i a" }} near {{ calwildfire.location }}.{% endblock %}
+<!-- end meta -->
+
+{% block kpcc_api_query_script %}
+    <script src="{% static 'js/kpcc-v3-api-query.js' %}"></script>
+{% endblock %}
+
+{% block kpcc_api_query_config %}
+    <script>
+        var kpcc_api_article_config = {
+
+            // config to help script know which page data should be displayed on
+            display: 'detail-page',
+
+            // comma separated string of items to query against
+            // default is blogs,news,segments
+            // options are news, blogs, segments, episodes, video
+            types: 'news,blogs,segments',
+
+            // string of what you want to query Outpost for
+            // the script will outmatically convert spaces to a + sign
+            query: '{{ calwildfire.fire_name }} {{ calwildfire.county }}',
+
+            // integer showing the number of items to return
+            limit: 5,
+
+            // the page of results to return
+            page: 1,
+
+            // the div on the page in which you want the content to appear
+            content_container: '.coverage',
+
+            // contextual variable for script if no articles present
+            fire_display_name: '{{ calwildfire.fire_name }}',
+
+            // contextual variable for script if no articles present
+            fire_county_name: '{{ calwildfire.county }}',
+
+            // contextual variable for script if no articles present
+            fire_start_date: '{{ calwildfire.date_time_started|date:"Y-m-d" }}'
+
+        };
+    </script>
+{% endblock %}
+
+{% block extended_page_header %}
+    <!-- begin header -->
+    <header class="masthead">
+        <div class="masthead-inner bound">
+            <div class="brief clearfix">
+                <h1><a href="{{ calwildfire.get_absolute_url }}">{{ calwildfire.fire_name }}</a></h1>
+                <h2>
+                    <mark>{{ calwildfire.county }}</mark>
+                    <span>Last Update: {{ calwildfire.last_updated|date:"l, F j, Y g:i a T" }}</span>
+                </h2>
+            </div>
+            <aside class="brand">
+                <h3><span class="parent"><a href="http://www.scpr.org/">89.3 KPCC</a></span> <span class="title"><a href="{% url index %}">Fire Tracker</a></span></h3>
+                <h4><span>KPCC's tool for following &amp; researching California wildfires.</span> <a href="https://scprcontribute.publicradio.org/">Pledge now.</a></h4>
+            </aside>
+            <aside class="share">
+                <ul class="clearfix">
+                    <li class="em"><a title="Email a link" href="mailto:?subject=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker&body={{ calwildfire.fire_name }}:%20http%3A%2F%2Ffiretracker.scpr.org{{ calwildfire.get_absolute_url|urlencode }}">Email a link</a></li>
+                    <li class="tu"><a title="Share on Tumblr" href="http://tumblr.com/share?s=&amp;v=3&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker&amp;u=http%3A%2F%2Ffiretracker.scpr.org{{ calwildfire.get_absolute_url|urlencode }}">Share on Tumblr</a></li>
+                    <li class="tw"><a title="Share on Twitter" href="https://twitter.com/intent/tweet?text=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}%20via%20@KPCC's%20FireTracker:%20http%3A%2F%2Ffiretracker.scpr.org{{ calwildfire.get_absolute_url|urlencode }}">Share on Twitter</a></li>
+                    <li class="fa"><a title="Share on Facebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Ffiretracker.scpr.org{{ calwildfire.get_absolute_url|urlencode }}&amp;t=Learn%20about%20the%20{{ calwildfire.fire_name|urlencode }}%20in%20{{ calwildfire.county|urlencode }}">Share on Facebook</a></li>
+                    <li class="card"><button class="share-this-fire">Share this fire</button></li>
+                </ul>
+            </aside>
+        </div><!--/ .masthead-inner -->
+    </header><!--/ .masthead -->
+    <!-- end header -->
+{% endblock %}
+
+{% block extended_page_content %}
+    {% cache cache_expire detail calwildfire.created_fire_id calwildfire.last_saved %}
+        <div class="page-cols clearfix bound">
+            <div class="primary">
+                <div class="fire-dashboard clearfix">
+                    <section class="summary">
+                        <div class="stats">
+                            <figure>
+                                <span>{{ calwildfire.containment_percent|percentify }}</span>
+                                <figcaption>Contained</figcaption>
+                            </figure>
+                            <figure>
+                                <span>{{ calwildfire.acres_burned|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
+                                <figcaption>Acres burned</figcaption>
+                            </figure>
+                            <figure>
+                                <span>{{ calwildfire.date_time_started|date:"M j" }}</span>
+                                <figcaption>Started ({{ calwildfire.date_time_started|date:"Y" }})</figcaption>
+                            </figure>
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <figure>
+                                    <span>{{ calwildfire.air_quality_rating|default:"n/a"|default_if_none:"n/a"|intcomma }}</span>
+                                    <figcaption>
+                                        {% if calwildfire.air_quality_parameter %}
+                                            {{ calwildfire.air_quality_parameter}}
+                                        {% else %}
+                                            Air Quality Index (Worst: 500)
+                                        {% endif %}
+                                    </figcaption>
+                                </figure>
+                            {% else %}
+                            {% endif %}
+                        </div><!--/ .stats -->
+                        {% if calwildfire.asset_url_link %}
+                            <div class="photo">
+                                <img src="{{ calwildfire.asset_url_link }}" alt="{{ calwildfire.fire_name }}" />
+                            </div>
+                            <aside class="credit">
+                                <p>{{ calwildfire.asset_photo_credit }}</p>
+                            </aside>
+                        {% else %}
+                            <div class="photo">
+                                <img src="{% static 'media/single-fire-photo-fallback.jpg' %}" alt="{{ calwildfire.fire_name }}" />
+                            </div>
+                            <aside class="credit"></aside>
+                        {% endif %}
+                    </section><!--/ .summary -->
+                    <div class="context">
+                        <!-- begin hooks for map or no -->
+                        {% if calwildfire.location_latitude and calwildfire.location_longitude %}
+                            <figure class="location">
+                                <div class="map">
+                                    <a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap
+                        &amp;markers=color:blue%7C{{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;sensor=false&amp;key=AIzaSyAtS1OYyuRY0inb23BK0nuGId3FiOC6Rb8" alt="Location of {{ wildfire.fire_name }}" /></a>
+                                </div>
+                                <figcaption><span>{{ calwildfire.location }}</span></figcaption>
+                            </figure>
+                        {% else %}
+                            <aside class="location no-map">
+                                <dl>
+                                    <dt>Location</dt>
+                                    <dd>{{ calwildfire.location }}</dd>
+                                </dl>
+                            </aside>
+                        {% endif %}
+                        <!-- end hooks for map or no -->
+                        <section class="damages">
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <dl class="threatened">
+                                    <dt>Structures Threatened</dt>
+                                    <dd>{{ calwildfire.structures_threatened|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                </dl>
+                            {% endif %}
+                            <dl class="destroyed">
+                                <dt>Structures Destroyed</dt>
+                                <dd>{{ calwildfire.structures_destroyed|default:"n/a"|default_if_none:"n/a" }}</dd>
+                            </dl>
+                            {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                <dl class="evacuations">
+                                    <dt>Evacuations</dt>
+                                    <dd>{{ calwildfire.evacuations|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                </dl>
+                            {% endif %}
+                            <dl class="injuries">
+                                <dt>Injuries</dt>
+                                <dd>{{ calwildfire.injuries|default:"n/a"|default_if_none:"n/a" }}</dd>
+                            </dl>
+                        </section>
+                    </div><!--/ .context -->
+                </div><!--/ .fire-dashboard -->
+
+                <div class="fire-supplemental clearfix">
+
+                    <section class="updates">
+                        <h2>The Latest as of {{ calwildfire.last_updated|date:"g:i a, F j, Y" }}</h2>
+                            <article>
+                                <p>{{ calwildfire.historical_narrative }}</p>
+                            </article>
+                    </section><!--/ .updates -->
+
+
+                    <section class="updates">
+                        <h2>Recent Updates</h2>
+                        {% for update in wildfire_updates %}
+                            <article>
+                                <h1>{{ update.date_time_update|date:"F j, Y g:i a T" }}</h1>
+                                <p>{{ update.update_text }}</p>
+                                <footer><a href="{{ update.source }}" target="_blank">Source</a></footer>
+                            </article>
+                        {% endfor %}
+                    </section><!--/ .updates -->
+
+
+                    <div class="primary">
+                        {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                            <section class="deployed">
+                                <h2>Resources Deployed</h2>
+                                <div class="row clearfix">
+                                    <dl class="personnel">
+                                        <dt>Fire Personnel</dt>
+                                        <dd>{{ calwildfire.total_fire_personnel|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="engines">
+                                        <dt>Fire Engines</dt>
+                                        <dd>{{ calwildfire.total_fire_engines|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="crews">
+                                        <dt>Fire Crews</dt>
+                                        <dd>{{ calwildfire.total_fire_crews|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="tankers">
+                                        <dt>Air Tankers</dt>
+                                        <dd>{{ calwildfire.total_airtankers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                </div>
+                                <div class="row clearfix">
+                                    <dl class="helicopters">
+                                        <dt>Helicopters</dt>
+                                        <dd>{{ calwildfire.total_helicopters|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="dozers">
+                                        <dt>Dozers</dt>
+                                        <dd>{{ calwildfire.total_dozers|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                    <dl class="tenders">
+                                        <dt>Water Tenders</dt>
+                                        <dd>{{ calwildfire.total_water_tenders|default:"n/a"|default_if_none:"n/a"|intcomma }}</dd>
+                                    </dl>
+                                </div>
+                            </section><!--/ .deployed -->
+                        {% endif %}
+                        <div class="tertiaries clearfix">
+                            <section class="updates">
+                            </section><!--/ .updates -->
+                            <section class="details">
+                                <h2>More Details</h2>
+                                <dl>
+                                    {% if calwildfire.data_source and calwildfire.more_info %}
+                                        <dt>Additional Details</dt>
+                                        <dd><a href="{{ calwildfire.more_info }}">Information from {{ calwildfire.data_source }}</a></dd>
+                                    {% else %}
+                                        {% if calwildfire.data_source %}
+                                            <dt>Data Source</dt>
+                                            <dd><a href="http://www.calfire.ca.gov/">{{ calwildfire.data_source }}</a></dd>
+                                        {% else %}
+                                               <dt>Data Source</dt>
+                                               <dd>n/a</dd>
+                                        {% endif %}
+                                    {% endif %}
+                                    <dt>Administrative Unit</dt>
+                                    <dd>{{ calwildfire.administrative_unit|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    <dt>Cause</dt>
+                                    <dd>{{ calwildfire.cause|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    <dt>Damage Assessment</dt>
+                                    <dd>{{ calwildfire.damage_assessment|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% if calwildfire.fire_closeout_toggle|eval_closeout == "display-me" %}
+                                        <dt>Road Closures</dt>
+                                        <dd>{{ calwildfire.road_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        {% if calwildfire.data_source == 'Inciweb' %}
+                                            <dt>Current Situation</dt>
+                                            <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        {% else %}
+                                            {% if calwildfire.data_source == 'CalFire' %}
+                                                <dt>Current Situation</dt>
+                                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                            {% else %}
+                                                <dt>Current Situation</dt>
+                                                <dd>{{ calwildfire.current_situation|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                            {% endif %}
+                                        {% endif %}
+                                        <dt>School Closures</dt>
+                                        <dd>{{ calwildfire.school_closures|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Cooperating Agencies</dt>
+                                        <dd>{{ calwildfire.cooperating_agencies|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Conditions</dt>
+                                        <dd>{{ calwildfire.conditions|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Phone Numbers</dt>
+                                        <dd>{{ calwildfire.phone_numbers|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                        <dt>Training</dt>
+                                        <dd>{{ calwildfire.training|default:"n/a"|default_if_none:"n/a" }}</dd>
+                                    {% endif %}
+                                </dl>
+                            </section><!--/ .details -->
+                        </div><!--/ .tertiaries -->
+                        <section class="coverage">
+                            <h2>Recent KPCC Coverage</h2>
+                        </section>
+                    </div><!--/ .primary -->
+                    <div class="secondary">
+                        <section class="dispatches">
+                            <header>
+                                <h1>Dispatches From You</h1>
+                                <p>Tweet your firsthand stories, photos, and videos to help us capture the full story of this fire. Hashtag your tweets with <span>{{ calwildfire.twitter_hashtag }}</span>.</p>
+                            </header>
+                            {% for result in result_list %}
+                                <article>
+                                    <b class="img"><img src="{{ result.tweet_profile_image_url }}" alt="" /></b>
+                                    <header>
+                                        <h1><a href="https://twitter.com/{{ result.tweet_screen_name }}/status/{{result.tweet_id}}" target="_blank">{{ result.tweet_created_at|date:"N j, Y g:i a T" }}</a></h1><h2><a href="https://twitter.com/{{ result.tweet_screen_name }}" target="_blank">{{ result.tweet_screen_name }}</a></h2>
+                                    </header>
+                                    <p>{{ result.tweet_text|safe|urlize }}</p>
+                                </article>
+                            {% empty %}
+                                <article>
+                                    <p style="no-article-present">No dispatches found for the {{ calwildfire.fire_name }} in {{ calwildfire.county }}, California.</p>
+                                </article>
+                            {% endfor %}
+                        </section><!--/ .dispatches -->
+                    </div><!--/ .secondary -->
+                </div><!--/ .fire-details -->
+            </div><!--/ .primary -->
+            <div class="secondary single-evergreen">
+                <aside class="resources">
+                    {% include 'fire_resources_list.html' %}
+                </aside>
+                <aside class="recent">
+                    {% include 'all_fires_list.html' %}
+                </aside>
+            </div><!--/ .secondary -->
+        </div><!--/ .page-cols -->
+
+        {% include "footer.html" %}
+
+        <aside class="broadcast">
+            <div class="pane">
+                <div class="tab">
+                    <input type="radio" id="tab-1" name="tab-group-1" checked>
+                    <label for="tab-1">iFrame Embed</label>
+                    <div class="content">
+                        <p>Use the HTML below to embed an iframe of this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea><p><iframe width="100%" height="450" scrolling="no" frameborder="no" src="http://firetracker.scpr.org{{ calwildfire.get_absolute_url }}embed"></iframe></p></textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
+                <div class="tab hide-from-ie8">
+                    <input type="radio" id="tab-2" name="tab-group-1">
+                    <label for="tab-2">oEmbed</label>
+                    <div class="content">
+                        <p>Access an <a href="http://oembed.com/">oEmbed</a> endpoint to embed this KPCC fire card on your site. You may need to adjust the height parameter.</p>
+                        <textarea>http://firetracker.scpr.org/oembed?url=http://firetracker.scpr.org{{ calwildfire.get_absolute_url }}</textarea>
+                        <button>OK, thanks!</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    {% endcache %}
+{% endblock %}
