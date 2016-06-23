@@ -260,6 +260,12 @@ class WildfireDataClient(object):
                     fire["details_link"] = "http://inciweb.nwcg.gov/incident/3895/"
                     fire = self.inciweb_details_scraper(fire)
                     final_fire = self.normalize_fire_data(fire)
+                elif fire["name"] == "Reservoir Fire" and fire["date_started"] == "June 20, 2016 1:59 pm":
+                    "We're not logging %s" % (fire["name"])
+                    pass
+                elif fire["name"] == "Fish Fire" and fire["date_started"] == "June 20, 2016 11:20 am":
+                    "We're not logging %s" % (fire["name"])
+                    pass
                 elif fire["name"] == "Butte Fire" and fire["details_link"] == "http://cdfdata.fire.ca.gov/incidents/incidents_details_info?incident_id=1221":
                     details_link = fire["details_link"]
                     _raw_html = self.UTIL.make_request_to(details_link)
