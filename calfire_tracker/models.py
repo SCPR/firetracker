@@ -107,7 +107,13 @@ class CalWildfire(models.Model):
             except Exception, exception:
                 logger.error(exception)
 
-        self.fire_slug = "%s-%s-%s" % (slugify(self.fire_name), slugify(self.county), self.year)
+        # if self.pk is None and not self.fire_slug:
+            # self.fire_slug = "%s-%s-%s" % (slugify(self.fire_name), slugify(self.county), self.year)
+        # elif not self.contestid:
+            # self.fire_slug = "%s-%s-%s" % (slugify(self.fire_name), slugify(self.county), self.year)
+
+        if not self.fire_slug:
+            self.fire_slug = "%s-%s-%s" % (slugify(self.fire_name), slugify(self.county), self.year)
 
         if not self.county_slug:
             try:
