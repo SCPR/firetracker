@@ -1,4 +1,5 @@
-{% load admin_static bootstrapped_goodies_tags %}{% load url from future %}
+{% load admin_static bootstrapped_goodies_tags %}
+{% load url from future %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -123,16 +124,38 @@
         {% endblock navbar %}
 
         {% block messages %}
-            {% if messages %}
+            {% if display_messages %}
                 <div class="row-fluid">
                     <div class="span12">
-                        <div class="alert alert-info">
-                            <ul class="unstyled">
-                                {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        {% if display_messages.error %}
+                            <div class="alert alert-error">
+                                <ul class="unstyled">
+                                    <li><strong>Heads Up!</strong> Let's fix the errors before we save this fire</li>
+                                    {% for message in display_messages.error %}
+                                        <li><a class="close" href="#" data-dismiss="alert">X</a>
+                                        <strong>Error!</strong> {{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if display_messages.warning %}
+                            <div class="alert alert-warning">
+                                <ul class="unstyled">
+                                    {% for message in display_messages.warning %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if display_messages.info %}
+                            <div class="alert alert-info">
+                                <ul class="unstyled">
+                                    {% for message in display_messages.info %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}

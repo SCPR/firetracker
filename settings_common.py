@@ -53,7 +53,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
+    "firetracker.custom_context.collect_messages",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,6 +99,8 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.admindocs",
 )
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

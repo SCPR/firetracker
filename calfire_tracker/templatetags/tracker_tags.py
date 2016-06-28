@@ -8,7 +8,7 @@ from datetime import datetime, date, time, timedelta
 import pytz, logging, re
 from pytz import timezone
 
-logging.basicConfig(format='\033[1;36m%(levelname)s:\033[0;37m %(message)s', level=logging.DEBUG)
+logger = logging.getLogger("firetracker")
 
 register = Library()
 
