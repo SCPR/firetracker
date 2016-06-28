@@ -115,3 +115,7 @@ legend a:hover {
 .actions select {
     margin-top: 5px;
 }
+
+fieldset .field-box { height: 30px; }
+
+.form-horizontal .control-group { margin-bottom: 35px; }

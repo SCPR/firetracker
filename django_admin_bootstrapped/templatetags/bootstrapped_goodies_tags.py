@@ -1,5 +1,8 @@
 from django import template
 from django.template.loader import render_to_string, TemplateDoesNotExist
+import logging
+
+logger = logging.getLogger("firetracker")
 
 register = template.Library()
 
