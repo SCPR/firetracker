@@ -206,7 +206,7 @@ class AltCreateWildfire(CalWildfire):
     class Meta:
         proxy = True
         app_label = 'calfire_tracker'
-        verbose_name = 'AltCreateWildfire'
+        verbose_name = 'Beta Create/Edit Wildfire'
         verbose_name_plural = 'Beta Create/Edit Wildfires'
 
 

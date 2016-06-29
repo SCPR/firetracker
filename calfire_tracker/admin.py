@@ -331,41 +331,40 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
     def featured(self, request, queryset):
         queryset.update(promoted_fire=True)
-        featured.short_description = "Add Fire to Featured Section"
+    featured.short_description = "Add Fire to Featured Section"
 
     def unfeature(self, request, queryset):
         queryset.update(promoted_fire=False)
-        unfeature.short_description = "Remove Fire to Featured Section"
+    unfeature.short_description = "Remove Fire to Featured Section"
 
     def lock_fire_data(self, request, queryset):
         queryset.update(update_lockout=True)
-        lock_fire_data.short_description = "Lock From Auto Updates"
+    lock_fire_data.short_description = "Lock From Auto Updates"
 
     def unlock_fire_data(self, request, queryset):
         queryset.update(update_lockout=False)
-        unlock_fire_data.short_description = "Allow Auto Updates"
+    unlock_fire_data.short_description = "Allow Auto Updates"
 
     def close_fire(self, request, queryset):
         queryset.update(fire_closeout_toggle=True)
         queryset.update(update_lockout=True)
-        close_fire.short_description = "Close Out & Lock This Fire"
+    close_fire.short_description = "Close Out & Lock This Fire"
 
     def unclose_fire(self, request, queryset):
         queryset.update(fire_closeout_toggle=False)
-        unclose_fire.short_description = "Unclose Out This Fire"
+    unclose_fire.short_description = "Unclose This Fire"
 
     def update_last_saved_time_and_image(self, request, queryset):
         date = datetime.datetime.now()
         queryset.update(last_saved=date)
         for object in queryset:
             object.save()
-        update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
+    update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
 
     def update_air_quality_data(self, request, queryset):
         for object in queryset:
             object.save()
-        update_air_quality_data.short_description = "Update Air Quality"
-
+    update_air_quality_data.short_description = "Update Air Quality"
 
 class AltCreateWildfireAdmin(admin.ModelAdmin):
 
@@ -591,40 +590,40 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
 
     def featured(self, request, queryset):
         queryset.update(promoted_fire=True)
-        featured.short_description = "Add Fire to Featured Section"
+    featured.short_description = "Add Fire to Featured Section"
 
     def unfeature(self, request, queryset):
         queryset.update(promoted_fire=False)
-        unfeature.short_description = "Remove Fire to Featured Section"
+    unfeature.short_description = "Remove Fire to Featured Section"
 
     def lock_fire_data(self, request, queryset):
         queryset.update(update_lockout=True)
-        lock_fire_data.short_description = "Lock From Auto Updates"
+    lock_fire_data.short_description = "Lock From Auto Updates"
 
     def unlock_fire_data(self, request, queryset):
         queryset.update(update_lockout=False)
-        unlock_fire_data.short_description = "Allow Auto Updates"
+    unlock_fire_data.short_description = "Allow Auto Updates"
 
     def close_fire(self, request, queryset):
         queryset.update(fire_closeout_toggle=True)
         queryset.update(update_lockout=True)
-        close_fire.short_description = "Close Out & Lock This Fire"
+    close_fire.short_description = "Close Out & Lock This Fire"
 
     def unclose_fire(self, request, queryset):
         queryset.update(fire_closeout_toggle=False)
-        unclose_fire.short_description = "Unclose Out This Fire"
+    unclose_fire.short_description = "Unclose This Fire"
 
     def update_last_saved_time_and_image(self, request, queryset):
         date = datetime.datetime.now()
         queryset.update(last_saved=date)
         for object in queryset:
             object.save()
-        update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
+    update_last_saved_time_and_image.short_description = "Update Last Saved and Image"
 
     def update_air_quality_data(self, request, queryset):
         for object in queryset:
             object.save()
-        update_air_quality_data.short_description = "Update Air Quality"
+    update_air_quality_data.short_description = "Update Air Quality"
 
 
 admin.site.register(CalWildfire, CalWildfireAdmin)
