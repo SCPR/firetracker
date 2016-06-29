@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.utils.timezone import utc, localtime
-from calfire_tracker.models import CalWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
+from calfire_tracker.models import CalWildfire, AltCreateWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
 import time
 import datetime
 import logging
@@ -365,13 +365,6 @@ class CalWildfireAdmin(admin.ModelAdmin):
         for object in queryset:
             object.save()
         update_air_quality_data.short_description = "Update Air Quality"
-
-
-
-
-class AltCreateWildfire(CalWildfire):
-    class Meta:
-        proxy = True
 
 
 class AltCreateWildfireAdmin(admin.ModelAdmin):

@@ -82,6 +82,9 @@ class CalWildfire(models.Model):
     notes = models.TextField("Passoff Notes/Contact Information", null=True, blank=True)
     historical_narrative = models.TextField("Historical Narrative", null=True, blank=True)
 
+    class Meta:
+        app_label = 'calfire_tracker'
+
     def __unicode__(self):
         return self.fire_name
 
@@ -197,6 +200,14 @@ class CalWildfire(models.Model):
 
         # run the save function
         super(CalWildfire, self).save(*args, **kwargs)
+
+
+class AltCreateWildfire(CalWildfire):
+    class Meta:
+        proxy = True
+        app_label = 'calfire_tracker'
+        verbose_name = 'AltCreateWildfire'
+        verbose_name_plural = 'Beta Create/Edit Wildfires'
 
 
 class WildfireUpdate(models.Model):
