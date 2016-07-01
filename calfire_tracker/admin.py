@@ -148,7 +148,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
     prepopulated_fields = {
         "county_slug": ("county",),
-        "fire_slug": ("fire_name",)
+        # "fire_slug": ("fire_name",)
     }
 
     fieldsets = [
@@ -273,6 +273,13 @@ class CalWildfireAdmin(admin.ModelAdmin):
     ]
 
     def save_model(self, request, obj, form, change):
+
+        if not obj.year:
+            if obj.date_time_started:
+                obj.year = obj.date_time_started.year
+            else:
+                obj.year = datetime.date.today().year
+
         if not obj.fire_name:
             messages.error(request, "You can't create a fire without a name")
             save_this = False
@@ -421,7 +428,7 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
 
     prepopulated_fields = {
         "county_slug": ("county",),
-        "fire_slug": ("fire_name",)
+        # "fire_slug": ("fire_name",)
     }
 
     fieldsets = [
@@ -546,6 +553,13 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
     ]
 
     def save_model(self, request, obj, form, change):
+
+        if not obj.year:
+            if obj.date_time_started:
+                obj.year = obj.date_time_started.year
+            else:
+                obj.year = datetime.date.today().year
+
         if not obj.fire_name:
             messages.error(request, "You can't create a fire without a name")
             save_this = False
