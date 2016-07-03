@@ -157,6 +157,8 @@ class CalWildfire(models.Model):
                     self.location_geocode_error = True
             else:
                 self.location_geocode_error = True
+        else:
+            self.location_geocode_error = False
 
         if self.air_quality_rating == None:
             if (self.location_latitude != None) or (self.location_longitude != None):

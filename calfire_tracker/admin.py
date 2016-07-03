@@ -274,11 +274,15 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
 
-        if not obj.year:
+        if obj.year:
+            save_this = True
+        else:
             if obj.date_time_started:
                 obj.year = obj.date_time_started.year
+                save_this = True
             else:
                 obj.year = datetime.date.today().year
+                save_this = True
 
         if not obj.fire_name:
             messages.error(request, "You can't create a fire without a name")
@@ -290,6 +294,7 @@ class CalWildfireAdmin(admin.ModelAdmin):
 
         if not obj.fire_slug:
             obj.fire_slug = "%s-%s-%s" % (slugify(obj.fire_name), slugify(obj.county), obj.year)
+            save_this = True
 
         if obj.location == "" or obj.location == None:
             messages.error(request, "Hey there's no display location. Do we know where this fire is?")
@@ -554,11 +559,15 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
 
-        if not obj.year:
+        if obj.year:
+            save_this = True
+        else:
             if obj.date_time_started:
                 obj.year = obj.date_time_started.year
+                save_this = True
             else:
                 obj.year = datetime.date.today().year
+                save_this = True
 
         if not obj.fire_name:
             messages.error(request, "You can't create a fire without a name")
@@ -570,6 +579,7 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
 
         if not obj.fire_slug:
             obj.fire_slug = "%s-%s-%s" % (slugify(obj.fire_name), slugify(obj.county), obj.year)
+            save_this = True
 
         if obj.location == "" or obj.location == None:
             messages.error(request, "Hey there's no display location. Do we know where this fire is?")
