@@ -140,7 +140,12 @@
                     </section><!--/ .summary -->
                     <div class="context">
                         <!-- begin hooks for map or no -->
-                        {% if calwildfire.location_latitude and calwildfire.location_longitude %}
+                        {% if calwildfire.perimeters_image %}
+                            <figure class="location">
+                                    <img src="{{ calwildfire.perimeters_image }}" width="100%" />
+                                <figcaption><span>{{ calwildfire.location }}</span></figcaption>
+                            </figure>
+                        {% elif calwildfire.location_latitude and calwildfire.location_longitude %}
                             <figure class="location">
                                 <div class="map">
                                     <a href="https://www.google.com/maps?q={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&hl=en&t=m&z=10" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{ calwildfire.location_latitude }},{{ calwildfire.location_longitude }}&amp;zoom=10&amp;size=602x212&amp;maptype=roadmap

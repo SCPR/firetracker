@@ -465,7 +465,7 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
                 "asset_host_image_id",
                 "asset_url_link",
                 "asset_photo_credit",
-                # "perimeters_image",
+                "perimeters_image",
             ]
         }),
 
