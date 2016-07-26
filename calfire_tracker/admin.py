@@ -24,6 +24,7 @@ class WildfireAnnualReviewAdmin(admin.ModelAdmin):
         "last_saved",
     )
     list_per_page = 10
+    save_on_top = True
     search_fields = (
         "year",
         "acres_burned",
@@ -51,6 +52,7 @@ class WildfireDisplayContentAdmin(admin.ModelAdmin):
         "last_saved",
     )
     list_per_page = 10
+    save_on_top = True
     search_fields = (
         "content_headline",
     )
@@ -68,6 +70,7 @@ class WildfireTweetAdmin(admin.ModelAdmin):
         "tweet_text",
     )
     list_per_page = 10
+    save_on_top = True
     search_fields = (
         "tweet_text",
     )
@@ -81,6 +84,7 @@ class WildfireUpdateAdmin(admin.ModelAdmin):
         "source",
     )
     list_per_page = 10
+    save_on_top = True
     search_fields = (
         "update_text",
     )

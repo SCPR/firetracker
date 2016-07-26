@@ -32,7 +32,7 @@ def index(request):
     cache_timestamp = wildfires.all().order_by('-last_saved')
     current_year = date.today().year
     last_year = date.today().year-1
-    year_over_year_comparison = WildfireAnnualReview.objects.filter(jurisdiction="CalFire").order_by("-year")[:2]
+    year_over_year_comparison = WildfireAnnualReview.objects.filter(jurisdiction="Statewide").order_by("-year")[:2]
     display_content = WildfireDisplayContent.objects.filter(display_content_type=True).order_by('?')[0]
     cache_expire = (60*20)
     cache_timestamp = cache_timestamp[0].last_saved
