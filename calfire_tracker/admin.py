@@ -400,9 +400,11 @@ class AltCreateWildfireAdmin(admin.ModelAdmin):
         "containment_percent",
         "more_info",
         "last_updated",
+        "structures_destroyed",
     )
 
     list_filter = (
+        "year",
         "date_time_started",
         "data_source",
         "county",
