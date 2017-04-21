@@ -145,7 +145,7 @@ LOGGING = {
     },
 
     "loggers": {
-        "firetracker": {
+        "calfire_tracker": {
             "handlers": ["console"],
             "level": "DEBUG",
             "propagate": False,
@@ -161,6 +161,8 @@ LOGGING = {
 }
 
 TEST_RUNNER = "django.test.simple.DjangoTestSuiteRunner"
+SOUTH_TESTS_MIGRATE = False
+SKIP_SOUTH_TESTS = True
 
 AUTH_PROFILE_MODULE = "create_user.UserProfile"
 
