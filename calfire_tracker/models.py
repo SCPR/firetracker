@@ -16,6 +16,46 @@ from utilities import *
 logger = logging.getLogger("firetracker")
 
 
+class WildfireSource(models.Model):
+    """
+    describes a source of data for a wildfire
+    """
+    SIMPLE = "Simple Scrape"
+    COMPLEX = "Complex Scrape"
+    API = "API request"
+
+    EXTRACTION_CHOICES = (
+        (SIMPLE, "Simple Scrape"),
+        (COMPLEX, "Complex Scrape"),
+        (API, "API request"),
+    )
+
+    source_name = models.CharField("Data Source Name", db_index=True, unique=True, max_length=255)
+    source_short = models.CharField("Data Source Shortname", max_length=15)
+    source_slug = models.SlugField("Data Source Slug", unique=True, max_length=255, null=True, blank=True)
+    source_url = models.URLField("URL To Data Source", max_length=1024, null=True, blank=True)
+    source_active = models.BooleanField("Active Data Source?", default=False)
+    parent_tag = models.CharField("Parent HTML Tag", max_length=255, null=True, blank=True)
+    parent_attrib = models.CharField("Parent Attribute (id/class)", max_length=255, null=True, blank=True)
+    parent_selector = models.CharField("Parent Selector (id/class name)", max_length=255, null=True, blank=True)
+    target_tag = models.CharField("Target HTML Tag", max_length=255, null=True, blank=True)
+    target_attrib = models.CharField("Target Attribute (id/class)", max_length=255, null=True, blank=True)
+    target_selector = models.CharField("Target Selector (id/class name)", max_length=255, null=True, blank=True)
+    extraction_type = models.CharField("How Hard is Data Acquisition?", max_length=255, choices=EXTRACTION_CHOICES, default=SIMPLE)
+    target_index = models.IntegerField("List Element for Targeted Selector", max_length=3, null=True, blank=True)
+    data_paginated = models.BooleanField("Does the source use pagination?", default=False)
+    number_of_pages = models.IntegerField("How many pages?", max_length=5, null=True, blank=True)
+    created = models.DateTimeField("Date Created", auto_now_add=True)
+    modified = models.DateTimeField("Date Modified", auto_now=True)
+
+    def __unicode__(self):
+        return self.source_short
+
+    def save(self, *args, **kwargs):
+        super(WildfireSource, self).save(*args, **kwargs)
+
+
+
 class CalWildfire(models.Model):
 
     # management & curation
