@@ -19,6 +19,10 @@ def run():
     # runs local dev server
     local("python manage.py runserver")
 
+def test():
+    # shortcut for running tests
+    local("python manage.py test calfire_tracker")
+
 def scrape():
     # production function to manually run the scraper in local environment
     local("python manage.py scraper_wildfires")

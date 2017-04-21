@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.template.defaultfilters import slugify
 from django.utils.timezone import utc, localtime
-from calfire_tracker.models import CalWildfire, AltCreateWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent
+from calfire_tracker.models import CalWildfire, AltCreateWildfire, WildfireUpdate, WildfireTweet, WildfireAnnualReview, WildfireDisplayContent, WildfireSource
 import time
 import datetime
 import logging
@@ -14,6 +14,29 @@ import pytz
 from pytz import timezone
 
 logger = logging.getLogger("firetracker")
+
+
+class WildfireSourceAdmin(admin.ModelAdmin):
+    list_display = (
+        "source_short",
+        "source_name",
+        "source_active",
+        "source_url",
+        "modified",
+    )
+    list_per_page = 10
+    save_on_top = True
+    search_fields = (
+        "source_short",
+        "source_name",
+    )
+    list_filter = (
+        "source_short",
+        "source_name",
+    )
+    prepopulated_fields = {
+        "source_slug": ("source_name",)
+    }
 
 class WildfireAnnualReviewAdmin(admin.ModelAdmin):
     list_display = (
@@ -662,3 +685,4 @@ admin.site.register(WildfireTweet, WildfireTweetAdmin)
 admin.site.register(WildfireUpdate, WildfireUpdateAdmin)
 admin.site.register(WildfireAnnualReview, WildfireAnnualReviewAdmin)
 admin.site.register(WildfireDisplayContent, WildfireDisplayContentAdmin)
+admin.site.register(WildfireSource, WildfireSourceAdmin)
