@@ -161,8 +161,8 @@ LOGGING = {
 }
 
 TEST_RUNNER = "django.test.simple.DjangoTestSuiteRunner"
-SOUTH_TESTS_MIGRATE = False
-SKIP_SOUTH_TESTS = True
+# SOUTH_TESTS_MIGRATE = False
+# SKIP_SOUTH_TESTS = True
 
 AUTH_PROFILE_MODULE = "create_user.UserProfile"
 
