@@ -4,7 +4,7 @@
 from django.conf import settings
 from django.core import management
 import requests
-from requests.packages.urllib3.util.retry import Retry
+# from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from BeautifulSoup import BeautifulSoup, Tag, BeautifulStoneSoup
 import logging
@@ -32,12 +32,12 @@ class Requester(object):
         """
         logger.debug("Requesting %s" % (url))
         session = requests.Session()
-        retries = Retry(
-            total=5,
-            backoff_factor=1,
-            status_forcelist=[500, 502, 503, 504]
-        )
-        session.mount("http://", HTTPAdapter(max_retries=retries))
+        # retries = Retry(
+        #     total=5,
+        #     backoff_factor=1,
+        #     status_forcelist=[500, 502, 503, 504]
+        # )
+        session.mount("http://", HTTPAdapter(max_retries=5))
         response = session.get(
             url,
             headers=settings.REQUEST_HEADERS,
