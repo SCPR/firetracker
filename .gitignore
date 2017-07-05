@@ -67,3 +67,4 @@ tmp/*
 public/static/*
 
 project_notes
+.bash_history
