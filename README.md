@@ -31,6 +31,18 @@ Fire Tracker, KPCC's tool for following & researching California wildfires, cont
 
         pip install -r requirements.txt
 
+### Docker Setup
+
+These instructions assume you've created a Docker Network that includes a MySQL|MariaDB instance.
+
+* Build the image from the Dockerfile
+
+        docker build -t firetracker .
+
+* Create a container with the local project folder as a volume and connected to your network
+
+        docker create -it --network="assethost-network" --network-alias=["firetracker"] -p 80:8000 -v ~/workspace/firetracker:/root --name firetracker-dev firetracker
+
 ### License
 
 **GNU General Public License V2**

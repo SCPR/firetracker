@@ -405,7 +405,7 @@ class Normalizer(object):
         else:
             f["total_helicopters"] = None
         if f.has_key("total_fire_engines"):
-            f["total_fire_engines"] = self.extract_initial_integer(fire["total_fire_engines"])
+            f["total_fire_engines"] = self.extract_initial_integer(f["total_fire_engines"])
         else:
             f["total_fire_engines"] = None
         if f.has_key("total_fire_personnel"):

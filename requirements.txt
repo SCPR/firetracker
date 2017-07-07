@@ -25,3 +25,4 @@ South==0.7.6
 tweepy==2.1
 twitter==1.17.1
 yolk==0.4.3
+ez_setup==0.9
