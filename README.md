@@ -35,13 +35,17 @@ Fire Tracker, KPCC's tool for following & researching California wildfires, cont
 
 These instructions assume you've created a Docker Network that includes a MySQL|MariaDB instance.
 
-* Build the image from the Dockerfile
+* Get a Deploybot token and assign it to an environment variable.  Skip this if you set up your own database.
 
-        docker build -t firetracker .
+        export DEPLOYBOT_TOKEN=xxxxxxxxxx
 
-* Create a container with the local project folder as a volume and connected to your network
+* Compose the Docker containers.
 
-        docker create -it --network="assethost-network" --network-alias=["firetracker"] -p 80:8000 -v ~/workspace/firetracker:/root --name firetracker-dev firetracker
+        docker-compose up -d
+
+### Running the Scraper
+
+`python manage.py scraper_wildfires`
 
 ### License
 

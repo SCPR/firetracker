@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  firetracker: &default
+    # image: scprdev/firetracker
+    build: .
+    ports:
+      - 8000:8000/tcp
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/root
+    networks:
+      firetracker-network:
+        aliases:
+         - firetracker
+
+  firetracker-database:
+    image: scpr/restore-percona-backup
+    ports:
+      - 3306:3306/tcp
+    environment:
+      - "DEPLOYBOT_TOKEN=${DEPLOYBOT_TOKEN}"
+    entrypoint: /restore-backup.sh $DEPLOYBOT_TOKEN
+    networks:
+      firetracker-network:
+        aliases:
+         - firetracker-database
+
+networks:
+  firetracker-network:
