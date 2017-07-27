@@ -1,5 +1,5 @@
 from datetime import datetime, date, time, timedelta
-from django.shortcuts import get_object_or_404, render_to_response, render
+from django.shortcuts import get_object_or_404, get_list_or_404, render_to_response, render
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, Http404
 from django.views.decorators.clickjacking import xframe_options_exempt, xframe_options_sameorigin
 from django.core.urlresolvers import reverse
@@ -47,7 +47,7 @@ def index(request):
 
 @xframe_options_sameorigin
 def detail(request, fire_slug):
-    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfire = get_list_or_404(CalWildfire, fire_slug=fire_slug)[-1]
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
@@ -64,7 +64,7 @@ def detail(request, fire_slug):
 
 @xframe_options_sameorigin
 def revamp_detail(request, fire_slug):
-    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfire = get_list_or_404(CalWildfire, fire_slug=fire_slug)[-1]
     calwildfires = CalWildfire.objects.exclude(containment_percent=None).order_by('-date_time_started', 'fire_name', 'containment_percent')[0:15]
     wildfire_updates = WildfireUpdate.objects.filter(fire_name__fire_name=calwildfire.fire_name).order_by('-date_time_update')
     result_list = WildfireTweet.objects.filter(tweet_hashtag=calwildfire.twitter_hashtag).order_by('-tweet_created_at')[0:15]
@@ -81,7 +81,7 @@ def revamp_detail(request, fire_slug):
 
 @xframe_options_exempt
 def embeddable(request, fire_slug):
-    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfire = get_list_or_404(CalWildfire, fire_slug=fire_slug)[-1]
     cache_expire = (60*15)
     cache_timestamp = calwildfire.last_saved
     return render_to_response('embeddable.html', {
@@ -127,7 +127,7 @@ def oembed(request):
     match       = regex.search(url)
     fire_slug   = match.groups()[0]
 
-    calwildfire = get_object_or_404(CalWildfire, fire_slug=fire_slug)
+    calwildfire = get_list_or_404(CalWildfire, fire_slug=fire_slug)[-1]
 
     embed_html = ("<iframe width=\"100%%\" height=\"%s\" scrolling=\"no\" "
                   "frameborder=\"no\" src=\"%s%sembed\"></iframe>") % (
