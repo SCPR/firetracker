@@ -614,7 +614,9 @@ class WildfireDataClient(object):
 
         fire["county_slug"] = self.UTIL.slugifyFireName(fire["county"])
 
-        fire["fire_slug"] = self.UTIL.slugifyFireName(fire["name"])
+        # fire["fire_slug"] = self.UTIL.slugifyFireName(fire["name"])
+        ## 👆 disabling this because models.py#158-159 appears to generate
+        ## a better slug if no slug has been generated yet.
 
         fire["naming_slug"] = "%s-%s" % (fire["fire_slug"], fire["county_slug"])
 
