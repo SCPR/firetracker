@@ -42,11 +42,14 @@ class Prepper(object):
         else:
             url = link[1]["href"].strip()
         if url:
-            is_inciweb = re.search("inciweb", url)
+            is_inciweb   = re.search("inciweb", url)
             is_riverside = re.search("rvcfire", url)
+            is_twitter   = re.search("twitter", url)
             if is_inciweb:
                 output = None
             elif is_riverside:
+                output = None
+            elif is_twitter:
                 output = None
             else:
                 output = "http://www.fire.ca.gov%s" % (url)
