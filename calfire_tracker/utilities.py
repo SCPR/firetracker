@@ -15,10 +15,10 @@ logger = logging.getLogger("firetracker")
 def search_assethost_for_image(kpcc_image_token, **kwargs):
     ''' model save function to query kpcc image api given an asset_host_id '''
     if kwargs['image_id'] is not None:
-        url_prefix = 'http://a.scpr.org/api/assets/'
+        url_prefix = 'https://a.scpr.org/api/assets/'
         url_suffix = '.json?auth_token='
         search_url = '%s%s%s%s' % (url_prefix, kwargs['image_id'], url_suffix, kpcc_image_token)
-        kpcc_query_api = requests.get(search_url, headers={"From": "ckeller@scpr.org","User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
+        kpcc_query_api = requests.get(search_url, verify=False, headers={"From": "ckeller@scpr.org","User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"})
         kpcc_image_asset = kpcc_query_api.json()
         try:
             kpcc_image_data = {'asset_url_link': kpcc_image_asset['urls']['full'], 'asset_photo_credit': kpcc_image_asset['owner'], 'asset_host_image_id': kwargs['image_id']}
